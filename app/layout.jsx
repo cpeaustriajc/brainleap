@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import { SidebarProvider } from '../components/sidebar'
 import './styles.css'
 
@@ -11,6 +12,7 @@ export default function RootLayout({ children }) {
         <html lang="en" dir="ltr">
             <SidebarProvider>
                 <body>{children}</body>
+                <Script src="/js/script.js" />
             </SidebarProvider>
         </html>
     )

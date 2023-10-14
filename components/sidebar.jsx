@@ -1,5 +1,6 @@
 'use client'
 import { useState, useContext, createContext } from "react"
+import { XCircle, HomeIcon, HelpCircleIcon, GraduationCapIcon, PencilIcon, PhoneCallIcon } from 'lucide-react'
 
 const SidebarContext = createContext(false)
 
@@ -24,34 +25,32 @@ export default function Sidebar({ activeUser }) {
         <>
             <aside className={`pr-4 side-bar ${active ? 'active' : ''}`}>
                 <button id="close-btn" onClick={() => setActive(!active)}>
-                    x
+                    <XCircle />
                 </button>
                 <div className="flex flex-col justify-center items-center">
                     <img className='rounded-full' src={activeUser.picture} alt={`${activeUser.name}'s profile picture`}></img>
                     <p>{activeUser.name}</p>
                     <p className='capitalize'>{activeUser.role}</p>
                 </div>
-                <nav class="navbar">
+                <nav className="navbar">
                     <ul>
                         <li>
-
-                            <a href="/home"><i class="fas fa-home"></i><span>home</span></a>
+                            <a href="/home"><HomeIcon /> <span>home</span></a>
                         </li>
                         <li>
-                            <a href="/about"><i class="fas fa-question"></i><span>about</span></a>
+                            <a href="/about"><HelpCircleIcon /><span>about</span></a>
 
-                        </li>
-                        <li>
-
-                            <a href="/courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
                         </li>
                         <li>
 
-                            <a href="/teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+                            <a href="/courses"><GraduationCapIcon /><span>courses</span></a>
                         </li>
                         <li>
-                            <a href="/contact"><i class="fas fa-headset"></i><span>contact us</span></a>
 
+                            <a href="/teachers"><PencilIcon /><span>teachers</span></a>
+                        </li>
+                        <li>
+                            <a href="/contact"><PhoneCallIcon /><span>contact us</span></a>
                         </li>
                     </ul>
                 </nav>

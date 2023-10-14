@@ -1,0 +1,61 @@
+'use client'
+import { useState, useContext, createContext } from "react"
+
+const SidebarContext = createContext(false)
+
+export function SidebarProvider({ children }) {
+    const [open, setOpen] = useState(false)
+    return (
+        <SidebarContext.Provider value={[open, setOpen]}>
+            {children}
+        </SidebarContext.Provider>
+    )
+}
+
+export function useSidebar() {
+    const [open, setOpen] = useContext(SidebarContext)
+    return [open, setOpen]
+}
+
+export default function Sidebar({ activeUser }) {
+    const [active, setActive] = useSidebar()
+
+    return (
+        <>
+            <aside className={`pr-4 side-bar ${active ? 'active' : ''}`}>
+                <button id="close-btn" onClick={() => setActive(!active)}>
+                    x
+                </button>
+                <div className="flex flex-col justify-center items-center">
+                    <img className='rounded-full' src={activeUser.picture} alt={`${activeUser.name}'s profile picture`}></img>
+                    <p>{activeUser.name}</p>
+                    <p className='capitalize'>{activeUser.role}</p>
+                </div>
+                <nav class="navbar">
+                    <ul>
+                        <li>
+
+                            <a href="/home"><i class="fas fa-home"></i><span>home</span></a>
+                        </li>
+                        <li>
+                            <a href="/about"><i class="fas fa-question"></i><span>about</span></a>
+
+                        </li>
+                        <li>
+
+                            <a href="/courses"><i class="fas fa-graduation-cap"></i><span>courses</span></a>
+                        </li>
+                        <li>
+
+                            <a href="/teachers"><i class="fas fa-chalkboard-user"></i><span>teachers</span></a>
+                        </li>
+                        <li>
+                            <a href="/contact"><i class="fas fa-headset"></i><span>contact us</span></a>
+
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </>
+    )
+}

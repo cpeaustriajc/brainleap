@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import AppShell from '../components/app-shell'
+import AppShell from '@/components/app-shell'
 import { getRandomElement } from '../lib/utils'
-import Sidebar from '../components/sidebar'
-import Header from '../components/header'
+import Sidebar from '@/components/sidebar'
+import Header from '@/components/header'
 import Image from 'next/image'
 
 const randomRole = getRandomElement(['student', 'teacher'])

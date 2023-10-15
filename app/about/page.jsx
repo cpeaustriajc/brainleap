@@ -1,10 +1,12 @@
+import Image from 'next/image'
+
 export default function Page() {
 	return (
 		<>
 			<section className="about">
 				<div className="row">
 					<div className="image">
-						<img src="images/about-img.svg" alt="" />
+						<Image src="images/about-img.svg" alt="" />
 					</div>
 
 					<div className="content">
@@ -58,7 +60,7 @@ export default function Page() {
 			</section>
 
 			<section className="reviews">
-				<h1 className="heading">student's reviews</h1>
+				<h1 className="heading">student&apos;s reviews</h1>
 
 				<div className="box-container">
 					<div className="box">
@@ -70,7 +72,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<img src="images/pic-2.jpg" alt="" />
+							<Image src="images/pic-2.jpg" alt="" />
 							<div>
 								<h3>ronric</h3>
 								<div className="stars">
@@ -93,7 +95,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<img src="images/pic-3.jpg" alt="" />
+							<Image src="images/pic-3.jpg" alt="" />
 							<div>
 								<h3>elle</h3>
 								<div className="stars">
@@ -116,7 +118,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<img src="images/pic-4.jpg" alt="" />
+							<Image src="images/pic-4.jpg" alt="" />
 							<div>
 								<h3>jericho</h3>
 								<div className="stars">
@@ -139,7 +141,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<img src="images/pic-5.jpg" alt="" />
+							<Image src="images/pic-5.jpg" alt="" />
 							<div>
 								<h3>stephanie</h3>
 								<div className="stars">
@@ -162,7 +164,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<img src="images/pic-6.jpg" alt="" />
+							<Image src="images/pic-6.jpg" alt="" />
 							<div>
 								<h3>ndi ko na alam</h3>
 								<div className="stars">
@@ -185,7 +187,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<img src="images/pic-7.jpg" alt="" />
+							<Image src="images/pic-7.jpg" alt="" />
 							<div>
 								<h3>inutil</h3>
 								<div className="stars">

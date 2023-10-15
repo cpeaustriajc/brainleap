@@ -1,10 +1,12 @@
+import Image from 'next/image'
+
 export default function Contact() {
 	return (
 		<>
 			<section className="contact">
 				<div className="row">
 					<div className="image">
-						<img src="images/contact-img.svg" alt="" />
+						<Image src="images/contact-img.svg" alt="" />
 					</div>
 					<form action="" method="post">
 						<h3>Send a message.</h3>

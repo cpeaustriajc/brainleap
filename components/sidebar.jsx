@@ -8,6 +8,7 @@ import {
 	PencilIcon,
 	PhoneCallIcon,
 } from 'lucide-react'
+import Image from 'next/image'
 
 const SidebarContext = createContext(false)
 
@@ -35,11 +36,11 @@ export default function Sidebar({ activeUser }) {
 					<XCircle />
 				</button>
 				<div className="flex flex-col justify-center items-center">
-					<img
+					<Image
 						className="rounded-full"
 						src={activeUser.picture}
 						alt={`${activeUser.name}'s profile picture`}
-					></img>
+					/>
 					<p>{activeUser.name}</p>
 					<p className="capitalize">{activeUser.role}</p>
 				</div>

@@ -1,6 +1,7 @@
-import Script from 'next/script'
-import { SidebarProvider } from '@/components/sidebar'
+import { Header } from '@/components/header'
 import '@/styles/styles.css'
+import { Providers } from './providers'
+
 
 export const metadata = {
 	title: 'Doctrina',
@@ -9,11 +10,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang="en" dir="ltr">
-			<SidebarProvider>
-				<body>{children}</body>
-				<Script src="/js/script.js" />
-			</SidebarProvider>
-		</html>
+		<html lang="en" dir="ltr" suppressHydrationWarning>
+			<body >
+				<Providers>
+					<Header />
+					{children}
+				</Providers>
+			</body>
+		</html >
 	)
 }

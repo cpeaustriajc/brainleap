@@ -9,7 +9,7 @@ export default function Page() {
 				</div>
 
 				<div className="profile">
-					<Image src="images/pic-1.jpg" className="image" alt="" />
+					<Image src="/images/pic-1.jpg" className="image" alt="" width="1280" height="720" />
 					<h3 className="name">ewan</h3>
 					<p className="role">student</p>
 					<a href="profile.html" className="btn">
@@ -73,7 +73,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-2.jpg" alt="" />
+							<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>
@@ -95,7 +95,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-3.jpg" alt="" />
+							<Image src="/images/pic-3.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>
@@ -117,7 +117,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-4.jpg" alt="" />
+							<Image src="/images/pic-4.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>
@@ -139,7 +139,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-5.jpg" alt="" />
+							<Image src="/images/pic-5.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>
@@ -161,7 +161,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-6.jpg" alt="" />
+							<Image src="/images/pic-6.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>
@@ -183,7 +183,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-7.jpg" alt="" />
+							<Image src="/images/pic-7.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>
@@ -205,7 +205,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="tutor">
-							<Image src="images/pic-8.jpg" alt="" />
+							<Image src="/images/pic-8.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<span>developer ng pagmamahal</span>

@@ -39,6 +39,8 @@ export default function Sidebar({ activeUser }) {
 					<Image
 						className="rounded-full"
 						src={activeUser.picture}
+						width={128}
+						height={128}
 						alt={`${activeUser.name}'s profile picture`}
 					/>
 					<p>{activeUser.name}</p>

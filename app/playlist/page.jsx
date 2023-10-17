@@ -16,13 +16,13 @@ export default function Page() {
 						</form>
 
 						<div className="thumb">
-							<Image src="images/thumb-1.png" alt="" />
+							<Image src="/images/thumb-1.png" alt="" width="1280" height="720" />
 							<span>69 videos</span>
 						</div>
 					</div>
 					<div className="column">
 						<div className="tutor">
-							<Image src="images/pic-2.jpg" alt="" />
+							<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>stephanie</h3>
 								<span>10-10-2023</span>
@@ -54,37 +54,37 @@ export default function Page() {
 				<div className="box-container">
 					<a className="box" href="watch-video.html">
 						<i className="fas fa-play"></i>
-						<Image src="images/post-1-1.png" alt="" />
+						<Image src="/images/post-1-1.png" alt="" width="1280" height="720" />
 						<h3>complete HTML tutorial (part 01)</h3>
 					</a>
 
 					<a className="box" href="watch-video.html">
 						<i className="fas fa-play"></i>
-						<Image src="images/post-1-2.png" alt="" />
+						<Image src="/images/post-1-2.png" alt="" width="1280" height="720" />
 						<h3>complete HTML tutorial (part 02)</h3>
 					</a>
 
 					<a className="box" href="watch-video.html">
 						<i className="fas fa-play"></i>
-						<Image src="images/post-1-3.png" alt="" />
+						<Image src="/images/post-1-3.png" alt="" width="1280" height="720" />
 						<h3>complete HTML tutorial (part 03)</h3>
 					</a>
 
 					<a className="box" href="watch-video.html">
 						<i className="fas fa-play"></i>
-						<Image src="images/post-1-4.png" alt="" />
+						<Image src="/images/post-1-4.png" alt="" width="1280" height="720" />
 						<h3>complete HTML tutorial (part 04)</h3>
 					</a>
 
 					<a className="box" href="watch-video.html">
 						<i className="fas fa-play"></i>
-						<Image src="images/post-1-5.png" alt="" />
+						<Image src="/images/post-1-5.png" alt="" width="1280" height="720" />
 						<h3>complete HTML tutorial (part 05)</h3>
 					</a>
 
 					<a className="box" href="watch-video.html">
 						<i className="fas fa-play"></i>
-						<Image src="images/post-1-6.png" alt="" />
+						<Image src="/images/post-1-6.png" alt="" width="1280" height="720" />
 						<h3>complete HTML tutorial (part 06)</h3>
 					</a>
 				</div>

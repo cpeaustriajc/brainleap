@@ -7,9 +7,9 @@ export default function Page() {
 				<div className="video-container">
 					<div className="video">
 						<video
-							src="images/vid-1.mp4"
+							src="/images/vid-1.mp4"
 							controls
-							poster="images/post-1-1.png"
+							poster="/images/post-1-1.png"
 							id="video"
 						></video>
 					</div>
@@ -25,7 +25,7 @@ export default function Page() {
 						</p>
 					</div>
 					<div className="tutor">
-						<Image src="images/pic-2.jpg" alt="" />
+						<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
 						<div>
 							<h3>elle</h3>
 							<span>developer ng pagmamahal</span>
@@ -78,7 +78,7 @@ export default function Page() {
 				<div className="box-container">
 					<div className="box">
 						<div className="user">
-							<Image src="images/pic-1.jpg" alt="" />
+							<Image src="/images/pic-1.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>vj</h3>
 								<span>10-10-2023</span>
@@ -105,7 +105,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="user">
-							<Image src="images/pic-2.jpg" alt="" />
+							<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>ronric</h3>
 								<span>10-10-2023</span>
@@ -116,7 +116,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="user">
-							<Image src="images/pic-7.jpg" alt="" />
+							<Image src="/images/pic-7.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>stephaniee</h3>
 								<span>10-10-2023</span>
@@ -129,7 +129,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="user">
-							<Image src="images/pic-4.jpg" alt="" />
+							<Image src="/images/pic-4.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>Niko</h3>
 								<span>10-10-2023</span>
@@ -143,7 +143,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="user">
-							<Image src="images/pic-5.jpg" alt="" />
+							<Image src="/images/pic-5.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>christelle</h3>
 								<span>10-10-2023</span>
@@ -156,7 +156,7 @@ export default function Page() {
 
 					<div className="box">
 						<div className="user">
-							<Image src="images/pic-2.jpg" alt="" />
+							<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>jericho</h3>
 								<span>10-10-2023</span>

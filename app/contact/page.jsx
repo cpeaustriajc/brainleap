@@ -6,7 +6,7 @@ export default function Contact() {
 			<section className="contact">
 				<div className="row">
 					<div className="image">
-						<Image src="images/contact-img.svg" alt="" />
+						<Image src="/images/contact-img.svg" alt="" width="1280" height="720" />
 					</div>
 					<form action="" method="post">
 						<h3>Send a message.</h3>

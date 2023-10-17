@@ -6,7 +6,7 @@ export default function Page() {
 			<section className="about">
 				<div className="row">
 					<div className="image">
-						<Image src="images/about-img.svg" alt="" />
+						<Image src="/images/about-img.svg" alt="" width="1280" height="720" />
 					</div>
 
 					<div className="content">
@@ -72,7 +72,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<Image src="images/pic-2.jpg" alt="" />
+							<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>ronric</h3>
 								<div className="stars">
@@ -95,7 +95,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<Image src="images/pic-3.jpg" alt="" />
+							<Image src="/images/pic-3.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>elle</h3>
 								<div className="stars">
@@ -118,7 +118,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<Image src="images/pic-4.jpg" alt="" />
+							<Image src="/images/pic-4.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>jericho</h3>
 								<div className="stars">
@@ -141,7 +141,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<Image src="images/pic-5.jpg" alt="" />
+							<Image src="/images/pic-5.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>stephanie</h3>
 								<div className="stars">
@@ -164,7 +164,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<Image src="images/pic-6.jpg" alt="" />
+							<Image src="/images/pic-6.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>ndi ko na alam</h3>
 								<div className="stars">
@@ -187,7 +187,7 @@ export default function Page() {
 							Eligendi eaque molestiae modi?
 						</p>
 						<div className="student">
-							<Image src="images/pic-7.jpg" alt="" />
+							<Image src="/images/pic-7.jpg" alt="" width="1280" height="720" />
 							<div>
 								<h3>inutil</h3>
 								<div className="stars">

@@ -8,7 +8,12 @@ export default function Page() {
 
 				<div className="info">
 					<div className="user">
-						<Image src="/images/pic-1.jpg" alt="" width="1280" height="720" />
+						<Image
+							src="/images/pic-1.jpg"
+							alt=""
+							width="1280"
+							height="720"
+						/>
 						<h3>balik ka na sakin miss na kita</h3>
 						<p>student</p>
 						<a href="update.html" className="inline-btn">

@@ -8,7 +8,12 @@ export default function Page() {
 
 				<div className="details">
 					<div className="tutor">
-						<Image src="/images/pic-2.jpg" alt="" width="1280" height="720" />
+						<Image
+							src="/images/pic-2.jpg"
+							alt=""
+							width="1280"
+							height="720"
+						/>
 						<h3>elle</h3>
 						<span>developer ng pagmamahal</span>
 					</div>
@@ -35,7 +40,12 @@ export default function Page() {
 				<div className="box-container">
 					<div className="box">
 						<div className="thumb">
-							<Image src="/images/thumb-1.png" alt="" width="1280" height="720" />
+							<Image
+								src="/images/thumb-1.png"
+								alt=""
+								width="1280"
+								height="720"
+							/>
 							<span>10 videos</span>
 						</div>
 						<h3 className="title">complete HTML tutorial</h3>
@@ -46,7 +56,12 @@ export default function Page() {
 
 					<div className="box">
 						<div className="thumb">
-							<Image src="/images/thumb-2.png" alt="" width="1280" height="720" />
+							<Image
+								src="/images/thumb-2.png"
+								alt=""
+								width="1280"
+								height="720"
+							/>
 							<span>10 videos</span>
 						</div>
 						<h3 className="title">complete CSS tutorial</h3>
@@ -57,7 +72,12 @@ export default function Page() {
 
 					<div className="box">
 						<div className="thumb">
-							<Image src="/images/thumb-3.png" alt="" width="1280" height="720" />
+							<Image
+								src="/images/thumb-3.png"
+								alt=""
+								width="1280"
+								height="720"
+							/>
 							<span>10 videos</span>
 						</div>
 						<h3 className="title">complete javascript tutorial</h3>
@@ -68,7 +88,12 @@ export default function Page() {
 
 					<div className="box">
 						<div className="thumb">
-							<Image src="/images/thumb-4.png" alt="" width="1280" height="720" />
+							<Image
+								src="/images/thumb-4.png"
+								alt=""
+								width="1280"
+								height="720"
+							/>
 							<span>10 videos</span>
 						</div>
 						<h3 className="title">complete Boostrap tutorial</h3>

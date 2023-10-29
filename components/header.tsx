@@ -1,18 +1,40 @@
 'use client'
 
-import { MenuIcon, UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import { activeUser } from '@/app/mock'
 import { ThemeToggle } from './theme-toggle'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Input } from './ui/input'
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuTrigger,
-} from './ui/dropdown-menu'
 import { Button } from './ui/button'
-import { ChevronRightIcon } from 'lucide-react'
+import {
+	HamburgerMenuIcon,
+	PersonIcon,
+	ChevronRightIcon,
+} from '@radix-ui/react-icons'
+import dynamic from 'next/dynamic'
+const DropdownMenu = dynamic(
+	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
+	{ ssr: false },
+)
+const DropdownMenuContent = dynamic(
+	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuContent),
+	{ ssr: false },
+)
+const DropdownMenuTrigger = dynamic(
+	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuTrigger),
+	{ ssr: false },
+)
+
+const Sheet = dynamic(() => import('./ui/sheet').then((mod) => mod.Sheet), {
+	ssr: false,
+})
+const SheetContent = dynamic(
+	() => import('./ui/sheet').then((mod) => mod.SheetContent),
+	{ ssr: false },
+)
+const SheetTrigger = dynamic(
+	() => import('./ui/sheet').then((mod) => mod.SheetTrigger),
+	{ ssr: false },
+)
 
 export function Header() {
 	const profilePath =
@@ -22,10 +44,10 @@ export function Header() {
 		<header className="px-4 py-2">
 			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center">
-					<Sheet id="menu-btn">
+					<Sheet>
 						<SheetTrigger asChild>
 							<Button variant="ghost">
-								<MenuIcon />
+								<HamburgerMenuIcon />
 							</Button>
 						</SheetTrigger>
 						<SheetContent side="left"></SheetContent>
@@ -46,9 +68,9 @@ export function Header() {
 				</search>
 				<div className="flex items-center gap-2">
 					<DropdownMenu>
-						<DropdownMenuTrigger>
+						<DropdownMenuTrigger asChild>
 							<Button variant="ghost">
-								<UserIcon />
+								<PersonIcon />
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent side="bottom" align="end">

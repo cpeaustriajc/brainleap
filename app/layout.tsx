@@ -7,6 +7,14 @@ export const metadata = {
 	description: 'Doctrina: An e-learning platform for the modern age.',
 }
 
+export const viewport = {
+	width: 'device-width',
+	initialScale: 1,
+	maximumScale: 1,
+	colorScheme: 'dark light',
+}
+
+
 type Props = {
 	children: React.ReactNode
 }

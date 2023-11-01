@@ -1,24 +1,42 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { getServerSession } from 'next-auth'
 import Image from 'next/image'
+import Link from 'next/link'
 
-export default function Page() {
+export default async function Page() {
+	const data = await getServerSession()
+
+	const getInitials = (name: string) => {
+		const [firstName, lastName] = name.split(' ')
+		return `${firstName[0]}${lastName[0]}`
+	}
 	return (
 		<>
-			<section className="user-profile">
-				<h1 className="heading">your profile</h1>
+			<section className="flex flex-col">
+				<h1 className="text-2xl font-bold uppercase">your profile</h1>
 
-				<div className="info">
+				<div className="flex">
 					<div className="user">
-						<Image
-							src="/images/pic-1.jpg"
-							alt=""
-							width="1280"
-							height="720"
-						/>
-						<h3>balik ka na sakin miss na kita</h3>
-						<p>student</p>
-						<a href="update.html" className="inline-btn">
-							update profile
-						</a>
+						<Avatar>
+							<AvatarImage
+								src={
+									data?.user.image ??
+									'/images/default-avatar.png'
+								}
+								alt={`${data?.user.name ?? 'User'}'s avatar`}
+								width="64"
+								height="64"
+							/>
+							<AvatarFallback>
+								{getInitials(data?.user.name ?? '')}
+							</AvatarFallback>
+						</Avatar>
+						<h3>{data?.user.name}</h3>
+						<p>{data?.user.role}</p>
+						<Button>
+							<Link href="/profile/setup">Edit Profile</Link>
+						</Button>
 					</div>
 
 					<div className="box-container">

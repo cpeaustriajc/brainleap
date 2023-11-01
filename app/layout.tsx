@@ -1,6 +1,8 @@
 import { Header } from '@/components/header'
 import '@/styles/styles.css'
 import { Providers } from './providers'
+import { SessionProvider } from './providers'
+import { getServerSession } from 'next-auth'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -14,20 +16,22 @@ export const viewport = {
 	colorScheme: 'dark light',
 }
 
-
 type Props = {
 	children: React.ReactNode
 }
 
-export default function RootLayout({ children }: Props) {
+export default async function RootLayout({ children }: Props) {
+	const session = await getServerSession()
 	return (
-		<html lang="en" dir="ltr" suppressHydrationWarning>
-			<body>
-				<Providers>
-					<Header />
-					{children}
-				</Providers>
-			</body>
-		</html>
+		<SessionProvider session={session}>
+			<html lang="en" dir="ltr" suppressHydrationWarning>
+				<body>
+					<Providers>
+						<Header />
+						{children}
+					</Providers>
+				</body>
+			</html>
+		</SessionProvider>
 	)
 }

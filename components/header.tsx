@@ -1,16 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { activeUser } from '@/app/mock'
 import { ThemeToggle } from './theme-toggle'
-import { Input } from './ui/input'
 import { Button } from './ui/button'
 import {
 	HamburgerMenuIcon,
 	PersonIcon,
 	ChevronRightIcon,
 } from '@radix-ui/react-icons'
+import { useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
+import { Search } from './search'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{ ssr: false },
@@ -23,7 +23,6 @@ const DropdownMenuTrigger = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuTrigger),
 	{ ssr: false },
 )
-
 const Sheet = dynamic(() => import('./ui/sheet').then((mod) => mod.Sheet), {
 	ssr: false,
 })
@@ -37,8 +36,10 @@ const SheetTrigger = dynamic(
 )
 
 export function Header() {
+	const { data, status } = useSession()
+	const activeUser = data?.user
 	const profilePath =
-		activeUser.role === 'teacher' ? '/profile/teacher' : '/profile/student'
+		activeUser?.role === 'teacher' ? '/profile/teacher' : '/profile/student'
 
 	return (
 		<header className="px-4 py-2">
@@ -63,9 +64,7 @@ export function Header() {
 						</Button>
 					</div>
 				</div>
-				<search>
-					<Input type="search" id="query" placeholder="Search" />
-				</search>
+				<Search />
 				<div className="flex items-center gap-2">
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
@@ -75,7 +74,17 @@ export function Header() {
 						</DropdownMenuTrigger>
 						<DropdownMenuContent side="bottom" align="end">
 							<Button asChild variant="link" size="icon">
-								<Link href={profilePath}>Profile</Link>
+								{status === 'authenticated' ? (
+									<Link href={profilePath}>Profile</Link>
+								) : (
+									<Button
+										asChild
+										variant="link"
+										className="w-full"
+									>
+										<Link href="/auth/signin">Sign in</Link>
+									</Button>
+								)}
 							</Button>
 						</DropdownMenuContent>
 					</DropdownMenu>

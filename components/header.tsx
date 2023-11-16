@@ -8,9 +8,10 @@ import {
 	PersonIcon,
 	ChevronRightIcon,
 } from '@radix-ui/react-icons'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { Search } from './search'
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{ ssr: false },
@@ -73,19 +74,33 @@ export function Header() {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent side="bottom" align="end">
-							<Button asChild variant="link" size="icon">
-								{status === 'authenticated' ? (
-									<Link href={profilePath}>Profile</Link>
-								) : (
-									<Button
-										asChild
-										variant="link"
-										className="w-full"
-									>
-										<Link href="/auth/signin">Sign in</Link>
-									</Button>
-								)}
-							</Button>
+							{status === 'authenticated' ? (
+								<>
+									<DropdownMenuItem>
+										<Button asChild variant="link">
+											<Link href={profilePath}>
+												Profile
+											</Link>
+										</Button>
+									</DropdownMenuItem>
+									<DropdownMenuItem>
+										<Button
+											onClick={() => signOut()}
+											variant="link"
+										>
+											Log Out
+										</Button>
+									</DropdownMenuItem>
+								</>
+							) : (
+								<Button
+									asChild
+									variant="link"
+									className="w-full"
+								>
+									<Link href="/auth/signin">Sign in</Link>
+								</Button>
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
 					<ThemeToggle />

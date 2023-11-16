@@ -19,8 +19,7 @@ import { useSession } from 'next-auth/react'
 import { Textarea } from './ui/textarea'
 import { useTransition } from 'react'
 
-export const profileSchema = z.object({
-	role: z.enum(['student', 'teacher']),
+export const baseProfileSchema = z.object({
 	username: z.string().min(3).max(20),
 	biography: z
 		.string()
@@ -28,10 +27,27 @@ export const profileSchema = z.object({
 		.max(160, { message: 'Bio must not be longer than 30 characters.' })
 		.optional(),
 	email: z.string().email(),
-	university: z.string().max(280).optional(),
-	program: z.string().max(280).optional(),
 	displayName: z.string().max(280).optional(),
 })
+
+const profileSchema = z.discriminatedUnion('role', [
+	z.object({ role: z.literal(undefined) }).merge(baseProfileSchema),
+	z
+		.object({
+			role: z.literal('student'),
+
+			university: z.string().max(280).optional(),
+			section: z.string().max(2),
+			program: z.string().max(280).optional(),
+		})
+		.merge(baseProfileSchema),
+	z
+		.object({
+			role: z.literal('teacher'),
+			position: z.string().max(280).optional(),
+		})
+		.merge(baseProfileSchema),
+])
 
 const extractUsername = (email: string) => {
 	let username = email.split('@')[0]
@@ -51,6 +67,7 @@ export function SetupProfileForm() {
 			username,
 			displayName: session?.data?.user.name ?? '`',
 			email: session?.data?.user.email ?? '',
+			role: 'student',
 		},
 	})
 
@@ -186,49 +203,70 @@ export function SetupProfileForm() {
 						</FormItem>
 					)}
 				/>
-				{form.getValues('role') === 'student' && (
-					<FormField
-						name="program"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Program</FormLabel>
-								<FormDescription>
-									What is your current program?
-								</FormDescription>
-								<FormControl>
-									<Input
-										type="text"
-										placeholder="Program"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				)}
-
-				{form.getValues('role') === 'teacher' && (
-					<FormField
-						name="position"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Position</FormLabel>
-								<FormDescription>
-									What is your current position?
-								</FormDescription>
-								<FormControl>
-									<Input
-										{...field}
-										placeholder="Your current position"
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+				{form.getValues('role') === 'student' ? (
+					<>
+						<FormField
+							name="program"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Program</FormLabel>
+									<FormDescription>
+										What is your current program?
+									</FormDescription>
+									<FormControl>
+										<Input
+											type="text"
+											placeholder="Program"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							name="section"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Section</FormLabel>
+									<FormDescription>
+										What is your current section?
+									</FormDescription>
+									<FormControl>
+										<Input
+											type="text"
+											placeholder="Section"
+											{...field}
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+					</>
+				) : (
+					<>
+						<FormField
+							name="position"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Position</FormLabel>
+									<FormDescription>
+										What is your current position?
+									</FormDescription>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder="Your current position"
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</>
 				)}
 				<Button type="submit" disabled={isPending}>
 					Submit

@@ -1,8 +1,8 @@
 import { Header } from '@/components/header'
 import '@/styles/styles.css'
 import { Providers } from './providers'
-import { SessionProvider } from './providers'
-import { getServerSession } from 'next-auth'
+import { cookies } from 'next/headers'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -21,17 +21,19 @@ type Props = {
 }
 
 export default async function RootLayout({ children }: Props) {
-	const session = await getServerSession()
+	const supabase = createServerComponentClient({ cookies })
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
 	return (
-		<SessionProvider session={session}>
 			<html lang="en" dir="ltr" suppressHydrationWarning>
 				<body>
 					<Providers>
-						<Header />
+						<Header session={session} />
 						{children}
 					</Providers>
 				</body>
 			</html>
-		</SessionProvider>
 	)
 }

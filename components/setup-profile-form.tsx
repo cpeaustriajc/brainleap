@@ -15,12 +15,16 @@ import {
 	FormMessage,
 } from './ui/form'
 import { Input } from './ui/input'
-import { useSession } from 'next-auth/react'
 import { Textarea } from './ui/textarea'
 import { useTransition } from 'react'
+import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
+import { extractUsername } from '@/lib/utils'
+import { Session } from '@supabase/auth-helpers-nextjs'
 
 export const baseProfileSchema = z.object({
+	id: z.string().uuid().optional(),
 	username: z.string().min(3).max(20),
+	picture: z.string().url().optional(),
 	biography: z
 		.string()
 		.min(10, { message: 'Bio must be at least 10 characters.' })
@@ -30,12 +34,11 @@ export const baseProfileSchema = z.object({
 	displayName: z.string().max(280).optional(),
 })
 
-const profileSchema = z.discriminatedUnion('role', [
+export const profileSchema = z.discriminatedUnion('role', [
 	z.object({ role: z.literal(undefined) }).merge(baseProfileSchema),
 	z
 		.object({
 			role: z.literal('student'),
-
 			university: z.string().max(280).optional(),
 			section: z.string().max(2),
 			program: z.string().max(280).optional(),
@@ -49,24 +52,25 @@ const profileSchema = z.discriminatedUnion('role', [
 		.merge(baseProfileSchema),
 ])
 
-const extractUsername = (email: string) => {
-	let username = email.split('@')[0]
-	username = username.replace(/[^a-zA-Z0-9]/g, '')
-	username = username.toLowerCase()
-	return username
+const getInitials = (name?: string) => {
+	const names = name?.split(' ') ?? ''
+	let initials = names[0].substring(0, 1).toUpperCase()
+	if (names.length > 1) {
+		initials += names[names.length - 1].substring(0, 1).toUpperCase()
+	}
+	return initials
 }
 
-export function SetupProfileForm() {
-	const session = useSession()
-	const username = extractUsername(session?.data?.user.email ?? '')
+export function SetupProfileForm({ session }: { session: Session | null }) {
 	const [isPending, startTransition] = useTransition()
 
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			username,
-			displayName: session?.data?.user.name ?? '`',
-			email: session?.data?.user.email ?? '',
+			picture: '',
+			username: '',
+			displayName: '',
+			email: session?.user.email ?? '',
 			role: 'student',
 		},
 	})
@@ -74,12 +78,41 @@ export function SetupProfileForm() {
 	const onSubmit: SubmitHandler<z.infer<typeof profileSchema>> = (data) => {
 		startTransition(() => mutateProfile(data))
 	}
+
 	return (
 		<Form {...form}>
 			<form
 				className="max-w-2xl mx-auto my-4 space-y-4"
 				onSubmit={form.handleSubmit(onSubmit)}
 			>
+				<FormField
+					name="picture"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<div>
+								<Avatar>
+									<AvatarImage
+										src={form.getValues('picture')}
+									/>
+									<AvatarFallback>
+										{getInitials(
+											form.getValues('displayName'),
+										)}
+									</AvatarFallback>
+								</Avatar>
+							</div>
+							<FormLabel>Picture</FormLabel>
+							<FormDescription>
+								Upload a picture of yourself
+							</FormDescription>
+							<FormControl>
+								<Input type="file" placeholder="Picture" />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				<FormField
 					name="username"
 					control={form.control}
@@ -241,6 +274,7 @@ export function SetupProfileForm() {
 											{...field}
 										/>
 									</FormControl>
+									<FormMessage />
 								</FormItem>
 							)}
 						/>

@@ -8,10 +8,13 @@ import {
 	PersonIcon,
 	ChevronRightIcon,
 } from '@radix-ui/react-icons'
-import { signOut, useSession } from 'next-auth/react'
 import dynamic from 'next/dynamic'
 import { Search } from './search'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+import {
+	Session,
+	createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{ ssr: false },
@@ -36,12 +39,8 @@ const SheetTrigger = dynamic(
 	{ ssr: false },
 )
 
-export function Header() {
-	const { data, status } = useSession()
-	const activeUser = data?.user
-	const profilePath =
-		activeUser?.role === 'teacher' ? '/profile/teacher' : '/profile/student'
-
+export function Header({ session }: { session: Session | null }) {
+	const supabase = createClientComponentClient()
 	return (
 		<header className="px-4 py-2">
 			<div className="flex justify-between items-center w-full">
@@ -74,31 +73,41 @@ export function Header() {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent side="bottom" align="end">
-							{status === 'authenticated' ? (
+							{session ? (
 								<>
 									<DropdownMenuItem>
 										<Button asChild variant="link">
-											<Link href={profilePath}>
-												Profile
-											</Link>
+											<Link href="/profile">Profile</Link>
 										</Button>
 									</DropdownMenuItem>
 									<DropdownMenuItem>
-										<Button
-											onClick={() => signOut()}
-											variant="link"
+										<form
+											action="/api/auth/signout"
+											method="POST"
 										>
-											Log Out
-										</Button>
+											<Button
+												type="submit"
+												variant="link"
+											>
+												Log Out
+											</Button>
+										</form>
 									</DropdownMenuItem>
 								</>
 							) : (
 								<Button
-									asChild
 									variant="link"
 									className="w-full"
+									onClick={() => {
+										supabase.auth.signInWithOAuth({
+											provider: 'google',
+											options: {
+												redirectTo: '/profile'
+											}
+										})
+									}}
 								>
-									<Link href="/auth/signin">Sign in</Link>
+									Sign in
 								</Button>
 							)}
 						</DropdownMenuContent>

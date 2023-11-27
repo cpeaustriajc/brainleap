@@ -19,6 +19,7 @@ import { Textarea } from './ui/textarea'
 import { useTransition } from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
+import { getInitials } from '@/lib/utils'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -50,15 +51,6 @@ export const profileSchema = z.discriminatedUnion('role', [
 		})
 		.merge(baseProfileSchema),
 ])
-
-const getInitials = (name?: string) => {
-	const names = name?.split(' ') ?? ''
-	let initials = names[0].substring(0, 1).toUpperCase()
-	if (names.length > 1) {
-		initials += names[names.length - 1].substring(0, 1).toUpperCase()
-	}
-	return initials
-}
 
 export function SetupProfileForm({
 	profile,

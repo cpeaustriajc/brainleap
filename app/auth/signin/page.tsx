@@ -1,12 +1,12 @@
 import { Footer } from '@/components/footer'
-import { LoginForm } from '@/components/login-form'
+import { AuthForm } from '@/components/auth-form'
 
 export default function Page() {
 	return (
 		<>
 			<section className="min-h-[90svh] flex justify-center items-center">
 				<div className="max-w-sm">
-					<LoginForm />
+					<AuthForm />
 				</div>
 			</section>
 			<Footer />

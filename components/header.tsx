@@ -11,10 +11,7 @@ import {
 import dynamic from 'next/dynamic'
 import { Search } from './search'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
-import {
-	Session,
-	createClientComponentClient,
-} from '@supabase/auth-helpers-nextjs'
+import { type Session } from '@supabase/auth-helpers-nextjs'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{ ssr: false },
@@ -40,7 +37,6 @@ const SheetTrigger = dynamic(
 )
 
 export function Header({ session }: { session: Session | null }) {
-	const supabase = createClientComponentClient()
 	return (
 		<header className="px-4 py-2">
 			<div className="flex justify-between items-center w-full">
@@ -96,18 +92,11 @@ export function Header({ session }: { session: Session | null }) {
 								</>
 							) : (
 								<Button
+									asChild
 									variant="link"
 									className="w-full"
-									onClick={() => {
-										supabase.auth.signInWithOAuth({
-											provider: 'google',
-											options: {
-												redirectTo: '/profile'
-											}
-										})
-									}}
 								>
-									Sign in
+									<Link href="/auth/signin">Sign in</Link>
 								</Button>
 							)}
 						</DropdownMenuContent>

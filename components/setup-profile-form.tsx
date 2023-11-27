@@ -18,8 +18,7 @@ import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { useTransition } from 'react'
 import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
-import { extractUsername } from '@/lib/utils'
-import { Session } from '@supabase/auth-helpers-nextjs'
+import { Tables } from '@/lib/definitions'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -61,16 +60,19 @@ const getInitials = (name?: string) => {
 	return initials
 }
 
-export function SetupProfileForm({ session }: { session: Session | null }) {
+export function SetupProfileForm({
+	profile,
+}: {
+	profile: Tables<'profiles'> | null
+}) {
 	const [isPending, startTransition] = useTransition()
 
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			picture: '',
-			username: '',
-			displayName: '',
-			email: session?.user.email ?? '',
+			picture: profile?.avatar_url ?? '',
+			username: profile?.username ?? '',
+			displayName: profile?.full_name ?? '',
 			role: 'student',
 		},
 	})

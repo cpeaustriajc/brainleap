@@ -75,7 +75,6 @@ export function Header({
 						</Button>
 					</div>
 				</div>
-				<Search />
 				<div className="flex items-center gap-2">
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>

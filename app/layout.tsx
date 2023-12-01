@@ -1,8 +1,9 @@
 import { Header } from '@/components/header'
 import '@/styles/styles.css'
 import { Providers } from './providers'
-import { SessionProvider } from './providers'
-import { getServerSession } from 'next-auth'
+import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
+import { Database } from '@/lib/database.types'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -21,17 +22,40 @@ type Props = {
 }
 
 export default async function RootLayout({ children }: Props) {
-	const session = await getServerSession()
+	const cookieStore = cookies()
+	const supabase = createServerClient<Database>(
+		process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+		process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
+		{
+			cookies: {
+				get: (name: string) => {
+					return cookieStore.get(name)?.value
+				},
+			},
+		},
+	)
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	const { data: profile, error } = await supabase
+		.from('profiles')
+		.select()
+		.eq('profile_id', session?.user.id ?? '')
+		.single()
+
+	if (error) {
+		throw error
+	}
+
 	return (
-		<SessionProvider session={session}>
-			<html lang="en" dir="ltr" suppressHydrationWarning>
-				<body>
-					<Providers>
-						<Header />
-						{children}
-					</Providers>
-				</body>
-			</html>
-		</SessionProvider>
+		<html lang="en" dir="ltr" suppressHydrationWarning>
+			<body>
+				<Providers>
+					<Header session={session} profile={profile} />
+					{children}
+				</Providers>
+			</body>
+		</html>
 	)
 }

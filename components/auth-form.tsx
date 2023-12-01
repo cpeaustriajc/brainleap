@@ -16,7 +16,7 @@ import { getSupabaseAuthRedirectURL } from '@/lib/utils'
 import { createClient } from '@/lib/supabase/client'
 
 const authFormSchema = z.object({
-	email: z.string().email(),
+	email: z.string().email({ message: 'Please enter a valid email' }),
 })
 
 type AuthFormSchema = z.infer<typeof authFormSchema>
@@ -32,10 +32,13 @@ export function AuthForm() {
 	async function onSubmit(values: z.infer<typeof authFormSchema>) {
 		const supabase = createClient()
 		const { error } = await supabase.auth.signInWithOtp({
-			email: values.email ?? '',
+			email: values.email,
 			options: {
+				data: {
+					email: values.email,
+				},
+
 				emailRedirectTo: getSupabaseAuthRedirectURL('/profile'),
-				shouldCreateUser: true,
 			},
 		})
 

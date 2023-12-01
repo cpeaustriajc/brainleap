@@ -1,5 +1,4 @@
 'use client'
-import { createBrowserClient } from '@supabase/ssr'
 import {
 	Form,
 	FormDescription,
@@ -13,11 +12,11 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Button } from './ui/button'
-import { signInWithEmail } from '@/lib/actions'
 import { getSupabaseAuthRedirectURL } from '@/lib/utils'
+import { createClient } from '@/lib/supabase/client'
 
 const authFormSchema = z.object({
-	email: z.string().email(),
+	email: z.string().email({ message: 'Please enter a valid email' }),
 })
 
 type AuthFormSchema = z.infer<typeof authFormSchema>
@@ -30,15 +29,26 @@ export function AuthForm() {
 		},
 	})
 
-	function onSubmit(data: z.infer<typeof authFormSchema>) {
-		signInWithEmail(data.email)
+	async function onSubmit(values: z.infer<typeof authFormSchema>) {
+		const supabase = createClient()
+		const { error } = await supabase.auth.signInWithOtp({
+			email: values.email,
+			options: {
+				data: {
+					email: values.email,
+				},
+
+				emailRedirectTo: getSupabaseAuthRedirectURL('/profile'),
+			},
+		})
+
+		if (error) {
+			throw error
+		}
 	}
 
 	async function signInWithGoogle() {
-		const supabase = createBrowserClient(
-			process.env['NEXT_PUBLIC_SUPABASE_URL']!,
-			process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
-		)
+		const supabase = createClient()
 
 		supabase.auth.signInWithOAuth({
 			provider: 'google',
@@ -56,7 +66,7 @@ export function AuthForm() {
 				>
 					<div>
 						<h1 className="text-xl font-bold">Sign in</h1>
-						<p className="text-sm text-secondary">
+						<p className="text-sm">
 							Sign in via magic link with your email below
 						</p>
 					</div>
@@ -67,7 +77,6 @@ export function AuthForm() {
 							<FormItem>
 								<FormLabel>Email</FormLabel>
 								<Input
-									type="email"
 									placeholder="johndoe@email.com"
 									{...field}
 								/>

@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const config = {
 	experimental: {
-		ppr: true
+		ppr: true,
+	},
+	logging: {
+		fetches: { fullUrl: true },
 	},
 	images: {
 		remotePatterns: [

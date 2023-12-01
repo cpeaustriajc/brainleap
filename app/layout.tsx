@@ -2,8 +2,9 @@ import { Header } from '@/components/header'
 import '@/styles/styles.css'
 import { Providers } from './providers'
 import { cookies } from 'next/headers'
-import { createServerClient } from '@supabase/ssr'
-import { Database } from '@/lib/database.types'
+import { PostgrestError } from '@supabase/supabase-js'
+import { Tables } from '@/lib/definitions'
+import { createClient } from '@/lib/supabase/server'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -22,32 +23,28 @@ type Props = {
 }
 
 export default async function RootLayout({ children }: Props) {
+	let profile: Tables<'profiles'> | null | undefined = null
+	let error: PostgrestError | null = null
+
 	const cookieStore = cookies()
-	const supabase = createServerClient<Database>(
-		process.env['NEXT_PUBLIC_SUPABASE_URL']!,
-		process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
-		{
-			cookies: {
-				get: (name: string) => {
-					return cookieStore.get(name)?.value
-				},
-			},
-		},
-	)
+	const supabase = createClient(cookieStore)
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()
 
-	const { data: profile, error } = await supabase
-		.from('profiles')
-		.select()
-		.eq('profile_id', session?.user.id ?? '')
-		.single()
+	if (session) {
+		const result = await supabase
+			.from('profiles')
+			.select()
+			.eq('profile_id', session?.user.id ?? '')
+			.single()
+		profile = result.data
+		error = result.error
+	}
 
 	if (error) {
 		throw error
 	}
-
 	return (
 		<html lang="en" dir="ltr" suppressHydrationWarning>
 			<body>

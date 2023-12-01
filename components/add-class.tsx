@@ -1,5 +1,4 @@
 import { Button } from './ui/button'
-import { createBrowserClient } from '@supabase/ssr'
 import { Database } from '@/lib/database.types'
 import { DialogContent, DialogHeader } from './ui/dialog'
 import { Input } from './ui/input'
@@ -8,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Textarea } from './ui/textarea'
+import { createClient } from '@/lib/supabase/client'
 
 const classFormSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -15,7 +15,7 @@ const classFormSchema = z.object({
 	description: z.string().min(10).max(160),
 })
 
-export function AddClassButton() {
+export function AddClassDialog() {
 	const form = useForm<z.infer<typeof classFormSchema>>({
 		resolver: zodResolver(classFormSchema),
 		defaultValues: {
@@ -25,10 +25,7 @@ export function AddClassButton() {
 		},
 	})
 	async function addClass() {
-		const supabase = createBrowserClient<Database>(
-			process.env['NEXT_PUBLIC_SUPABASE_URL']!,
-			process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
-		)
+		const supabase = createClient()
 	}
 	return (
 		<>

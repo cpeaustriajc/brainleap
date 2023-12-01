@@ -34,35 +34,133 @@ export interface Database {
   }
   public: {
     Tables: {
-      profiles: {
+      assignments: {
         Row: {
-          avatar_url: string | null
-          full_name: string | null
-          id: string
-          updated_at: string | null
-          username: string | null
-          website: string | null
+          assignment_id: string
+          class_id: string | null
+          description: string | null
+          due_date: string | null
+          title: string | null
         }
         Insert: {
-          avatar_url?: string | null
-          full_name?: string | null
-          id: string
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
+          assignment_id: string
+          class_id?: string | null
+          description?: string | null
+          due_date?: string | null
+          title?: string | null
         }
         Update: {
-          avatar_url?: string | null
-          full_name?: string | null
-          id?: string
-          updated_at?: string | null
-          username?: string | null
-          website?: string | null
+          assignment_id?: string
+          class_id?: string | null
+          description?: string | null
+          due_date?: string | null
+          title?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
+            foreignKeyName: "assignments_class_id_fkey"
+            columns: ["class_id"]
+            referencedRelation: "classes"
+            referencedColumns: ["class_id"]
+          }
+        ]
+      }
+      classes: {
+        Row: {
+          class_description: string | null
+          class_id: string
+          class_name: string
+        }
+        Insert: {
+          class_description?: string | null
+          class_id: string
+          class_name: string
+        }
+        Update: {
+          class_description?: string | null
+          class_id?: string
+          class_name?: string
+        }
+        Relationships: []
+      }
+      enrollments: {
+        Row: {
+          class_id: string | null
+          enrollment_id: string
+          user_id: string | null
+        }
+        Insert: {
+          class_id?: string | null
+          enrollment_id: string
+          user_id?: string | null
+        }
+        Update: {
+          class_id?: string | null
+          enrollment_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enrollments_class_id_fkey"
+            columns: ["class_id"]
+            referencedRelation: "classes"
+            referencedColumns: ["class_id"]
+          },
+          {
+            foreignKeyName: "enrollments_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          }
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          biography: string | null
+          email: string
+          full_name: string | null
+          position: string | null
+          profile_id: string
+          program: string | null
+          role: Database["public"]["Enums"]["role_type"] | null
+          section: string | null
+          university: string | null
+          updated_at: string | null
+          username: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          biography?: string | null
+          email: string
+          full_name?: string | null
+          position?: string | null
+          profile_id: string
+          program?: string | null
+          role?: Database["public"]["Enums"]["role_type"] | null
+          section?: string | null
+          university?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          biography?: string | null
+          email?: string
+          full_name?: string | null
+          position?: string | null
+          profile_id?: string
+          program?: string | null
+          role?: Database["public"]["Enums"]["role_type"] | null
+          section?: string | null
+          university?: string | null
+          updated_at?: string | null
+          username?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_profile_id_fkey"
+            columns: ["profile_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -76,7 +174,7 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      role_type: "student" | "instructor"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -93,6 +191,7 @@ export interface Database {
           id: string
           name: string
           owner: string | null
+          owner_id: string | null
           public: boolean | null
           updated_at: string | null
         }
@@ -104,6 +203,7 @@ export interface Database {
           id: string
           name: string
           owner?: string | null
+          owner_id?: string | null
           public?: boolean | null
           updated_at?: string | null
         }
@@ -115,17 +215,11 @@ export interface Database {
           id?: string
           name?: string
           owner?: string | null
+          owner_id?: string | null
           public?: boolean | null
           updated_at?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "buckets_owner_fkey"
-            columns: ["owner"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       migrations: {
         Row: {
@@ -157,6 +251,7 @@ export interface Database {
           metadata: Json | null
           name: string | null
           owner: string | null
+          owner_id: string | null
           path_tokens: string[] | null
           updated_at: string | null
           version: string | null
@@ -169,6 +264,7 @@ export interface Database {
           metadata?: Json | null
           name?: string | null
           owner?: string | null
+          owner_id?: string | null
           path_tokens?: string[] | null
           updated_at?: string | null
           version?: string | null
@@ -181,6 +277,7 @@ export interface Database {
           metadata?: Json | null
           name?: string | null
           owner?: string | null
+          owner_id?: string | null
           path_tokens?: string[] | null
           updated_at?: string | null
           version?: string | null

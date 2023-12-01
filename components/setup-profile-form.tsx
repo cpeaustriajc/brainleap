@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { mutateProfile } from '@/lib/actions'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import {
@@ -16,10 +15,10 @@ import {
 } from './ui/form'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
-import { useTransition } from 'react'
-import { Avatar, AvatarImage, AvatarFallback } from './ui/avatar'
+import { useEffect, useTransition } from 'react'
 import { Tables } from '@/lib/definitions'
-import { getInitials } from '@/lib/utils'
+import { createBrowserClient } from '@supabase/ssr'
+import { Database } from '@/lib/database.types'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -31,7 +30,8 @@ export const baseProfileSchema = z.object({
 		.max(160, { message: 'Bio must not be longer than 30 characters.' })
 		.optional(),
 	email: z.string().email(),
-	displayName: z.string().max(280).optional(),
+	university: z.string().max(280).optional(),
+	full_name: z.string().max(280).optional(),
 })
 
 export const profileSchema = z.discriminatedUnion('role', [
@@ -39,14 +39,13 @@ export const profileSchema = z.discriminatedUnion('role', [
 	z
 		.object({
 			role: z.literal('student'),
-			university: z.string().max(280).optional(),
-			section: z.string().max(2),
+			section: z.string().max(2).optional(),
 			program: z.string().max(280).optional(),
 		})
 		.merge(baseProfileSchema),
 	z
 		.object({
-			role: z.literal('teacher'),
+			role: z.literal('instructor'),
 			position: z.string().max(280).optional(),
 		})
 		.merge(baseProfileSchema),
@@ -64,13 +63,82 @@ export function SetupProfileForm({
 		defaultValues: {
 			picture: profile?.avatar_url ?? '',
 			username: profile?.username ?? '',
-			displayName: profile?.full_name ?? '',
-			role: 'student',
+			full_name: profile?.full_name ?? '',
+			university: '',
+			biography: '',
+			section: '',
+			email: profile?.email ?? '',
+			program: '',
+			role: profile?.role ?? 'student',
+			position: '',
 		},
 	})
 
+	const watchRole = form.watch('role')
+
+	useEffect(() => {
+		if (watchRole === 'student') {
+			form.register('university')
+			form.register('section')
+			form.unregister('position')
+		} else if (watchRole === 'instructor') {
+			form.register('position')
+			form.unregister('university')
+			form.unregister('section')
+		}
+	}, [watchRole, form])
+
+	async function updateProfile(data: z.infer<typeof profileSchema>) {
+		console.log(data)
+		const supabase = createBrowserClient<Database>(
+			process.env['NEXT_PUBLIC_SUPABASE_URL']!,
+			process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
+		)
+		const {
+			data: { session },
+			error: sessionError,
+		} = await supabase.auth.getSession()
+
+		if (sessionError) {
+			throw sessionError
+		}
+
+		if (data.role === 'student') {
+			const { error } = await supabase
+				.from('profiles')
+				.update({
+					full_name: data.full_name,
+					username: data.username,
+					biography: data.biography,
+					program: data.program,
+					section: data.section,
+					university: data.university,
+					email: data.email,
+				})
+				.eq('profile_id', session?.user.id ?? '')
+
+			if (error) {
+				throw error
+			}
+		} else if (data.role === 'instructor') {
+			const { error } = await supabase
+				.from('profiles')
+				.update({
+					full_name: data.full_name,
+					username: data.username,
+					biography: data.biography,
+					position: data.position,
+					email: data.email,
+				})
+				.eq('profile_id', session?.user.id ?? '')
+			if (error) {
+				throw error
+			}
+		}
+	}
+
 	const onSubmit: SubmitHandler<z.infer<typeof profileSchema>> = (data) => {
-		startTransition(() => mutateProfile(data))
+		startTransition(() => updateProfile(data))
 	}
 
 	return (
@@ -79,7 +147,7 @@ export function SetupProfileForm({
 				className="max-w-2xl mx-auto my-4 space-y-4"
 				onSubmit={form.handleSubmit(onSubmit)}
 			>
-				<FormField
+				{/* <FormField
 					name="picture"
 					control={form.control}
 					render={({ field }) => (
@@ -106,7 +174,7 @@ export function SetupProfileForm({
 							<FormMessage />
 						</FormItem>
 					)}
-				/>
+				/> */}
 				<FormField
 					name="username"
 					control={form.control}
@@ -129,7 +197,7 @@ export function SetupProfileForm({
 				/>
 
 				<FormField
-					name="displayName"
+					name="full_name"
 					control={form.control}
 					render={({ field }) => (
 						<FormItem>
@@ -148,7 +216,26 @@ export function SetupProfileForm({
 						</FormItem>
 					)}
 				/>
-
+				<FormField
+					name="email"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormDescription>
+								Specify your Email
+							</FormDescription>
+							<FormControl>
+								<Input
+									type="email"
+									placeholder="johndoe@email.com"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				<FormField
 					name="biography"
 					control={form.control}
@@ -182,7 +269,7 @@ export function SetupProfileForm({
 							<FormControl>
 								<Input
 									type="text"
-									placeholder="University"
+									placeholder="Harvard University"
 									{...field}
 								/>
 							</FormControl>
@@ -230,72 +317,65 @@ export function SetupProfileForm({
 						</FormItem>
 					)}
 				/>
-				{form.getValues('role') === 'student' ? (
-					<>
-						<FormField
-							name="program"
-							control={form.control}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Program</FormLabel>
-									<FormDescription>
-										What is your current program?
-									</FormDescription>
-									<FormControl>
-										<Input
-											type="text"
-											placeholder="Program"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							name="section"
-							control={form.control}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Section</FormLabel>
-									<FormDescription>
-										What is your current section?
-									</FormDescription>
-									<FormControl>
-										<Input
-											type="text"
-											placeholder="Section"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</>
-				) : (
-					<>
-						<FormField
-							name="position"
-							control={form.control}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Position</FormLabel>
-									<FormDescription>
-										What is your current position?
-									</FormDescription>
-									<FormControl>
-										<Input
-											{...field}
-											placeholder="Your current position"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</>
-				)}
+				<FormField
+					name="program"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Program</FormLabel>
+							<FormDescription>
+								What is your current program?
+							</FormDescription>
+							<FormControl>
+								<Input
+									type="text"
+									placeholder="Program"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					name="section"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Section</FormLabel>
+							<FormDescription>
+								What is your current section?
+							</FormDescription>
+							<FormControl>
+								<Input
+									type="text"
+									placeholder="Section"
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					name="position"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Position</FormLabel>
+							<FormDescription>
+								What is your current position?
+							</FormDescription>
+							<FormControl>
+								<Input
+									{...field}
+									placeholder="Your current position"
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
 				<Button type="submit" disabled={isPending}>
 					Submit
 				</Button>

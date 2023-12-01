@@ -18,12 +18,17 @@ export default async function Page() {
 	)
 	const {
 		data: { session },
+		error: sessionError,
 	} = await supabase.auth.getSession()
+
+	if (sessionError) {
+		throw sessionError
+	}
 
 	const { data, error } = await supabase
 		.from('profiles')
 		.select()
-		.eq('id', session?.user.id ?? '')
+		.eq('profile_id', session?.user.id ?? '')
 		.single()
 
 	if (error) {

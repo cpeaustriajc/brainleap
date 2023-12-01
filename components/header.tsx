@@ -45,7 +45,7 @@ export function Header({
 	profile,
 }: {
 	session: Session | null
-	profile: Tables<'profiles'>
+	profile: Tables<'profiles'> | null | undefined
 }) {
 	return (
 		<header className="px-4 py-2">

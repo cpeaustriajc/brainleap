@@ -4,6 +4,8 @@ import { Providers } from './providers'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { Database } from '@/lib/database.types'
+import { PostgrestError } from '@supabase/supabase-js'
+import { Tables } from '@/lib/definitions'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -22,6 +24,9 @@ type Props = {
 }
 
 export default async function RootLayout({ children }: Props) {
+	let profile: Tables<'profiles'> | null | undefined = null
+	let error: PostgrestError | null = null
+
 	const cookieStore = cookies()
 	const supabase = createServerClient<Database>(
 		process.env['NEXT_PUBLIC_SUPABASE_URL']!,
@@ -38,16 +43,19 @@ export default async function RootLayout({ children }: Props) {
 		data: { session },
 	} = await supabase.auth.getSession()
 
-	const { data: profile, error } = await supabase
-		.from('profiles')
-		.select()
-		.eq('profile_id', session?.user.id ?? '')
-		.single()
+	if (session) {
+		const result = await supabase
+			.from('profiles')
+			.select()
+			.eq('profile_id', session?.user.id ?? '')
+			.single()
+		profile = result.data
+		error = result.error
+	}
 
 	if (error) {
 		throw error
 	}
-
 	return (
 		<html lang="en" dir="ltr" suppressHydrationWarning>
 			<body>

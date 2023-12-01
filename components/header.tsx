@@ -12,10 +12,12 @@ import dynamic from 'next/dynamic'
 import { Search } from './search'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { type Session } from '@supabase/auth-helpers-nextjs'
-import { AddClassButton } from './add-class'
+import { AddClassDialog } from './add-class'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
-import { Dialog, DialogTrigger } from './ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+import { useState } from 'react'
+import { JoinClassDialog } from './join-class'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{ ssr: false },
@@ -47,6 +49,9 @@ export function Header({
 	session: Session | null
 	profile: Tables<'profiles'> | null | undefined
 }) {
+	const [isJoinClassDialogOpen, setIsJoinClassDialogOpen] = useState(false)
+	const [isCreateClassDialogOpen, setIsCreateClassDialogOpen] =
+		useState(false)
 	return (
 		<header className="px-4 py-2">
 			<div className="flex justify-between items-center w-full">
@@ -54,6 +59,7 @@ export function Header({
 					<Sheet>
 						<SheetTrigger asChild>
 							<Button variant="ghost">
+								<span className="sr-only">Open Sidebar</span>
 								<HamburgerMenuIcon />
 							</Button>
 						</SheetTrigger>
@@ -71,25 +77,49 @@ export function Header({
 				</div>
 				<Search />
 				<div className="flex items-center gap-2">
-					<Dialog>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button variant="ghost" size="icon">
-									<PlusCircledIcon className="w-6 h-6" />
-								</Button>
-							</DropdownMenuTrigger>
-							<DropdownMenuContent>
-								<DialogTrigger asChild>
-									<DropdownMenuItem>
-										<Button size="lg" variant="ghost">
-											Add Class
-										</Button>
-									</DropdownMenuItem>
-								</DialogTrigger>
-							</DropdownMenuContent>
-						</DropdownMenu>
-						<AddClassButton />
-					</Dialog>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" size="icon">
+								<span className="sr-only">Open Class Menu</span>
+								<PlusCircledIcon className="w-6 h-6" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<Dialog
+								open={isCreateClassDialogOpen}
+								onOpenChange={setIsCreateClassDialogOpen}
+							>
+								<DropdownMenuItem
+									onClick={(e) => {
+										e.preventDefault()
+										setIsCreateClassDialogOpen(true)
+									}}
+								>
+									<Button size="lg" variant="ghost">
+										Add Class
+									</Button>
+								</DropdownMenuItem>
+								<AddClassDialog />
+							</Dialog>
+							<Dialog
+								open={isJoinClassDialogOpen}
+								onOpenChange={setIsJoinClassDialogOpen}
+							>
+								<DropdownMenuItem
+									onClick={(e) => {
+										e.preventDefault()
+										setIsJoinClassDialogOpen(true)
+									}}
+								>
+									<Button size="lg" variant="ghost">
+										Join Class
+									</Button>
+								</DropdownMenuItem>
+								<JoinClassDialog />
+							</Dialog>
+						</DropdownMenuContent>
+					</DropdownMenu>
+
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon">

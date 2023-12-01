@@ -18,6 +18,7 @@ import { Textarea } from './ui/textarea'
 import { useEffect, useTransition } from 'react'
 import { Tables } from '@/lib/definitions'
 import { createClient } from '@/lib/supabase/client'
+import { createPostgresTimestamp } from '@/lib/utils'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -60,16 +61,16 @@ export function SetupProfileForm({
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			picture: profile?.avatar_url ?? '',
-			username: profile?.username ?? '',
-			full_name: profile?.full_name ?? '',
-			university: '',
-			biography: '',
-			section: '',
-			email: profile?.email ?? '',
-			program: '',
+			picture: profile?.avatar_url ?? undefined,
+			username: profile?.username ?? undefined,
+			full_name: profile?.full_name ?? undefined,
+			university: undefined,
+			biography: undefined,
+			section: undefined,
+			email: profile?.email ?? undefined,
+			program: undefined,
 			role: profile?.role ?? 'student',
-			position: '',
+			position: undefined,
 		},
 	})
 
@@ -88,8 +89,9 @@ export function SetupProfileForm({
 	}, [watchRole, form])
 
 	async function updateProfile(data: z.infer<typeof profileSchema>) {
-		console.log(data)
 		const supabase = createClient()
+		const date = new Date()
+		const updated_at = createPostgresTimestamp(date)
 
 		const {
 			data: { session },
@@ -111,6 +113,7 @@ export function SetupProfileForm({
 					section: data.section,
 					university: data.university,
 					email: data.email,
+					updated_at,
 				})
 				.eq('profile_id', session?.user.id ?? '')
 
@@ -126,6 +129,8 @@ export function SetupProfileForm({
 					biography: data.biography,
 					position: data.position,
 					email: data.email,
+					role: data.role,
+					updated_at,
 				})
 				.eq('profile_id', session?.user.id ?? '')
 			if (error) {
@@ -301,11 +306,11 @@ export function SetupProfileForm({
 									<FormItem>
 										<FormControl>
 											<RadioGroupItem
-												value="teacher"
-												id="teacher"
+												value="instructor"
+												id="instructor"
 											/>
 										</FormControl>
-										<FormLabel>Teacher</FormLabel>
+										<FormLabel>Instructor</FormLabel>
 									</FormItem>
 								</RadioGroup>
 							</FormControl>
@@ -314,65 +319,70 @@ export function SetupProfileForm({
 						</FormItem>
 					)}
 				/>
-				<FormField
-					name="program"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Program</FormLabel>
-							<FormDescription>
-								What is your current program?
-							</FormDescription>
-							<FormControl>
-								<Input
-									type="text"
-									placeholder="Program"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name="section"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Section</FormLabel>
-							<FormDescription>
-								What is your current section?
-							</FormDescription>
-							<FormControl>
-								<Input
-									type="text"
-									placeholder="Section"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name="position"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Position</FormLabel>
-							<FormDescription>
-								What is your current position?
-							</FormDescription>
-							<FormControl>
-								<Input
-									{...field}
-									placeholder="Your current position"
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				{watchRole === 'student' ? (
+					<>
+						<FormField
+							name="program"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Program</FormLabel>
+									<FormDescription>
+										What is your current program?
+									</FormDescription>
+									<FormControl>
+										<Input
+											type="text"
+											placeholder="Program"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
+							name="section"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Section</FormLabel>
+									<FormDescription>
+										What is your current section?
+									</FormDescription>
+									<FormControl>
+										<Input
+											type="text"
+											placeholder="Section"
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					</>
+				) : (
+					<FormField
+						name="position"
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Position</FormLabel>
+								<FormDescription>
+									What is your current position?
+								</FormDescription>
+								<FormControl>
+									<Input
+										{...field}
+										placeholder="Your current position"
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				)}
 				<Button type="submit" disabled={isPending}>
 					Submit
 				</Button>

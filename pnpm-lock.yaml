@@ -60,7 +60,7 @@ dependencies:
     specifier: ^4.1.0
     version: 4.1.0
   next:
-    specifier: 14.0.4-canary.35
+    specifier: canary
     version: 14.0.4-canary.35(react-dom@18.2.0)(react@18.2.0)
   next-themes:
     specifier: ^0.2.1
@@ -74,6 +74,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.48.2
     version: 7.48.2(react@18.2.0)
+  server-only:
+    specifier: ^0.0.1
+    version: 0.0.1
   tailwind-merge:
     specifier: ^2.0.0
     version: 2.0.0
@@ -3462,6 +3465,10 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
+    dev: false
 
   /set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}

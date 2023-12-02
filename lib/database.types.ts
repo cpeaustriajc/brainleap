@@ -37,74 +37,74 @@ export interface Database {
       assignments: {
         Row: {
           assignment_id: string
-          class_id: string | null
+          course_id: string | null
           description: string | null
           due_date: string | null
           title: string | null
         }
         Insert: {
           assignment_id: string
-          class_id?: string | null
+          course_id?: string | null
           description?: string | null
           due_date?: string | null
           title?: string | null
         }
         Update: {
           assignment_id?: string
-          class_id?: string | null
+          course_id?: string | null
           description?: string | null
           due_date?: string | null
           title?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "assignments_class_id_fkey"
-            columns: ["class_id"]
-            referencedRelation: "classes"
-            referencedColumns: ["class_id"]
+            foreignKeyName: "assignments_course_id_fkey"
+            columns: ["course_id"]
+            referencedRelation: "courses"
+            referencedColumns: ["course_id"]
           }
         ]
       }
-      classes: {
+      courses: {
         Row: {
-          class_description: string | null
-          class_id: string
-          class_name: string
+          course_description: string | null
+          course_id: string
+          course_name: string
         }
         Insert: {
-          class_description?: string | null
-          class_id: string
-          class_name: string
+          course_description?: string | null
+          course_id: string
+          course_name: string
         }
         Update: {
-          class_description?: string | null
-          class_id?: string
-          class_name?: string
+          course_description?: string | null
+          course_id?: string
+          course_name?: string
         }
         Relationships: []
       }
       enrollments: {
         Row: {
-          class_id: string | null
+          course_id: string | null
           enrollment_id: string
           user_id: string | null
         }
         Insert: {
-          class_id?: string | null
+          course_id?: string | null
           enrollment_id: string
           user_id?: string | null
         }
         Update: {
-          class_id?: string | null
+          course_id?: string | null
           enrollment_id?: string
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "enrollments_class_id_fkey"
-            columns: ["class_id"]
-            referencedRelation: "classes"
-            referencedColumns: ["class_id"]
+            foreignKeyName: "enrollments_course_id_fkey"
+            columns: ["course_id"]
+            referencedRelation: "courses"
+            referencedColumns: ["course_id"]
           },
           {
             foreignKeyName: "enrollments_user_id_fkey"

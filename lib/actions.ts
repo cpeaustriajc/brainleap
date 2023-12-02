@@ -34,9 +34,9 @@ export async function joinClass(formData: FormData) {
 		data: { session },
 	} = await supabase.auth.getSession()
 	const { count } = await supabase
-		.from('classes')
+		.from('courses')
 		.select()
-		.eq('class_id', parsedData.classCode)
+		.eq('course_id', parsedData.classCode)
 		.single()
 
 	if (count === 0) {
@@ -46,7 +46,7 @@ export async function joinClass(formData: FormData) {
 	const { error: insertEnrollmentError } = await supabase
 		.from('enrollments')
 		.insert({
-			class_id: parsedData.classCode,
+			course_id: parsedData.classCode,
 			user_id: session?.user.id,
 			enrollment_id: uuidv4(),
 		})
@@ -85,11 +85,11 @@ export async function addClass(formData: FormData) {
 	console.log(data)
 
 	const { data: insertedCourse, error } = await supabase
-		.from('classes')
+		.from('courses')
 		.insert({
-			class_id: humanId({ separator: '-', capitalize: false }),
-			class_name: values.title,
-			class_description: values.description,
+			course_id: humanId({ separator: '-', capitalize: false }),
+			course_name: values.title,
+			course_description: values.description,
 		})
 		.select()
 		.single()
@@ -98,9 +98,9 @@ export async function addClass(formData: FormData) {
 		if (!insertedCourse) throw new Error('Class not found')
 
 		const { data: course, error: selectCourseError } = await supabase
-			.from('classes')
+			.from('courses')
 			.select('*')
-			.eq('class_id', insertedCourse?.class_id)
+			.eq('course_id', insertedCourse?.course_id)
 			.single()
 
 		if (selectCourseError) throw selectCourseError
@@ -108,7 +108,7 @@ export async function addClass(formData: FormData) {
 		const { error } = await supabase.from('enrollments').insert({
 			enrollment_id: uuidv4(),
 			user_id: session.user.id,
-			class_id: course?.class_id,
+			course_id: course?.course_id,
 		})
 
 		if (error) throw error

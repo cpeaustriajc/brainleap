@@ -110,7 +110,7 @@ export function Header({
 						</SheetTrigger>
 						<SheetContent side="left">
 							<div className="flex flex-col justify-center items-center h-full">
-								You are currently not enrolled in any classes.
+								You are currently not enrolled in any courses.
 							</div>
 						</SheetContent>
 					</Sheet>

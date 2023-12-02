@@ -1,11 +1,11 @@
 import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
 import { CourseSkeleton } from '@/components/course-skeleton'
-import { getClasses, getEnrollments } from '@/lib/queries'
+import { getCourses, getEnrollments } from '@/lib/queries'
 import { Suspense } from 'react'
 
 export default async function Page() {
-	const coursesData = getClasses()
+	const coursesData = getCourses()
 	const enrollmentsData = getEnrollments()
 
 	const [allCourses, enrollments] = await Promise.all([
@@ -15,7 +15,7 @@ export default async function Page() {
 
 	const courses = allCourses?.filter((course) => {
 		return enrollments?.some((enrollment) => {
-			return enrollment.class_id === course.class_id
+			return enrollment.course_id === course.course_id
 		})
 	})
 
@@ -27,7 +27,7 @@ export default async function Page() {
 						{courses?.length !== 0
 							? courses?.map((course) => (
 									<Course
-										key={course.class_id}
+										key={course.course_id}
 										course={course}
 									/>
 							  ))

@@ -12,10 +12,10 @@ type Props = {
 
 export async function generateStaticParams() {
 	const supabase = createBrowserClient()
-	const { data: classes } = await supabase.from('classes').select('class_id')
+	const { data: courses } = await supabase.from('courses').select('course_id')
 
-	return classes?.map((c) => ({
-		id: c.class_id,
+	return courses?.map((c) => ({
+		id: c.course_id,
 	}))
 }
 
@@ -24,9 +24,9 @@ export default async function Page({ params }: Props) {
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 	const { data: course } = await supabase
-		.from('classes')
+		.from('courses')
 		.select()
-		.eq('class_id', params.id)
+		.eq('course_id', params.id)
 		.single()
 	const {
 		data: { session },
@@ -48,17 +48,17 @@ export default async function Page({ params }: Props) {
 	return (
 		<main className="px-8">
 			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-				{course?.class_name}
+				{course?.course_name}
 			</h1>
 			<p className="leading-7 [&:not(:first-child)]:mt-6">
-				{course?.class_description}
+				{course?.course_description}
 			</p>
 			{profile?.role === 'instructor' && (
 				<>
 					<p className="leading-7 [&:not(:first-child)]:mt-6">
 						Get started by sharing the class code:{' '}
 					</p>
-					<Badge>{course?.class_id}</Badge>
+					<Badge>{course?.course_id}</Badge>
 				</>
 			)}
 		</main>

@@ -10,19 +10,19 @@ import {
 } from './ui/card'
 import { Button } from './ui/button'
 
-export function Course({ course }: { course: Tables<'classes'> }) {
+export function Course({ course }: { course: Tables<'courses'> }) {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{course.class_name}</CardTitle>
-				<CardDescription>{course.class_description}</CardDescription>
+				<CardTitle>{course.course_name}</CardTitle>
+				<CardDescription>{course.course_description}</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<p>You have 0 assignments for this week</p>
 			</CardContent>
 			<CardFooter>
 				<Button className="w-full" asChild>
-					<Link href={`/course/${course.class_id}`}>View More</Link>
+					<Link href={`/course/${course.course_id}`}>View More</Link>
 				</Button>
 			</CardFooter>
 		</Card>

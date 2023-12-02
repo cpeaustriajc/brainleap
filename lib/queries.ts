@@ -5,12 +5,12 @@ import 'server-only'
 import { createClient } from './supabase/server'
 import { cookies } from 'next/headers'
 
-export async function getClasses() {
+export async function getCourses() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const { data: classes } = await supabase.from('classes').select()
+	const { data: courses } = await supabase.from('courses').select()
 
-	return classes
+	return courses
 }
 
 export async function getEnrollments() {

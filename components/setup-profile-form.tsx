@@ -1,4 +1,5 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,6 +20,7 @@ import { useEffect, useTransition } from 'react'
 import { Tables } from '@/lib/definitions'
 import { createClient } from '@/lib/supabase/client'
 import { createPostgresTimestamp } from '@/lib/utils'
+import { useRouter } from 'next/router'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -57,6 +59,7 @@ export function SetupProfileForm({
 	profile: Tables<'profiles'> | null
 }) {
 	const [isPending, startTransition] = useTransition()
+	const router = useRouter()
 
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
@@ -137,6 +140,8 @@ export function SetupProfileForm({
 				throw error
 			}
 		}
+
+		router.push('/')
 	}
 
 	const onSubmit: SubmitHandler<z.infer<typeof profileSchema>> = (data) => {

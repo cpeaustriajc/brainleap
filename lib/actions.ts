@@ -24,6 +24,10 @@ const joinClassFormSchema = z.object({
 	classCode: z.string(),
 })
 
+const uploadFileSchema = z.object({
+	file: z.instanceof(File),
+})
+
 export async function joinClass(formData: FormData) {
 	const parsedData = joinClassFormSchema.parse({
 		classCode: formData.get('classCode'),
@@ -117,4 +121,17 @@ export async function addClass(formData: FormData) {
 	revalidatePath('/')
 
 	if (error) throw error
+}
+
+export async function updateFile(formData: FormData) {
+	const values = uploadFileSchema.parse({
+		file: formData.get('file'),
+	})
+
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const { error } = await supabase.storage
+		.from('avatars')
+		.upload('public/avatar1.png', values.file, {})
 }

@@ -3,6 +3,13 @@ import { Tables } from '@/lib/definitions'
 import { cookies } from 'next/headers'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
+import { getAssignments } from '@/lib/queries'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { createAssignment } from '@/lib/actions'
+import { AddAssigment } from '@/components/add-assignment'
 
 type Props = {
 	params: {
@@ -23,11 +30,15 @@ export default async function Page({ params }: Props) {
 	let profile: Tables<'profiles'> | null = null
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
+
 	const { data: course } = await supabase
 		.from('classes')
 		.select()
 		.eq('class_id', params.id)
 		.single()
+
+	const assignments = await getAssignments(course?.class_id ?? '')
+
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()
@@ -61,6 +72,19 @@ export default async function Page({ params }: Props) {
 					<Badge>{course?.class_id}</Badge>
 				</>
 			)}
+
+			{profile?.role === 'instructor' && (
+				<div className="my-2">
+					<AddAssigment course={course} />
+				</div>
+			)}
+
+			{assignments?.map((assignment) => (
+				<div className="mt-10" key={assignment.assignment_id}>
+					<h2 className="text-2xl font-bold">{assignment?.title}</h2>
+					<p className="mt-2">{assignment?.description}</p>
+				</div>
+			))}
 		</main>
 	)
 }

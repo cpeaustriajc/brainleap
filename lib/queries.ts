@@ -27,3 +27,14 @@ export async function getEnrollments() {
 
 	return enrollments
 }
+
+export async function getAssignments(classId: string) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const { data: assignments } = await supabase
+		.from('assignments')
+		.select()
+		.eq('class_id', classId)
+
+	return assignments
+}

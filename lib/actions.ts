@@ -24,6 +24,13 @@ const joinClassFormSchema = z.object({
 	classCode: z.string(),
 })
 
+const createAssignFormSchema = z.object({
+	classId: z.string(),
+	title: z.string(),
+	description: z.string(),
+	dueDate: z.string(),
+})
+
 export async function joinClass(formData: FormData) {
 	const parsedData = joinClassFormSchema.parse({
 		classCode: formData.get('classCode'),
@@ -82,8 +89,6 @@ export async function addClass(formData: FormData) {
 		.eq('user_id', session.user.id)
 		.single()
 
-	console.log(data)
-
 	const { data: insertedCourse, error } = await supabase
 		.from('classes')
 		.insert({
@@ -117,4 +122,36 @@ export async function addClass(formData: FormData) {
 	revalidatePath('/')
 
 	if (error) throw error
+}
+
+export async function createAssignment(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const values = createAssignFormSchema.parse({
+		title: formData.get('title'),
+		description: formData.get('description'),
+		dueDate: formData.get('dueDate'),
+		classId: formData.get('classId'),
+	})
+
+	const { data } = await supabase
+		.from('classes')
+		.select('class_id')
+		.eq('class_id', values.classId)
+		.single()
+
+	const { error } = await supabase.from('assignments').insert({
+		assignment_id: uuidv4(),
+		class_id: data?.class_id,
+		title: values.title,
+		description: values.description,
+		due_date: values.dueDate,
+	})
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath(`/class/${data?.class_id}`)
 }

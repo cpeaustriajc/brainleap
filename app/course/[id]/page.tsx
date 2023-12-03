@@ -4,11 +4,6 @@ import { cookies } from 'next/headers'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { getAssignments } from '@/lib/queries'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { createAssignment } from '@/lib/actions'
 import { AddAssigment } from '@/components/add-assignment'
 
 type Props = {
@@ -37,7 +32,7 @@ export default async function Page({ params }: Props) {
 		.eq('course_id', params.id)
 		.single()
 
-	const assignments = await getAssignments(course?.class_id ?? '')
+	const assignments = await getAssignments(course?.course_id ?? '')
 
 	const {
 		data: { session },

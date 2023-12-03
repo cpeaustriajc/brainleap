@@ -1,18 +1,19 @@
-import { createAssignment } from '@/lib/actions'
 import { Input } from './ui/input'
 import { Tables } from '@/lib/definitions'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
 import Link from 'next/link'
+import { createAssignment } from '@/lib/actions'
 
-export function AddAssigment({ course }: { course: Tables<'classes'> | null }) {
+
+export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
 	return (
 		<form action={createAssignment} className="space-y-8">
 			<Input
 				disabled
 				id="classId"
 				name="classId"
-				value={course?.class_id}
+				value={course?.course_id}
 				className="hidden"
 			/>
 			<div className="space-y-2">
@@ -47,7 +48,7 @@ export function AddAssigment({ course }: { course: Tables<'classes'> | null }) {
 			</div>
 
 			<Button asChild>
-				<Link href={`/course/${course?.class_id}/create`}>
+				<Link href={`/course/${course?.course_id}/create`}>
 					Create assignment
 				</Link>
 			</Button>

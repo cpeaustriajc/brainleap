@@ -1,7 +1,7 @@
 import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
 import { CourseSkeleton } from '@/components/course-skeleton'
-import { getCourses, getEnrollments } from '@/lib/queries'
+import { getAssignments, getCourses, getEnrollments } from '@/lib/queries'
 import { Suspense } from 'react'
 
 export default async function Page() {

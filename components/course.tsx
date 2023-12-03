@@ -9,8 +9,15 @@ import {
 	CardTitle,
 } from './ui/card'
 import { Button } from './ui/button'
+import { cookies } from 'next/headers'
+import { createClient } from '@/lib/supabase/server'
 
-export function Course({ course }: { course: Tables<'courses'> }) {
+export async function Course({ course }: { course: Tables<'courses'> }) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const assignments = await supabase.from('assignments').select('*').eq('course_id', course.course_id)
+
 	return (
 		<Card>
 			<CardHeader>
@@ -18,7 +25,7 @@ export function Course({ course }: { course: Tables<'courses'> }) {
 				<CardDescription>{course.course_description}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<p>You have 0 assignments for this week</p>
+				<p>You currently have {assignments.count === null ? '0' : assignments.count} pending assigments</p>
 			</CardContent>
 			<CardFooter>
 				<Button className="w-full" asChild>

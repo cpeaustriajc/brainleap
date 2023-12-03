@@ -20,12 +20,12 @@ import { useEffect, useTransition } from 'react'
 import { Tables } from '@/lib/definitions'
 import { createClient } from '@/lib/supabase/client'
 import { createPostgresTimestamp } from '@/lib/utils'
-import { useRouter } from 'next/router'
+import { ProfilePicture } from './profile-picture'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
 	username: z.string().min(3).max(20),
-	picture: z.string().url().optional(),
+	avatar_url: z.string().url().optional(),
 	biography: z
 		.string()
 		.min(10, { message: 'Bio must be at least 10 characters.' })
@@ -59,12 +59,10 @@ export function SetupProfileForm({
 	profile: Tables<'profiles'> | null
 }) {
 	const [isPending, startTransition] = useTransition()
-	const router = useRouter()
 
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			picture: profile?.avatar_url ?? undefined,
 			username: profile?.username ?? undefined,
 			full_name: profile?.full_name ?? undefined,
 			university: undefined,
@@ -127,6 +125,7 @@ export function SetupProfileForm({
 			const { error } = await supabase
 				.from('profiles')
 				.update({
+					avatar_url: data.avatar_url,
 					full_name: data.full_name,
 					username: data.username,
 					biography: data.biography,
@@ -140,8 +139,6 @@ export function SetupProfileForm({
 				throw error
 			}
 		}
-
-		router.push('/')
 	}
 
 	const onSubmit: SubmitHandler<z.infer<typeof profileSchema>> = (data) => {
@@ -149,43 +146,23 @@ export function SetupProfileForm({
 	}
 
 	return (
-		<>
-		{/* <form action={}>
-
-		</form> */}
+		<div className="max-w-2xl mx-auto space-y-2">
+			<ProfilePicture
+				uid={profile?.profile_id ?? ''}
+				url={profile?.avatar_url ?? ''}
+				size={128}
+				onUpload={(url) => {
+					updateProfile({
+						...form.getValues(),
+						avatar_url: url,
+					})
+				}}
+			/>
 			<Form {...form}>
 				<form
-					className="max-w-2xl mx-auto my-4 space-y-4"
+					className="my-4 space-y-4"
 					onSubmit={form.handleSubmit(onSubmit)}
 				>
-					{/* <FormField
-					name="picture"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<div>
-								<Avatar>
-									<AvatarImage
-										src={form.getValues('picture')}
-									/>
-									<AvatarFallback>
-										{getInitials(
-											form.getValues('displayName'),
-										)}
-									</AvatarFallback>
-								</Avatar>
-							</div>
-							<FormLabel>Picture</FormLabel>
-							<FormDescription>
-								Upload a picture of yourself
-							</FormDescription>
-							<FormControl>
-								<Input type="file" placeholder="Picture" />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/> */}
 					<FormField
 						name="username"
 						control={form.control}
@@ -397,6 +374,6 @@ export function SetupProfileForm({
 					</Button>
 				</form>
 			</Form>
-		</>
+		</div>
 	)
 }

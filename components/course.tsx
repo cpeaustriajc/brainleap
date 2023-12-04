@@ -16,8 +16,10 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const assignments = await supabase.from('assignments').select('*').eq('course_id', course.course_id)
-
+	const assignments = await supabase
+		.from('assignments')
+		.select('*')
+		.eq('course_id', course.course_id)
 	return (
 		<Card>
 			<CardHeader>
@@ -25,7 +27,14 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				<CardDescription>{course.course_description}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<p>You currently have {assignments.count === null ? '0' : assignments.count} pending assigments</p>
+				<p>
+					You currently have {assignments.data?.length ?? 'no'}{' '}
+					pending{' '}
+					{assignments.data?.length === 1
+						? 'assignment'
+						: 'assignments'}
+					.
+				</p>
 			</CardContent>
 			<CardFooter>
 				<Button className="w-full" asChild>

@@ -170,3 +170,26 @@ export async function createAssignment(courseId: string, formData: FormData) {
 
 	revalidatePath(`/class/${data?.course_id}`)
 }
+
+export async function uploadAssignment(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const values = uploadFileSchema.parse({
+		file: formData.get('file'),
+	})
+
+	console.log(values.file)
+	// const fileExt = values.file.name.split('.').pop()
+	// const fileName = `${uuidv4()}.${fileExt}`
+
+	// const { error } = await supabase.storage
+	// 	.from('files')
+	// 	.upload(fileName, values.file, {
+	// 		contentType: values.file.type,
+	// 	})
+
+	// if (error) {
+	// 	throw error
+	// }
+}

@@ -98,7 +98,7 @@ export default async function Page({ params }: Props) {
 						<CardFooter>
 							<Button asChild variant={'link'}>
 								<Link
-									href={`/course/${course?.course_id}/assignment/${assignment?.assignment_id}`}
+									href={`/course/${course?.course_id}/${assignment?.assignment_id}`}
 								>
 									View assignment
 								</Link>

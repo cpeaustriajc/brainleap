@@ -52,13 +52,8 @@ export const createPostgresTimestamp = (date: Date) => {
 	const minutes = date.getUTCMinutes().toString().padStart(2, '0')
 	const seconds = date.getUTCSeconds().toString().padStart(2, '0')
 	const milliseconds = date.getUTCMilliseconds().toString().padStart(3, '0')
-	const offsetHours = date.getTimezoneOffset() / 60
-	const offsetMinutes = date.getTimezoneOffset() % 60
 
-	const formattedOffset = `${offsetHours
-		.toString()
-		.padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`
-	const formattedTimeStamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}+${formattedOffset}`
+	const formattedTimeStamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`
 
 	return formattedTimeStamp
 }

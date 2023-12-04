@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { ThemeToggle } from './theme-toggle'
 import { Button } from './ui/button'
 import {
 	HamburgerMenuIcon,
@@ -9,18 +8,39 @@ import {
 	PlusCircledIcon,
 } from '@radix-ui/react-icons'
 import dynamic from 'next/dynamic'
-import { Search } from './search'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { type Session } from '@supabase/auth-helpers-nextjs'
 import { AddClassDialog } from './add-class'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+import { Dialog } from './ui/dialog'
 import { useState } from 'react'
 import { JoinClassDialog } from './join-class'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
-	{ ssr: false },
+	{
+		ssr: false,
+		loading: () => (
+			<Button
+				size="icon"
+				variant="secondary"
+				className="animate-pulse"
+			></Button>
+		),
+	},
+)
+const ThemeToggle = dynamic(
+	() => import('./theme-toggle').then((mod) => mod.ThemeToggle),
+	{
+		ssr: false,
+		loading: () => (
+			<Button
+				size="icon"
+				className="animate-pulse"
+				variant="secondary"
+			></Button>
+		),
+	},
 )
 const DropdownMenuContent = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuContent),
@@ -28,10 +48,26 @@ const DropdownMenuContent = dynamic(
 )
 const DropdownMenuTrigger = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuTrigger),
-	{ ssr: false },
+	{
+		ssr: false,
+		loading: () => (
+			<Button
+				size="icon"
+				variant="secondary"
+				className="animate-pulse"
+			></Button>
+		),
+	},
 )
 const Sheet = dynamic(() => import('./ui/sheet').then((mod) => mod.Sheet), {
 	ssr: false,
+	loading: () => (
+		<Button
+			size="icon"
+			variant="secondary"
+			className="animate-pulse"
+		></Button>
+	),
 })
 const SheetContent = dynamic(
 	() => import('./ui/sheet').then((mod) => mod.SheetContent),
@@ -39,7 +75,16 @@ const SheetContent = dynamic(
 )
 const SheetTrigger = dynamic(
 	() => import('./ui/sheet').then((mod) => mod.SheetTrigger),
-	{ ssr: false },
+	{
+		ssr: false,
+		loading: () => (
+			<Button
+				size="icon"
+				variant="secondary"
+				className="animate-pulse"
+			></Button>
+		),
+	},
 )
 
 export function Header({
@@ -58,17 +103,18 @@ export function Header({
 				<div className="flex items-center">
 					<Sheet>
 						<SheetTrigger asChild>
-							<Button variant="ghost">
+							<Button variant="ghost" size="icon">
 								<span className="sr-only">Open Sidebar</span>
 								<HamburgerMenuIcon />
 							</Button>
 						</SheetTrigger>
 						<SheetContent side="left">
 							<div className="flex flex-col justify-center items-center h-full">
-								You are currently not enrolled in any classes.
+								You are currently not enrolled in any courses.
 							</div>
 						</SheetContent>
 					</Sheet>
+
 					<div className="px-2 inline-flex items-center">
 						<Button asChild variant="link" className="px-0">
 							<Link href="/">Doctrina </Link>
@@ -84,22 +130,24 @@ export function Header({
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<Dialog
-								open={isCreateClassDialogOpen}
-								onOpenChange={setIsCreateClassDialogOpen}
-							>
-								<DropdownMenuItem
-									onClick={(e) => {
-										e.preventDefault()
-										setIsCreateClassDialogOpen(true)
-									}}
+							{profile?.role === 'instructor' && (
+								<Dialog
+									open={isCreateClassDialogOpen}
+									onOpenChange={setIsCreateClassDialogOpen}
 								>
-									<Button size="lg" variant="ghost">
-										Add Class
-									</Button>
-								</DropdownMenuItem>
-								<AddClassDialog />
-							</Dialog>
+									<DropdownMenuItem
+										onClick={(e) => {
+											e.preventDefault()
+											setIsCreateClassDialogOpen(true)
+										}}
+									>
+										<Button size="lg" variant="ghost">
+											Add Class
+										</Button>
+									</DropdownMenuItem>
+									<AddClassDialog />
+								</Dialog>
+							)}
 							<Dialog
 								open={isJoinClassDialogOpen}
 								onOpenChange={setIsJoinClassDialogOpen}
@@ -118,10 +166,10 @@ export function Header({
 							</Dialog>
 						</DropdownMenuContent>
 					</DropdownMenu>
-
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon">
+								<span className="sr-only">Open User Menu</span>
 								<Avatar className="h-8 w-8">
 									<AvatarImage
 										src={profile?.avatar_url || undefined}
@@ -165,7 +213,6 @@ export function Header({
 							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
-
 					<ThemeToggle />
 				</div>
 			</div>

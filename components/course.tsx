@@ -1,11 +1,37 @@
+import { Tables } from '@/lib/definitions'
 import Link from 'next/link'
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from './ui/card'
+import { Button } from './ui/button'
+import { cookies } from 'next/headers'
+import { createClient } from '@/lib/supabase/server'
 
-export function Course() {
+export async function Course({ course }: { course: Tables<'courses'> }) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const assignments = await supabase.from('assignments').select('*').eq('course_id', course.course_id)
+
 	return (
-		<Link href="/course/cpe314">
-			<div className="border w-64 h-64 rounded px-4 py-2">
-				<h2 className="font-bold">Course Title</h2>
-			</div>
-		</Link>
+		<Card>
+			<CardHeader>
+				<CardTitle>{course.course_name}</CardTitle>
+				<CardDescription>{course.course_description}</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<p>You currently have {assignments.count === null ? '0' : assignments.count} pending assigments</p>
+			</CardContent>
+			<CardFooter>
+				<Button className="w-full" asChild>
+					<Link href={`/course/${course.course_id}`}>View More</Link>
+				</Button>
+			</CardFooter>
+		</Card>
 	)
 }

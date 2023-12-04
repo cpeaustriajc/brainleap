@@ -1,4 +1,5 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,11 +20,12 @@ import { useEffect, useTransition } from 'react'
 import { Tables } from '@/lib/definitions'
 import { createClient } from '@/lib/supabase/client'
 import { createPostgresTimestamp } from '@/lib/utils'
+import { ProfilePicture } from './profile-picture'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
 	username: z.string().min(3).max(20),
-	picture: z.string().url().optional(),
+	avatar_url: z.string().url().optional(),
 	biography: z
 		.string()
 		.min(10, { message: 'Bio must be at least 10 characters.' })
@@ -61,7 +63,6 @@ export function SetupProfileForm({
 	const form = useForm<z.infer<typeof profileSchema>>({
 		resolver: zodResolver(profileSchema),
 		defaultValues: {
-			picture: profile?.avatar_url ?? undefined,
 			username: profile?.username ?? undefined,
 			full_name: profile?.full_name ?? undefined,
 			university: undefined,
@@ -124,6 +125,7 @@ export function SetupProfileForm({
 			const { error } = await supabase
 				.from('profiles')
 				.update({
+					avatar_url: data.avatar_url,
 					full_name: data.full_name,
 					username: data.username,
 					biography: data.biography,
@@ -144,249 +146,234 @@ export function SetupProfileForm({
 	}
 
 	return (
-		<Form {...form}>
-			<form
-				className="max-w-2xl mx-auto my-4 space-y-4"
-				onSubmit={form.handleSubmit(onSubmit)}
-			>
-				{/* <FormField
-					name="picture"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<div>
-								<Avatar>
-									<AvatarImage
-										src={form.getValues('picture')}
-									/>
-									<AvatarFallback>
-										{getInitials(
-											form.getValues('displayName'),
-										)}
-									</AvatarFallback>
-								</Avatar>
-							</div>
-							<FormLabel>Picture</FormLabel>
-							<FormDescription>
-								Upload a picture of yourself
-							</FormDescription>
-							<FormControl>
-								<Input type="file" placeholder="Picture" />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/> */}
-				<FormField
-					name="username"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Username</FormLabel>
-							<FormDescription>
-								Specify your username
-							</FormDescription>
-							<FormControl>
-								<Input
-									type="text"
-									placeholder="Username"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					name="full_name"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Display Name</FormLabel>
-							<FormDescription>
-								Specify your Display Name
-							</FormDescription>
-							<FormControl>
-								<Input
-									type="text"
-									placeholder="Diplay Name"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name="email"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Email</FormLabel>
-							<FormDescription>
-								Specify your Email
-							</FormDescription>
-							<FormControl>
-								<Input
-									type="email"
-									placeholder="johndoe@email.com"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name="biography"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Biography</FormLabel>
-							<FormDescription>
-								Introduce yourself e.g. your hobbies, interests,
-								etc.
-							</FormDescription>
-							<FormControl>
-								<Textarea
-									placeholder="Tell us a little bit about yourself"
-									className="resize-none"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name="university"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>University</FormLabel>
-							<FormDescription>
-								What is the name of your university?
-							</FormDescription>
-							<FormControl>
-								<Input
-									type="text"
-									placeholder="Harvard University"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					name="role"
-					control={form.control}
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Role</FormLabel>
-							<FormDescription>
-								Are you a student or a teacher?
-							</FormDescription>
-							<FormControl>
-								<RadioGroup
-									defaultValue={field.value}
-									onValueChange={field.onChange}
-								>
-									<FormItem>
-										<FormControl>
-											<RadioGroupItem
-												value="student"
-												id="student"
-											/>
-										</FormControl>
-										<FormLabel>Student</FormLabel>
-									</FormItem>
-
-									<FormItem>
-										<FormControl>
-											<RadioGroupItem
-												value="instructor"
-												id="instructor"
-											/>
-										</FormControl>
-										<FormLabel>Instructor</FormLabel>
-									</FormItem>
-								</RadioGroup>
-							</FormControl>
-
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				{watchRole === 'student' ? (
-					<>
-						<FormField
-							name="program"
-							control={form.control}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Program</FormLabel>
-									<FormDescription>
-										What is your current program?
-									</FormDescription>
-									<FormControl>
-										<Input
-											type="text"
-											placeholder="Program"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-						<FormField
-							name="section"
-							control={form.control}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Section</FormLabel>
-									<FormDescription>
-										What is your current section?
-									</FormDescription>
-									<FormControl>
-										<Input
-											type="text"
-											placeholder="Section"
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</>
-				) : (
+		<div className="max-w-2xl mx-auto space-y-2">
+			<ProfilePicture
+				uid={profile?.profile_id ?? ''}
+				url={profile?.avatar_url ?? ''}
+				size={128}
+				onUpload={(url) => {
+					updateProfile({
+						...form.getValues(),
+						avatar_url: url,
+					})
+				}}
+			/>
+			<Form {...form}>
+				<form
+					className="my-4 space-y-4"
+					onSubmit={form.handleSubmit(onSubmit)}
+				>
 					<FormField
-						name="position"
+						name="username"
 						control={form.control}
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Position</FormLabel>
+								<FormLabel>Username</FormLabel>
 								<FormDescription>
-									What is your current position?
+									Specify your username
 								</FormDescription>
 								<FormControl>
 									<Input
+										type="text"
+										placeholder="Username"
 										{...field}
-										placeholder="Your current position"
 									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-				)}
-				<Button type="submit" disabled={isPending}>
-					Submit
-				</Button>
-			</form>
-		</Form>
+
+					<FormField
+						name="full_name"
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Display Name</FormLabel>
+								<FormDescription>
+									Specify your Display Name
+								</FormDescription>
+								<FormControl>
+									<Input
+										type="text"
+										placeholder="Diplay Name"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						name="email"
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Email</FormLabel>
+								<FormDescription>
+									Specify your Email
+								</FormDescription>
+								<FormControl>
+									<Input
+										type="email"
+										placeholder="johndoe@email.com"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						name="biography"
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Biography</FormLabel>
+								<FormDescription>
+									Introduce yourself e.g. your hobbies,
+									interests, etc.
+								</FormDescription>
+								<FormControl>
+									<Textarea
+										placeholder="Tell us a little bit about yourself"
+										className="resize-none"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						name="university"
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>University</FormLabel>
+								<FormDescription>
+									What is the name of your university?
+								</FormDescription>
+								<FormControl>
+									<Input
+										type="text"
+										placeholder="Harvard University"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						name="role"
+						control={form.control}
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Role</FormLabel>
+								<FormDescription>
+									Are you a student or a teacher?
+								</FormDescription>
+								<FormControl>
+									<RadioGroup
+										defaultValue={field.value}
+										onValueChange={field.onChange}
+									>
+										<FormItem>
+											<FormControl>
+												<RadioGroupItem
+													value="student"
+													id="student"
+												/>
+											</FormControl>
+											<FormLabel>Student</FormLabel>
+										</FormItem>
+
+										<FormItem>
+											<FormControl>
+												<RadioGroupItem
+													value="instructor"
+													id="instructor"
+												/>
+											</FormControl>
+											<FormLabel>Instructor</FormLabel>
+										</FormItem>
+									</RadioGroup>
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					{watchRole === 'student' ? (
+						<>
+							<FormField
+								name="program"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Program</FormLabel>
+										<FormDescription>
+											What is your current program?
+										</FormDescription>
+										<FormControl>
+											<Input
+												type="text"
+												placeholder="Program"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								name="section"
+								control={form.control}
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Section</FormLabel>
+										<FormDescription>
+											What is your current section?
+										</FormDescription>
+										<FormControl>
+											<Input
+												type="text"
+												placeholder="Section"
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						</>
+					) : (
+						<FormField
+							name="position"
+							control={form.control}
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>Position</FormLabel>
+									<FormDescription>
+										What is your current position?
+									</FormDescription>
+									<FormControl>
+										<Input
+											{...field}
+											placeholder="Your current position"
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+					)}
+					<Button type="submit" disabled={isPending}>
+						Submit
+					</Button>
+				</form>
+			</Form>
+		</div>
 	)
 }

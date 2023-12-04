@@ -32,11 +32,15 @@ export default async function RootLayout({ children }: Props) {
 		data: { session },
 	} = await supabase.auth.getSession()
 
+	if (!session) {
+		throw new Error('Session not found.')
+	}
+
 	if (session) {
 		const result = await supabase
 			.from('profiles')
 			.select()
-			.eq('profile_id', session?.user.id ?? '')
+			.eq('profile_id', session.user.id)
 			.single()
 		profile = result.data
 		error = result.error

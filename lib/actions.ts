@@ -193,3 +193,10 @@ export async function uploadAssignment(formData: FormData) {
 	// 	throw error
 	// }
 }
+
+export async function deleteFile(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+
+}

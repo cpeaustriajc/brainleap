@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
 type Props = {
 	params: {
@@ -25,13 +26,16 @@ export async function generateStaticParams() {
 	const supabase = createBrowserClient()
 	const { data: courses } = await supabase.from('courses').select('course_id')
 
-	return courses?.map((c) => ({
+	if (!courses) {
+		notFound()
+	}
+
+	return courses.map((c) => ({
 		id: c.course_id,
 	}))
 }
 
 export default async function Page({ params }: Props) {
-	let profile: Tables<'profiles'> | null = null
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 
@@ -41,39 +45,52 @@ export default async function Page({ params }: Props) {
 		.eq('course_id', params.id)
 		.single()
 
-	const assignments = await getAssignments(course?.course_id ?? '')
+	if (!course) {
+		notFound()
+	}
+
+	const assignments = await getAssignments(course.course_id)
+
+	if (!assignments) {
+		notFound()
+	}
 
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()
 
-	if (session) {
-		const { data, error } = await supabase
-			.from('profiles')
-			.select()
-			.eq('profile_id', session.user.id)
-			.single()
-		profile = data
+	if (!session) {
+		throw new Error('Session not found.')
+	}
 
-		if (error) {
-			throw error
-		}
+	const { data: profile, error } = await supabase
+		.from('profiles')
+		.select()
+		.eq('profile_id', session.user.id)
+		.single()
+
+	if (!profile) {
+		notFound()
+	}
+
+	if (error) {
+		throw error
 	}
 
 	return (
 		<main className="px-8">
 			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-				{course?.course_name}
+				{course.course_name}
 			</h1>
 			<p className="leading-7 [&:not(:first-child)]:mt-6">
-				{course?.course_description}
+				{course.course_description}
 			</p>
 			{profile?.role === 'instructor' && (
 				<>
 					<p className="leading-7 [&:not(:first-child)]:mt-6">
 						Get started by sharing the class code:{' '}
 					</p>
-					<Badge>{course?.course_id}</Badge>
+					<Badge>{course.course_id}</Badge>
 				</>
 			)}
 
@@ -84,21 +101,21 @@ export default async function Page({ params }: Props) {
 			)}
 
 			<div className="mt-10 grid">
-				{assignments?.map((assignment) => (
+				{assignments.map((assignment) => (
 					<Card key={assignment.assignment_id}>
 						<CardHeader>
-							<CardTitle>{assignment?.title}</CardTitle>
-							<p>Due {assignment?.due_date}</p>
+							<CardTitle>{assignment.title}</CardTitle>
+							<p>Due {assignment.due_date}</p>
 						</CardHeader>
 						<CardContent>
 							<p className="whitespace-pre-line">
-								{assignment?.description}
+								{assignment.description}
 							</p>
 						</CardContent>
 						<CardFooter>
 							<Button asChild variant={'link'}>
 								<Link
-									href={`/course/${course?.course_id}/${assignment?.assignment_id}`}
+									href={`/course/${course?.course_id}/${assignment.assignment_id}`}
 								>
 									View assignment
 								</Link>

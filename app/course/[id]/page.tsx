@@ -5,6 +5,15 @@ import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { getAssignments } from '@/lib/queries'
 import { AddAssigment } from '@/components/add-assignment'
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 type Props = {
 	params: {
@@ -74,12 +83,30 @@ export default async function Page({ params }: Props) {
 				</div>
 			)}
 
-			{assignments?.map((assignment) => (
-				<div className="mt-10" key={assignment.assignment_id}>
-					<h2 className="text-2xl font-bold">{assignment?.title}</h2>
-					<p className="mt-2">{assignment?.description}</p>
-				</div>
-			))}
+			<div className="mt-10 grid">
+				{assignments?.map((assignment) => (
+					<Card key={assignment.assignment_id}>
+						<CardHeader>
+							<CardTitle>{assignment?.title}</CardTitle>
+							<p>Due {assignment?.due_date}</p>
+						</CardHeader>
+						<CardContent>
+							<p className="whitespace-pre-line">
+								{assignment?.description}
+							</p>
+						</CardContent>
+						<CardFooter>
+							<Button asChild variant={'link'}>
+								<Link
+									href={`/course/${course?.course_id}/assignment/${assignment?.assignment_id}`}
+								>
+									View assignment
+								</Link>
+							</Button>
+						</CardFooter>
+					</Card>
+				))}
+			</div>
 		</main>
 	)
 }

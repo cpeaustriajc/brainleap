@@ -59,33 +59,6 @@ const DropdownMenuTrigger = dynamic(
 		),
 	},
 )
-const Sheet = dynamic(() => import('./ui/sheet').then((mod) => mod.Sheet), {
-	ssr: false,
-	loading: () => (
-		<Button
-			size="icon"
-			variant="secondary"
-			className="animate-pulse"
-		></Button>
-	),
-})
-const SheetContent = dynamic(
-	() => import('./ui/sheet').then((mod) => mod.SheetContent),
-	{ ssr: false },
-)
-const SheetTrigger = dynamic(
-	() => import('./ui/sheet').then((mod) => mod.SheetTrigger),
-	{
-		ssr: false,
-		loading: () => (
-			<Button
-				size="icon"
-				variant="secondary"
-				className="animate-pulse"
-			></Button>
-		),
-	},
-)
 
 export function Header({
 	session,
@@ -101,23 +74,9 @@ export function Header({
 		<header className="px-4 py-2">
 			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center">
-					<Sheet>
-						<SheetTrigger asChild>
-							<Button variant="ghost" size="icon">
-								<span className="sr-only">Open Sidebar</span>
-								<HamburgerMenuIcon />
-							</Button>
-						</SheetTrigger>
-						<SheetContent side="left">
-							<div className="flex flex-col justify-center items-center h-full">
-								You are currently not enrolled in any courses.
-							</div>
-						</SheetContent>
-					</Sheet>
-
 					<div className="px-2 inline-flex items-center">
 						<Button asChild variant="link" className="px-0">
-							<Link href="/">Doctrina </Link>
+							<Link href="/">Doctrina</Link>
 						</Button>
 					</div>
 				</div>

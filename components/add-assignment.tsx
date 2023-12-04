@@ -2,22 +2,19 @@ import { Input } from './ui/input'
 import { Tables } from '@/lib/definitions'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
-import Link from 'next/link'
 import { createAssignment } from '@/lib/actions'
-
+import { Textarea } from './ui/textarea'
 
 export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
+	const createAssignmentWithClassId = createAssignment.bind(
+		null,
+		course?.course_id ?? '',
+	)
+
 	return (
-		<form action={createAssignment} className="space-y-8">
-			<Input
-				disabled
-				id="classId"
-				name="classId"
-				value={course?.course_id}
-				className="hidden"
-			/>
+		<form action={createAssignmentWithClassId} className="space-y-8">
 			<div className="space-y-2">
-				<Label htmlFor="assignmentTile">Assignment title</Label>
+				<Label htmlFor="assignmentTitle">Assignment title</Label>
 				<Input
 					type="text"
 					id="assignmentTitle"
@@ -29,8 +26,7 @@ export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
 				<Label htmlFor="assignmentDescription">
 					Assignment description
 				</Label>
-				<Input
-					type="text"
+				<Textarea
 					id="assignmentDescription"
 					name="assignmentDescription"
 					placeholder="Assignment description"
@@ -47,11 +43,7 @@ export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
 				/>
 			</div>
 
-			<Button asChild>
-				<Link href={`/course/${course?.course_id}/create`}>
-					Create assignment
-				</Link>
-			</Button>
+			<Button type="submit">Create assignment</Button>
 		</form>
 	)
 }

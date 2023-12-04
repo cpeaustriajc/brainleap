@@ -40,6 +40,7 @@ export interface Database {
           course_id: string | null
           description: string | null
           due_date: string | null
+          files: string[] | null
           title: string | null
         }
         Insert: {
@@ -47,6 +48,7 @@ export interface Database {
           course_id?: string | null
           description?: string | null
           due_date?: string | null
+          files?: string[] | null
           title?: string | null
         }
         Update: {
@@ -54,6 +56,7 @@ export interface Database {
           course_id?: string | null
           description?: string | null
           due_date?: string | null
+          files?: string[] | null
           title?: string | null
         }
         Relationships: [

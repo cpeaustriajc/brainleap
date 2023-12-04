@@ -28,13 +28,13 @@ export async function getEnrollments() {
 	return enrollments
 }
 
-export async function getAssignments(classId: string) {
+export async function getAssignments(courseId: string) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const { data: assignments } = await supabase
 		.from('assignments')
 		.select()
-		.eq('class_id', classId)
+		.eq('course_id', courseId)
 
 	return assignments
 }

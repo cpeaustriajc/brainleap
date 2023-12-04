@@ -28,8 +28,7 @@ const uploadFileSchema = z.object({
 	file: z.instanceof(File),
 })
 
-const createAssignFormSchema = z.object({
-	classId: z.string(),
+const createAssignmentFormSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	dueDate: z.string(),
@@ -140,26 +139,26 @@ export async function updateFile(formData: FormData) {
 		.from('avatars')
 		.upload('public/avatar1.png', values.file, {})
 }
-export async function createAssignment(formData: FormData) {
+
+export async function createAssignment(courseId: string, formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = createAssignFormSchema.parse({
-		title: formData.get('title'),
-		description: formData.get('description'),
-		dueDate: formData.get('dueDate'),
-		classId: formData.get('classId'),
+	const values = createAssignmentFormSchema.parse({
+		title: formData.get('assignmentTitle'),
+		description: formData.get('assignmentDescription'),
+		dueDate: formData.get('assignmentDueDate'),
 	})
 
 	const { data } = await supabase
-		.from('classes')
-		.select('class_id')
-		.eq('class_id', values.classId)
+		.from('courses')
+		.select('course_id')
+		.eq('course_id', courseId)
 		.single()
 
 	const { error } = await supabase.from('assignments').insert({
 		assignment_id: uuidv4(),
-		class_id: data?.class_id,
+		course_id: courseId,
 		title: values.title,
 		description: values.description,
 		due_date: values.dueDate,
@@ -169,5 +168,5 @@ export async function createAssignment(formData: FormData) {
 		throw error
 	}
 
-	revalidatePath(`/class/${data?.class_id}`)
+	revalidatePath(`/class/${data?.course_id}`)
 }

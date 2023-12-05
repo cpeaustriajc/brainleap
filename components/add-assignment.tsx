@@ -11,8 +11,13 @@ export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
 		course?.course_id ?? '',
 	)
 
+	async function action(formData: FormData) {
+		'use server'
+		createAssignmentWithClassId(formData)
+	}
+
 	return (
-		<form action={createAssignmentWithClassId} className="space-y-8">
+		<form action={action} className="space-y-8">
 			<div className="space-y-2">
 				<Label htmlFor="assignmentTitle">Assignment title</Label>
 				<Input

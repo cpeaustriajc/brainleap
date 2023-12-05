@@ -29,6 +29,7 @@ type Props = {
 export default async function Page({ params }: Props) {
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
+
 	const { data: assignment } = await supabase
 		.from('assignments')
 		.select()
@@ -37,6 +38,16 @@ export default async function Page({ params }: Props) {
 
 	if (!assignment) {
 		notFound()
+	}
+
+	const uploadAssignmentWithId = uploadAssignment.bind(
+		null,
+		assignment.assignment_id,
+	)
+
+	async function submitAssignment(formData: FormData) {
+		'use server'
+		uploadAssignmentWithId(formData)
 	}
 
 	return (
@@ -52,11 +63,14 @@ export default async function Page({ params }: Props) {
 					</p>
 				</div>
 				<div>
-					<form action={uploadAssignment} className="space-y-2">
-						<div className="space-y-2">
+					<form action={submitAssignment} className="space-y-2">
+						<fieldset className="border rounded border-primary p-3 space-y-2">
+							<legend className="font-bold">
+								Turn in your assignment
+							</legend>
 							<Label htmlFor="file">Upload file</Label>
 							<Input type="file" name="file" id="file" />
-						</div>
+						</fieldset>
 						<Button type="submit">Turn In</Button>
 					</form>
 				</div>

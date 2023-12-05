@@ -34,6 +34,10 @@ const createAssignmentFormSchema = z.object({
 	dueDate: z.string(),
 })
 
+const deleteAssignmentFormSchema = z.object({
+	assignment: z.string(),
+})
+
 export async function joinClass(formData: FormData) {
 	const parsedData = joinClassFormSchema.parse({
 		classCode: formData.get('classCode'),
@@ -171,7 +175,10 @@ export async function createAssignment(courseId: string, formData: FormData) {
 	revalidatePath(`/class/${data?.course_id}`)
 }
 
-export async function uploadAssignment(formData: FormData) {
+export async function uploadAssignment(
+	assignmentId: string,
+	formData: FormData,
+) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -179,14 +186,26 @@ export async function uploadAssignment(formData: FormData) {
 		file: formData.get('file'),
 	})
 
-	const fileExt = values.file.name.split('.').pop()
-	const fileName = `${uuidv4()}.${fileExt}`
-
-	const { error } = await supabase.storage
+	const { data: file, error } = await supabase.storage
 		.from('files')
-		.upload(fileName, values.file, {
+		.upload(values.file.name, values.file, {
 			contentType: values.file.type,
 		})
+
+	if (!file) {
+		throw new Error('File not found!')
+	}
+
+	const { error: assignmentError } = await supabase
+		.from('assignments')
+		.update({
+			files: [file.path],
+		})
+		.eq('assignment_id', assignmentId)
+
+	if (assignmentError) {
+		throw assignmentError
+	}
 
 	if (error) {
 		throw error
@@ -197,5 +216,15 @@ export async function deleteFile(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
+	const values = deleteAssignmentFormSchema.parse({
+		assignment: formData.get('assignment'),
+	})
 
+	const { error } = await supabase.storage
+		.from('files')
+		.remove([values.assignment])
+
+	if (error) {
+		throw error
+	}
 }

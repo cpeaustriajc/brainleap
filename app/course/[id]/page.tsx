@@ -3,7 +3,7 @@ import { Tables } from '@/lib/definitions'
 import { cookies } from 'next/headers'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
-import { getAssignments } from '@/lib/queries'
+import { getAssignments, getCourse } from '@/lib/queries'
 import { AddAssigment } from '@/components/add-assignment'
 import {
 	Card,
@@ -39,11 +39,7 @@ export default async function Page({ params }: Props) {
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 
-	const { data: course } = await supabase
-		.from('courses')
-		.select()
-		.eq('course_id', params.id)
-		.single()
+	const course = await getCourse(params.id)
 
 	if (!course) {
 		notFound()

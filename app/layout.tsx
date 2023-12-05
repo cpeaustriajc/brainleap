@@ -19,10 +19,11 @@ export const viewport = {
 }
 
 type Props = {
+	modal: React.ReactNode
 	children: React.ReactNode
 }
 
-export default async function RootLayout({ children }: Props) {
+export default async function RootLayout({ modal, children }: Props) {
 	let profile: Tables<'profiles'> | null | undefined = null
 	let error: PostgrestError | null = null
 
@@ -56,6 +57,7 @@ export default async function RootLayout({ children }: Props) {
 					<Header session={session} profile={profile} />
 					{children}
 				</Providers>
+				{modal}
 			</body>
 		</html>
 	)

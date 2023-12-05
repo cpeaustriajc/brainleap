@@ -2,20 +2,17 @@
 
 import Link from 'next/link'
 import { Button } from './ui/button'
-import {
-	HamburgerMenuIcon,
-	PersonIcon,
-	PlusCircledIcon,
-} from '@radix-ui/react-icons'
+import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { type Session } from '@supabase/auth-helpers-nextjs'
-import { AddClassDialog } from './add-class'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
 import { Dialog } from './ui/dialog'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { JoinClassDialog } from './join-class'
+import { createClient } from '@/lib/supabase/client'
+import { notFound } from 'next/navigation'
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{
@@ -68,8 +65,37 @@ export function Header({
 	profile: Tables<'profiles'> | null | undefined
 }) {
 	const [isJoinClassDialogOpen, setIsJoinClassDialogOpen] = useState(false)
-	const [isCreateClassDialogOpen, setIsCreateClassDialogOpen] =
-		useState(false)
+	const supabase = createClient()
+	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+
+	if (!profile) {
+		notFound()
+	}
+
+	useEffect(() => {
+		async function downloadImage(path: string) {
+			try {
+				const { data, error } = await supabase.storage
+					.from('avatars')
+					.download(path)
+				if (error) {
+					throw error
+				}
+
+				const url = URL.createObjectURL(data)
+				setAvatarUrl(url)
+			} catch (error) {
+				console.error('Error downloading image: ', error)
+			}
+		}
+
+		if (profile.avatar_url) downloadImage(profile.avatar_url)
+	}, [profile.avatar_url, supabase])
+
+	if (!profile) {
+		notFound()
+	}
+
 	return (
 		<header className="px-4 py-2">
 			<div className="flex justify-between items-center w-full">
@@ -90,22 +116,29 @@ export function Header({
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
 							{profile?.role === 'instructor' && (
-								<Dialog
-									open={isCreateClassDialogOpen}
-									onOpenChange={setIsCreateClassDialogOpen}
-								>
-									<DropdownMenuItem
-										onClick={(e) => {
-											e.preventDefault()
-											setIsCreateClassDialogOpen(true)
-										}}
-									>
-										<Button size="lg" variant="ghost">
-											Add Class
-										</Button>
-									</DropdownMenuItem>
-									<AddClassDialog />
-								</Dialog>
+								<DropdownMenuItem>
+									<Button size="lg" asChild variant="ghost">
+										<Link href="/create/course">
+											Create Class
+										</Link>
+									</Button>
+								</DropdownMenuItem>
+								// <Dialog
+								// 	open={isCreateClassDialogOpen}
+								// 	onOpenChange={setIsCreateClassDialogOpen}
+								// >
+								// 	<DropdownMenuItem
+								// 		onClick={(e) => {
+								// 			e.preventDefault()
+								// 			setIsCreateClassDialogOpen(true)
+								// 		}}
+								// 	>
+								// 		<Button size="lg" variant="ghost">
+								// 			Add Class
+								// 		</Button>
+								// 	</DropdownMenuItem>
+								// 	<AddClassDialog />
+								// </Dialog>
 							)}
 							<Dialog
 								open={isJoinClassDialogOpen}
@@ -130,9 +163,7 @@ export function Header({
 							<Button variant="ghost" size="icon">
 								<span className="sr-only">Open User Menu</span>
 								<Avatar className="h-8 w-8">
-									<AvatarImage
-										src={profile?.avatar_url || undefined}
-									/>
+									<AvatarImage src={avatarUrl || undefined} />
 									<AvatarFallback>
 										<PersonIcon />
 									</AvatarFallback>

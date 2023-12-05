@@ -179,19 +179,18 @@ export async function uploadAssignment(formData: FormData) {
 		file: formData.get('file'),
 	})
 
-	console.log(values.file)
-	// const fileExt = values.file.name.split('.').pop()
-	// const fileName = `${uuidv4()}.${fileExt}`
+	const fileExt = values.file.name.split('.').pop()
+	const fileName = `${uuidv4()}.${fileExt}`
 
-	// const { error } = await supabase.storage
-	// 	.from('files')
-	// 	.upload(fileName, values.file, {
-	// 		contentType: values.file.type,
-	// 	})
+	const { error } = await supabase.storage
+		.from('files')
+		.upload(fileName, values.file, {
+			contentType: values.file.type,
+		})
 
-	// if (error) {
-	// 	throw error
-	// }
+	if (error) {
+		throw error
+	}
 }
 
 export async function deleteFile(formData: FormData) {

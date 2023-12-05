@@ -13,6 +13,18 @@ export async function getCourses() {
 	return courses
 }
 
+export async function getCourse(id: string) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const { data: course } = await supabase
+		.from('courses')
+		.select()
+		.eq('course_id', id)
+		.single()
+
+	return course
+}
+
 export async function getEnrollments() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)

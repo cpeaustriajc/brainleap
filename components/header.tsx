@@ -8,9 +8,7 @@ import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { type Session } from '@supabase/auth-helpers-nextjs'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
-import { Dialog } from './ui/dialog'
-import { use, useEffect, useState } from 'react'
-import { JoinClassDialog } from './join-class'
+import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { notFound } from 'next/navigation'
 const DropdownMenu = dynamic(
@@ -64,7 +62,6 @@ export function Header({
 	session: Session | null
 	profile: Tables<'profiles'> | null | undefined
 }) {
-	const [isJoinClassDialogOpen, setIsJoinClassDialogOpen] = useState(false)
 	const supabase = createClient()
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
@@ -123,39 +120,12 @@ export function Header({
 										</Link>
 									</Button>
 								</DropdownMenuItem>
-								// <Dialog
-								// 	open={isCreateClassDialogOpen}
-								// 	onOpenChange={setIsCreateClassDialogOpen}
-								// >
-								// 	<DropdownMenuItem
-								// 		onClick={(e) => {
-								// 			e.preventDefault()
-								// 			setIsCreateClassDialogOpen(true)
-								// 		}}
-								// 	>
-								// 		<Button size="lg" variant="ghost">
-								// 			Add Class
-								// 		</Button>
-								// 	</DropdownMenuItem>
-								// 	<AddClassDialog />
-								// </Dialog>
 							)}
-							<Dialog
-								open={isJoinClassDialogOpen}
-								onOpenChange={setIsJoinClassDialogOpen}
-							>
-								<DropdownMenuItem
-									onClick={(e) => {
-										e.preventDefault()
-										setIsJoinClassDialogOpen(true)
-									}}
-								>
-									<Button size="lg" variant="ghost">
-										Join Class
-									</Button>
-								</DropdownMenuItem>
-								<JoinClassDialog />
-							</Dialog>
+							<DropdownMenuItem>
+								<Button size="lg" asChild variant="ghost">
+									<Link href="/join/course">Join Class</Link>
+								</Button>
+							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 					<DropdownMenu>

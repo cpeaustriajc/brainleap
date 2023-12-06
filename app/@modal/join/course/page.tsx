@@ -3,14 +3,14 @@ import { ModalBackground } from '@/components/modal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { addClass } from '@/lib/actions'
+import { joinClass } from '@/lib/actions'
 
 export default function Page() {
 	const action = async (formData: FormData) => {
 		'use server'
-		addClass(formData)
+		joinClass(formData)
 	}
+
 	return (
 		<ModalBackground>
 			<form
@@ -20,25 +20,14 @@ export default function Page() {
 				<div className="grid items-center">
 					<CloseDialog />
 				</div>
-				<fieldset>
-					<legend className="text-lg font-semibold my-2">
-						Add a class
-					</legend>
-					<Label htmlFor="title">Class Title</Label>
-					<Input
-						type="text"
-						id="title"
-						name="title"
-						placeholder="Class Title"
-					/>
-					<Label htmlFor="description">Class Description</Label>
-					<Textarea
-						id="description"
-						name="description"
-						placeholder="Class Description"
-					/>
-				</fieldset>
-				<Button type="submit">Add Class</Button>
+				<Label htmlFor="classCode">Class Code</Label>
+				<Input
+					type="text"
+					id="classCode"
+					name="classCode"
+					placeholder="Class Code"
+				/>
+				<Button type="submit">Join Class</Button>
 			</form>
 		</ModalBackground>
 	)

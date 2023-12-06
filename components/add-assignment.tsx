@@ -11,7 +11,7 @@ export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
 		course?.course_id ?? '',
 	)
 
-	async function action(formData: FormData) {
+	const action = async (formData: FormData) => {
 		'use server'
 		createAssignmentWithClassId(formData)
 	}

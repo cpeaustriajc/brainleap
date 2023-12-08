@@ -1,7 +1,7 @@
 import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
 import { CourseSkeleton } from '@/components/course-skeleton'
-import { getAssignments, getCourses, getEnrollments } from '@/lib/queries'
+import { getCourses, getEnrollments } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 

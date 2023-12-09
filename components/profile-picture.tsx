@@ -12,10 +12,9 @@ type Props = {
 	uid: string
 	url: Tables<'profiles'>['avatar_url']
 	size: number
-	onUpload: (url: string) => void
 }
 
-export function ProfilePicture({ uid, url, size, onUpload }: Props) {
+export function ProfilePicture({ uid, url, size }: Props) {
 	const supabase = createClient()
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 	const [uploading, setUploading] = useState(false)
@@ -63,7 +62,7 @@ export function ProfilePicture({ uid, url, size, onUpload }: Props) {
 				throw uploadError
 			}
 
-			onUpload(filePath)
+			// onUpload(filePath)
 		} catch (error) {
 			alert('Error uploading avatar!')
 		} finally {

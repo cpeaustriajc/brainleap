@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { EmailOtpType } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url)
@@ -16,11 +16,11 @@ export async function GET(request: NextRequest) {
 		const supabase = createClient(cookieStore)
 		const { error } = await supabase.auth.verifyOtp({ type, token_hash })
 
-        if (!error) {
-            return NextResponse.redirect(redirectTo)
-        }
+		if (!error) {
+			return Response.redirect(redirectTo)
+		}
 	}
 
-    redirectTo.pathname = '/auth/auth-code-error'
-    return NextResponse.redirect(redirectTo)
+	redirectTo.pathname = '/auth/auth-code-error'
+	return Response.redirect(redirectTo)
 }

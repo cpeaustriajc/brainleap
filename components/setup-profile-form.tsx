@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { createPostgresTimestamp } from '@/lib/utils'
 import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -39,12 +40,9 @@ export const profileSchema = z.discriminatedUnion('role', [
 		.merge(baseProfileSchema),
 ])
 
-export function SetupProfileForm({
-	profile,
-}: {
-	profile: Tables<'profiles'> | null
-}) {
+export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 	async function updateProfile(formData: FormData) {
+		'use server'
 		const supabase = createClient()
 		const date = new Date()
 		const updated_at = createPostgresTimestamp(date)
@@ -127,6 +125,7 @@ export function SetupProfileForm({
 					placeholder="Username"
 					id="username"
 					name="username"
+					defaultValue={profile?.username ?? ''}
 				/>
 				<Label htmlFor="full_name">Display Name</Label>
 				<Input
@@ -134,6 +133,7 @@ export function SetupProfileForm({
 					placeholder="Display Name"
 					id="full_name"
 					name="full_name"
+					defaultValue={profile?.full_name ?? ''}
 				/>
 
 				<Label htmlFor="email">Email</Label>
@@ -142,6 +142,7 @@ export function SetupProfileForm({
 					placeholder="johndoe@email.com"
 					id="email"
 					name="email"
+					defaultValue={profile?.email ?? ''}
 				/>
 				<Label htmlFor="biography">Biography</Label>
 				<Textarea
@@ -149,6 +150,7 @@ export function SetupProfileForm({
 					className="resize-none"
 					id="biography"
 					name="biography"
+					defaultValue={profile?.biography ?? ''}
 				/>
 				<Label htmlFor="university">University</Label>
 				<Input
@@ -156,18 +158,32 @@ export function SetupProfileForm({
 					placeholder="What university do you attend?"
 					name="university"
 					id="university"
+					defaultValue={profile?.university ?? ''}
 				/>
+				<Label htmlFor="role">Role</Label>
 
-				<Label htmlFor="student">Student</Label>
-				<Input type="radio" name="role" id="student" value="student" />
-
-				<Label htmlFor="instructor">Instructor</Label>
-				<Input
-					type="radio"
+				<RadioGroup
+					defaultValue={profile?.role ?? 'student'}
+					id="role"
 					name="role"
-					id="instructor"
-					value="instructor"
-				/>
+				>
+					<div className="flex items-center space-x-2">
+						<RadioGroupItem
+							value="student"
+							id="student"
+							title="Student"
+						/>
+						<Label htmlFor="student">Student</Label>
+					</div>
+					<div className="flex items-center space-x-2">
+						<RadioGroupItem
+							value="instructor"
+							id="instructor"
+							title="Instructor"
+						/>
+						<Label htmlFor="instructor">Instructor</Label>
+					</div>
+				</RadioGroup>
 
 				<Label htmlFor="program">Program</Label>
 				<Input
@@ -175,6 +191,7 @@ export function SetupProfileForm({
 					placeholder="Program"
 					name="program"
 					id="program"
+					defaultValue={profile?.program ?? ''}
 				/>
 
 				<Label htmlFor="section">Section</Label>
@@ -183,6 +200,7 @@ export function SetupProfileForm({
 					placeholder="Section"
 					name="section"
 					id="section"
+					defaultValue={profile?.section ?? ''}
 				/>
 
 				<Label htmlFor="position">Position</Label>
@@ -191,6 +209,7 @@ export function SetupProfileForm({
 					placeholder="Position"
 					name="position"
 					id="position"
+					defaultValue={profile?.position ?? ''}
 				/>
 				<Button type="submit">Submit</Button>
 			</form>

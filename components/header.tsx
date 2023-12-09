@@ -5,12 +5,11 @@ import { Button } from './ui/button'
 import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
-import { type Session } from '@supabase/auth-helpers-nextjs'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import { notFound } from 'next/navigation'
+
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{
@@ -56,18 +55,14 @@ const DropdownMenuTrigger = dynamic(
 )
 
 export function Header({
-	session,
-	profile,
+	profilePromise,
 }: {
-	session: Session | null
-	profile: Tables<'profiles'> | null | undefined
+	profilePromise: Promise<Tables<'profiles'> | null>
 }) {
 	const supabase = createClient()
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 
-	if (!profile) {
-		notFound()
-	}
+	const profile = use(profilePromise)
 
 	useEffect(() => {
 		async function downloadImage(path: string) {
@@ -86,12 +81,8 @@ export function Header({
 			}
 		}
 
-		if (profile.avatar_url) downloadImage(profile.avatar_url)
-	}, [profile.avatar_url, supabase])
-
-	if (!profile) {
-		notFound()
-	}
+		if (profile?.avatar_url) downloadImage(profile.avatar_url)
+	}, [profile?.avatar_url, supabase])
 
 	return (
 		<header className="px-4 py-2">
@@ -141,7 +132,7 @@ export function Header({
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent side="bottom" align="end">
-							{session ? (
+							{profile ? (
 								<>
 									<DropdownMenuItem>
 										<Button asChild variant="link">

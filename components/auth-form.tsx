@@ -12,17 +12,25 @@ const authFormSchema = z.object({
 })
 
 export function AuthForm() {
-	async function onSubmit(formData: FormData) {
+	async function signInWithEmail(formData: FormData) {
 		'use server'
 		const cookieStore = cookies()
 		const supabase = createClient(cookieStore)
-		const values = authFormSchema.parse(formData)
+		const values = authFormSchema.safeParse({
+			email: formData.get('email'),
+		})
+
+		if (!values.success) {
+			return {
+				errors: values.error.flatten().fieldErrors,
+			}
+		}
 
 		const { error } = await supabase.auth.signInWithOtp({
-			email: values.email,
+			email: values.data.email,
 			options: {
 				data: {
-					email: values.email,
+					email: values.data.email,
 				},
 
 				emailRedirectTo: getSupabaseAuthRedirectURL('/profile'),
@@ -33,6 +41,10 @@ export function AuthForm() {
 			throw error
 		}
 	}
+	async function action(formData: FormData) {
+		'use server'
+		signInWithEmail(formData)
+	}
 
 	async function signInWithGoogle() {
 		'use server'
@@ -40,16 +52,26 @@ export function AuthForm() {
 		const cookieStore = cookies()
 		const supabase = createClient(cookieStore)
 
-		supabase.auth.signInWithOAuth({
+		const { error } = await supabase.auth.signInWithOAuth({
 			provider: 'google',
 			options: {
 				redirectTo: getSupabaseAuthRedirectURL('/api/auth/callback'),
 			},
 		})
+
+		if (error) {
+			throw error
+		}
 	}
+
+	async function signInWithGoogleAction() {
+		'use server'
+		signInWithGoogle()
+	}
+
 	return (
 		<div className="flex flex-col space-y-2">
-			<form className="flex flex-col space-y-2" action={onSubmit}>
+			<form className="flex flex-col space-y-2" action={action}>
 				<div>
 					<h1 className="text-xl font-bold">Sign in</h1>
 					<p className="text-sm">
@@ -64,7 +86,7 @@ export function AuthForm() {
 				/>
 				<Button type="submit">Sign In</Button>
 				<Separator />
-				<Button formAction={signInWithGoogle}>
+				<Button type="submit" formAction={signInWithGoogleAction}>
 					Sign In With Google
 				</Button>
 			</form>

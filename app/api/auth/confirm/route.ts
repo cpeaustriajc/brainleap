@@ -1,14 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import { EmailOtpType } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
-import { NextRequest } from 'next/server'
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url)
 	const token_hash = searchParams.get('token_hash')
 	const type = searchParams.get('type') as EmailOtpType | null
 	const next = searchParams.get('next') ?? '/profile'
-	const redirectTo = request.nextUrl.clone()
+	const redirectTo = new URL(request.url)
 	redirectTo.pathname = next
 
 	if (token_hash && type) {

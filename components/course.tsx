@@ -11,15 +11,39 @@ import {
 import { Button } from './ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
+import { notFound } from 'next/navigation'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		notFound()
+	}
+
+	const profile = await supabase
+		.from('profiles')
+		.select('role')
+		.eq('profile_id', session?.user?.id)
+		.single()
+
+	if (!profile.data) {
+		notFound()
+	}
+
 	const assignments = await supabase
 		.from('assignments')
 		.select('*')
 		.eq('course_id', course.course_id)
+
+	if (!assignments.data) {
+		notFound()
+	}
+
 	return (
 		<Card>
 			<CardHeader>
@@ -28,11 +52,17 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 			</CardHeader>
 			<CardContent>
 				<p>
-					You currently have {assignments.data?.length ?? 'no'}{' '}
+					You currently have{' '}
+					{assignments.data.length === 0
+						? 'no'
+						: assignments.data.length}{' '}
 					pending{' '}
-					{assignments.data?.length === 1
+					{assignments.data.length === 0
 						? 'assignment'
-						: 'assignments'}
+						: 'assignments'}{' '}
+					{profile.data.role === 'instructor'
+						? 'to grade'
+						: 'to complete'}
 					.
 				</p>
 			</CardContent>

@@ -15,7 +15,11 @@ export async function generateStaticParams() {
 		.from('assignments')
 		.select('assignment_id')
 
-	return assignments?.map((assignment) => ({
+	if (!assignments) {
+		notFound()
+	}
+
+	return assignments.map((assignment) => ({
 		assignment: assignment.assignment_id,
 	}))
 }
@@ -30,11 +34,29 @@ export default async function Page({ params }: Props) {
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		notFound()
+	}
+
 	const { data: assignment } = await supabase
 		.from('assignments')
 		.select()
 		.eq('assignment_id', params.assignment)
 		.single()
+
+	const { data: profile } = await supabase
+		.from('profiles')
+		.select('role')
+		.eq('profile_id', session.user.id)
+		.single()
+
+	if (!profile) {
+		notFound()
+	}
 
 	if (!assignment) {
 		notFound()
@@ -63,16 +85,18 @@ export default async function Page({ params }: Props) {
 					</p>
 				</div>
 				<div>
-					<form action={submitAssignment} className="space-y-2">
-						<fieldset className="border rounded border-primary p-3 space-y-2">
-							<legend className="font-bold">
-								Turn in your assignment
-							</legend>
-							<Label htmlFor="file">Upload file</Label>
-							<Input type="file" name="file" id="file" />
-						</fieldset>
-						<Button type="submit">Turn In</Button>
-					</form>
+					{profile.role === 'student' && (
+						<form action={submitAssignment} className="space-y-2">
+							<fieldset className="border rounded border-primary p-3 space-y-2">
+								<legend className="font-bold">
+									Turn in your assignment
+								</legend>
+								<Label htmlFor="file">Upload file</Label>
+								<Input type="file" name="file" id="file" />
+							</fieldset>
+							<Button type="submit">Turn In</Button>
+						</form>
+					)}
 				</div>
 			</div>
 		</main>

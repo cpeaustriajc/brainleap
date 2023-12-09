@@ -21,6 +21,9 @@
 			{
 				"name": "next"
 			}
+		],
+		"types": [
+			"react/canary"
 		]
 	},
 	"include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],

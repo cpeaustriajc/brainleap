@@ -33,16 +33,9 @@ export default async function Page() {
 			<main>
 				<section className="flex px-7 gap-4">
 					<Suspense fallback={<CourseSkeleton />}>
-						{courses.length !== 0 ? (
-							courses.map((course) => (
-								<Course
-									key={course.course_id}
-									course={course}
-								/>
-							))
-						) : (
-							<p className="text-destructive">No courses</p>
-						)}
+						{courses.map((course) => (
+							<Course key={course.course_id} course={course} />
+						))}
 					</Suspense>
 				</section>
 			</main>

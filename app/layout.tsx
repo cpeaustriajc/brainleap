@@ -1,9 +1,6 @@
 import { Header } from '@/components/header'
 import '@/styles/styles.css'
 import { Providers } from './providers'
-import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 import { getProfile } from '@/lib/queries'
 import { Suspense } from 'react'
 import { HeaderSkeleton } from '@/components/header-skeleton'
@@ -26,18 +23,7 @@ type Props = {
 }
 
 export default async function RootLayout({ modal, children }: Props) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const {
-		data: { session },
-		error,
-	} = await supabase.auth.getSession()
-
-	const profilePromise = getProfile(session)
-
-	if (error) {
-		throw error
-	}
+	const profilePromise = getProfile()
 
 	return (
 		<html lang="en" dir="ltr" suppressHydrationWarning>

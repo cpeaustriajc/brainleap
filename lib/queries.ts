@@ -4,11 +4,16 @@ import 'server-only'
 
 import { createClient } from './supabase/server'
 import { cookies } from 'next/headers'
+import { Session } from '@supabase/supabase-js'
 
 export async function getCourses() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const { data: courses } = await supabase.from('courses').select()
+	const { data: courses, error } = await supabase.from('courses').select()
+
+	if (error) {
+		throw error
+	}
 
 	return courses
 }
@@ -49,4 +54,29 @@ export async function getAssignments(courseId: string) {
 		.eq('course_id', courseId)
 
 	return assignments
+}
+
+export async function getProfile() {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		return null
+	}
+
+	const { data: profile, error } = await supabase
+		.from('profiles')
+		.select()
+		.eq('profile_id', session.user.id)
+		.single()
+
+	if (error) {
+		throw error
+	}
+
+	return profile
 }

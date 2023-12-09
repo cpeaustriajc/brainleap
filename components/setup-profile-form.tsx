@@ -1,26 +1,12 @@
-'use client'
-
 import { Button } from '@/components/ui/button'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import {
-	Form,
-	FormControl,
-	FormDescription,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from './ui/form'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
-import { useEffect, useTransition } from 'react'
 import { Tables } from '@/lib/definitions'
 import { createClient } from '@/lib/supabase/client'
 import { createPostgresTimestamp } from '@/lib/utils'
 import { ProfilePicture } from './profile-picture'
+import { Label } from './ui/label'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -58,41 +44,22 @@ export function SetupProfileForm({
 }: {
 	profile: Tables<'profiles'> | null
 }) {
-	const [isPending, startTransition] = useTransition()
-
-	const form = useForm<z.infer<typeof profileSchema>>({
-		resolver: zodResolver(profileSchema),
-		defaultValues: {
-			username: profile?.username ?? undefined,
-			full_name: profile?.full_name ?? undefined,
-			university: undefined,
-			biography: undefined,
-			section: undefined,
-			email: profile?.email ?? undefined,
-			program: undefined,
-			role: profile?.role ?? 'student',
-			position: undefined,
-		},
-	})
-
-	const watchRole = form.watch('role')
-
-	useEffect(() => {
-		if (watchRole === 'student') {
-			form.register('university')
-			form.register('section')
-			form.unregister('position')
-		} else if (watchRole === 'instructor') {
-			form.register('position')
-			form.unregister('university')
-			form.unregister('section')
-		}
-	}, [watchRole, form])
-
-	async function updateProfile(data: z.infer<typeof profileSchema>) {
+	async function updateProfile(formData: FormData) {
 		const supabase = createClient()
 		const date = new Date()
 		const updated_at = createPostgresTimestamp(date)
+
+		const values = profileSchema.parse({
+			biography: formData.get('biography'),
+			email: formData.get('email'),
+			full_name: formData.get('full_name'),
+			role: formData.get('role'),
+			section: formData.get('section'),
+			university: formData.get('university'),
+			username: formData.get('username'),
+			program: formData.get('program'),
+			position: formData.get('position'),
+		})
 
 		const {
 			data: { session },
@@ -103,17 +70,17 @@ export function SetupProfileForm({
 			throw sessionError
 		}
 
-		if (data.role === 'student') {
+		if (values.role === 'student') {
 			const { error } = await supabase
 				.from('profiles')
 				.update({
-					full_name: data.full_name,
-					username: data.username,
-					biography: data.biography,
-					program: data.program,
-					section: data.section,
-					university: data.university,
-					email: data.email,
+					full_name: values.full_name,
+					username: values.username,
+					biography: values.biography,
+					program: values.program,
+					section: values.section,
+					university: values.university,
+					email: values.email,
 					updated_at,
 				})
 				.eq('profile_id', session?.user.id ?? '')
@@ -121,17 +88,17 @@ export function SetupProfileForm({
 			if (error) {
 				throw error
 			}
-		} else if (data.role === 'instructor') {
+		} else if (values.role === 'instructor') {
 			const { error } = await supabase
 				.from('profiles')
 				.update({
-					avatar_url: data.avatar_url,
-					full_name: data.full_name,
-					username: data.username,
-					biography: data.biography,
-					position: data.position,
-					email: data.email,
-					role: data.role,
+					avatar_url: values.avatar_url,
+					full_name: values.full_name,
+					username: values.username,
+					biography: values.biography,
+					position: values.position,
+					email: values.email,
+					role: values.role,
 					updated_at,
 				})
 				.eq('profile_id', session?.user.id ?? '')
@@ -141,8 +108,9 @@ export function SetupProfileForm({
 		}
 	}
 
-	const onSubmit: SubmitHandler<z.infer<typeof profileSchema>> = (data) => {
-		startTransition(() => updateProfile(data))
+	const action = async (formData: FormData) => {
+		'use server'
+		updateProfile(formData)
 	}
 
 	return (
@@ -151,229 +119,81 @@ export function SetupProfileForm({
 				uid={profile?.profile_id ?? ''}
 				url={profile?.avatar_url ?? ''}
 				size={128}
-				onUpload={(url) => {
-					updateProfile({
-						...form.getValues(),
-						avatar_url: url,
-					})
-				}}
 			/>
-			<Form {...form}>
-				<form
-					className="my-4 space-y-4"
-					onSubmit={form.handleSubmit(onSubmit)}
-				>
-					<FormField
-						name="username"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Username</FormLabel>
-								<FormDescription>
-									Specify your username
-								</FormDescription>
-								<FormControl>
-									<Input
-										type="text"
-										placeholder="Username"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+			<form className="my-4 space-y-4" action={action}>
+				<Label htmlFor="username">Username</Label>
+				<Input
+					type="text"
+					placeholder="Username"
+					id="username"
+					name="username"
+				/>
+				<Label htmlFor="full_name">Display Name</Label>
+				<Input
+					type="text"
+					placeholder="Display Name"
+					id="full_name"
+					name="full_name"
+				/>
 
-					<FormField
-						name="full_name"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Display Name</FormLabel>
-								<FormDescription>
-									Specify your Display Name
-								</FormDescription>
-								<FormControl>
-									<Input
-										type="text"
-										placeholder="Diplay Name"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						name="email"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Email</FormLabel>
-								<FormDescription>
-									Specify your Email
-								</FormDescription>
-								<FormControl>
-									<Input
-										type="email"
-										placeholder="johndoe@email.com"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						name="biography"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Biography</FormLabel>
-								<FormDescription>
-									Introduce yourself e.g. your hobbies,
-									interests, etc.
-								</FormDescription>
-								<FormControl>
-									<Textarea
-										placeholder="Tell us a little bit about yourself"
-										className="resize-none"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						name="university"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>University</FormLabel>
-								<FormDescription>
-									What is the name of your university?
-								</FormDescription>
-								<FormControl>
-									<Input
-										type="text"
-										placeholder="Harvard University"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						name="role"
-						control={form.control}
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>Role</FormLabel>
-								<FormDescription>
-									Are you a student or a teacher?
-								</FormDescription>
-								<FormControl>
-									<RadioGroup
-										defaultValue={field.value}
-										onValueChange={field.onChange}
-									>
-										<FormItem>
-											<FormControl>
-												<RadioGroupItem
-													value="student"
-													id="student"
-												/>
-											</FormControl>
-											<FormLabel>Student</FormLabel>
-										</FormItem>
+				<Label htmlFor="email">Email</Label>
+				<Input
+					type="text"
+					placeholder="johndoe@email.com"
+					id="email"
+					name="email"
+				/>
+				<Label htmlFor="biography">Biography</Label>
+				<Textarea
+					placeholder="Tell us a little bit about yourself"
+					className="resize-none"
+					id="biography"
+					name="biography"
+				/>
+				<Label htmlFor="university">University</Label>
+				<Input
+					type="text"
+					placeholder="What university do you attend?"
+					name="university"
+					id="university"
+				/>
 
-										<FormItem>
-											<FormControl>
-												<RadioGroupItem
-													value="instructor"
-													id="instructor"
-												/>
-											</FormControl>
-											<FormLabel>Instructor</FormLabel>
-										</FormItem>
-									</RadioGroup>
-								</FormControl>
+				<Label htmlFor="student">Student</Label>
+				<Input type="radio" name="role" id="student" value="student" />
 
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					{watchRole === 'student' ? (
-						<>
-							<FormField
-								name="program"
-								control={form.control}
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Program</FormLabel>
-										<FormDescription>
-											What is your current program?
-										</FormDescription>
-										<FormControl>
-											<Input
-												type="text"
-												placeholder="Program"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								name="section"
-								control={form.control}
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Section</FormLabel>
-										<FormDescription>
-											What is your current section?
-										</FormDescription>
-										<FormControl>
-											<Input
-												type="text"
-												placeholder="Section"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</>
-					) : (
-						<FormField
-							name="position"
-							control={form.control}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Position</FormLabel>
-									<FormDescription>
-										What is your current position?
-									</FormDescription>
-									<FormControl>
-										<Input
-											{...field}
-											placeholder="Your current position"
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					)}
-					<Button type="submit" disabled={isPending}>
-						Submit
-					</Button>
-				</form>
-			</Form>
+				<Label htmlFor="instructor">Instructor</Label>
+				<Input
+					type="radio"
+					name="role"
+					id="instructor"
+					value="instructor"
+				/>
+
+				<Label htmlFor="program">Program</Label>
+				<Input
+					type="text"
+					placeholder="Program"
+					name="program"
+					id="program"
+				/>
+
+				<Label htmlFor="section">Section</Label>
+				<Input
+					type="text"
+					placeholder="Section"
+					name="section"
+					id="section"
+				/>
+
+				<Label htmlFor="position">Position</Label>
+				<Input
+					type="text"
+					placeholder="Position"
+					name="position"
+					id="position"
+				/>
+				<Button type="submit">Submit</Button>
+			</form>
 		</div>
 	)
 }

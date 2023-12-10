@@ -4,9 +4,10 @@ import 'server-only'
 
 import { createClient } from './supabase/server'
 import { cookies } from 'next/headers'
-import { Session } from '@supabase/supabase-js'
+import { unstable_cache as nextCache } from 'next/cache'
+import { notFound } from 'next/navigation'
 
-export async function getCourses() {
+export const getCourses = nextCache(async () => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const { data: courses, error } = await supabase.from('courses').select()
@@ -16,21 +17,51 @@ export async function getCourses() {
 	}
 
 	return courses
-}
+}, ['courses'])
 
-export async function getCourse(id: string) {
+export const getCourse = nextCache(
+	async (id: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const { data: course } = await supabase
+			.from('courses')
+			.select()
+			.eq('course_id', id)
+			.single()
+
+		return course
+	},
+	['course'],
+)
+
+export const getCourseIds = nextCache(async () => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const { data: course } = await supabase
-		.from('courses')
-		.select()
-		.eq('course_id', id)
-		.single()
+	const { data: courses } = await supabase.from('courses').select('course_id')
 
-	return course
-}
+	if (!courses) {
+		notFound()
+	}
 
-export async function getEnrollments() {
+	return courses.map((course) => course.course_id)
+}, ['courseIds'])
+
+export const getAssignment = nextCache(
+	async (id: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const { data: assignment } = await supabase
+			.from('assignments')
+			.select()
+			.eq('assignment_id', id)
+			.single()
+
+		return assignment
+	},
+	['assignment'],
+)
+
+export const getEnrollments = nextCache(async () => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const {
@@ -43,40 +74,58 @@ export async function getEnrollments() {
 		.eq('user_id', session?.user.id ?? '')
 
 	return enrollments
-}
+}, ['enrollments'])
 
-export async function getAssignments(courseId: string) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const { data: assignments } = await supabase
-		.from('assignments')
-		.select()
-		.eq('course_id', courseId)
+export const getAssignments = nextCache(
+	async (courseId: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const { data: assignments } = await supabase
+			.from('assignments')
+			.select()
+			.eq('course_id', courseId)
 
-	return assignments
-}
+		return assignments
+	},
+	['assignments'],
+)
 
-export async function getProfile() {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+export const getProfile = nextCache(
+	async (id: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
 
-	const {
-		data: { session },
-	} = await supabase.auth.getSession()
+		const { data: profile, error } = await supabase
+			.from('profiles')
+			.select()
+			.eq('profile_id', id)
+			.single()
 
-	if (!session) {
-		return null
-	}
+		if (error) {
+			throw new Error(error.message)
+		}
 
-	const { data: profile, error } = await supabase
-		.from('profiles')
-		.select()
-		.eq('profile_id', session.user.id)
-		.single()
+		return profile
+	},
+	['profile'],
+)
 
-	if (error) {
-		throw error
-	}
+export const getRole = nextCache(
+	async (id: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
 
-	return profile
-}
+		const { data, error } = await supabase
+			.from('profiles')
+			.select('role')
+			.eq('role_id', id)
+			.single()
+
+		if (error) {
+			throw new Error(error.message)
+		}
+
+		return data.role
+	},
+	['role'],
+)

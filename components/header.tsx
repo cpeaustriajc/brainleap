@@ -67,6 +67,11 @@ export function Header({
 	useEffect(() => {
 		async function downloadImage(path: string) {
 			try {
+				if (profile?.avatar_url?.startsWith('https://')) {
+					setAvatarUrl(profile.avatar_url)
+					return
+				}
+
 				const { data, error } = await supabase.storage
 					.from('avatars')
 					.download(path)
@@ -95,30 +100,40 @@ export function Header({
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<Button variant="ghost" size="icon">
-								<span className="sr-only">Open Class Menu</span>
-								<PlusCircledIcon className="w-6 h-6" />
-							</Button>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end">
-							{profile?.role === 'instructor' && (
+					{profile && (
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button variant="ghost" size="icon">
+									<span className="sr-only">
+										Open Class Menu
+									</span>
+									<PlusCircledIcon className="w-6 h-6" />
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end">
+								{profile?.role === 'instructor' && (
+									<DropdownMenuItem>
+										<Button
+											size="lg"
+											asChild
+											variant="ghost"
+										>
+											<Link href="/create/course">
+												Create Class
+											</Link>
+										</Button>
+									</DropdownMenuItem>
+								)}
 								<DropdownMenuItem>
 									<Button size="lg" asChild variant="ghost">
-										<Link href="/create/course">
-											Create Class
+										<Link href="/join/course">
+											Join Class
 										</Link>
 									</Button>
 								</DropdownMenuItem>
-							)}
-							<DropdownMenuItem>
-								<Button size="lg" asChild variant="ghost">
-									<Link href="/join/course">Join Class</Link>
-								</Button>
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					)}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="icon">

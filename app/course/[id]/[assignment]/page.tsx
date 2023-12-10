@@ -3,10 +3,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { uploadAssignment } from '@/lib/actions'
+import { getAssignment, getRole } from '@/lib/queries'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
 	const supabase = createBrowserClient()
@@ -35,28 +36,16 @@ export default async function Page({ params }: Props) {
 	const supabase = createServerClient(cookieStore)
 
 	const {
-		data: { session },
-	} = await supabase.auth.getSession()
+		data: { user },
+	} = await supabase.auth.getUser()
 
-	if (!session) {
-		notFound()
+	if (!user) {
+		redirect('/auth/signin')
 	}
 
-	const { data: assignment } = await supabase
-		.from('assignments')
-		.select()
-		.eq('assignment_id', params.assignment)
-		.single()
+	const assignment = await getAssignment(params.assignment)
 
-	const { data: profile } = await supabase
-		.from('profiles')
-		.select('role')
-		.eq('profile_id', session.user.id)
-		.single()
-
-	if (!profile) {
-		notFound()
-	}
+	const role = await getRole(user.id)
 
 	if (!assignment) {
 		notFound()
@@ -85,7 +74,7 @@ export default async function Page({ params }: Props) {
 					</p>
 				</div>
 				<div>
-					{profile.role === 'student' && (
+					{role === 'student' && (
 						<form action={submitAssignment} className="space-y-2">
 							<fieldset className="border rounded border-primary p-3 space-y-2">
 								<legend className="font-bold">

@@ -18,7 +18,6 @@ export function ProfilePicture({ uid, url, size }: Props) {
 	const supabase = createClient()
 	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 	const [uploading, setUploading] = useState(false)
-
 	useEffect(() => {
 		async function downloadImage(path: string) {
 			try {
@@ -37,7 +36,8 @@ export function ProfilePicture({ uid, url, size }: Props) {
 			}
 		}
 
-		if (url) downloadImage(url)
+		if (url)
+			url.startsWith('https://') ? setAvatarUrl(url) : downloadImage(url)
 	}, [url, supabase])
 
 	const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (

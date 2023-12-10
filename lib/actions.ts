@@ -2,12 +2,13 @@
 
 import 'server-only'
 
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 import { z } from 'zod'
 import { createClient } from './supabase/server'
 import { v4 as uuidv4 } from 'uuid'
 import humanId from 'human-id'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 const addClassFormSchema = z.object({
 	title: z
@@ -36,6 +37,10 @@ const createAssignmentFormSchema = z.object({
 
 const deleteAssignmentFormSchema = z.object({
 	assignment: z.string(),
+})
+
+const authFormSchema = z.object({
+	email: z.string().email({ message: 'Please enter a valid email' }),
 })
 
 export async function joinClass(formData: FormData) {
@@ -226,5 +231,55 @@ export async function deleteFile(formData: FormData) {
 
 	if (error) {
 		throw error
+	}
+}
+
+export async function signInWithGoogle() {
+	const origin = headers().get('origin')
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const { error, data } = await supabase.auth.signInWithOAuth({
+		provider: 'google',
+		options: {
+			redirectTo: `${origin}/api/auth/callback`,
+		},
+	})
+
+	if (error) {
+		console.error(error)
+		throw new Error(error.message)
+	}
+
+	redirect(data.url)
+}
+
+export async function signInWithEmail(formData: FormData) {
+	const origin = headers().get('origin')
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const values = authFormSchema.safeParse({
+		email: formData.get('email'),
+	})
+
+	if (!values.success) {
+		return {
+			errors: values.error.flatten().fieldErrors,
+		}
+	}
+
+	const { error } = await supabase.auth.signInWithOtp({
+		email: values.data.email,
+		options: {
+			data: {
+				email: values.data.email,
+			},
+			emailRedirectTo: `${origin}/api/auth/confirm`,
+		},
+	})
+
+	if (error) {
+		return { errors: error }
 	}
 }

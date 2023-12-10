@@ -3,11 +3,12 @@ import { z } from 'zod'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { Tables } from '@/lib/definitions'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/server'
 import { createPostgresTimestamp } from '@/lib/utils'
 import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { cookies } from 'next/headers'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -43,7 +44,8 @@ export const profileSchema = z.discriminatedUnion('role', [
 export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 	async function updateProfile(formData: FormData) {
 		'use server'
-		const supabase = createClient()
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
 		const date = new Date()
 		const updated_at = createPostgresTimestamp(date)
 

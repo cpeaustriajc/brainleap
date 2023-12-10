@@ -3,25 +3,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { uploadAssignment } from '@/lib/actions'
-import { getAssignment, getRole } from '@/lib/queries'
-import { createClient as createBrowserClient } from '@/lib/supabase/client'
-import { createClient as createServerClient } from '@/lib/supabase/server'
+import { getAssignment, getAssignmentIds, getRole } from '@/lib/queries'
+import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
-	const supabase = createBrowserClient()
+	const assignmentIds = await getAssignmentIds()
 
-	const { data: assignments } = await supabase
-		.from('assignments')
-		.select('assignment_id')
-
-	if (!assignments) {
+	if (!assignmentIds) {
 		notFound()
 	}
-
-	return assignments.map((assignment) => ({
-		assignment: assignment.assignment_id,
+	return assignmentIds.map((assignmentId) => ({
+		assignmentId: assignmentId,
 	}))
 }
 
@@ -33,7 +27,7 @@ type Props = {
 
 export default async function Page({ params }: Props) {
 	const cookieStore = cookies()
-	const supabase = createServerClient(cookieStore)
+	const supabase = createClient(cookieStore)
 
 	const {
 		data: { user },

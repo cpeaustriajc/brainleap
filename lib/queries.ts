@@ -46,6 +46,20 @@ export const getCourseIds = nextCache(async () => {
 	return courses.map((course) => course.course_id)
 }, ['courseIds'])
 
+export const getAssignmentIds = nextCache(async () => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const { data: assignments } = await supabase
+		.from('assignments')
+		.select('assignment_id')
+
+	if (!assignments) {
+		notFound()
+	}
+
+	return assignments.map((assignment) => assignment.assignment_id)
+}, ['assignmentIds'])
+
 export const getAssignment = nextCache(
 	async (id: string) => {
 		const cookieStore = cookies()

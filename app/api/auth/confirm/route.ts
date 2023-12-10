@@ -6,7 +6,7 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url)
 	const token_hash = searchParams.get('token_hash')
 	const type = searchParams.get('type') as EmailOtpType | null
-	const next = searchParams.get('next') ?? '/profile'
+	const next = searchParams.get('next') ?? '/'
 	const redirectTo = new URL(request.url)
 	redirectTo.pathname = next
 
@@ -20,6 +20,6 @@ export async function GET(request: Request) {
 		}
 	}
 
-	redirectTo.pathname = '/auth/auth-code-error'
+	redirectTo.pathname = '/auth/error'
 	return Response.redirect(redirectTo)
 }

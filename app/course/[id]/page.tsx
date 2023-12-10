@@ -1,9 +1,12 @@
 import { Badge } from '@/components/ui/badge'
-import { Tables } from '@/lib/definitions'
 import { cookies } from 'next/headers'
-import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient as createServerClient } from '@/lib/supabase/server'
-import { getAssignments, getCourse } from '@/lib/queries'
+import {
+	getAssignments,
+	getCourse,
+	getCourseIds,
+	getProfile,
+} from '@/lib/queries'
 import { AddAssigment } from '@/components/add-assignment'
 import {
 	Card,
@@ -14,7 +17,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 type Props = {
 	params: {
@@ -23,21 +26,26 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const supabase = createBrowserClient()
-	const { data: courses } = await supabase.from('courses').select('course_id')
+	const courseIds = await getCourseIds()
 
-	if (!courses) {
-		notFound()
-	}
-
-	return courses.map((c) => ({
-		id: c.course_id,
+	return courseIds.map((courseId) => ({
+		params: {
+			id: courseId,
+		},
 	}))
 }
 
 export default async function Page({ params }: Props) {
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
+
+	if (!user) {
+		redirect('/auth/signin')
+	}
 
 	const course = await getCourse(params.id)
 
@@ -51,26 +59,10 @@ export default async function Page({ params }: Props) {
 		notFound()
 	}
 
-	const {
-		data: { session },
-	} = await supabase.auth.getSession()
-
-	if (!session) {
-		throw new Error('Session not found.')
-	}
-
-	const { data: profile, error } = await supabase
-		.from('profiles')
-		.select()
-		.eq('profile_id', session.user.id)
-		.single()
+	const profile = await getProfile(user.id)
 
 	if (!profile) {
 		notFound()
-	}
-
-	if (error) {
-		throw error
 	}
 
 	return (

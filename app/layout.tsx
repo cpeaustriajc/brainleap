@@ -1,9 +1,5 @@
-import { Header } from '@/components/header'
 import '@/styles/styles.css'
 import { Providers } from './providers'
-import { getProfile } from '@/lib/queries'
-import { Suspense } from 'react'
-import { HeaderSkeleton } from '@/components/header-skeleton'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -23,17 +19,10 @@ type Props = {
 }
 
 export default async function RootLayout({ modal, children }: Props) {
-	const profilePromise = getProfile()
-
 	return (
 		<html lang="en" dir="ltr" suppressHydrationWarning>
 			<body>
-				<Providers>
-					<Suspense fallback={<HeaderSkeleton />}>
-						<Header profilePromise={profilePromise} />
-					</Suspense>
-					{children}
-				</Providers>
+				<Providers>{children}</Providers>
 				{modal}
 			</body>
 		</html>

@@ -18,7 +18,7 @@ type Props = {
 	children: React.ReactNode
 }
 
-export default async function RootLayout({ modal, children }: Props) {
+export default function RootLayout({ modal, children }: Props) {
 	return (
 		<html lang="en" dir="ltr" suppressHydrationWarning>
 			<body>

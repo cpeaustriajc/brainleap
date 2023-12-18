@@ -7,8 +7,8 @@ import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/definitions'
-import { use, useEffect, useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { use } from 'react'
+import { useAvatar } from '@/hooks/use-avatar'
 
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
@@ -59,35 +59,9 @@ export function Header({
 }: {
 	profilePromise: Promise<Tables<'profiles'> | null>
 }) {
-	const supabase = createClient()
-	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
-
 	const profile = use(profilePromise)
 
-	useEffect(() => {
-		async function downloadImage(path: string) {
-			try {
-				if (profile?.avatar_url?.startsWith('https://')) {
-					setAvatarUrl(profile.avatar_url)
-					return
-				}
-
-				const { data, error } = await supabase.storage
-					.from('avatars')
-					.download(path)
-				if (error) {
-					throw error
-				}
-
-				const url = URL.createObjectURL(data)
-				setAvatarUrl(url)
-			} catch (error) {
-				console.error('Error downloading image: ', error)
-			}
-		}
-
-		if (profile?.avatar_url) downloadImage(profile.avatar_url)
-	}, [profile?.avatar_url, supabase])
+	const { avatarUrl } = useAvatar(profile?.avatar_url, profile?.profile_id)
 
 	return (
 		<header className="px-4 py-2">

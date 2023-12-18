@@ -46,33 +46,33 @@ export const getCourseIds = nextCache(async () => {
 	return courses.map((course) => course.course_id)
 }, ['courseIds'])
 
-export const getAssignmentIds = nextCache(async () => {
+export const getPostIds = nextCache(async () => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const { data: assignments } = await supabase
-		.from('assignments')
-		.select('assignment_id')
+	const { data: posts } = await supabase
+		.from('posts')
+		.select('post_id')
 
-	if (!assignments) {
+	if (!posts) {
 		notFound()
 	}
 
-	return assignments.map((assignment) => assignment.assignment_id)
-}, ['assignmentIds'])
+	return posts.map((post) => post.post_id)
+}, ['postIds'])
 
-export const getAssignment = nextCache(
+export const getPost = nextCache(
 	async (id: string) => {
 		const cookieStore = cookies()
 		const supabase = createClient(cookieStore)
-		const { data: assignment } = await supabase
-			.from('assignments')
+		const { data: post } = await supabase
+			.from('posts')
 			.select()
-			.eq('assignment_id', id)
+			.eq('post_id', id)
 			.single()
 
-		return assignment
+		return post
 	},
-	['assignment'],
+	['post'],
 )
 
 export const getEnrollments = nextCache(async () => {
@@ -90,18 +90,18 @@ export const getEnrollments = nextCache(async () => {
 	return enrollments
 }, ['enrollments'])
 
-export const getAssignments = nextCache(
+export const getPosts = nextCache(
 	async (courseId: string) => {
 		const cookieStore = cookies()
 		const supabase = createClient(cookieStore)
-		const { data: assignments } = await supabase
-			.from('assignments')
+		const { data: posts } = await supabase
+			.from('posts')
 			.select()
 			.eq('course_id', courseId)
 
-		return assignments
+		return posts
 	},
-	['assignments'],
+	['posts'],
 )
 
 export const getProfile = nextCache(

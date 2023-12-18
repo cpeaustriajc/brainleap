@@ -2,12 +2,12 @@ import { Badge } from '@/components/ui/badge'
 import { cookies } from 'next/headers'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import {
-	getAssignments,
+	getPosts,
 	getCourse,
 	getCourseIds,
 	getProfile,
 } from '@/lib/queries'
-import { AddAssigment } from '@/components/add-assignment'
+import { AddPost } from '@/components/add-post'
 import {
 	Card,
 	CardContent,
@@ -53,9 +53,9 @@ export default async function Page({ params }: Props) {
 		notFound()
 	}
 
-	const assignments = await getAssignments(course.course_id)
+	const posts = await getPosts(course.course_id)
 
-	if (!assignments) {
+	if (!posts) {
 		notFound()
 	}
 
@@ -84,28 +84,28 @@ export default async function Page({ params }: Props) {
 
 			{profile?.role === 'instructor' && (
 				<div className="my-2">
-					<AddAssigment course={course} />
+					<AddPost course={course} />
 				</div>
 			)}
 
 			<div className="mt-10 grid">
-				{assignments.map((assignment) => (
-					<Card key={assignment.assignment_id}>
+				{posts.map((post) => (
+					<Card key={post.post_id}>
 						<CardHeader>
-							<CardTitle>{assignment.title}</CardTitle>
-							<p>Due {assignment.due_date}</p>
+							<CardTitle>{post.title}</CardTitle>
+							<p>Due {post.due_date}</p>
 						</CardHeader>
 						<CardContent>
 							<p className="whitespace-pre-line">
-								{assignment.description}
+								{post.description}
 							</p>
 						</CardContent>
 						<CardFooter>
 							<Button asChild variant={'link'}>
 								<Link
-									href={`/course/${course?.course_id}/${assignment.assignment_id}`}
+									href={`/course/${course?.course_id}/${post.post_id}`}
 								>
-									View assignment
+									View More
 								</Link>
 							</Button>
 						</CardFooter>

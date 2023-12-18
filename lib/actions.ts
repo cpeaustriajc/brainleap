@@ -5,7 +5,6 @@ import 'server-only'
 import { cookies, headers } from 'next/headers'
 import { z } from 'zod'
 import { createClient } from './supabase/server'
-import { v4 as uuidv4 } from 'uuid'
 import humanId from 'human-id'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -67,7 +66,6 @@ export async function joinClass(formData: FormData) {
 		.insert({
 			course_id: parsedData.classCode,
 			user_id: session?.user.id,
-			enrollment_id: uuidv4(),
 		})
 
 	if (insertEnrollmentError) {
@@ -123,7 +121,6 @@ export async function addClass(formData: FormData) {
 		if (selectCourseError) throw selectCourseError
 
 		const { error } = await supabase.from('enrollments').insert({
-			enrollment_id: uuidv4(),
 			user_id: session.user.id,
 			course_id: course?.course_id,
 		})
@@ -149,14 +146,14 @@ export async function updateFile(formData: FormData) {
 		.upload('public/avatar1.png', values.file, {})
 }
 
-export async function createAssignment(courseId: string, formData: FormData) {
+export async function createPost(courseId: string, formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
 	const values = createAssignmentFormSchema.parse({
-		title: formData.get('assignmentTitle'),
-		description: formData.get('assignmentDescription'),
-		dueDate: formData.get('assignmentDueDate'),
+		title: formData.get('postTitle'),
+		description: formData.get('postDescription'),
+		dueDate: formData.get('postDueDate'),
 	})
 
 	const { data } = await supabase
@@ -165,8 +162,7 @@ export async function createAssignment(courseId: string, formData: FormData) {
 		.eq('course_id', courseId)
 		.single()
 
-	const { error } = await supabase.from('assignments').insert({
-		assignment_id: uuidv4(),
+	const { error } = await supabase.from('posts').insert({
 		course_id: courseId,
 		title: values.title,
 		description: values.description,
@@ -202,9 +198,9 @@ export async function uploadAssignment(
 	}
 
 	const { error: assignmentError } = await supabase
-		.from('assignments')
+		.from('outputs')
 		.update({
-			files: [file.path],
+			file_path: [file.path],
 		})
 		.eq('assignment_id', assignmentId)
 

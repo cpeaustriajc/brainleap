@@ -2,10 +2,10 @@ import { Input } from './ui/input'
 import { Tables } from '@/lib/definitions'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
-import { createAssignment } from '@/lib/actions'
+import { createPost } from '@/lib/actions'
 import { Textarea } from './ui/textarea'
 
-export function AddAssigment({ course }: { course: Tables<'courses'> | null }) {
+export function AddPost({ course }: { course: Tables<'courses'> | null }) {
 	const createAssignmentWithClassId = createAssignment.bind(
 		null,
 		course?.course_id ?? '',

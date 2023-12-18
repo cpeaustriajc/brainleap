@@ -3,25 +3,25 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { uploadAssignment } from '@/lib/actions'
-import { getAssignment, getAssignmentIds, getRole } from '@/lib/queries'
+import { getPost, getPostIds, getRole } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
-	const assignmentIds = await getAssignmentIds()
+	const postIds = await getPostIds()
 
-	if (!assignmentIds) {
+	if (!postIds) {
 		notFound()
 	}
-	return assignmentIds.map((assignmentId) => ({
-		assignmentId: assignmentId,
+	return postIds.map((postId) => ({
+		post: postId,
 	}))
 }
 
 type Props = {
 	params: {
-		assignment: string
+		post: string
 	}
 }
 
@@ -37,18 +37,15 @@ export default async function Page({ params }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const assignment = await getAssignment(params.assignment)
+	const post = await getPost(params.post)
 
 	const role = await getRole(user.id)
 
-	if (!assignment) {
+	if (!post) {
 		notFound()
 	}
 
-	const uploadAssignmentWithId = uploadAssignment.bind(
-		null,
-		assignment.assignment_id,
-	)
+	const uploadAssignmentWithId = uploadAssignment.bind(null, post.post_id)
 
 	async function submitAssignment(formData: FormData) {
 		'use server'
@@ -59,13 +56,11 @@ export default async function Page({ params }: Props) {
 		<main>
 			<div className="max-w-2xl mx-auto">
 				<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-					{assignment.title}
+					{post.title}
 				</h1>
 				<Separator className="my-8" />
 				<div>
-					<p className="whitespace-pre-wrap">
-						{assignment.description}
-					</p>
+					<p className="whitespace-pre-wrap">{post.description}</p>
 				</div>
 				<div>
 					{role === 'student' && (

@@ -34,40 +34,6 @@ export interface Database {
 	}
 	public: {
 		Tables: {
-			assignments: {
-				Row: {
-					assignment_id: string
-					course_id: string | null
-					description: string | null
-					due_date: string | null
-					files: string[] | null
-					title: string | null
-				}
-				Insert: {
-					assignment_id: string
-					course_id?: string | null
-					description?: string | null
-					due_date?: string | null
-					files?: string[] | null
-					title?: string | null
-				}
-				Update: {
-					assignment_id?: string
-					course_id?: string | null
-					description?: string | null
-					due_date?: string | null
-					files?: string[] | null
-					title?: string | null
-				}
-				Relationships: [
-					{
-						foreignKeyName: 'assignments_course_id_fkey'
-						columns: ['course_id']
-						referencedRelation: 'courses'
-						referencedColumns: ['course_id']
-					},
-				]
-			}
 			courses: {
 				Row: {
 					course_description: string | null
@@ -76,7 +42,7 @@ export interface Database {
 				}
 				Insert: {
 					course_description?: string | null
-					course_id: string
+					course_id?: string
 					course_name: string
 				}
 				Update: {
@@ -94,7 +60,7 @@ export interface Database {
 				}
 				Insert: {
 					course_id?: string | null
-					enrollment_id: string
+					enrollment_id?: string
 					user_id?: string | null
 				}
 				Update: {
@@ -104,16 +70,98 @@ export interface Database {
 				}
 				Relationships: [
 					{
-						foreignKeyName: 'enrollments_course_id_fkey'
+						foreignKeyName: 'enrollments_class_id_fkey'
 						columns: ['course_id']
+						isOneToOne: false
 						referencedRelation: 'courses'
 						referencedColumns: ['course_id']
 					},
 					{
 						foreignKeyName: 'enrollments_user_id_fkey'
 						columns: ['user_id']
+						isOneToOne: false
 						referencedRelation: 'profiles'
 						referencedColumns: ['profile_id']
+					},
+				]
+			}
+			outputs: {
+				Row: {
+					file_path: string[] | null
+					grade: number | null
+					output_id: string
+					post_id: string | null
+					profile_id: string | null
+					submitted_at: string | null
+				}
+				Insert: {
+					file_path?: string[] | null
+					grade?: number | null
+					output_id?: string
+					post_id?: string | null
+					profile_id?: string | null
+					submitted_at?: string | null
+				}
+				Update: {
+					file_path?: string[] | null
+					grade?: number | null
+					output_id?: string
+					post_id?: string | null
+					profile_id?: string | null
+					submitted_at?: string | null
+				}
+				Relationships: [
+					{
+						foreignKeyName: 'outputs_post_id_fkey'
+						columns: ['post_id']
+						isOneToOne: false
+						referencedRelation: 'posts'
+						referencedColumns: ['post_id']
+					},
+					{
+						foreignKeyName: 'outputs_profile_id_fkey'
+						columns: ['profile_id']
+						isOneToOne: false
+						referencedRelation: 'profiles'
+						referencedColumns: ['profile_id']
+					},
+				]
+			}
+			posts: {
+				Row: {
+					course_id: string | null
+					created_at: string | null
+					description: string | null
+					due_date: string | null
+					post_id: string
+					title: string | null
+					type: Database['public']['Enums']['post_type']
+				}
+				Insert: {
+					course_id?: string | null
+					created_at?: string | null
+					description?: string | null
+					due_date?: string | null
+					post_id?: string
+					title?: string | null
+					type?: Database['public']['Enums']['post_type']
+				}
+				Update: {
+					course_id?: string | null
+					created_at?: string | null
+					description?: string | null
+					due_date?: string | null
+					post_id?: string
+					title?: string | null
+					type?: Database['public']['Enums']['post_type']
+				}
+				Relationships: [
+					{
+						foreignKeyName: 'assignments_class_id_fkey'
+						columns: ['course_id']
+						isOneToOne: false
+						referencedRelation: 'courses'
+						referencedColumns: ['course_id']
 					},
 				]
 			}
@@ -164,6 +212,7 @@ export interface Database {
 					{
 						foreignKeyName: 'profiles_profile_id_fkey'
 						columns: ['profile_id']
+						isOneToOne: true
 						referencedRelation: 'users'
 						referencedColumns: ['id']
 					},
@@ -177,6 +226,7 @@ export interface Database {
 			[_ in never]: never
 		}
 		Enums: {
+			post_type: 'assignment' | 'announcement'
 			role_type: 'student' | 'instructor'
 		}
 		CompositeTypes: {
@@ -289,6 +339,7 @@ export interface Database {
 					{
 						foreignKeyName: 'objects_bucketId_fkey'
 						columns: ['bucket_id']
+						isOneToOne: false
 						referencedRelation: 'buckets'
 						referencedColumns: ['id']
 					},
@@ -362,3 +413,89 @@ export interface Database {
 		}
 	}
 }
+
+export type Tables<
+	PublicTableNameOrOptions extends
+		| keyof (Database['public']['Tables'] & Database['public']['Views'])
+		| { schema: keyof Database },
+	TableName extends PublicTableNameOrOptions extends {
+		schema: keyof Database
+	}
+		? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+				Database[PublicTableNameOrOptions['schema']]['Views'])
+		: never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+	? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
+			Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+			Row: infer R
+		}
+		? R
+		: never
+	: PublicTableNameOrOptions extends keyof (Database['public']['Tables'] &
+				Database['public']['Views'])
+		? (Database['public']['Tables'] &
+				Database['public']['Views'])[PublicTableNameOrOptions] extends {
+				Row: infer R
+			}
+			? R
+			: never
+		: never
+
+export type TablesInsert<
+	PublicTableNameOrOptions extends
+		| keyof Database['public']['Tables']
+		| { schema: keyof Database },
+	TableName extends PublicTableNameOrOptions extends {
+		schema: keyof Database
+	}
+		? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+		: never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+	? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+			Insert: infer I
+		}
+		? I
+		: never
+	: PublicTableNameOrOptions extends keyof Database['public']['Tables']
+		? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+				Insert: infer I
+			}
+			? I
+			: never
+		: never
+
+export type TablesUpdate<
+	PublicTableNameOrOptions extends
+		| keyof Database['public']['Tables']
+		| { schema: keyof Database },
+	TableName extends PublicTableNameOrOptions extends {
+		schema: keyof Database
+	}
+		? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+		: never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+	? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+			Update: infer U
+		}
+		? U
+		: never
+	: PublicTableNameOrOptions extends keyof Database['public']['Tables']
+		? Database['public']['Tables'][PublicTableNameOrOptions] extends {
+				Update: infer U
+			}
+			? U
+			: never
+		: never
+
+export type Enums<
+	PublicEnumNameOrOptions extends
+		| keyof Database['public']['Enums']
+		| { schema: keyof Database },
+	EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+		? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+		: never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+	? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
+	: PublicEnumNameOrOptions extends keyof Database['public']['Enums']
+		? Database['public']['Enums'][PublicEnumNameOrOptions]
+		: never

@@ -28,7 +28,7 @@ const uploadFileSchema = z.object({
 	file: z.instanceof(File),
 })
 
-const createAssignmentFormSchema = z.object({
+const createPostFormSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 	dueDate: z.string(),
@@ -150,7 +150,7 @@ export async function createPost(courseId: string, formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = createAssignmentFormSchema.parse({
+	const values = createPostFormSchema.parse({
 		title: formData.get('postTitle'),
 		description: formData.get('postDescription'),
 		dueDate: formData.get('postDueDate'),

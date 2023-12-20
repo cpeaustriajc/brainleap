@@ -21,7 +21,7 @@ export function ProfilePicture({ uid, url, size }: Props) {
 		<div className="space-y-4">
 			<Avatar style={{ width: size, height: size }}>
 				<AvatarImage
-					src={avatarUrl ?? ''}
+					src={avatarUrl}
 					width={size}
 					height={size}
 					style={{ width: size, height: size }}

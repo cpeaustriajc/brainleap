@@ -49,9 +49,7 @@ export const getCourseIds = nextCache(async () => {
 export const getPostIds = nextCache(async () => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const { data: posts } = await supabase
-		.from('posts')
-		.select('post_id')
+	const { data: posts } = await supabase.from('posts').select('post_id')
 
 	if (!posts) {
 		notFound()
@@ -80,12 +78,20 @@ export const getEnrollments = nextCache(async () => {
 	const supabase = createClient(cookieStore)
 	const {
 		data: { session },
+		error: authError,
 	} = await supabase.auth.getSession()
+
+	if (!session) {
+		throw authError
+	}
+	const {
+		user: { id },
+	} = session
 
 	const { data: enrollments } = await supabase
 		.from('enrollments')
 		.select()
-		.eq('user_id', session?.user.id ?? '')
+		.eq('user_id', id)
 
 	return enrollments
 }, ['enrollments'])

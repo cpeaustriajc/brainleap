@@ -4,10 +4,10 @@ import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
 
 export function useAvatar(
-	url: string | null | undefined,
-	uid: string | null | undefined,
+	url: string | null,
+	uid: string,
 ) {
-	const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+	const [avatarUrl, setAvatarUrl] = useState<string>('')
 	const [uploading, setUploading] = useState(false)
 	const supabase = createClient()
 

@@ -2,18 +2,17 @@ import { Input } from './ui/input'
 import { Tables } from '@/lib/definitions'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
-import { createPost } from '@/lib/actions'
 import { Textarea } from './ui/textarea'
+import { createPost } from '@/lib/actions'
 
-export function AddPost({ course }: { course: Tables<'courses'> | null }) {
-	const createAssignmentWithClassId = createAssignment.bind(
-		null,
-		course?.course_id ?? '',
-	)
+export function AddPost({ course }: { course: Tables<'courses'> }) {
+	const { course_id } = course
+
+	const createPostWithCourseId = createPost.bind(null, course_id)
 
 	const action = async (formData: FormData) => {
 		'use server'
-		createAssignmentWithClassId(formData)
+		createPostWithCourseId(formData)
 	}
 
 	return (

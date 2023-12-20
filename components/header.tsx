@@ -57,11 +57,11 @@ const DropdownMenuTrigger = dynamic(
 export function Header({
 	profilePromise,
 }: {
-	profilePromise: Promise<Tables<'profiles'> | null>
+	profilePromise: Promise<Tables<'profiles'>>
 }) {
 	const profile = use(profilePromise)
 
-	const { avatarUrl } = useAvatar(profile?.avatar_url, profile?.profile_id)
+	const { avatarUrl } = useAvatar(profile.avatar_url, profile.profile_id)
 
 	return (
 		<header className="px-4 py-2">

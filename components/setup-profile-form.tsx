@@ -66,9 +66,13 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 			error: sessionError,
 		} = await supabase.auth.getSession()
 
-		if (sessionError) {
+		if (!session || sessionError) {
 			throw sessionError
 		}
+
+		const {
+			user: { id },
+		} = session
 
 		if (values.role === 'student') {
 			const { error } = await supabase
@@ -83,7 +87,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					email: values.email,
 					updated_at,
 				})
-				.eq('profile_id', session?.user.id ?? '')
+				.eq('profile_id', id)
 
 			if (error) {
 				throw error
@@ -101,7 +105,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					role: values.role,
 					updated_at,
 				})
-				.eq('profile_id', session?.user.id ?? '')
+				.eq('profile_id', id)
 			if (error) {
 				throw error
 			}
@@ -116,8 +120,8 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 	return (
 		<div className="max-w-2xl mx-auto space-y-2">
 			<ProfilePicture
-				uid={profile?.profile_id ?? ''}
-				url={profile?.avatar_url ?? ''}
+				uid={profile.profile_id}
+				url={profile.avatar_url}
 				size={128}
 			/>
 			<form className="my-4 space-y-4" action={action}>
@@ -127,7 +131,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="Username"
 					id="username"
 					name="username"
-					defaultValue={profile?.username ?? ''}
+					defaultValue={profile.username ?? ''}
 				/>
 				<Label htmlFor="full_name">Display Name</Label>
 				<Input
@@ -135,7 +139,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="Display Name"
 					id="full_name"
 					name="full_name"
-					defaultValue={profile?.full_name ?? ''}
+					defaultValue={profile.full_name ?? ''}
 				/>
 
 				<Label htmlFor="email">Email</Label>
@@ -144,7 +148,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="johndoe@email.com"
 					id="email"
 					name="email"
-					defaultValue={profile?.email ?? ''}
+					defaultValue={profile.email ?? ''}
 				/>
 				<Label htmlFor="biography">Biography</Label>
 				<Textarea
@@ -152,7 +156,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					className="resize-none"
 					id="biography"
 					name="biography"
-					defaultValue={profile?.biography ?? ''}
+					defaultValue={profile.biography ?? ''}
 				/>
 				<Label htmlFor="university">University</Label>
 				<Input
@@ -160,12 +164,12 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="What university do you attend?"
 					name="university"
 					id="university"
-					defaultValue={profile?.university ?? ''}
+					defaultValue={profile.university ?? ''}
 				/>
 				<Label htmlFor="role">Role</Label>
 
 				<RadioGroup
-					defaultValue={profile?.role ?? 'student'}
+					defaultValue={profile.role ?? 'student'}
 					id="role"
 					name="role"
 				>
@@ -193,7 +197,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="Program"
 					name="program"
 					id="program"
-					defaultValue={profile?.program ?? ''}
+					defaultValue={profile.program ?? ''}
 				/>
 
 				<Label htmlFor="section">Section</Label>
@@ -202,7 +206,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="Section"
 					name="section"
 					id="section"
-					defaultValue={profile?.section ?? ''}
+					defaultValue={profile.section ?? ''}
 				/>
 
 				<Label htmlFor="position">Position</Label>
@@ -211,7 +215,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="Position"
 					name="position"
 					id="position"
-					defaultValue={profile?.position ?? ''}
+					defaultValue={profile.position ?? ''}
 				/>
 				<Button type="submit">Submit</Button>
 			</form>

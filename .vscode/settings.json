@@ -1,4 +1,15 @@
 {
 	"css.customData": [".vscode/tailwind.json"],
-	"typescript.tsdk": "node_modules\\typescript\\lib"
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"server": "localhost",
+			"port": 54322,
+			"driver": "PostgreSQL",
+			"name": "Supabase Doctrina DB",
+			"database": "postgres",
+			"username": "postgres"
+		}
+	]
 }

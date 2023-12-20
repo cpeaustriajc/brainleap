@@ -3,13 +3,15 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { uploadAssignment } from '@/lib/actions'
-import { getPost, getPostIds, getRole } from '@/lib/queries'
+import { Tables } from '@/lib/database.types'
+import { getPost, getRole } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
-	const postIds = await getPostIds()
+	const res = await fetch('http://localhost:3000/api/post/ids')
+	const postIds: Tables<'posts'>['post_id'][] = await res.json()
 
 	if (!postIds) {
 		notFound()

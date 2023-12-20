@@ -4,7 +4,6 @@ import { createClient as createServerClient } from '@/lib/supabase/server'
 import {
 	getPosts,
 	getCourse,
-	getCourseIds,
 	getProfile,
 } from '@/lib/queries'
 import { AddPost } from '@/components/add-post'
@@ -18,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import { Tables } from '@/lib/database.types'
 
 type Props = {
 	params: {
@@ -26,7 +26,8 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const courseIds = await getCourseIds()
+	const res = await fetch("http://localhost:3000/api/course/ids")
+	const courseIds: Tables<'courses'>['course_id'][] = await res.json()
 
 	return courseIds.map((courseId) => ({
 		params: {

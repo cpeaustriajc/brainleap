@@ -57,6 +57,7 @@ export default function Page() {
 						id="description"
 						name="description"
 						placeholder="Class Description"
+						className="resize-none"
 					/>
 				</fieldset>
 				<Button type="submit">Create Class</Button>

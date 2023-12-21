@@ -6,7 +6,7 @@ import { cookies, headers } from 'next/headers'
 import { z } from 'zod'
 import { createClient } from './supabase/server'
 import humanId from 'human-id'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 const createCourseFormSchema = z.object({
@@ -137,7 +137,7 @@ export async function createCourse(formData: FormData) {
 		if (error) throw error
 	}
 
-	revalidatePath('/')
+	revalidateTag('courses')
 
 	if (error) throw error
 }

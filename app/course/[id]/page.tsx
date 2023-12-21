@@ -1,11 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { cookies } from 'next/headers'
 import { createClient as createServerClient } from '@/lib/supabase/server'
-import {
-	getPosts,
-	getCourse,
-	getProfile,
-} from '@/lib/queries'
+import { getPosts, getCourse, getProfile } from '@/lib/queries'
 import { AddPost } from '@/components/add-post'
 import {
 	Card,
@@ -18,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { Tables } from '@/lib/database.types'
+import { getURL } from '@/lib/utils'
 
 type Props = {
 	params: {
@@ -26,7 +23,8 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const res = await fetch("/api/course/ids")
+	const url = getURL('/api/course/ids')
+	const res = await fetch(url)
 	const courseIds: Tables<'courses'>['course_id'][] = await res.json()
 
 	return courseIds.map((courseId) => ({

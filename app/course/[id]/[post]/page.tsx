@@ -6,11 +6,13 @@ import { uploadAssignment } from '@/lib/actions'
 import { Tables } from '@/lib/database.types'
 import { getPost, getRole } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/server'
+import { getURL } from '@/lib/utils'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
-	const res = await fetch('/api/post/ids')
+	const url = getURL('/api/post/ids')
+	const res = await fetch(url)
 	const postIds: Tables<'posts'>['post_id'][] = await res.json()
 
 	if (!postIds) {

@@ -1,3 +1,4 @@
+import AppShell from '@/components/app-shell'
 import React from 'react'
 
 type Props = {
@@ -5,5 +6,5 @@ type Props = {
 }
 
 export default function Layout({ children }: Props) {
-	return <>{children}</>
+	return <AppShell>{children}</AppShell>
 }

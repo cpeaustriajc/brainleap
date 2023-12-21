@@ -4,11 +4,25 @@ import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { createPost } from '@/lib/actions'
+import { Checkbox } from './ui/checkbox'
+import { getEnrollmentsByCourseId, getProfiles } from '@/lib/queries'
 
-export function AddPost({ course }: { course: Tables<'courses'> }) {
+export async function AddPost({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course
 
 	const createPostWithCourseId = createPost.bind(null, course_id)
+	const enrollments = await getEnrollmentsByCourseId(course_id)
+	const profiles = await getProfiles()
+
+	const enrolledStudents = profiles.filter((profile) => {
+		if (profile.role !== 'student') return false
+
+		return enrollments.some((enrollment) => {
+			return enrollment.user_id === profile.profile_id
+		})
+	})
+
+	console.log(enrolledStudents)
 
 	const action = async (formData: FormData) => {
 		'use server'
@@ -17,6 +31,14 @@ export function AddPost({ course }: { course: Tables<'courses'> }) {
 
 	return (
 		<form action={action} className="space-y-8">
+			<div className="space-y-2">
+				{enrolledStudents.map((student) => (
+					<>
+						<Checkbox id={student.username ?? ''} />
+						<Label htmlFor={student.username ?? ''}>{student.full_name}</Label>
+					</>
+				))}
+			</div>
 			<div className="space-y-2">
 				<Label htmlFor="assignmentTitle">Assignment title</Label>
 				<Input

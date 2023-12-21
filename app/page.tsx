@@ -1,17 +1,31 @@
 import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
 import { CourseSkeleton } from '@/components/course-skeleton'
-import { getCourses, getEnrollments } from '@/lib/queries'
+import { getCourses, getEnrollments, getProfile } from '@/lib/queries'
+import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 export default async function Page() {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
+
+	if (!user) {
+		return notFound()
+	}
+
 	const coursesData = getCourses()
 	const enrollmentsData = getEnrollments()
+	const profileData = await getProfile(user.id)
 
-	const [allCourses, enrollments] = await Promise.all([
+	const [allCourses, enrollments, profile] = await Promise.all([
 		coursesData,
 		enrollmentsData,
+		profileData,
 	])
 
 	if (!allCourses || !enrollments) {
@@ -20,10 +34,13 @@ export default async function Page() {
 
 	const courses = allCourses.filter((course) => {
 		return enrollments.some((enrollment) => {
-			return enrollment.course_id === course.course_id
+			return (
+				enrollment.course_id === course.course_id &&
+				enrollment.user_id === profile.profile_id
+			)
 		})
 	})
-
+	console.log(courses)
 	if (!courses) {
 		notFound()
 	}

@@ -66,12 +66,19 @@ export default async function Page({ params }: Props) {
 
 	return (
 		<main className="px-8">
-			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-				{course.course_name}
-			</h1>
-			<p className="leading-7 [&:not(:first-child)]:mt-6">
-				{course.course_description}
-			</p>
+			<section>
+				<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+					{course.course_name}
+				</h1>
+				<p className="leading-7 [&:not(:first-child)]:mt-6">
+					{course.course_description}
+				</p>
+			</section>
+			<section className="p-4 border rounded border-border">
+				<p>Room: {course.room}</p>
+				<p>Subject: {course.subject}</p>
+				<p>Section: {course.section}</p>
+			</section>
 			{profile?.role === 'instructor' && (
 				<>
 					<p className="leading-7 [&:not(:first-child)]:mt-6">

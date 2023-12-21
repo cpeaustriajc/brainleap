@@ -96,6 +96,36 @@ export const getEnrollments = nextCache(async () => {
 	return enrollments
 }, ['enrollments'])
 
+export const getEnrollmentsByCourseId = nextCache(
+	async (courseId: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const {
+			data: { session },
+			error: authError,
+		} = await supabase.auth.getSession()
+
+		if (!session) {
+			throw authError
+		}
+		const {
+			user: { id },
+		} = session
+
+		const { data: enrollment } = await supabase
+			.from('enrollments')
+			.select()
+			.eq('course_id', courseId)
+
+		if (!enrollment) {
+			notFound()
+		}
+
+		return enrollment
+	},
+	['enrollment'],
+)
+
 export const getPosts = nextCache(
 	async (courseId: string) => {
 		const cookieStore = cookies()
@@ -129,6 +159,19 @@ export const getProfile = nextCache(
 	},
 	['profile'],
 )
+
+export const getProfiles = nextCache(async () => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const { data: profiles, error } = await supabase.from('profiles').select()
+
+	if (error) {
+		throw new Error(error.message)
+	}
+
+	return profiles
+}, ['profiles'])
 
 export const getRole = nextCache(
 	async (id: string) => {

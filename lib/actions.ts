@@ -9,7 +9,7 @@ import humanId from 'human-id'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-const addClassFormSchema = z.object({
+const createCourseFormSchema = z.object({
 	title: z
 		.string()
 		.min(3, { message: 'Title must be at least 3 characters long' })
@@ -18,6 +18,9 @@ const addClassFormSchema = z.object({
 		.string()
 		.min(10, { message: 'description must be atleast 10 characters long' })
 		.max(160),
+	section: z.string(),
+	subject: z.string(),
+	room: z.string(),
 })
 
 const joinClassFormSchema = z.object({
@@ -42,7 +45,7 @@ const authFormSchema = z.object({
 	email: z.string().email({ message: 'Please enter a valid email' }),
 })
 
-export async function joinClass(formData: FormData) {
+export async function joinCourse(formData: FormData) {
 	const parsedData = joinClassFormSchema.parse({
 		classCode: formData.get('classCode'),
 	})
@@ -58,7 +61,7 @@ export async function joinClass(formData: FormData) {
 		.single()
 
 	if (count === 0) {
-		throw new Error('Class not found')
+		throw new Error('Course not found')
 	}
 
 	const { error: insertEnrollmentError } = await supabase
@@ -73,12 +76,15 @@ export async function joinClass(formData: FormData) {
 	}
 }
 
-export async function addClass(formData: FormData) {
+export async function createCourse(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const values = addClassFormSchema.parse({
+	const values = createCourseFormSchema.parse({
 		title: formData.get('title'),
 		description: formData.get('description'),
+		section: formData.get('section'),
+		subject: formData.get('subject'),
+		room: formData.get('room'),
 	})
 
 	const {
@@ -105,6 +111,9 @@ export async function addClass(formData: FormData) {
 			course_id: humanId({ separator: '-', capitalize: false }),
 			course_name: values.title,
 			course_description: values.description,
+			section: values.section,
+			subject: values.subject,
+			room: values.room,
 		})
 		.select()
 		.single()

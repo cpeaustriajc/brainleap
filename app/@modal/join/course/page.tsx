@@ -3,12 +3,12 @@ import { ModalBackground } from '@/components/modal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { joinClass } from '@/lib/actions'
+import { joinCourse } from '@/lib/actions'
 
 export default function Page() {
 	const action = async (formData: FormData) => {
 		'use server'
-		joinClass(formData)
+		joinCourse(formData)
 	}
 
 	return (
@@ -20,7 +20,12 @@ export default function Page() {
 				<div className="grid items-center">
 					<CloseDialog />
 				</div>
-				<Label htmlFor="classCode">Class Code</Label>
+				<Label htmlFor="classCode" className="text-2xl">
+					Class Code
+				</Label>
+				<p className="text-xs px-1">
+					Ask your teacher for the class code. Then enter it here.
+				</p>
 				<Input
 					type="text"
 					id="classCode"

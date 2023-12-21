@@ -1,4 +1,4 @@
-import { Tables } from '@/lib/definitions'
+import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
 import {
 	Card,

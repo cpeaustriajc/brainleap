@@ -6,7 +6,7 @@ import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Tables } from '@/lib/definitions'
+import { Tables } from '@/lib/database.types'
 import { use } from 'react'
 import { useAvatar } from '@/hooks/use-avatar'
 

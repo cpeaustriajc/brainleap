@@ -1,5 +1,5 @@
 import { Input } from './ui/input'
-import { Tables } from '@/lib/definitions'
+import { Tables } from '@/lib/database.types'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'

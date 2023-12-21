@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { Tables } from '@/lib/definitions'
+import { Tables } from '@/lib/database.types'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import { PersonIcon } from '@radix-ui/react-icons'

@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { z } from 'zod'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
-import { Tables } from '@/lib/definitions'
+import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import {
 	cn,

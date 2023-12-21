@@ -4,22 +4,32 @@ import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { Tables } from '@/lib/definitions'
 import { createClient } from '@/lib/supabase/server'
-import { createPostgresTimestamp } from '@/lib/utils'
+import {
+	cn,
+	createPostgresTimestamp,
+	extractUsername,
+	getInitials,
+} from '@/lib/utils'
 import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { cookies } from 'next/headers'
+import { revalidateTag } from 'next/cache'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
-	username: z.string().min(3).max(20),
+	username: z.string(),
+	// .min(3, { message: 'Username must contain at least 3 characters' })
+	// .max(20, {
+	// 	message: 'Username must not be longer than 20 characters.',
+	// }),
 	avatar_url: z.string().url().optional(),
 	biography: z
 		.string()
-		.min(10, { message: 'Bio must be at least 10 characters.' })
-		.max(160, { message: 'Bio must not be longer than 30 characters.' })
+		// .min(10, { message: 'Bio must be at least 10 characters.' })
+		// .max(160, { message: 'Bio must not be longer than 30 characters.' })
 		.optional(),
-	email: z.string().email(),
+	email: z.string().email({ message: 'Invalid email address.' }),
 	university: z.string().max(280).optional(),
 	full_name: z.string().max(280).optional(),
 })
@@ -41,7 +51,13 @@ export const profileSchema = z.discriminatedUnion('role', [
 		.merge(baseProfileSchema),
 ])
 
-export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
+export function SetupProfileForm({
+	profile,
+	message,
+}: {
+	profile: Tables<'profiles'>
+	message: string
+}) {
 	async function updateProfile(formData: FormData) {
 		'use server'
 		const cookieStore = cookies()
@@ -49,7 +65,7 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 		const date = new Date()
 		const updated_at = createPostgresTimestamp(date)
 
-		const values = profileSchema.parse({
+		const values = profileSchema.safeParse({
 			biography: formData.get('biography'),
 			email: formData.get('email'),
 			full_name: formData.get('full_name'),
@@ -74,17 +90,21 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 			user: { id },
 		} = session
 
-		if (values.role === 'student') {
+		if (!values.success) {
+			throw values.error
+		}
+
+		if (values.data.role === 'student') {
 			const { error } = await supabase
 				.from('profiles')
 				.update({
-					full_name: values.full_name,
-					username: values.username,
-					biography: values.biography,
-					program: values.program,
-					section: values.section,
-					university: values.university,
-					email: values.email,
+					full_name: values.data.full_name,
+					username: values.data.username,
+					biography: values.data.biography,
+					program: values.data.program,
+					section: values.data.section,
+					university: values.data.university,
+					email: values.data.email,
 					updated_at,
 				})
 				.eq('profile_id', id)
@@ -92,24 +112,26 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 			if (error) {
 				throw error
 			}
-		} else if (values.role === 'instructor') {
+		} else if (values.data.role === 'instructor') {
 			const { error } = await supabase
 				.from('profiles')
 				.update({
-					avatar_url: values.avatar_url,
-					full_name: values.full_name,
-					username: values.username,
-					biography: values.biography,
-					position: values.position,
-					email: values.email,
-					role: values.role,
+					avatar_url: values.data.avatar_url,
+					full_name: values.data.full_name,
+					username: values.data.username,
+					biography: values.data.biography,
+					position: values.data.position,
+					email: values.data.email,
+					role: values.data.role,
 					updated_at,
 				})
 				.eq('profile_id', id)
+
 			if (error) {
 				throw error
 			}
 		}
+		revalidateTag('profile')
 	}
 
 	const action = async (formData: FormData) => {
@@ -119,6 +141,14 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 
 	return (
 		<div className="max-w-2xl mx-auto space-y-2">
+			<p
+				className={cn(
+					message ? 'visible' : 'invisible',
+					'fixed z-50 bottom-4 right-4 flex flex-col items-center justify-center text-center text-sm text-gray-500 bg-gray-100 rounded-md py-2 px-4',
+				)}
+			>
+				{message}
+			</p>
 			<ProfilePicture
 				uid={profile.profile_id}
 				url={profile.avatar_url}
@@ -131,7 +161,9 @@ export function SetupProfileForm({ profile }: { profile: Tables<'profiles'> }) {
 					placeholder="Username"
 					id="username"
 					name="username"
-					defaultValue={profile.username ?? ''}
+					defaultValue={
+						profile.username ?? extractUsername(profile.email)
+					}
 				/>
 				<Label htmlFor="full_name">Display Name</Label>
 				<Input

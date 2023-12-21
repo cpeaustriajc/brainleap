@@ -5,10 +5,17 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export default async function Page() {
+type Props = {
+	searchParams: {
+		message: string
+	}
+}
+
+export default async function Page({ searchParams }: Props) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
+	const { message } = searchParams
 	const {
 		data: { user },
 	} = await supabase.auth.getUser()
@@ -26,7 +33,7 @@ export default async function Page() {
 	return (
 		<AppShell>
 			<main>
-				<SetupProfileForm profile={profile} />
+				<SetupProfileForm profile={profile} message={message} />
 			</main>
 		</AppShell>
 	)

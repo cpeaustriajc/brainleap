@@ -39,18 +39,38 @@ export interface Database {
 					course_description: string | null
 					course_id: string
 					course_name: string
+					instructor_id: string | null
+					room: string | null
+					section: string | null
+					subject: string | null
 				}
 				Insert: {
 					course_description?: string | null
 					course_id?: string
 					course_name: string
+					instructor_id?: string | null
+					room?: string | null
+					section?: string | null
+					subject?: string | null
 				}
 				Update: {
 					course_description?: string | null
 					course_id?: string
 					course_name?: string
+					instructor_id?: string | null
+					room?: string | null
+					section?: string | null
+					subject?: string | null
 				}
-				Relationships: []
+				Relationships: [
+					{
+						foreignKeyName: 'fk_instructor_id'
+						columns: ['instructor_id']
+						isOneToOne: false
+						referencedRelation: 'profiles'
+						referencedColumns: ['profile_id']
+					},
+				]
 			}
 			enrollments: {
 				Row: {

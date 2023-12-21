@@ -10,7 +10,7 @@ import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 
 export async function generateStaticParams() {
-	const res = await fetch('http://localhost:3000/api/post/ids')
+	const res = await fetch('/api/post/ids')
 	const postIds: Tables<'posts'>['post_id'][] = await res.json()
 
 	if (!postIds) {

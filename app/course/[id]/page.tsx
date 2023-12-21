@@ -26,7 +26,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const res = await fetch("http://localhost:3000/api/course/ids")
+	const res = await fetch("/api/course/ids")
 	const courseIds: Tables<'courses'>['course_id'][] = await res.json()
 
 	return courseIds.map((courseId) => ({

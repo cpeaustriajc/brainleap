@@ -1,15 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { getPostIds } from '@/lib/queries'
 
 export async function GET() {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const { data: posts } = await supabase.from('posts').select('post_id')
+	const postIds = await getPostIds()
 
-	if (!posts) {
-		notFound()
-	}
-
-	return Response.json(posts.map((post) => post.post_id))
+	return Response.json(postIds.map((post_id) => post_id))
 }

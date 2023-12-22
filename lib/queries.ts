@@ -94,27 +94,10 @@ export const getEnrollments = nextCache(
 	async () => {
 		const cookieStore = cookies()
 		const supabase = createClient(cookieStore)
-		const {
-			data: { session },
-			error: authError,
-		} = await supabase.auth.getSession()
-
-		if (authError) {
-			throw authError
-		}
-
-		if (!session) {
-			redirect('/auth/signin')
-		}
-
-		const {
-			user: { id },
-		} = session
 
 		const { data: enrollments } = await supabase
 			.from('enrollments')
 			.select()
-			.eq('user_id', id)
 
 		return enrollments
 	},

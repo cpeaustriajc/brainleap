@@ -7,17 +7,21 @@ import { cookies } from 'next/headers'
 import { unstable_cache as nextCache } from 'next/cache'
 import { notFound } from 'next/navigation'
 
-export const getCourses = nextCache(async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const { data: courses, error } = await supabase.from('courses').select()
+export const getCourses = nextCache(
+	async () => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const { data: courses, error } = await supabase.from('courses').select()
 
-	if (error) {
-		throw error
-	}
+		if (error) {
+			throw error
+		}
 
-	return courses
-}, ['courses'])
+		return courses
+	},
+	['courses'],
+	{ tags: ['courses'] },
+)
 
 export const getCourse = nextCache(
 	async (id: string) => {
@@ -34,29 +38,41 @@ export const getCourse = nextCache(
 	['course'],
 )
 
-export const getCourseIds = nextCache(async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const { data: courses } = await supabase.from('courses').select('course_id')
+export const getCourseIds = nextCache(
+	async () => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const { data: courses } = await supabase
+			.from('courses')
+			.select('course_id')
 
-	if (!courses) {
-		notFound()
-	}
+		if (!courses) {
+			notFound()
+		}
 
-	return courses.map((course) => course.course_id)
-}, ['courseIds'])
+		return courses.map((course) => course.course_id)
+	},
+	['course_id'],
+	{
+		tags: ['courseIds'],
+	},
+)
 
-export const getPostIds = nextCache(async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const { data: posts } = await supabase.from('posts').select('post_id')
+export const getPostIds = nextCache(
+	async () => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const { data: posts } = await supabase.from('posts').select('post_id')
 
-	if (!posts) {
-		notFound()
-	}
+		if (!posts) {
+			notFound()
+		}
 
-	return posts.map((post) => post.post_id)
-}, ['postIds'])
+		return posts.map((post) => post.post_id)
+	},
+	['post_id'],
+	{ tags: ['postIds'] },
+)
 
 export const getPost = nextCache(
 	async (id: string) => {
@@ -71,33 +87,11 @@ export const getPost = nextCache(
 		return post
 	},
 	['post'],
+	{ tags: ['post'] },
 )
 
-export const getEnrollments = nextCache(async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const {
-		data: { session },
-		error: authError,
-	} = await supabase.auth.getSession()
-
-	if (!session) {
-		throw authError
-	}
-	const {
-		user: { id },
-	} = session
-
-	const { data: enrollments } = await supabase
-		.from('enrollments')
-		.select()
-		.eq('user_id', id)
-
-	return enrollments
-}, ['enrollments'])
-
-export const getEnrollmentsByCourseId = nextCache(
-	async (courseId: string) => {
+export const getEnrollments = nextCache(
+	async () => {
 		const cookieStore = cookies()
 		const supabase = createClient(cookieStore)
 		const {
@@ -112,6 +106,24 @@ export const getEnrollmentsByCourseId = nextCache(
 			user: { id },
 		} = session
 
+		const { data: enrollments } = await supabase
+			.from('enrollments')
+			.select()
+			.eq('user_id', id)
+
+		return enrollments
+	},
+	['enrollments'],
+	{
+		tags: ['enrollments'],
+	},
+)
+
+export const getEnrollmentsByCourseId = nextCache(
+	async (courseId: string) => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+
 		const { data: enrollment } = await supabase
 			.from('enrollments')
 			.select()
@@ -124,6 +136,7 @@ export const getEnrollmentsByCourseId = nextCache(
 		return enrollment
 	},
 	['enrollment'],
+	{ tags: ['enrollment'] },
 )
 
 export const getPosts = nextCache(
@@ -138,6 +151,7 @@ export const getPosts = nextCache(
 		return posts
 	},
 	['posts'],
+	{ tags: ['posts'] },
 )
 
 export const getProfile = nextCache(
@@ -158,20 +172,29 @@ export const getProfile = nextCache(
 		return profile
 	},
 	['profile'],
+	{ tags: ['profile'] },
 )
 
-export const getProfiles = nextCache(async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+export const getProfiles = nextCache(
+	async () => {
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
 
-	const { data: profiles, error } = await supabase.from('profiles').select()
+		const { data: profiles, error } = await supabase
+			.from('profiles')
+			.select()
 
-	if (error) {
-		throw new Error(error.message)
-	}
+		if (error) {
+			throw new Error(error.message)
+		}
 
-	return profiles
-}, ['profiles'])
+		return profiles
+	},
+	['profiles'],
+	{
+		tags: ['profiles'],
+	},
+)
 
 export const getRole = nextCache(
 	async (id: string) => {
@@ -191,4 +214,5 @@ export const getRole = nextCache(
 		return data.role
 	},
 	['role'],
+	{ tags: ['role'] },
 )

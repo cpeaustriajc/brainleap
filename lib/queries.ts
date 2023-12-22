@@ -192,7 +192,7 @@ export const getRole = nextCache(
 		const { data, error } = await supabase
 			.from('profiles')
 			.select('role')
-			.eq('role_id', id)
+			.eq('profile_id', id)
 			.single()
 
 		if (error) {

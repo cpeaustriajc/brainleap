@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { uploadAssignment } from '@/lib/actions'
 import { Tables } from '@/lib/database.types'
 import { getPost, getRole } from '@/lib/queries'
 import { createClient } from '@/lib/supabase/server'
@@ -49,13 +48,6 @@ export default async function Page({ params }: Props) {
 		notFound()
 	}
 
-	const uploadAssignmentWithId = uploadAssignment.bind(null, post.post_id)
-
-	async function submitAssignment(formData: FormData) {
-		'use server'
-		uploadAssignmentWithId(formData)
-	}
-
 	return (
 		<main>
 			<div className="max-w-2xl mx-auto">
@@ -67,8 +59,8 @@ export default async function Page({ params }: Props) {
 					<p className="whitespace-pre-wrap">{post.description}</p>
 				</div>
 				<div>
-					{role === 'student' && (
-						<form action={submitAssignment} className="space-y-2">
+					{role === 'student' && post.type === 'assignment' && (
+						<form className="space-y-2">
 							<fieldset className="border rounded border-primary p-3 space-y-2">
 								<legend className="font-bold">
 									Turn in your assignment

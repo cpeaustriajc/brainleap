@@ -8,7 +8,6 @@ import {
 	cn,
 	createPostgresTimestamp,
 	extractUsername,
-	getInitials,
 } from '@/lib/utils'
 import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'

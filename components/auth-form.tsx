@@ -3,7 +3,7 @@ import { Button } from './ui/button'
 import { Label } from './ui/label'
 import { Separator } from './ui/separator'
 import { SignInWithGoogle } from './sign-in-with-google'
-import { signInWithEmail } from '@/lib/actions'
+import { signInWithEmail } from '@/lib/actions/auth'
 import { redirect } from 'next/navigation'
 
 export function AuthForm({ message }: { message: string }) {

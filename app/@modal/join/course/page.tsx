@@ -3,7 +3,7 @@ import { ModalBackground } from '@/components/modal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { joinCourse } from '@/lib/actions'
+import { joinCourse } from '@/lib/actions/course'
 import { revalidateTag } from 'next/cache'
 
 export default function Page() {

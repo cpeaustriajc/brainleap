@@ -1,4 +1,4 @@
-import { signInWithGoogle } from '@/lib/actions'
+import { signInWithGoogle } from '@/lib/actions/auth'
 import { Button } from './ui/button'
 
 export function SignInWithGoogle() {

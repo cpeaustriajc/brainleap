@@ -14,26 +14,12 @@ const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
 	{
 		ssr: false,
-		loading: () => (
-			<Button
-				size="icon"
-				variant="secondary"
-				className="animate-pulse"
-			></Button>
-		),
 	},
 )
 const ThemeToggle = dynamic(
 	() => import('./theme-toggle').then((mod) => mod.ThemeToggle),
 	{
 		ssr: false,
-		loading: () => (
-			<Button
-				size="icon"
-				className="animate-pulse"
-				variant="secondary"
-			></Button>
-		),
 	},
 )
 const DropdownMenuContent = dynamic(
@@ -44,13 +30,6 @@ const DropdownMenuTrigger = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuTrigger),
 	{
 		ssr: false,
-		loading: () => (
-			<Button
-				size="icon"
-				variant="secondary"
-				className="animate-pulse"
-			></Button>
-		),
 	},
 )
 

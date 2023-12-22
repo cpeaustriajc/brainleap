@@ -48,7 +48,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 	}
 
 	return (
-		<Card>
+		<Card className="max-w-sm h-60">
 			<CardHeader className="flex flex-row justify-between items-center">
 				<div>
 					<CardTitle>{course.course_name}</CardTitle>

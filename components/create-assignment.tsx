@@ -6,8 +6,9 @@ import { Textarea } from './ui/textarea'
 import { createPost } from '@/lib/actions'
 import { Checkbox } from './ui/checkbox'
 import { getEnrollmentsByCourseId, getProfiles } from '@/lib/queries'
+import { Fragment } from 'react'
 
-export async function AddAssignment({ course }: { course: Tables<'courses'> }) {
+export async function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course
 
 	const createPostWithCourseId = createPost.bind(null, course_id)
@@ -22,8 +23,6 @@ export async function AddAssignment({ course }: { course: Tables<'courses'> }) {
 		})
 	})
 
-	console.log(enrolledStudents)
-
 	const action = async (formData: FormData) => {
 		'use server'
 		createPostWithCourseId(formData)
@@ -33,12 +32,12 @@ export async function AddAssignment({ course }: { course: Tables<'courses'> }) {
 		<form action={action} className="space-y-8">
 			<div className="space-y-2">
 				{enrolledStudents.map((student) => (
-					<>
-						<Checkbox id={student.username ?? ''} />
-						<Label htmlFor={student.username ?? ''}>
+					<Fragment key={student.username}>
+						<Checkbox id={student.username} />
+						<Label htmlFor={student.username}>
 							{student.full_name}
 						</Label>
-					</>
+					</Fragment>
 				))}
 			</div>
 			<div className="space-y-2">

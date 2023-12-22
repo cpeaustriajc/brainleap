@@ -5,7 +5,7 @@ import 'server-only'
 import { createClient } from './supabase/server'
 import { cookies } from 'next/headers'
 import { unstable_cache as nextCache } from 'next/cache'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 
 export const getCourses = nextCache(
 	async () => {
@@ -99,9 +99,14 @@ export const getEnrollments = nextCache(
 			error: authError,
 		} = await supabase.auth.getSession()
 
-		if (!session) {
+		if (authError) {
 			throw authError
 		}
+
+		if (!session) {
+			redirect('/auth/signin')
+		}
+
 		const {
 			user: { id },
 		} = session

@@ -39,7 +39,7 @@ export interface Database {
 					course_description: string | null
 					course_id: string
 					course_name: string
-					instructor_id: string | null
+					instructor_id: string
 					room: string | null
 					section: string | null
 					subject: string | null
@@ -48,7 +48,7 @@ export interface Database {
 					course_description?: string | null
 					course_id?: string
 					course_name: string
-					instructor_id?: string | null
+					instructor_id?: string
 					room?: string | null
 					section?: string | null
 					subject?: string | null
@@ -57,7 +57,7 @@ export interface Database {
 					course_description?: string | null
 					course_id?: string
 					course_name?: string
-					instructor_id?: string | null
+					instructor_id?: string
 					room?: string | null
 					section?: string | null
 					subject?: string | null

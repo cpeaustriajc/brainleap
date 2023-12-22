@@ -54,6 +54,11 @@ export async function joinCourse(formData: FormData) {
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
 	const { count } = await supabase
 		.from('courses')
 		.select()
@@ -68,7 +73,7 @@ export async function joinCourse(formData: FormData) {
 		.from('enrollments')
 		.insert({
 			course_id: parsedData.classCode,
-			user_id: session?.user.id,
+			user_id: session.user.id,
 		})
 
 	if (insertEnrollmentError) {
@@ -95,11 +100,12 @@ export async function createCourse(formData: FormData) {
 	if (sessionError) {
 		throw sessionError
 	}
+
 	if (!session) {
-		throw new Error('Session not found')
+		redirect('/auth/signin')
 	}
 
-	const { data } = await supabase
+	await supabase
 		.from('profiles')
 		.select('user_id, role')
 		.eq('user_id', session.user.id)

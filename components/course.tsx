@@ -31,9 +31,11 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 	const profile = await supabase
 		.from('profiles')
 		.select('role')
-		.eq('profile_id', session?.user?.id)
+		.eq('profile_id', session.user.id)
 		.single()
-	const instructorProfile = await getProfile(course.instructor_id ?? '')
+
+	const instructorProfile = await getProfile(course.instructor_id)
+
 	if (!profile.data) {
 		notFound()
 	}

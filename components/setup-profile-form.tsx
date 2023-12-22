@@ -15,6 +15,7 @@ import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { cookies } from 'next/headers'
 import { revalidateTag } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -82,8 +83,12 @@ export function SetupProfileForm({
 			error: sessionError,
 		} = await supabase.auth.getSession()
 
-		if (!session || sessionError) {
+		if (sessionError) {
 			throw sessionError
+		}
+
+		if (!session) {
+			redirect('/auth/signin')
 		}
 
 		const {

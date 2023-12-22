@@ -7,7 +7,7 @@ import { createPost } from '@/lib/actions'
 import { Checkbox } from './ui/checkbox'
 import { getEnrollmentsByCourseId, getProfiles } from '@/lib/queries'
 
-export async function AddPost({ course }: { course: Tables<'courses'> }) {
+export async function AddAssignment({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course
 
 	const createPostWithCourseId = createPost.bind(null, course_id)

@@ -35,7 +35,9 @@ export async function AddPost({ course }: { course: Tables<'courses'> }) {
 				{enrolledStudents.map((student) => (
 					<>
 						<Checkbox id={student.username ?? ''} />
-						<Label htmlFor={student.username ?? ''}>{student.full_name}</Label>
+						<Label htmlFor={student.username ?? ''}>
+							{student.full_name}
+						</Label>
 					</>
 				))}
 			</div>

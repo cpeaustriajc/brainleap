@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  doctrina-staging:
-    build:
-      context: ../../
-      dockerfile: docker/staging/Dockerfile
-    image: docker-staging
-    ports:
-      - '3002:3000'
+    doctrina-staging:
+        build:
+            context: ../../
+            dockerfile: docker/staging/Dockerfile
+        image: docker-staging
+        ports:
+            - '3002:3000'

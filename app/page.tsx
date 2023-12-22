@@ -35,7 +35,9 @@ export default async function Page() {
 	)
 
 	const filterCoursesEnrolled = courses.filter((course) =>
-		studentsEnrolled.find((enrollment) => enrollment.course_id === course.course_id),
+		studentsEnrolled.find(
+			(enrollment) => enrollment.course_id === course.course_id,
+		),
 	)
 
 	return (

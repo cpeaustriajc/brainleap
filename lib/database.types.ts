@@ -198,7 +198,7 @@ export interface Database {
 					section: string | null
 					university: string | null
 					updated_at: string | null
-					username: string | null
+					username: string
 				}
 				Insert: {
 					avatar_url?: string | null
@@ -212,7 +212,7 @@ export interface Database {
 					section?: string | null
 					university?: string | null
 					updated_at?: string | null
-					username?: string | null
+					username: string
 				}
 				Update: {
 					avatar_url?: string | null
@@ -226,7 +226,7 @@ export interface Database {
 					section?: string | null
 					university?: string | null
 					updated_at?: string | null
-					username?: string | null
+					username?: string
 				}
 				Relationships: [
 					{
@@ -243,7 +243,12 @@ export interface Database {
 			[_ in never]: never
 		}
 		Functions: {
-			[_ in never]: never
+			get_username_from_email: {
+				Args: {
+					email_address: string
+				}
+				Returns: string
+			}
 		}
 		Enums: {
 			post_type: 'assignment' | 'announcement'

@@ -4,11 +4,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { joinCourse } from '@/lib/actions'
+import { revalidateTag } from 'next/cache'
 
 export default function Page() {
 	const action = async (formData: FormData) => {
 		'use server'
 		joinCourse(formData)
+		revalidateTag('courses')
+		revalidateTag('enrollments')
 	}
 
 	return (

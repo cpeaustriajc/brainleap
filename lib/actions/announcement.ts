@@ -6,15 +6,15 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { z } from 'zod'
 
-const CreatePostFormSchema = z.object({
+const CreateAnnouncementFormSchema = z.object({
 	title: z.string(),
 	description: z.string(),
 })
-export async function createPost(courseId: string, formData: FormData) {
+export async function createAnnouncement(course_id: string, formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = CreatePostFormSchema.parse({
+	const values = CreateAnnouncementFormSchema.parse({
 		title: formData.get('title'),
 		description: formData.get('description'),
 	})
@@ -22,11 +22,11 @@ export async function createPost(courseId: string, formData: FormData) {
 	await supabase
 		.from('courses')
 		.select('course_id')
-		.eq('course_id', courseId)
+		.eq('course_id', course_id)
 		.single()
 
-	const { error } = await supabase.from('posts').insert({
-		course_id: courseId,
+	const { error } = await supabase.from('announcements').insert({
+		course_id: course_id,
 		title: values.title,
 		description: values.description,
 	})

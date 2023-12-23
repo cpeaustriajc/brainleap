@@ -1,3 +1,6 @@
+'use server'
+
+import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { headers, cookies } from 'next/headers'
 import { redirect } from 'next/navigation'

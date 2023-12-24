@@ -121,7 +121,7 @@ function Announcements({
 		)
 
 		createAnnouncementWithCourseId(formData)
-		revalidateTag('annoyuncements')
+		revalidateTag('announcements')
 	}
 	return (
 		<section className="grid grid-cols-5">

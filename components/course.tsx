@@ -40,12 +40,12 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		notFound()
 	}
 
-	const announcements = await supabase
-		.from('announcements')
+	const assignments = await supabase
+		.from('assignments')
 		.select('*')
 		.eq('course_id', course.course_id)
 
-	if (!announcements.data) {
+	if (!assignments.data) {
 		notFound()
 	}
 
@@ -70,11 +70,11 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 			<CardContent>
 				<p>
 					You currently have{' '}
-					{announcements.data.length === 0
+					{assignments.data.length === 0
 						? 'no'
-						: announcements.data.length}{' '}
+						: assignments.data.length}{' '}
 					pending{' '}
-					{announcements.data.length === 0
+					{assignments.data.length === 0
 						? 'classwork'
 						: 'classworks'}{' '}
 					{profile.data.role === 'instructor'

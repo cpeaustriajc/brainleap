@@ -11,7 +11,7 @@ import {
 import { Button } from './ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { getProfile } from '@/lib/queries'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { PersonIcon } from '@radix-ui/react-icons'
@@ -25,10 +25,10 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 	} = await supabase.auth.getSession()
 
 	if (!session) {
-		notFound()
+		redirect('/auth/signin')
 	}
 
-	const profile = await supabase
+	const { data: profile } = await supabase
 		.from('profiles')
 		.select('role')
 		.eq('profile_id', session.user.id)
@@ -36,8 +36,8 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 
 	const instructorProfile = await getProfile(course.instructor_id)
 
-	if (!profile.data) {
-		notFound()
+	if (!profile) {
+		redirect('/auth/signin')
 	}
 
 	const assignments = await supabase
@@ -74,12 +74,8 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 						? 'no'
 						: assignments.data.length}{' '}
 					pending{' '}
-					{assignments.data.length === 0
-						? 'classwork'
-						: 'classworks'}{' '}
-					{profile.data.role === 'instructor'
-						? 'to grade'
-						: 'to complete'}
+					{assignments.data.length === 0 ? 'classwork' : 'classworks'}{' '}
+					{profile.role === 'instructor' ? 'to grade' : 'to complete'}
 					.
 				</p>
 			</CardContent>

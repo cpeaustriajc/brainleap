@@ -44,6 +44,12 @@ export default async function Page({ params }: Props) {
 		redirect('/auth/signin')
 	}
 
+	const profile = await getProfile(user.id)
+
+	if (!profile) {
+		redirect('/auth/signin')
+	}
+
 	const course = await getCourse(params.id)
 
 	if (!course) {
@@ -53,12 +59,6 @@ export default async function Page({ params }: Props) {
 	const announcements = await getAnnouncements(course.course_id)
 
 	if (!announcements) {
-		notFound()
-	}
-
-	const profile = await getProfile(user.id)
-
-	if (!profile) {
 		notFound()
 	}
 

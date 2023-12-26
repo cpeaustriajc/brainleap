@@ -3,8 +3,8 @@
 import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState } from 'react'
 
-export function useAvatar(url: string | null, uid: string) {
-	const [avatarUrl, setAvatarUrl] = useState<string>('')
+export function useUpload<T>(bucket: string, url: string | null, uid: string) {
+	const [fileUrl, setFileUrl] = useState<string>('')
 	const [uploading, setUploading] = useState(false)
 	const supabase = createClient()
 
@@ -12,7 +12,7 @@ export function useAvatar(url: string | null, uid: string) {
 		async function downloadImage(path: string) {
 			try {
 				const { data, error } = await supabase.storage
-					.from('avatars')
+					.from(bucket)
 					.download(path)
 
 				if (error) {
@@ -21,24 +21,22 @@ export function useAvatar(url: string | null, uid: string) {
 
 				const url = URL.createObjectURL(data)
 
-				setAvatarUrl(url)
+				setFileUrl(url)
 			} catch (error) {
 				console.error('Error downloading image: ', error)
 			}
 		}
 
 		if (url)
-			url.startsWith('https://') ? setAvatarUrl(url) : downloadImage(url)
-	}, [url, supabase])
+			url.startsWith('https://') ? setFileUrl(url) : downloadImage(url)
+	}, [bucket, url, supabase])
 
-	const uploadAvatar: React.ChangeEventHandler<HTMLInputElement> = async (
-		event,
-	) => {
+	const uploadFile: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
 		try {
 			setUploading(true)
 
 			if (!event.target.files || event.target.files.length === 0) {
-				throw new Error('You must select an image to upload.')
+				throw new Error('You must select a file to upload.')
 			}
 
 			const file = event.target.files[0]
@@ -46,18 +44,18 @@ export function useAvatar(url: string | null, uid: string) {
 			const filePath = `${uid}-${Math.random()}.${fileExt}`
 
 			const { error } = await supabase.storage
-				.from('avatars')
+				.from(bucket)
 				.upload(filePath, file)
 
 			if (error) {
 				throw error
 			}
 		} catch (error) {
-			alert('Error uploading avatar!')
+			alert(`Error uploading to ${bucket}!`)
 		} finally {
 			setUploading(false)
 		}
 	}
 
-	return { avatarUrl, uploadAvatar, uploading }
+	return { fileUrl, uploadFile, uploading }
 }

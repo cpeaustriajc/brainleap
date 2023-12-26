@@ -1,5 +1,3 @@
-'use server'
-
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'

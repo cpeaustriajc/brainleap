@@ -1,7 +1,5 @@
 'use server'
 
-import 'server-only'
-
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { announcementSchema } from '../validations/announcement'

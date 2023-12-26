@@ -1,4 +1,4 @@
-import {  getAnnouncementIds } from '@/lib/queries'
+import { getAnnouncementIds } from '@/lib/queries/announcement'
 
 export async function GET() {
 	const announcementIds = await getAnnouncementIds()

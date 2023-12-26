@@ -12,7 +12,7 @@ import { Button } from './ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
-import { getProfile } from '@/lib/queries'
+import { getProfileById } from '@/lib/queries/profile'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { PersonIcon } from '@radix-ui/react-icons'
 
@@ -34,7 +34,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		.eq('profile_id', session.user.id)
 		.single()
 
-	const instructorProfile = await getProfile(course.instructor_id)
+	const instructorProfile = await getProfileById(course.instructor_id)
 
 	if (!profile) {
 		redirect('/auth/signin')

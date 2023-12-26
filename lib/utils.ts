@@ -57,3 +57,8 @@ export const createPostgresTimestamp = (date: Date) => {
 
 	return formattedTimeStamp
 }
+
+export const getFilename = (url: string) => {
+	const filename = url.split('/').pop()
+	return filename
+}

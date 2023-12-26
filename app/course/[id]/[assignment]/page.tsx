@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import { Tables } from '@/lib/database.types'
-import { getAnnouncement, getRole } from '@/lib/queries'
+import { getAnnouncementById } from '@/lib/queries/announcement'
 import { createClient } from '@/lib/supabase/server'
 import { getURL } from '@/lib/utils'
 import { cookies } from 'next/headers'
@@ -38,9 +38,7 @@ export default async function Page({ params }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const announcement = await getAnnouncement(params.announcement)
-
-	const role = await getRole(user.id)
+	const announcement = await getAnnouncementById(params.announcement)
 
 	if (!announcement) {
 		notFound()

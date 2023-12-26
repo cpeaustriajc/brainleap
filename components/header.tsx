@@ -2,13 +2,13 @@
 
 import Link from 'next/link'
 import { Button } from './ui/button'
-import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
+import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
 import { use } from 'react'
-import { useAvatar } from '@/hooks/use-avatar'
+import { useUpload } from '@/hooks/use-upload'
 
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
@@ -61,7 +61,11 @@ export function Header({
 }) {
 	const profile = use(profilePromise)
 
-	const { avatarUrl } = useAvatar(profile.avatar_url, profile.profile_id)
+	const { fileUrl } = useUpload(
+		'avatars',
+		profile.avatar_url,
+		profile.profile_id,
+	)
 
 	return (
 		<header className="px-4 py-2">
@@ -69,7 +73,10 @@ export function Header({
 				<div className="flex items-center">
 					<div className="px-2 inline-flex items-center">
 						<Button asChild variant="link" className="px-0">
-							<Link href="/">Doctrina</Link>
+							<Link href="/">
+								<HomeIcon />{' '}
+								<span className="sr-only">Home</span>
+							</Link>
 						</Button>
 					</div>
 				</div>
@@ -85,7 +92,7 @@ export function Header({
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
-								{profile?.role === 'instructor' && (
+								{profile.role === 'instructor' && (
 									<DropdownMenuItem>
 										<Button
 											size="lg"
@@ -113,7 +120,7 @@ export function Header({
 							<Button variant="ghost" size="icon">
 								<span className="sr-only">Open User Menu</span>
 								<Avatar className="h-8 w-8">
-									<AvatarImage src={avatarUrl || undefined} />
+									<AvatarImage src={fileUrl || undefined} />
 									<AvatarFallback>
 										<PersonIcon />
 									</AvatarFallback>

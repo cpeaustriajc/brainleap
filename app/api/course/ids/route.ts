@@ -1,4 +1,4 @@
-import { getCourseIds } from '@/lib/queries'
+import { getCourseIds } from '@/lib/queries/course'
 
 export async function GET() {
 	const courseIds = await getCourseIds()

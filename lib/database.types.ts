@@ -37,29 +37,32 @@ export interface Database {
       announcements: {
         Row: {
           announcement_id: string
-          attachments: string[] | null
+          attachment: string | null
           course_id: string | null
           created_at: string | null
           description: string | null
-          links: string[] | null
+          links: string | null
+          profile_id: string | null
           title: string | null
         }
         Insert: {
           announcement_id?: string
-          attachments?: string[] | null
+          attachment?: string | null
           course_id?: string | null
           created_at?: string | null
           description?: string | null
-          links?: string[] | null
+          links?: string | null
+          profile_id?: string | null
           title?: string | null
         }
         Update: {
           announcement_id?: string
-          attachments?: string[] | null
+          attachment?: string | null
           course_id?: string | null
           created_at?: string | null
           description?: string | null
-          links?: string[] | null
+          links?: string | null
+          profile_id?: string | null
           title?: string | null
         }
         Relationships: [
@@ -69,32 +72,66 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "courses"
             referencedColumns: ["course_id"]
+          },
+          {
+            foreignKeyName: "profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
           }
         ]
       }
       assignments: {
         Row: {
           assignment_id: string
-          attachments: string[] | null
+          attachment: string | null
+          course_id: string | null
+          description: string | null
           grade: number | null
-          links: string[] | null
+          link: string | null
+          profile_id: string | null
           submitted_at: string | null
+          title: string | null
         }
         Insert: {
           assignment_id?: string
-          attachments?: string[] | null
+          attachment?: string | null
+          course_id?: string | null
+          description?: string | null
           grade?: number | null
-          links?: string[] | null
+          link?: string | null
+          profile_id?: string | null
           submitted_at?: string | null
+          title?: string | null
         }
         Update: {
           assignment_id?: string
-          attachments?: string[] | null
+          attachment?: string | null
+          course_id?: string | null
+          description?: string | null
           grade?: number | null
-          links?: string[] | null
+          link?: string | null
+          profile_id?: string | null
           submitted_at?: string | null
+          title?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "course_id_fk"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["course_id"]
+          },
+          {
+            foreignKeyName: "profile_id_fk"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          }
+        ]
       }
       courses: {
         Row: {

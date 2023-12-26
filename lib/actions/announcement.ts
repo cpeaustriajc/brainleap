@@ -4,31 +4,36 @@ import 'server-only'
 
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { z } from 'zod'
+import { announcementSchema } from '../validations/announcement'
 
-const CreateAnnouncementFormSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-})
-export async function createAnnouncement(course_id: string, formData: FormData) {
+export async function createAnnouncement(
+	course_id: string,
+	formData: FormData,
+) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = CreateAnnouncementFormSchema.parse({
+	const values = announcementSchema.parse({
 		title: formData.get('title'),
 		description: formData.get('description'),
+		attachment: formData.get('attachment'),
 	})
 
-	await supabase
-		.from('courses')
-		.select('course_id')
-		.eq('course_id', course_id)
-		.single()
+	const { data, error: uploadError } = await supabase.storage
+		.from('files')
+		.upload(`announcements/${values.attachment.name}`, values.attachment, {
+			upsert: true,
+		})
 
-	const { error } = await supabase.from('announcements').insert({
+	if (!data) {
+		throw uploadError
+	}
+
+	const { error } = await supabase.from('announcements').upsert({
 		course_id: course_id,
 		title: values.title,
 		description: values.description,
+		attachment: data.path,
 	})
 
 	if (error) {

@@ -31,7 +31,9 @@ export function useUpload<T>(bucket: string, url: string | null, uid: string) {
 			url.startsWith('https://') ? setFileUrl(url) : downloadImage(url)
 	}, [bucket, url, supabase])
 
-	const uploadFile: React.ChangeEventHandler<HTMLInputElement> = async (event) => {
+	const uploadFile: React.ChangeEventHandler<HTMLInputElement> = async (
+		event,
+	) => {
 		try {
 			setUploading(true)
 

@@ -4,7 +4,7 @@ import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { headers, cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
+import { signInWithEmailSchema } from '../validations/auth'
 
 export async function signInWithGoogle() {
 	const origin = headers().get('origin')
@@ -26,16 +26,12 @@ export async function signInWithGoogle() {
 	redirect(data.url)
 }
 
-const SignInWithEmailSchema = z.object({
-	email: z.string().email({ message: 'Please enter a valid email' }),
-})
-
 export async function signInWithEmail(formData: FormData) {
 	const origin = headers().get('origin')
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = SignInWithEmailSchema.safeParse({
+	const values = signInWithEmailSchema.safeParse({
 		email: formData.get('email'),
 	})
 

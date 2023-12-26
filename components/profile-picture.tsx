@@ -6,7 +6,7 @@ import { Tables } from '@/lib/database.types'
 import { Button } from './ui/button'
 import { cn } from '@/lib/utils'
 import { PersonIcon } from '@radix-ui/react-icons'
-import { useAvatar } from '@/hooks/use-avatar'
+import { useUpload } from '@/hooks/use-upload'
 
 type Props = {
 	uid: string
@@ -15,13 +15,13 @@ type Props = {
 }
 
 export function ProfilePicture({ uid, url, size }: Props) {
-	const { avatarUrl, uploadAvatar, uploading } = useAvatar(url, uid)
+	const { fileUrl, uploadFile, uploading } = useUpload('avatars', url, uid)
 
 	return (
 		<div className="space-y-4">
 			<Avatar style={{ width: size, height: size }}>
 				<AvatarImage
-					src={avatarUrl}
+					src={fileUrl}
 					width={size}
 					height={size}
 					style={{ width: size, height: size }}
@@ -42,7 +42,7 @@ export function ProfilePicture({ uid, url, size }: Props) {
 					type="file"
 					id="single"
 					accept="image/*"
-					onChange={uploadAvatar}
+					onChange={uploadFile}
 					disabled={uploading}
 				/>
 			</div>

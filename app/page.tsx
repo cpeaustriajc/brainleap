@@ -1,7 +1,8 @@
 import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
 import { CourseSkeleton } from '@/components/course-skeleton'
-import { getCourses, getEnrollments, getProfile } from '@/lib/queries'
+import { getCourses } from '@/lib/queries/course'
+import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
@@ -46,7 +47,7 @@ export default async function Page() {
 				<section className="flex px-7 gap-4">
 					<Suspense fallback={<CourseSkeleton />}>
 						{filterCoursesEnrolled.map((course) => (
-							<Course key={course?.course_id} course={course} />
+							<Course key={course.course_id} course={course} />
 						))}
 					</Suspense>
 				</section>

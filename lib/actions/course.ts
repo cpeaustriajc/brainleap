@@ -4,27 +4,15 @@ import 'server-only'
 import humanId from 'human-id'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
-
-const CreateCourseFormSchema = z.object({
-	title: z
-		.string()
-		.min(3, { message: 'Title must be at least 3 characters long' })
-		.max(20, { message: 'Title must not be longer than 20 characters' }),
-	description: z
-		.string()
-		.min(10, { message: 'description must be atleast 10 characters long' })
-		.max(160),
-	section: z.string(),
-	subject: z.string(),
-	room: z.string(),
-})
+import { courseSchema } from '../validations/course'
+import { joinCourseSchema } from '../validations/course'
 
 export async function createCourse(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const values = CreateCourseFormSchema.parse({
+
+	const values = courseSchema.parse({
 		title: formData.get('title'),
 		description: formData.get('description'),
 		section: formData.get('section'),
@@ -77,7 +65,7 @@ export async function createCourse(formData: FormData) {
 
 		const { error } = await supabase.from('enrollments').insert({
 			user_id: session.user.id,
-			course_id: course?.course_id,
+			course_id: course.course_id,
 		})
 
 		if (error) throw error
@@ -86,12 +74,8 @@ export async function createCourse(formData: FormData) {
 	if (error) throw error
 }
 
-const JoinCourseFormSchema = z.object({
-	courseCode: z.string(),
-})
-
 export async function joinCourse(formData: FormData) {
-	const parsedData = JoinCourseFormSchema.parse({
+	const parsedData = joinCourseSchema.parse({
 		courseCode: formData.get('courseCode'),
 	})
 	const cookieStore = cookies()

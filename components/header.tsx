@@ -72,9 +72,9 @@ export function Header({
 			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center">
 					<div className="px-2 inline-flex items-center">
-						<Button asChild variant="link" className="px-0">
+						<Button asChild variant="ghost" size="icon" className="px-0">
 							<Link href="/">
-								<HomeIcon />{' '}
+								<HomeIcon className="size-6" />{' '}
 								<span className="sr-only">Home</span>
 							</Link>
 						</Button>
@@ -100,7 +100,7 @@ export function Header({
 											variant="ghost"
 										>
 											<Link href="/create/course">
-												Create Class
+												Create Course
 											</Link>
 										</Button>
 									</DropdownMenuItem>
@@ -108,7 +108,7 @@ export function Header({
 								<DropdownMenuItem>
 									<Button size="lg" asChild variant="ghost">
 										<Link href="/join/course">
-											Join Class
+											Enroll Course
 										</Link>
 									</Button>
 								</DropdownMenuItem>

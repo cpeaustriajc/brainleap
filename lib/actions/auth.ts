@@ -30,27 +30,22 @@ export async function signInWithEmail(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = signInWithEmailSchema.safeParse({
+	const values = signInWithEmailSchema.parse({
 		email: formData.get('email'),
 	})
 
-	if (!values.success) {
-		return {
-			errors: values.error.flatten().fieldErrors,
-		}
-	}
-
 	const { error } = await supabase.auth.signInWithOtp({
-		email: values.data.email,
+		email: values.email,
 		options: {
 			data: {
-				email: values.data.email,
+				email: values.email,
 			},
 			emailRedirectTo: `${origin}/api/auth/confirm`,
 		},
 	})
 
+	console.log(error)
 	if (error) {
-		return { errors: error }
+		return { error: error.message }
 	}
 }

@@ -88,10 +88,9 @@ export interface Database {
           attachment: string | null
           course_id: string | null
           description: string | null
-          grade: number | null
+          due_date: string | null
+          instructor_id: string | null
           link: string | null
-          profile_id: string | null
-          submitted_at: string | null
           title: string | null
         }
         Insert: {
@@ -99,10 +98,9 @@ export interface Database {
           attachment?: string | null
           course_id?: string | null
           description?: string | null
-          grade?: number | null
+          due_date?: string | null
+          instructor_id?: string | null
           link?: string | null
-          profile_id?: string | null
-          submitted_at?: string | null
           title?: string | null
         }
         Update: {
@@ -110,26 +108,25 @@ export interface Database {
           attachment?: string | null
           course_id?: string | null
           description?: string | null
-          grade?: number | null
+          due_date?: string | null
+          instructor_id?: string | null
           link?: string | null
-          profile_id?: string | null
-          submitted_at?: string | null
           title?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "assignments_instructor_id_fkey"
+            columns: ["instructor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          },
           {
             foreignKeyName: "course_id_fk"
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
             referencedColumns: ["course_id"]
-          },
-          {
-            foreignKeyName: "profile_id_fk"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["profile_id"]
           }
         ]
       }
@@ -204,6 +201,48 @@ export interface Database {
           }
         ]
       }
+      outputs: {
+        Row: {
+          assignment_id: string | null
+          attachment: string
+          grade: number | null
+          output_id: string
+          student_id: string | null
+          submitted_at: string
+        }
+        Insert: {
+          assignment_id?: string | null
+          attachment: string
+          grade?: number | null
+          output_id?: string
+          student_id?: string | null
+          submitted_at?: string
+        }
+        Update: {
+          assignment_id?: string | null
+          attachment?: string
+          grade?: number | null
+          output_id?: string
+          student_id?: string | null
+          submitted_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outputs_assignment_id_fkey"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "assignments"
+            referencedColumns: ["assignment_id"]
+          },
+          {
+            foreignKeyName: "outputs_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["profile_id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -217,7 +256,7 @@ export interface Database {
           section: string | null
           university: string | null
           updated_at: string | null
-          username: string
+          username: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -231,7 +270,7 @@ export interface Database {
           section?: string | null
           university?: string | null
           updated_at?: string | null
-          username: string
+          username?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -245,7 +284,7 @@ export interface Database {
           section?: string | null
           university?: string | null
           updated_at?: string | null
-          username?: string
+          username?: string | null
         }
         Relationships: [
           {

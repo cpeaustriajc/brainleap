@@ -11,8 +11,9 @@ export async function GET(req: Request) {
 		const supabase = createClient(cookieStore)
 
 		const { error } = await supabase.auth.exchangeCodeForSession(code)
+
 		if (!error) return Response.redirect(`${origin}${next}`)
 	}
 
-	return Response.redirect(`${origin}/auth/auth-code-error`)
+	return Response.redirect(`${origin}/auth/error`)
 }

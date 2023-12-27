@@ -4,11 +4,14 @@ import { CourseSkeleton } from '@/components/course-skeleton'
 import { getCourses } from '@/lib/queries/course'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
+import { unstable_noStore } from 'next/cache'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 
 export default async function Page() {
+	unstable_noStore()
+
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const {

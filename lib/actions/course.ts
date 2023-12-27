@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { courseSchema } from '../validations/course'
+import { revalidatePath } from 'next/cache'
 
 export async function createCourse(formData: FormData) {
 	const cookieStore = cookies()

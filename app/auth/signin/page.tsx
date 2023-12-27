@@ -1,16 +1,11 @@
 import { AuthForm } from '@/components/auth-form'
 
-export default function Page({
-	searchParams,
-}: {
-	searchParams: { message: string }
-}) {
-	const { message } = searchParams
+export default function Page() {
 	return (
 		<>
 			<section className="h-[90svh] flex justify-center items-center">
 				<div className="max-w-lg">
-					<AuthForm message={message} />
+					<AuthForm />
 				</div>
 			</section>
 		</>

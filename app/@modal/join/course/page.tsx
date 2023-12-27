@@ -23,7 +23,7 @@ export default function Page() {
 				<div className="grid items-center">
 					<CloseDialog />
 				</div>
-				<Label htmlFor="classCode" className="text-2xl">
+				<Label htmlFor="courseCode" className="text-2xl">
 					Class Code
 				</Label>
 				<p className="text-xs px-1">
@@ -31,8 +31,8 @@ export default function Page() {
 				</p>
 				<Input
 					type="text"
-					id="classCode"
-					name="classCode"
+					id="courseCode"
+					name="courseCode"
 					placeholder="Class Code"
 				/>
 				<Button type="submit">Join Class</Button>

@@ -11,3 +11,15 @@ export const getAssignments = async (courseId: string) => {
 
 	return assignments
 }
+
+export const getAssignmentById = async (assignmentId: string) => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const { data: assignment } = await supabase
+		.from('assignments')
+		.select()
+		.eq('assignment_id', assignmentId)
+		.single()
+
+	return assignment
+}

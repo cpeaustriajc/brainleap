@@ -1,9 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { cookies } from 'next/headers'
-import {
-	createClient,
-	createClient as createServerClient,
-} from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { getAssignments } from '@/lib/queries/assignment'
 import { getCourseById } from '@/lib/queries/course'
 import { getProfileById } from '@/lib/queries/profile'
@@ -21,10 +18,7 @@ import { Button } from '@/components/ui/button'
 import { notFound, redirect } from 'next/navigation'
 import { Tables } from '@/lib/database.types'
 import { getFilename, getURL } from '@/lib/utils'
-import { Textarea } from '@/components/ui/textarea'
-import { Input } from '@/components/ui/input'
-import { createAnnouncement } from '@/lib/actions/announcement'
-import { revalidateTag } from 'next/cache'
+import { unstable_noStore } from 'next/cache'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
@@ -33,6 +27,7 @@ import { CreateAnnouncement } from '@/components/create-announcement'
 import {
 	Table,
 	TableBody,
+	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
@@ -58,8 +53,9 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: Props) {
+	unstable_noStore()
 	const cookieStore = cookies()
-	const supabase = createServerClient(cookieStore)
+	const supabase = createClient(cookieStore)
 
 	const {
 		data: { user },
@@ -99,7 +95,7 @@ export default async function Page({ params }: Props) {
 		notFound()
 	}
 
-	const people = enrollments.filter((enrollment) => {
+	const enroledPeople = enrollments.filter((enrollment) => {
 		if (enrollment.course_id !== course.course_id) return false
 
 		return enrollment.user_id
@@ -139,7 +135,7 @@ export default async function Page({ params }: Props) {
 					/>
 				</TabsContent>
 				<TabsContent value="people">
-					<Peoples people={people} />
+					<People enrolledPeople={enroledPeople} />
 				</TabsContent>
 				<TabsContent value="grades">
 					<Grades assignments={assignments} />
@@ -177,13 +173,39 @@ async function Assignments({
 										{assignment.description}
 									</p>
 								</CardContent>
-								{assignment.attachment && (
-									<CardFooter className="grid grid-cols-2">
-										<Attachments
-											attachment={assignment.attachment}
-										/>
-									</CardFooter>
-								)}
+								<CardFooter className="flex flex-col gap-4">
+									{assignment.attachment && (
+										<div className="grid grid-cols-2">
+											<Attachments
+												attachment={
+													assignment.attachment
+												}
+											/>
+										</div>
+									)}
+									{profile.role === 'student' && (
+										<Button asChild className="w-full">
+											<Link
+												href={`/course/${course.course_id}/${assignment.assignment_id}`}
+											>
+												<span className="pl-2">
+													View More
+												</span>
+											</Link>
+										</Button>
+									)}
+									{profile.role === 'instructor' && (
+										<Button asChild className="w-full">
+											<Link
+												href={`/course/${course.course_id}/${assignment.assignment_id}`}
+											>
+												<span className="pl-2">
+													Grade
+												</span>
+											</Link>
+										</Button>
+									)}
+								</CardFooter>
 							</Card>
 						))
 					) : (
@@ -279,7 +301,11 @@ function Attachments({
 	)
 }
 
-async function Peoples({ people }: { people: Tables<'enrollments'>[] }) {
+async function People({
+	enrolledPeople,
+}: {
+	enrolledPeople: Tables<'enrollments'>[]
+}) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const { data } = await supabase
@@ -287,7 +313,7 @@ async function Peoples({ people }: { people: Tables<'enrollments'>[] }) {
 		.select('*')
 		.in(
 			'profile_id',
-			people.map((person) => person.user_id),
+			enrolledPeople.map((enrolledPerson) => enrolledPerson.user_id),
 		)
 
 	if (!data) return null
@@ -309,7 +335,7 @@ async function Peoples({ people }: { people: Tables<'enrollments'>[] }) {
 						<Avatar>
 							<AvatarImage
 								src={instructor.avatar_url ?? ''}
-								alt={instructor.username}
+								alt={instructor.username ?? ''}
 							/>
 							<AvatarFallback>
 								<PersonIcon />
@@ -334,7 +360,7 @@ async function Peoples({ people }: { people: Tables<'enrollments'>[] }) {
 						<Avatar>
 							<AvatarImage
 								src={student.avatar_url ?? ''}
-								alt={student.username}
+								alt={student.username ?? ''}
 							/>
 							<AvatarFallback>
 								<PersonIcon />
@@ -353,6 +379,42 @@ async function Grades({
 }: {
 	assignments: Tables<'assignments'>[]
 }) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const enrollments = await getEnrollments()
+
+	const { data: enrolledPeopleQueryData, error: enrolledPeopleError } =
+		await supabase
+			.from('profiles')
+			.select()
+			.in(
+				'profile_id',
+				enrollments.map((enrollment) => enrollment.user_id),
+			)
+
+	if (enrolledPeopleError) throw enrolledPeopleError
+
+	const enrolledPeople = enrolledPeopleQueryData
+
+	const { data: outputsQueryData, error: outputsError } = await supabase
+		.from('outputs')
+		.select()
+		.in(
+			'assignment_id',
+			assignments.map((assignment) => assignment.assignment_id),
+		)
+		.in(
+			'student_id',
+			enrolledPeople.map((person) => person.profile_id),
+		)
+
+	const students = enrolledPeople.filter(
+		(profile) => profile.role === 'student',
+	)
+	if (outputsError) throw outputsError
+	const outputs = outputsQueryData
+
 	return (
 		<div className="w-1/2 mx-auto">
 			<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
@@ -361,6 +423,7 @@ async function Grades({
 			<Table>
 				<TableHeader>
 					<TableRow>
+						<TableHead>Student</TableHead>
 						{assignments.map((assignment) => (
 							<TableHead key={assignment.assignment_id}>
 								{assignment.title}
@@ -368,7 +431,20 @@ async function Grades({
 						))}
 					</TableRow>
 				</TableHeader>
-				<TableBody></TableBody>
+				<TableBody>
+					<TableRow>
+						{students.map((student) => (
+							<TableCell key={student.username}>
+								{student.full_name ?? student.username}
+							</TableCell>
+						))}
+						{outputs.map((output) => (
+							<TableCell key={output.output_id}>
+								{output.grade}
+							</TableCell>
+						))}
+					</TableRow>
+				</TableBody>
 			</Table>
 		</div>
 	)

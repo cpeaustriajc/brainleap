@@ -1,5 +1,4 @@
-'use server';
-import { z } from "zod";
+import { z } from 'zod'
 
 export const courseSchema = z.object({
 	title: z
@@ -13,7 +12,8 @@ export const courseSchema = z.object({
 	section: z.string(),
 	subject: z.string(),
 	room: z.string(),
-});export const joinCourseSchema = z.object({
-	courseCode: z.string(),
 })
 
+export const joinCourseSchema = z.object({
+	courseCode: z.string(),
+})

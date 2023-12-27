@@ -1,6 +1,4 @@
-import { z } from "zod";
-import { baseProfileSchema } from "./profile";
-
+import { z } from 'zod'
 
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
@@ -18,7 +16,9 @@ export const baseProfileSchema = z.object({
 	email: z.string().email({ message: 'Invalid email address.' }),
 	university: z.string().max(280).optional(),
 	full_name: z.string().max(280).optional(),
-});export const profileSchema = z.discriminatedUnion('role', [
+})
+
+export const profileSchema = z.discriminatedUnion('role', [
 	z.object({ role: z.literal(undefined) }).merge(baseProfileSchema),
 	z
 		.object({
@@ -34,4 +34,3 @@ export const baseProfileSchema = z.object({
 		})
 		.merge(baseProfileSchema),
 ])
-

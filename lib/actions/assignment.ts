@@ -3,6 +3,8 @@
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { assignmentSchema } from '../validations/assignment'
+import { revalidatePath } from 'next/cache'
+import { getProfileById } from '../queries/profile'
 
 const constructDueDate = (date: string, time: string) => {
 	const [hours, minutes] = time.split(':')
@@ -25,6 +27,17 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		formData.get('dueDate') as string,
 		formData.get('dueTime') as string,
 	)
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
+
+	if (!user) {
+		throw new Error('User not found')
+	}
+
+	const profile = await getProfileById(user.id)
+
 	const values = assignmentSchema.parse({
 		title: formData.get('title'),
 		description: formData.get('description'),
@@ -56,7 +69,10 @@ export async function createAssignment(course_id: string, formData: FormData) {
 			due_date: dueDate,
 			attachment: assignmentFiles.path,
 			course_id: course_id,
+			profile_id: profile.profile_id,
 		})
+
+	revalidatePath(`/courses/${course_id}`)
 
 	if (assignmentError) {
 		throw assignmentError

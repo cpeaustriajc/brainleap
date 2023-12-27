@@ -8,6 +8,10 @@ export const getEnrollments = async () => {
 
 	const { data: enrollments } = await supabase.from('enrollments').select()
 
+	if (!enrollments) {
+		notFound()
+	}
+
 	return enrollments
 }
 

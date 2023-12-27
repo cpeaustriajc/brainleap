@@ -5,7 +5,6 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { courseSchema } from '../validations/course'
-import { joinCourseSchema } from '../validations/course'
 
 export async function createCourse(formData: FormData) {
 	const cookieStore = cookies()
@@ -71,40 +70,4 @@ export async function createCourse(formData: FormData) {
 	}
 
 	if (error) throw error
-}
-
-export async function joinCourse(formData: FormData) {
-	const parsedData = joinCourseSchema.parse({
-		courseCode: formData.get('courseCode'),
-	})
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const {
-		data: { session },
-	} = await supabase.auth.getSession()
-
-	if (!session) {
-		redirect('/auth/signin')
-	}
-
-	const { count } = await supabase
-		.from('courses')
-		.select()
-		.eq('course_id', parsedData.courseCode)
-		.single()
-
-	if (count === 0) {
-		throw new Error('Course not found')
-	}
-
-	const { error: insertEnrollmentError } = await supabase
-		.from('enrollments')
-		.insert({
-			course_id: parsedData.courseCode,
-			user_id: session.user.id,
-		})
-
-	if (insertEnrollmentError) {
-		throw insertEnrollmentError
-	}
 }

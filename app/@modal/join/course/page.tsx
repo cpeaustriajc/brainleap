@@ -3,13 +3,13 @@ import { ModalBackground } from '@/components/modal'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { joinCourse } from '@/lib/actions/course'
+import { createEnrollment } from '@/lib/actions/enrollment'
 import { revalidateTag } from 'next/cache'
 
 export default function Page() {
 	const action = async (formData: FormData) => {
 		'use server'
-		joinCourse(formData)
+		createEnrollment(formData)
 		revalidateTag('courses')
 		revalidateTag('enrollments')
 	}

@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const config = {
+	logging: {
+		fetches: { fullUrl: true },
+	},
 	images: {
 		remotePatterns: [
 			{

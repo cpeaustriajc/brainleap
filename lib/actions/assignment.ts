@@ -66,7 +66,7 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		.from('assignments')
 		.insert({
 			title: values.title,
-			due_date: dueDate,
+			due_date: dueDate.toString(),
 			attachment: assignmentFiles.path,
 			course_id: course_id,
 			profile_id: profile.profile_id,

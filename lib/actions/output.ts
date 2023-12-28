@@ -6,7 +6,7 @@ import { z } from 'zod'
 import { getProfileById } from '../queries/profile'
 
 const outputSchema = z.object({
-	file: z.instanceof(File),
+	file: z.custom<File>(),
 })
 export const createOutput = async (
 	assignmentId: string,

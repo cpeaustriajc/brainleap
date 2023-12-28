@@ -24,12 +24,24 @@ export default async function AppShell({ children }: Props) {
 
 	const { id } = user
 
-	const profilePromise = getProfileById(id)
+	const { data: profileQuery, error } = await supabase
+		.from('profiles')
+		.select('username, avatar_url, role')
+		.eq('profile_id', id)
+		.single()
+
+	if (error) {
+		throw new Error(`{ code: ${error.code}, hint: ${error.hint}, message: ${error.message}
+			details: ${error.details}
+		}`)
+	}
+
+	const profile = profileQuery
 
 	return (
 		<>
 			<Suspense fallback={<HeaderSkeleton />}>
-				<Header profilePromise={profilePromise} />
+				<Header profile={profile} />
 			</Suspense>
 			<div className="flex flex-col">{children}</div>
 		</>

@@ -7,8 +7,8 @@ import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
-import { use } from 'react'
 import { useUpload } from '@/hooks/use-upload'
+import humanId from 'human-id'
 
 const DropdownMenu = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenu),
@@ -55,16 +55,14 @@ const DropdownMenuTrigger = dynamic(
 )
 
 export function Header({
-	profilePromise,
+	profile,
 }: {
-	profilePromise: Promise<Tables<'profiles'>>
+	profile: Pick<Tables<'profiles'>, 'avatar_url' | 'username' | 'role'>
 }) {
-	const profile = use(profilePromise)
-
 	const { fileUrl } = useUpload(
 		'avatars',
 		profile.avatar_url,
-		profile.profile_id,
+		profile.username || humanId(),
 	)
 
 	return (
@@ -72,7 +70,12 @@ export function Header({
 			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center">
 					<div className="px-2 inline-flex items-center">
-						<Button asChild variant="ghost" size="icon" className="px-0">
+						<Button
+							asChild
+							variant="ghost"
+							size="icon"
+							className="px-0"
+						>
 							<Link href="/">
 								<HomeIcon className="size-6" />{' '}
 								<span className="sr-only">Home</span>

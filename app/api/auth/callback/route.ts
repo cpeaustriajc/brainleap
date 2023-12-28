@@ -1,7 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
+import { NextRequest } from 'next/server'
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
 	const { searchParams, origin } = new URL(req.url)
 	const code = searchParams.get('code')
 	const next = searchParams.get('next') ?? '/'

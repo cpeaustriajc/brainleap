@@ -16,23 +16,24 @@ import { getAssignmentById } from '@/lib/queries/assignment'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { getProfileById } from '@/lib/queries/profile'
 import { createClient } from '@/lib/supabase/server'
-import { getURL } from '@/lib/utils'
 import { QueryData } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { Fragment } from 'react'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
 export async function generateStaticParams() {
-	const url = getURL('/api/assignment/all')
-	const res = await fetch(url)
-	const assignments = (await res.json()) as Array<Tables<'assignments'>>
+	const supabase = createBrowserClient()
+	const { data: assignments, error } = await supabase
+		.from('assignments')
+		.select('assignment_id')
 
-	if (!assignments) {
-		notFound()
+	if (error) {
+		throw new Error(`${error.message}`)
 	}
 
-	return assignments?.map((assignment) => ({
+	return assignments.map((assignment) => ({
 		assignment: assignment.assignment_id,
 	}))
 }

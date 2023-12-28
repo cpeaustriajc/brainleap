@@ -32,6 +32,8 @@ import {
 	TableRow,
 } from '@/components/ui/table'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Suspense } from 'react'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
 type Props = {
 	params: {
@@ -40,9 +42,12 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const url = getURL('/api/course/ids')
-	const res = await fetch(url)
-	const courseIds: Tables<'courses'>['course_id'][] = await res.json()
+	const supabase = createBrowserClient()
+	const { data: courseIds, error } = await supabase
+		.from('courses')
+		.select('course_id')
+
+	if (error) throw new Error(`${error.message}`)
 
 	return courseIds.map((courseId) => ({
 		params: {
@@ -120,24 +125,32 @@ export default async function Page({ params }: Props) {
 					<TabsTrigger value="grades">Grades</TabsTrigger>
 				</TabsList>
 				<TabsContent value="announcements">
-					<Announcements
-						course={course}
-						profile={profile}
-						announcements={announcements}
-					/>
+					<Suspense fallback={<p>Loading...</p>}>
+						<Announcements
+							course={course}
+							profile={profile}
+							announcements={announcements}
+						/>
+					</Suspense>
 				</TabsContent>
 				<TabsContent value="assignments">
-					<Assignments
-						course={course}
-						assignments={assignments}
-						profile={profile}
-					/>
+					<Suspense fallback={<p>Loading...</p>}>
+						<Assignments
+							course={course}
+							assignments={assignments}
+							profile={profile}
+						/>
+					</Suspense>
 				</TabsContent>
 				<TabsContent value="people">
+					<Suspense fallback={<p>Loading...</p>}>
 						<People enrolledPeople={enrolledPeople} />
+					</Suspense>
 				</TabsContent>
 				<TabsContent value="grades">
-					<Grades assignments={assignments} />
+					<Suspense fallback={<p>Loading...</p>}>
+						<Grades assignments={assignments} />
+					</Suspense>
 				</TabsContent>
 			</Tabs>
 		</main>

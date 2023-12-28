@@ -94,7 +94,7 @@ export default async function Page({ params }: Props) {
 		notFound()
 	}
 
-	const enroledPeople = enrollments.filter((enrollment) => {
+	const enrolledPeople = enrollments.filter((enrollment) => {
 		if (enrollment.course_id !== course.course_id) return false
 
 		return enrollment.user_id
@@ -134,7 +134,7 @@ export default async function Page({ params }: Props) {
 					/>
 				</TabsContent>
 				<TabsContent value="people">
-					<People enrolledPeople={enroledPeople} />
+						<People enrolledPeople={enrolledPeople} />
 				</TabsContent>
 				<TabsContent value="grades">
 					<Grades assignments={assignments} />

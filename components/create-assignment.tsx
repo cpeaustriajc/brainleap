@@ -3,9 +3,6 @@ import { Tables } from '@/lib/database.types'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
-import { createAnnouncement } from '@/lib/actions/announcement'
-import { getProfiles } from '@/lib/queries/profile'
-import { getEnrollmentsByCourseId } from '@/lib/queries/enrollment'
 import { createAssignment } from '@/lib/actions/assignment'
 import { revalidateTag } from 'next/cache'
 
@@ -17,16 +14,6 @@ export async function CreateAssignment({
 	const { course_id } = course
 
 	const createAssignmentWithCourseId = createAssignment.bind(null, course_id)
-	// const enrollments = await getEnrollmentsByCourseId(course_id)
-	// const profiles = await getProfiles()
-
-	// const enrolledStudents = profiles.filter((profile) => {
-	// 	if (profile.role !== 'student') return false
-
-	// 	return enrollments.some((enrollment) => {
-	// 		return enrollment.user_id === profile.profile_id
-	// 	})
-	// })
 
 	const action = async (formData: FormData) => {
 		'use server'
@@ -37,14 +24,6 @@ export async function CreateAssignment({
 	return (
 		<form action={action} className="space-y-8">
 			<div className="space-y-2">
-				{/* {enrolledStudents.map((student) => (
-					<Fragment key={student.username}>
-						<Checkbox id={student.username} />
-						<Label htmlFor={student.username}>
-							{student.full_name ?? student.username}
-						</Label>
-					</Fragment>
-				))} */}
 			</div>
 			<div className="space-y-2">
 				<Label htmlFor="title">Assignment title</Label>

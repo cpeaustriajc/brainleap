@@ -20,9 +20,8 @@ import { Tables } from '@/lib/database.types'
 import { getFilename, getURL } from '@/lib/utils'
 import { unstable_noStore } from 'next/cache'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { DownloadIcon, FileIcon, PersonIcon } from '@radix-ui/react-icons'
+import { FileIcon, PersonIcon } from '@radix-ui/react-icons'
 import { CreateAnnouncement } from '@/components/create-announcement'
 import {
 	Table,

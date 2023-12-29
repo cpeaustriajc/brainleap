@@ -4,18 +4,15 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { signInWithEmailSchema } from '../validations/auth'
+import { getURL } from '../utils'
 
-const url =
-	process.env.NODE_ENV === 'production'
-		? 'https://doctrina-demo.vercel.app'
-		: 'http://localhost:3000'
 export async function signInWithGoogle() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const { error, data } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
 		options: {
-			redirectTo: `${url}/api/auth/callback`,
+			redirectTo: getURL(`/api/auth/callback`),
 		},
 	})
 
@@ -30,6 +27,7 @@ export async function signInWithGoogle() {
 export async function signInWithEmail(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
+	const redirectURL = getURL(`/api/auth/confirm`)
 
 	const values = signInWithEmailSchema.parse({
 		email: formData.get('email'),
@@ -41,7 +39,7 @@ export async function signInWithEmail(formData: FormData) {
 			data: {
 				email: values.email,
 			},
-			emailRedirectTo: `${url}/api/auth/callback`,
+			emailRedirectTo: redirectURL,
 		},
 	})
 

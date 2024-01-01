@@ -16,7 +16,6 @@ export function SetupProfileForm({
 	profile: Tables<'profiles'>
 	message: string
 }) {
-
 	const action = async (formData: FormData) => {
 		'use server'
 		updateProfile(formData)

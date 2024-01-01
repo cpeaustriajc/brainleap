@@ -1,8 +1,7 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { createClient } from '../supabase/server';
-import { joinCourseSchema } from '../validations/course';
-
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { createClient } from '../supabase/server'
+import { joinCourseSchema } from '../validations/course'
 
 export async function createEnrollment(formData: FormData) {
 	const parsedData = joinCourseSchema.parse({

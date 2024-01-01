@@ -1,5 +1,4 @@
-import { z } from "zod";
-
+import { z } from 'zod'
 
 export const announcementSchema = z.object({
 	title: z.string(),

@@ -24,8 +24,6 @@ export async function CreateAssignment({
 	return (
 		<form action={action} className="space-y-8">
 			<div className="space-y-2">
-			</div>
-			<div className="space-y-2">
 				<Label htmlFor="title">Assignment title</Label>
 				<Input
 					type="text"

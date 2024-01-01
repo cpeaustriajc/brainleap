@@ -24,27 +24,41 @@ export async function signInWithGoogle() {
 	redirect(data.url)
 }
 
-export async function signInWithEmail(formData: FormData) {
+export async function signInWithEmail(
+	previousState: { type: 'success' | 'error' | null; message: string | null },
+	formData: FormData,
+): Promise<{ type: 'success' | 'error' | null; message: string | null }> {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const redirectURL = getURL(`/api/auth/confirm`)
 
-	const values = signInWithEmailSchema.parse({
+	const values = signInWithEmailSchema.safeParse({
 		email: formData.get('email'),
 	})
 
+	if (!values.success) {
+		return {
+			type: 'error',
+			message: values.error.message,
+		}
+	}
+
 	const { error } = await supabase.auth.signInWithOtp({
-		email: values.email,
+		email: values.data.email,
 		options: {
 			data: {
-				email: values.email,
+				email: values.data.email,
 			},
 			emailRedirectTo: redirectURL,
 		},
 	})
 
-	console.log(error)
 	if (error) {
-		return { error: error.message }
+		return { type: 'error', message: error.message }
+	}
+
+	return {
+		type: 'success',
+		message: 'Check your email for the login link',
 	}
 }

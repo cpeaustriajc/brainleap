@@ -1,24 +1,32 @@
+'use client'
+
+import { useFormState } from 'react-dom'
+import { TextField, TextFieldErrorMessage } from './text-field'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { signInWithEmail } from '@/lib/actions/auth'
 
 export function SignInWithEmail() {
+	const [state, action] = useFormState(signInWithEmail, {
+		type: null,
+		message: '',
+	})
 	return (
-		<form action={signInWithEmail} className="flex flex-col space-y-2">
+		<form action={action} className="flex flex-col space-y-2">
 			<div>
 				<h1 className="text-xl font-bold">Sign in</h1>
 				<p className="text-sm">
 					Sign in via magic link with your email below
 				</p>
 			</div>
-			<Label htmlFor="email">Email</Label>
-			<Input
-				placeholder="johndoe@email.com"
-				id="email"
-				name="email"
-				required
-			/>
+			<TextField isInvalid={state.type === 'error'}>
+				<Label>Email</Label>
+				<Input />
+			</TextField>
+			{state.type === 'error' && (
+				<TextFieldErrorMessage>{state.message}</TextFieldErrorMessage>
+			)}
 			<Button type="submit">Sign In</Button>
 		</form>
 	)

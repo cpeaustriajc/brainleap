@@ -1,22 +1,34 @@
-import { createClient } from "./lib/supabase/middleware"
-import { NextRequest, NextResponse } from "next/server"
+import { createClient } from './lib/supabase/middleware'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-    const { supabase, response } = createClient(request)
+	const { supabase, response } = createClient(request)
 
-    const { data: { user } } = await supabase.auth.getUser()
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
 
-    if (user && request.nextUrl.pathname === '/') {
-        return NextResponse.redirect(new URL('/profile', request.url))
-    }
-
-    if (!user && request.nextUrl.pathname === '/') {
+	if (!user) {
         return NextResponse.redirect(new URL('/auth/signin', request.url))
-    }
+	}
 
-    return response
+	const { data: profile, error } = await supabase
+		.from('profiles')
+		.select('username')
+		.eq('profile_id', user.id)
+		.single()
+
+	if (error) {
+		throw new Error(error.message)
+	}
+
+	if (!profile.username && request.nextUrl.pathname === '/') {
+		return NextResponse.redirect(new URL('/profile', request.url))
+	}
+
+	return response
 }
 
 export const config = {
-    matcher: ['/', '/profile'],
+	matcher: ['/', '/profile'],
 }

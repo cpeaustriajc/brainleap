@@ -4,7 +4,7 @@ import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
 import { Button } from './ui/button'
-import { cn } from '@/lib/utils'
+import { cx } from '@/lib/cva.config'
 import { PersonIcon } from '@radix-ui/react-icons'
 import { useUpload } from '@/hooks/use-upload'
 
@@ -31,7 +31,7 @@ export function ProfilePicture({ uid, url, size }: Props) {
 				</AvatarFallback>
 			</Avatar>
 
-			<div className={cn(`w-[${size}px]`)}>
+			<div className={cx(`w-[${size}px]`)}>
 				<Button asChild style={{ width: size }}>
 					<label htmlFor="single" className="cursor-pointer">
 						{uploading ? 'Uploading...' : 'Upload'}

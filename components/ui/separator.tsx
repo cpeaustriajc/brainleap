@@ -3,7 +3,7 @@
 import * as React from 'react'
 import * as SeparatorPrimitive from '@radix-ui/react-separator'
 
-import { cn } from '@/lib/utils'
+import { cx } from '@/lib/cva.config'
 
 const Separator = React.forwardRef<
 	React.ElementRef<typeof SeparatorPrimitive.Root>,
@@ -17,7 +17,7 @@ const Separator = React.forwardRef<
 			ref={ref}
 			decorative={decorative}
 			orientation={orientation}
-			className={cn(
+			className={cx(
 				'shrink-0 bg-border',
 				orientation === 'horizontal'
 					? 'h-[1px] w-full'

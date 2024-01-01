@@ -3,7 +3,7 @@ import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
-import { cn, createPostgresTimestamp, extractUsername } from '@/lib/utils'
+import { cx } from '@/lib/cva.config'
 import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
@@ -107,7 +107,7 @@ export function SetupProfileForm({
 	return (
 		<div className="max-w-2xl mx-auto space-y-2">
 			<p
-				className={cn(
+				className={cx(
 					message ? 'visible' : 'invisible',
 					'fixed z-50 bottom-4 right-4 flex flex-col items-center justify-center text-center text-sm text-gray-500 bg-gray-100 rounded-md py-2 px-4',
 				)}

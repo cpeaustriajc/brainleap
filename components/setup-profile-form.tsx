@@ -122,16 +122,14 @@ export function SetupProfileForm({
 					<Label>Section</Label>
 					<Input placeholder="Section" />
 				</TextField>
-				{profile.role === 'instructor' && (
-					<TextField
-						name="position"
-						type="text"
-						defaultValue={profile.position ?? ''}
-					>
-						<Label htmlFor="position">Position</Label>
-						<Input placeholder="Position" />
-					</TextField>
-				)}
+				<TextField
+					name="position"
+					type="text"
+					defaultValue={profile.position ?? ''}
+				>
+					<Label htmlFor="position">Position</Label>
+					<Input placeholder="Position" />
+				</TextField>
 				<Button type="submit">Submit</Button>
 			</form>
 		</div>

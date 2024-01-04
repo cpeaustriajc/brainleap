@@ -69,7 +69,7 @@ export async function createAssignment(course_id: string, formData: FormData) {
 			due_date: dueDate.toString(),
 			attachment: assignmentFiles.path,
 			course_id: course_id,
-			profile_id: profile.profile_id,
+			instructor_id: profile.profile_id,
 		})
 
 	revalidatePath(`/courses/${course_id}`)

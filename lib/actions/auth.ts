@@ -16,7 +16,7 @@ export async function signInWithGoogle() {
 	const { error, data } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
 		options: {
-			redirectTo: URL,
+			redirectTo: `${URL}/api/auth/callback`,
 		},
 	})
 
@@ -34,7 +34,7 @@ export async function signInWithEmail(
 ): Promise<{ type: 'success' | 'error' | null; message: string | null }> {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const redirectURL = URL
+	const redirectURL = `${URL}/api/auth/confirm`
 
 	const values = signInWithEmailSchema.safeParse({
 		email: formData.get('email'),

@@ -4,6 +4,7 @@ import { CourseSkeleton } from '@/components/course-skeleton'
 import { getCourses } from '@/lib/queries/course'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
+import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { unstable_noStore } from 'next/cache'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
@@ -49,9 +50,21 @@ export default async function Page() {
 			<main>
 				<section className="flex px-7 gap-4">
 					<Suspense fallback={<CourseSkeleton />}>
-						{filterCoursesEnrolled.map((course) => (
-							<Course key={course.course_id} course={course} />
-						))}
+						{filterCoursesEnrolled.length === 0 ? (
+							<div className=" justify-center items-center flex w-full h-[90vh]">
+								<p className="text-2xl">
+									Click enroll course on the <PlusCircledIcon className='inline size-6'/> plus tab to get
+									started
+								</p>
+							</div>
+						) : (
+							filterCoursesEnrolled.map((course) => (
+								<Course
+									key={course.course_id}
+									course={course}
+								/>
+							))
+						)}
 					</Suspense>
 				</section>
 			</main>

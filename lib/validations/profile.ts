@@ -3,19 +3,11 @@ import { z } from 'zod'
 export const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
 	username: z.string(),
-	// .min(3, { message: 'Username must contain at least 3 characters' })
-	// .max(20, {
-	// 	message: 'Username must not be longer than 20 characters.',
-	// }),
 	avatar_url: z.string().url().optional(),
-	biography: z
-		.string()
-		// .min(10, { message: 'Bio must be at least 10 characters.' })
-		// .max(160, { message: 'Bio must not be longer than 30 characters.' })
-		.optional(),
+	biography: z.string().optional(),
 	email: z.string().email({ message: 'Invalid email address.' }),
-	university: z.string().max(280).optional(),
-	full_name: z.string().max(280).optional(),
+	university: z.string().optional(),
+	full_name: z.string().optional(),
 })
 
 export const profileSchema = z.discriminatedUnion('role', [
@@ -30,7 +22,7 @@ export const profileSchema = z.discriminatedUnion('role', [
 	z
 		.object({
 			role: z.literal('instructor'),
-			position: z.string().max(280).optional(),
+			position: z.string().optional(),
 		})
 		.merge(baseProfileSchema),
 ])

@@ -1,3 +1,4 @@
+'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
@@ -8,6 +9,8 @@ import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { updateProfile } from '@/lib/actions/profile'
+import { TextField } from './text-field'
+import { useFormState } from 'react-dom'
 
 export function SetupProfileForm({
 	profile,
@@ -16,11 +19,8 @@ export function SetupProfileForm({
 	profile: Tables<'profiles'>
 	message: string
 }) {
-	const action = async (formData: FormData) => {
-		'use server'
-		updateProfile(formData)
-	}
-
+	const [state, action] = useFormState(updateProfile, null)
+	console.log(state)
 	return (
 		<div className="max-w-2xl mx-auto space-y-2">
 			<p
@@ -37,49 +37,51 @@ export function SetupProfileForm({
 				size={128}
 			/>
 			<form className="my-4 space-y-4" action={action}>
-				<Label htmlFor="username">Username</Label>
-				<Input
+				<TextField
 					type="text"
-					placeholder="Username"
-					id="username"
 					name="username"
 					defaultValue={
 						profile.username ?? extractUsername(profile.email)
 					}
-				/>
-				<Label htmlFor="full_name">Display Name</Label>
-				<Input
+				>
+					<Label>Username</Label>
+					<Input type="text" placeholder="Username" />
+				</TextField>
+				<TextField
 					type="text"
-					placeholder="Display Name"
-					id="full_name"
 					name="full_name"
 					defaultValue={profile.full_name ?? ''}
-				/>
-
-				<Label htmlFor="email">Email</Label>
-				<Input
-					type="text"
-					placeholder="johndoe@email.com"
-					id="email"
-					name="email"
-					defaultValue={profile.email ?? ''}
-				/>
-				<Label htmlFor="biography">Biography</Label>
-				<Textarea
-					placeholder="Tell us a little bit about yourself"
-					className="resize-none"
-					id="biography"
+				>
+					<Label>Display Name</Label>
+					<Input type="text" placeholder="Display Name" />
+				</TextField>
+				<TextField name="email" defaultValue={profile.email ?? ''}>
+					<Label>Email</Label>
+					<Input type="text" placeholder="johndoe@email.com" />
+				</TextField>
+				<TextField
 					name="biography"
 					defaultValue={profile.biography ?? ''}
-				/>
-				<Label htmlFor="university">University</Label>
-				<Input
+				>
+					<Label>Biography</Label>
+					<Textarea
+						placeholder="Tell us a little bit about yourself"
+						className="resize-none"
+					/>
+				</TextField>
+				<TextField
 					type="text"
-					placeholder="What university do you attend?"
-					name="university"
-					id="university"
 					defaultValue={profile.university ?? ''}
-				/>
+					name="university"
+				>
+					<Label>University</Label>
+					<Input
+						type="text"
+						placeholder="What university do you attend?"
+						id="university"
+					/>
+				</TextField>
+
 				<Label htmlFor="role">Role</Label>
 
 				<RadioGroup
@@ -104,33 +106,32 @@ export function SetupProfileForm({
 						<Label htmlFor="instructor">Instructor</Label>
 					</div>
 				</RadioGroup>
-
-				<Label htmlFor="program">Program</Label>
-				<Input
+				<TextField
 					type="text"
-					placeholder="Program"
-					name="program"
-					id="program"
 					defaultValue={profile.program ?? ''}
-				/>
-
-				<Label htmlFor="section">Section</Label>
-				<Input
+					name="program"
+				>
+					<Label htmlFor="program">Program</Label>
+					<Input placeholder="Program" />
+				</TextField>
+				<TextField
 					type="text"
-					placeholder="Section"
-					name="section"
-					id="section"
 					defaultValue={profile.section ?? ''}
-				/>
-
-				<Label htmlFor="position">Position</Label>
-				<Input
-					type="text"
-					placeholder="Position"
-					name="position"
-					id="position"
-					defaultValue={profile.position ?? ''}
-				/>
+					name="section"
+				>
+					<Label>Section</Label>
+					<Input placeholder="Section" />
+				</TextField>
+				{profile.role === 'instructor' && (
+					<TextField
+						name="position"
+						type="text"
+						defaultValue={profile.position ?? ''}
+					>
+						<Label htmlFor="position">Position</Label>
+						<Input placeholder="Position" />
+					</TextField>
+				)}
 				<Button type="submit">Submit</Button>
 			</form>
 		</div>

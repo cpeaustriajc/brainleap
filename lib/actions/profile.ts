@@ -1,18 +1,19 @@
+'use server'
+
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { profileSchema } from '@/lib/validations/profile'
 import { createPostgresTimestamp } from '../utils'
 import { redirect } from 'next/navigation'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath } from 'next/cache'
 
-export async function updateProfile(formData: FormData) {
-	'use server'
+export async function updateProfile(previousState: any, formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const date = new Date()
 	const updated_at = createPostgresTimestamp(date)
 
-	const values = profileSchema.safeParse({
+	const values = profileSchema.parse({
 		biography: formData.get('biography'),
 		email: formData.get('email'),
 		full_name: formData.get('full_name'),
@@ -23,7 +24,7 @@ export async function updateProfile(formData: FormData) {
 		program: formData.get('program'),
 		position: formData.get('position'),
 	})
-
+	console.log(values.role)
 	const {
 		data: { session },
 		error: sessionError,
@@ -41,21 +42,19 @@ export async function updateProfile(formData: FormData) {
 		user: { id },
 	} = session
 
-	if (!values.success) {
-		throw values.error
-	}
 
-	if (values.data.role === 'student') {
+	if (values.role === 'student') {
 		const { error } = await supabase
 			.from('profiles')
 			.update({
-				full_name: values.data.full_name,
-				username: values.data.username,
-				biography: values.data.biography,
-				program: values.data.program,
-				section: values.data.section,
-				university: values.data.university,
-				email: values.data.email,
+				full_name: values.full_name,
+				username: values.username,
+				biography: values.biography,
+				program: values.program,
+				section: values.section,
+				university: values.university,
+				email: values.email,
+				role: values.role,
 				updated_at,
 			})
 			.eq('profile_id', id)
@@ -63,18 +62,19 @@ export async function updateProfile(formData: FormData) {
 		if (error) {
 			throw error
 		}
-	} else if (values.data.role === 'instructor') {
+	} else if (values.role === 'instructor') {
 		const { error } = await supabase
 			.from('profiles')
 			.update({
-				avatar_url: values.data.avatar_url,
-				full_name: values.data.full_name,
-				username: values.data.username,
-				biography: values.data.biography,
-				position: values.data.position,
-				email: values.data.email,
-				role: values.data.role,
+				full_name: values.full_name,
+				username: values.username,
+				biography: values.biography,
+				university: values.university,
+				email: values.email,
+				role: values.role,
 				updated_at,
+				avatar_url: values.avatar_url,
+				position: values.position,
 			})
 			.eq('profile_id', id)
 
@@ -82,5 +82,6 @@ export async function updateProfile(formData: FormData) {
 			throw error
 		}
 	}
-	revalidateTag('profile')
+	revalidatePath('/profile')
+	redirect('/')
 }

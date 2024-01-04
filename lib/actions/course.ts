@@ -71,4 +71,6 @@ export async function createCourse(formData: FormData) {
 	}
 
 	if (error) throw error
+
+	revalidatePath('/')
 }

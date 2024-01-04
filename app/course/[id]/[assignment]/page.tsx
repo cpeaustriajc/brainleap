@@ -23,6 +23,9 @@ import { notFound, redirect } from 'next/navigation'
 import { Fragment } from 'react'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
+export const dynamic = "force-dynamic"
+
+
 export async function generateStaticParams() {
 	const supabase = createBrowserClient()
 	const { data: assignments, error } = await supabase

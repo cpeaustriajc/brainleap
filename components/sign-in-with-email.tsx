@@ -20,10 +20,15 @@ export function SignInWithEmail() {
 					Sign in via magic link with your email below
 				</p>
 			</div>
-			<TextField isInvalid={state.type === 'error'}>
+			<TextField
+				name="email"
+				type="text"
+				isInvalid={state.type === 'error'}
+			>
 				<Label>Email</Label>
-				<Input />
+				<Input placeholder="johndoe@email.com" />
 			</TextField>
+			{state.type === 'success' && <p>{state.message}</p>}
 			{state.type === 'error' && (
 				<TextFieldErrorMessage>{state.message}</TextFieldErrorMessage>
 			)}

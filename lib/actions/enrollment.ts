@@ -2,6 +2,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createClient } from '../supabase/server'
 import { joinCourseSchema } from '../validations/course'
+import { revalidatePath } from 'next/cache'
 
 export async function createEnrollment(formData: FormData) {
 	const parsedData = joinCourseSchema.parse({
@@ -37,4 +38,6 @@ export async function createEnrollment(formData: FormData) {
 	if (insertEnrollmentError) {
 		throw insertEnrollmentError
 	}
+
+	revalidatePath('/')
 }

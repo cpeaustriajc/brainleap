@@ -10,8 +10,6 @@ export default function Page() {
 	const action = async (formData: FormData) => {
 		'use server'
 		createEnrollment(formData)
-		revalidateTag('courses')
-		revalidateTag('enrollments')
 	}
 
 	return (

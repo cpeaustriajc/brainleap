@@ -58,7 +58,7 @@ export async function signInWithEmail(
 	})
 
 	if (error) {
-		return { type: 'error', message: error.message }
+		throw error
 	}
 
 	return {

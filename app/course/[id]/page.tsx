@@ -34,7 +34,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Suspense } from 'react'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
-export const dynamic = "force-dynamic"
+
+export const dynamic = 'force-dynamic'
+
 type Props = {
 	params: {
 		id: string

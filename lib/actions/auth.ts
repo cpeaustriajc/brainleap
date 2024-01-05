@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { signInWithEmailSchema } from '../validations/auth'
+import { z } from 'zod'
 
 const URL =
 	process.env.NODE_ENV === 'production'
@@ -27,11 +28,18 @@ export async function signInWithGoogle() {
 
 	redirect(data.url)
 }
+type FieldErrors = z.inferFlattenedErrors<
+	typeof signInWithEmailSchema
+>['fieldErrors']
 
 export async function signInWithEmail(
-	previousState: { type: 'success' | 'error' | null; message: string | null },
+	previousState: {
+		errors: FieldErrors
+	},
 	formData: FormData,
-): Promise<{ type: 'success' | 'error' | null; message: string | null }> {
+): Promise<{
+	errors: FieldErrors
+}> {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const redirectURL = `${URL}/api/auth/confirm`
@@ -42,8 +50,7 @@ export async function signInWithEmail(
 
 	if (!values.success) {
 		return {
-			type: 'error',
-			message: values.error.message,
+			errors: values.error.flatten().fieldErrors,
 		}
 	}
 
@@ -61,8 +68,5 @@ export async function signInWithEmail(
 		throw error
 	}
 
-	return {
-		type: 'success',
-		message: 'Check your email for the login link',
-	}
+	redirect('/auth/confirm')
 }

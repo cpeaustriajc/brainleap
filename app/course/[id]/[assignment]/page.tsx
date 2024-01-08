@@ -74,7 +74,10 @@ export default async function Page({ params }: Props) {
 					courseId={data.course_id}
 				/>
 			) : (
-				<TeacherView assignment={assignment} />
+				<TeacherView
+					assignment={assignment}
+					courseId={data.course_id}
+				/>
 			)}
 		</main>
 	)

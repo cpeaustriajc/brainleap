@@ -16,8 +16,10 @@ import { Output } from '@/components/output'
 
 export const TeacherView = async ({
 	assignment,
+	courseId,
 }: {
 	assignment: Tables<'assignments'>
+	courseId: string
 }) => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
@@ -75,7 +77,12 @@ export const TeacherView = async ({
 				<TableBody>
 					<TableRow>
 						{outputsWithStudents?.map((output) => (
-							<Output key={output.output_id} output={output} />
+							<Output
+								key={output.output_id}
+								output={output}
+								courseId={courseId}
+								assignmentId={assignment.assignment_id}
+							/>
 						))}
 					</TableRow>
 				</TableBody>

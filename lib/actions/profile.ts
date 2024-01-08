@@ -42,7 +42,6 @@ export async function updateProfile(previousState: any, formData: FormData) {
 		user: { id },
 	} = session
 
-
 	if (values.role === 'student') {
 		const { error } = await supabase
 			.from('profiles')

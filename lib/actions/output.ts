@@ -4,15 +4,33 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
 import { getProfileById } from '../queries/profile'
+import { gradeSchema, outputSchema } from '../validations/output'
+import { revalidatePath } from 'next/cache'
 
-const outputSchema = z.object({
-	file: z.custom<File>(),
-})
+type OutputSchemaFieldErrors = z.inferFlattenedErrors<
+	typeof outputSchema
+>['fieldErrors']
+
+type OutputSchemaFormState = {
+	errors: OutputSchemaFieldErrors | undefined
+	message: string | undefined
+}
+
+type GradeSchemaFieldErrors = z.inferFlattenedErrors<
+	typeof gradeSchema
+>['fieldErrors']
+type GradeSchemaFormState = {
+	errors: GradeSchemaFieldErrors | undefined
+	message: string | undefined
+}
+
 export const createOutput = async (
 	assignmentId: string,
 	studentId: string,
+	courseId: string,
+	previousState: OutputSchemaFormState,
 	formData: FormData,
-) => {
+): Promise<OutputSchemaFormState> => {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -32,19 +50,12 @@ export const createOutput = async (
 			},
 		)
 
-	if (!file) {
-		throw new Error('No file found')
-	}
-
-	if (!file.path) {
-		throw new Error('No file path found')
-	}
-
 	if (fileError) {
-		console.error(fileError)
+		throw new Error(fileError.message)
 	}
 
-	const { data, error } = await supabase.from('outputs').insert({
+	const { error } = await supabase.from('outputs').insert({
+		course_id: courseId,
 		assignment_id: assignmentId,
 		student_id: studentId,
 		attachment: file.path,
@@ -53,8 +64,52 @@ export const createOutput = async (
 	})
 
 	if (error) {
-		console.error(error)
+		throw new Error(error.message)
 	}
 
-	return data
+	revalidatePath(`/course/${courseId}/${assignmentId}`)
+
+	return {
+		errors: undefined,
+		message: 'Output created successfully',
+	}
+}
+
+export const gradeOutput = async (
+	courseId: string,
+	assignmentId: string,
+	outputId: string,
+	previousState: GradeSchemaFormState,
+	formData: FormData,
+): Promise<GradeSchemaFormState> => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const result = gradeSchema.safeParse({
+		grade: formData.get('grade'),
+	})
+
+	if (!result.success) {
+		return {
+			errors: result.error.flatten().fieldErrors,
+			message: undefined,
+		}
+	}
+
+	const { error } = await supabase
+		.from('outputs')
+		.update({
+			grade: result.data.grade,
+		})
+		.eq('output_id', outputId)
+
+	if (error) {
+		throw new Error(error.message)
+	}
+
+	revalidatePath(`/course/${courseId}/${assignmentId}`)
+
+	return {
+		errors: undefined,
+		message: 'Output graded successfully',
+	}
 }

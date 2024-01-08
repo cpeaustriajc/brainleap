@@ -6,8 +6,17 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { courseSchema } from '../validations/course'
 import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
 
-export async function createCourse(formData: FormData) {
+type FieldErrors = z.inferFlattenedErrors<typeof courseSchema>['fieldErrors']
+type FormState = {
+	errors: FieldErrors | undefined
+	message: string | undefined
+}
+export async function createCourse(
+	previousState: FormState,
+	formData: FormData,
+): Promise<FormState> {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -73,4 +82,11 @@ export async function createCourse(formData: FormData) {
 	if (error) throw error
 
 	revalidatePath('/')
+	revalidatePath('@/modal/create/course')
+
+	return {
+		errors: undefined,
+		message: 'Course created successfully',
+	}
+
 }

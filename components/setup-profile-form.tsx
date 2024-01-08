@@ -20,7 +20,7 @@ export function SetupProfileForm({
 	message: string
 }) {
 	const [state, action] = useFormState(updateProfile, null)
-	console.log(state)
+
 	return (
 		<div className="max-w-2xl mx-auto space-y-2">
 			<p

@@ -1,21 +1,30 @@
+'use client'
+
 import { CloseDialog } from '@/components/close-dialog'
 import { ModalBackground } from '@/components/modal'
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { createCourse } from '@/lib/actions/course'
+import { useRouter } from 'next/navigation'
+import { FieldError, Form, TextField, Button } from 'react-aria-components'
+import { useFormState, useFormStatus } from 'react-dom'
 
 export default function Page() {
-	const action = async (formData: FormData) => {
-		'use server'
-		createCourse(formData)
-	}
+	const router = useRouter()
+	const [state, action] = useFormState(createCourse, {
+		errors: {},
+		message: undefined,
+	})
+	const { pending } = useFormStatus()
+
 	return (
 		<ModalBackground>
-			<form
+			<Form
 				action={action}
 				className="flex flex-col space-y-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-border p-4 rounded bg-card w-96"
+				validationErrors={state.errors}
 			>
 				<div className="grid items-center">
 					<CloseDialog />
@@ -24,44 +33,43 @@ export default function Page() {
 					<legend className="text-lg font-semibold my-2">
 						Add a class
 					</legend>
-					<Label htmlFor="title">Class Title</Label>
-					<Input
-						type="text"
-						id="title"
-						name="title"
-						placeholder="Class Title"
-					/>
-					<Label htmlFor="section">Section</Label>
-					<Input
-						type="text"
-						id="section"
-						name="section"
-						placeholder="Section"
-					/>
-					<Label htmlFor="subject">Subject</Label>
-					<Input
-						type="text"
-						id="subject"
-						name="subject"
-						placeholder="Subject"
-					/>
-					<Label htmlFor="room">Room</Label>
-					<Input
-						type="text"
-						id="room"
-						name="room"
-						placeholder="Room"
-					/>
-					<Label htmlFor="description">Class Description</Label>
-					<Textarea
-						id="description"
-						name="description"
-						placeholder="Class Description"
-						className="resize-none"
-					/>
+					<TextField name="title" type="text" isRequired>
+						<Label>Class Title</Label>
+						<Input placeholder="Class Title" />
+						<FieldError className="text-destructive font-medium" />
+					</TextField>
+					<TextField name="section" type="text" isRequired>
+						<Label>Section</Label>
+						<Input placeholder="Section" />
+						<FieldError className="text-destructive font-medium" />
+					</TextField>
+					<TextField type="text" name="subject">
+						<Label>Subject</Label>
+						<Input placeholder="Subject" />
+						<FieldError className="text-destructive font-medium" />
+					</TextField>
+					<TextField type="text" name="room">
+						<Label>Room</Label>
+						<Input placeholder="Room" />
+						<FieldError className="text-destructive font-medium" />
+					</TextField>
+					<TextField name="description">
+						<Label>Class Description</Label>
+						<Textarea
+							placeholder="Class Description"
+							className="resize-none"
+						/>
+						<FieldError className="text-destructive font-medium" />
+					</TextField>
 				</fieldset>
-				<Button type="submit">Create Class</Button>
-			</form>
+				<Button
+					className={buttonVariants()}
+					isDisabled={pending}
+					type="submit"
+				>
+					Create Class
+				</Button>
+			</Form>
 		</ModalBackground>
 	)
 }

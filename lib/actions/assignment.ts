@@ -47,34 +47,72 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		due_time: formData.get('dueTime'),
 	})
 
-	const { data: assignmentFiles, error: assignmentFilesError } =
-		await supabase.storage
-			.from('files')
-			.upload(
-				`assignments/${values.attachment.name}`,
-				values.attachment,
-				{
-					upsert: true,
-				},
-			)
+	if (values.attachment.name === 'undefined' && !values.link) {
+		const { error: assignmentError } = await supabase
+			.from('assignments')
+			.insert({
+				title: values.title,
+				due_date: dueDate.toLocaleDateString(),
+				course_id: course_id,
+				instructor_id: profile.profile_id,
+			})
 
-	if (assignmentFilesError) {
-		throw assignmentFilesError
+		revalidatePath(`/courses/${course_id}`)
+
+		if (assignmentError) {
+			throw assignmentError
+		}
 	}
 
-	const { error: assignmentError } = await supabase
-		.from('assignments')
-		.insert({
-			title: values.title,
-			due_date: dueDate.toString(),
-			attachment: assignmentFiles.path,
-			course_id: course_id,
-			instructor_id: profile.profile_id,
-		})
+	if (values.link && values.attachment.name === 'undefined') {
+		const { error: assignmentError } = await supabase
+			.from('assignments')
+			.insert({
+				title: values.title,
+				due_date: dueDate.toLocaleDateString(),
+				link: values.link,
+				course_id: course_id,
+				instructor_id: profile.profile_id,
+			})
 
-	revalidatePath(`/courses/${course_id}`)
+		revalidatePath(`/courses/${course_id}`)
 
-	if (assignmentError) {
-		throw assignmentError
+		if (assignmentError) {
+			throw assignmentError
+		}
+	}
+
+	if (values.attachment && values.link) {
+		const { data: assignmentFiles, error: assignmentFilesError } =
+			await supabase.storage
+				.from('files')
+				.upload(
+					`assignments/${values.attachment.name}`,
+					values.attachment,
+					{
+						upsert: true,
+					},
+				)
+
+		if (assignmentFilesError) {
+			throw assignmentFilesError
+		}
+
+		const { error: assignmentError } = await supabase
+			.from('assignments')
+			.insert({
+				title: values.title,
+				due_date: dueDate.toLocaleDateString(),
+				attachment: assignmentFiles.path,
+				link: values.link,
+				course_id: course_id,
+				instructor_id: profile.profile_id,
+			})
+
+		revalidatePath(`/courses/${course_id}`)
+
+		if (assignmentError) {
+			throw assignmentError
+		}
 	}
 }

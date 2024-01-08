@@ -53,8 +53,9 @@ export default async function Page() {
 						{filterCoursesEnrolled.length === 0 ? (
 							<div className=" justify-center items-center flex w-full h-[90vh]">
 								<p className="text-2xl">
-									Click enroll course on the <PlusCircledIcon className='inline size-6'/> plus tab to get
-									started
+									Click enroll course on the{' '}
+									<PlusCircledIcon className="inline size-6" />{' '}
+									plus tab to get started
 								</p>
 							</div>
 						) : (

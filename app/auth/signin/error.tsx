@@ -2,9 +2,19 @@
 
 import { Button } from '@/components/ui/button'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import Link from 'next/link'
+import { useEffect } from 'react'
 
-export default function Page() {
+export default function Error({
+	error,
+	reset,
+}: {
+	error: Error & { digest?: string }
+	reset: () => void
+}) {
+	useEffect(() => {
+		console.error(error)
+	}, [error])
+
 	return (
 		<main className="flex flex-col justify-center items-center h-dvh gap-8">
 			<ExclamationTriangleIcon className="text-destructive size-16 self-center" />
@@ -15,9 +25,7 @@ export default function Page() {
 					inconvenience.
 				</p>
 			</section>
-			<Button asChild>
-				<Link href="/auth/signin">Try Again</Link>
-			</Button>
+			<Button onClick={() => reset()}>Try Again</Button>
 		</main>
 	)
 }

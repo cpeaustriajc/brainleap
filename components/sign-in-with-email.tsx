@@ -18,15 +18,9 @@ export function SignInWithEmail() {
 		<Form
 			action={action}
 			validationErrors={state.errors}
-			className="flex flex-col space-y-2"
+			className="flex flex-col gap-2"
 		>
-			<div>
-				<h1 className="text-xl font-bold">Sign in</h1>
-				<p className="text-sm">
-					Sign in via magic link with your email below
-				</p>
-			</div>
-			<TextField name="email" type="text" isRequired>
+			<TextField name="email" type="text" className="flex flex-col gap-2" isRequired>
 				<Label>Email</Label>
 				<Input
 					placeholder="johndoe@email.com"

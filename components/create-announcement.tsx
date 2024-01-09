@@ -1,25 +1,29 @@
+'use client'
+
 import { createAnnouncement } from '@/lib/actions/announcement'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import { Tables } from '@/lib/database.types'
+import { useFormState } from 'react-dom'
+import { Form } from 'react-aria-components'
 
 export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
-	const action = async (formData: FormData) => {
-		'use server'
-		const createAnnouncementWithCourseId = createAnnouncement.bind(
-			null,
-			course.course_id,
-		)
-
-		createAnnouncementWithCourseId(formData)
-	}
+	const createAnnouncementWithCourseId = createAnnouncement.bind(
+		null,
+		course.course_id,
+	)
+	const [state, action] = useFormState(createAnnouncementWithCourseId, {
+		message: undefined,
+		errors: {},
+	})
 
 	return (
-		<form
+		<Form
 			action={action}
 			className="flex flex-col gap-2 border border-border px-4 py-2 rounded"
+			validationErrors={state.errors}
 		>
 			<div className="flex flex-col gap-4">
 				<Label htmlFor="title">Title</Label>
@@ -53,6 +57,6 @@ export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 					Announce
 				</Button>
 			</div>
-		</form>
+		</Form>
 	)
 }

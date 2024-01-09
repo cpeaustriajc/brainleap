@@ -1,9 +1,13 @@
+'use client'
+
 import { Input } from './ui/input'
 import { Tables } from '@/lib/database.types'
 import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { createAssignment } from '@/lib/actions/assignment'
+import { useFormState } from 'react-dom'
+import { Form } from 'react-aria-components'
 
 export async function CreateAssignment({
 	course,
@@ -13,14 +17,13 @@ export async function CreateAssignment({
 	const { course_id } = course
 
 	const createAssignmentWithCourseId = createAssignment.bind(null, course_id)
-
-	const action = async (formData: FormData) => {
-		'use server'
-		createAssignmentWithCourseId(formData)
-	}
+	const [state, action] = useFormState(createAssignmentWithCourseId, {
+		message: undefined,
+		errors: {},
+	})
 
 	return (
-		<form action={action} className="space-y-8">
+		<Form action={action} validationErrors={state.errors} className="space-y-8">
 			<div className="space-y-2">
 				<Label htmlFor="title">Assignment title</Label>
 				<Input
@@ -79,6 +82,6 @@ export async function CreateAssignment({
 			</div>
 
 			<Button type="submit">Create assignment</Button>
-		</form>
+		</Form>
 	)
 }

@@ -4,7 +4,6 @@ import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { createAssignment } from '@/lib/actions/assignment'
-import { revalidateTag } from 'next/cache'
 
 export async function CreateAssignment({
 	course,
@@ -18,7 +17,6 @@ export async function CreateAssignment({
 	const action = async (formData: FormData) => {
 		'use server'
 		createAssignmentWithCourseId(formData)
-		revalidateTag('assignments')
 	}
 
 	return (

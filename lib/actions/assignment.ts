@@ -57,11 +57,11 @@ export async function createAssignment(course_id: string, formData: FormData) {
 				instructor_id: profile.profile_id,
 			})
 
-		revalidatePath(`/courses/${course_id}`)
-
 		if (assignmentError) {
 			throw assignmentError
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 
 	if (values.link && values.attachment.name === 'undefined') {
@@ -75,11 +75,11 @@ export async function createAssignment(course_id: string, formData: FormData) {
 				instructor_id: profile.profile_id,
 			})
 
-		revalidatePath(`/courses/${course_id}`)
-
 		if (assignmentError) {
 			throw assignmentError
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 
 	if (values.attachment && values.link) {
@@ -109,10 +109,10 @@ export async function createAssignment(course_id: string, formData: FormData) {
 				instructor_id: profile.profile_id,
 			})
 
-		revalidatePath(`/courses/${course_id}`)
-
 		if (assignmentError) {
 			throw assignmentError
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 }

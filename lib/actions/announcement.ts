@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { announcementSchema } from '../validations/announcement'
+import { revalidatePath } from 'next/cache'
 
 export async function createAnnouncement(
 	course_id: string,
@@ -28,6 +29,8 @@ export async function createAnnouncement(
 		if (error) {
 			throw error
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 
 	if (values.link && values.attachment.name === 'undefined') {
@@ -41,6 +44,8 @@ export async function createAnnouncement(
 		if (error) {
 			throw error
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 
 	if (values.attachment.name !== 'undefined' && !values.link) {
@@ -69,6 +74,8 @@ export async function createAnnouncement(
 		if (error) {
 			throw error
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 
 	if (values.attachment.name !== 'undefined' && values.link) {
@@ -98,5 +105,7 @@ export async function createAnnouncement(
 		if (error) {
 			throw error
 		}
+
+		revalidatePath(`/courses/${course_id}`)
 	}
 }

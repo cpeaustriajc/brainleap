@@ -3,7 +3,6 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
-import { revalidateTag } from 'next/cache'
 import { Tables } from '@/lib/database.types'
 
 export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
@@ -15,7 +14,6 @@ export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 		)
 
 		createAnnouncementWithCourseId(formData)
-		revalidateTag('announcements')
 	}
 
 	return (

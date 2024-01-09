@@ -6,21 +6,19 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
-import { Tables } from '@/lib/database.types'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
 import { QueryData } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Output } from '@/components/output'
+import { getAssignmentById } from '@/lib/queries/assignment'
 
-export const TeacherView = async ({
-	assignment,
-	courseId,
+export default async function TeacherView({
+	params,
 }: {
-	assignment: Tables<'assignments'>
-	courseId: string
-}) => {
+	params: { assignment: string; id: string }
+}) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const enrollments = await getEnrollments()
@@ -39,6 +37,12 @@ export const TeacherView = async ({
 
 	if (!enrolledPeople) notFound()
 
+	const assignment = await getAssignmentById(params.assignment)
+
+	if (!assignment) {
+		notFound()
+	}
+
 	const students = enrolledPeople?.filter(
 		(profile) => profile.role === 'student',
 	)
@@ -53,11 +57,22 @@ export const TeacherView = async ({
 
 	type OutputWithStudents = QueryData<typeof outputWithStudentsQuery>
 
-	const { data, error } = await outputWithStudentsQuery
+	const { data: outputWithStudentsResult, error: outputWithStudentsError } =
+		await outputWithStudentsQuery
 
-	if (error) throw error
+	if (outputWithStudentsError) throw outputWithStudentsError
 
-	const outputsWithStudents: OutputWithStudents = data
+	const outputsWithStudents: OutputWithStudents = outputWithStudentsResult
+
+	const { data: courseIdResult, error: courseIdError } = await supabase
+		.from('courses')
+		.select('course_id')
+		.eq('course_id', params.id)
+		.single()
+
+	if (courseIdError) {
+		throw new Error(`${courseIdError.message}`)
+	}
 
 	return (
 		<div>
@@ -80,7 +95,7 @@ export const TeacherView = async ({
 							<Output
 								key={output.output_id}
 								output={output}
-								courseId={courseId}
+								courseId={courseIdResult.course_id}
 								assignmentId={assignment.assignment_id}
 							/>
 						))}

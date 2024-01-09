@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { getProfileById } from '../queries/profile'
 import { gradeSchema, outputSchema } from '../validations/output'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 type OutputSchemaFieldErrors = z.inferFlattenedErrors<
 	typeof outputSchema
@@ -26,7 +27,6 @@ type GradeSchemaFormState = {
 
 export const createOutput = async (
 	assignmentId: string,
-	studentId: string,
 	courseId: string,
 	previousState: OutputSchemaFormState,
 	formData: FormData,
@@ -38,7 +38,20 @@ export const createOutput = async (
 		file: formData.get('output'),
 	})
 
-	const profile = await getProfileById(studentId)
+	const {
+		data: { user },
+		error: userError,
+	} = await supabase.auth.getUser()
+
+	if (userError) {
+		throw new Error(userError.message)
+	}
+
+	if (!user) {
+		redirect('/auth/signin')
+	}
+
+	const profile = await getProfileById(user.id)
 
 	const { data: file, error: fileError } = await supabase.storage
 		.from('files')
@@ -57,7 +70,7 @@ export const createOutput = async (
 	const { error } = await supabase.from('outputs').insert({
 		course_id: courseId,
 		assignment_id: assignmentId,
-		student_id: studentId,
+		student_id: profile.profile_id,
 		attachment: file.path,
 		grade: 0,
 		submitted_at: new Date().toISOString(),

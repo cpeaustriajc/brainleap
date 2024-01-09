@@ -1,6 +1,6 @@
 export default function Page() {
 	return (
-		<main className="flex flex-col items-center justify-center min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
+		<section className="py-12 px-4 sm:px-6 lg:px-8">
 			<div className="max-w-md w-full space-y-8">
 				<div>
 					<h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
@@ -35,6 +35,6 @@ export default function Page() {
 					</div>
 				</div>
 			</div>
-		</main>
+		</section>
 	)
 }

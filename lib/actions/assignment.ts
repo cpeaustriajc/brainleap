@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { assignmentSchema } from '../validations/assignment'
 import { revalidatePath } from 'next/cache'
 import { getProfileById } from '../queries/profile'
+import { z } from 'zod'
 
 const constructDueDate = (date: string, time: string) => {
 	const [hours, minutes] = time.split(':')
@@ -19,7 +20,19 @@ const constructDueDate = (date: string, time: string) => {
 	)
 }
 
-export async function createAssignment(course_id: string, formData: FormData) {
+type FieldErrors = z.inferFlattenedErrors<
+	typeof assignmentSchema
+>['fieldErrors']
+type FormState = {
+	errors: FieldErrors | undefined
+	message: string | undefined
+}
+
+export async function createAssignment(
+	course_id: string,
+	previousState: FormState,
+	formData: FormData,
+): Promise<FormState> {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -38,7 +51,7 @@ export async function createAssignment(course_id: string, formData: FormData) {
 
 	const profile = await getProfileById(user.id)
 
-	const values = assignmentSchema.parse({
+	const results = assignmentSchema.safeParse({
 		title: formData.get('title'),
 		description: formData.get('description'),
 		attachment: formData.get('attachment'),
@@ -47,11 +60,18 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		due_time: formData.get('dueTime'),
 	})
 
-	if (values.attachment.name === 'undefined' && !values.link) {
+	if (!results.success) {
+		return {
+			errors: results.error.flatten().fieldErrors,
+			message: undefined,
+		}
+	}
+
+	if (results.data.attachment.name === 'undefined' && !results.data.link) {
 		const { error: assignmentError } = await supabase
 			.from('assignments')
 			.insert({
-				title: values.title,
+				title: results.data.title,
 				due_date: dueDate.toLocaleDateString(),
 				course_id: course_id,
 				instructor_id: profile.profile_id,
@@ -64,13 +84,13 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		revalidatePath(`/courses/${course_id}`)
 	}
 
-	if (values.link && values.attachment.name === 'undefined') {
+	if (results.data.link && results.data.attachment.name === 'undefined') {
 		const { error: assignmentError } = await supabase
 			.from('assignments')
 			.insert({
-				title: values.title,
+				title: results.data.title,
 				due_date: dueDate.toLocaleDateString(),
-				link: values.link,
+				link: results.data.link,
 				course_id: course_id,
 				instructor_id: profile.profile_id,
 			})
@@ -82,13 +102,13 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		revalidatePath(`/courses/${course_id}`)
 	}
 
-	if (values.attachment && values.link) {
+	if (results.data.attachment && results.data.link) {
 		const { data: assignmentFiles, error: assignmentFilesError } =
 			await supabase.storage
 				.from('files')
 				.upload(
-					`assignments/${values.attachment.name}`,
-					values.attachment,
+					`assignments/${results.data.attachment.name}`,
+					results.data.attachment,
 					{
 						upsert: true,
 					},
@@ -101,10 +121,10 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		const { error: assignmentError } = await supabase
 			.from('assignments')
 			.insert({
-				title: values.title,
+				title: results.data.title,
 				due_date: dueDate.toLocaleDateString(),
 				attachment: assignmentFiles.path,
-				link: values.link,
+				link: results.data.link,
 				course_id: course_id,
 				instructor_id: profile.profile_id,
 			})
@@ -114,5 +134,10 @@ export async function createAssignment(course_id: string, formData: FormData) {
 		}
 
 		revalidatePath(`/courses/${course_id}`)
+	}
+
+	return {
+		errors: undefined,
+		message: 'Assignment created successfully',
 	}
 }

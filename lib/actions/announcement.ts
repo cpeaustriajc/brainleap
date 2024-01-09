@@ -4,26 +4,44 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { announcementSchema } from '../validations/announcement'
 import { revalidatePath } from 'next/cache'
+import { z } from 'zod'
+
+type FieldErrors = z.inferFlattenedErrors<
+	typeof announcementSchema
+>['fieldErrors']
+
+type FormState = {
+	errors: FieldErrors | undefined
+	message: string | undefined
+}
 
 export async function createAnnouncement(
 	course_id: string,
+	previousState: FormState,
 	formData: FormData,
-) {
+): Promise<FormState> {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const values = announcementSchema.parse({
+	const result = announcementSchema.safeParse({
 		title: formData.get('title'),
 		description: formData.get('description'),
 		attachment: formData.get('attachment'),
 		link: formData.get('link'),
 	})
 
-	if (values.attachment.name === 'undefined' && !values.link) {
+	if (!result.success) {
+		return {
+			errors: result.error.flatten().fieldErrors,
+			message: undefined,
+		}
+	}
+
+	if (result.data.attachment.name === 'undefined' && !result.data.link) {
 		const { error } = await supabase.from('announcements').upsert({
 			course_id: course_id,
-			title: values.title,
-			description: values.description,
+			title: result.data.title,
+			description: result.data.description,
 		})
 
 		if (error) {
@@ -33,12 +51,12 @@ export async function createAnnouncement(
 		revalidatePath(`/courses/${course_id}`)
 	}
 
-	if (values.link && values.attachment.name === 'undefined') {
+	if (result.data.link && result.data.attachment.name === 'undefined') {
 		const { error } = await supabase.from('announcements').upsert({
 			course_id: course_id,
-			title: values.title,
-			description: values.description,
-			link: values.link,
+			title: result.data.title,
+			description: result.data.description,
+			link: result.data.link,
 		})
 
 		if (error) {
@@ -48,13 +66,13 @@ export async function createAnnouncement(
 		revalidatePath(`/courses/${course_id}`)
 	}
 
-	if (values.attachment.name !== 'undefined' && !values.link) {
+	if (result.data.attachment.name !== 'undefined' && !result.data.link) {
 		const { data: announcementFile, error: announcementFileError } =
 			await supabase.storage
 				.from('files')
 				.upload(
-					`announcements/${values.attachment.name}`,
-					values.attachment,
+					`announcements/${result.data.attachment.name}`,
+					result.data.attachment,
 					{
 						upsert: true,
 					},
@@ -66,8 +84,8 @@ export async function createAnnouncement(
 
 		const { error } = await supabase.from('announcements').upsert({
 			course_id: course_id,
-			title: values.title,
-			description: values.description,
+			title: result.data.title,
+			description: result.data.description,
 			attachment: announcementFile.path,
 		})
 
@@ -78,13 +96,13 @@ export async function createAnnouncement(
 		revalidatePath(`/courses/${course_id}`)
 	}
 
-	if (values.attachment.name !== 'undefined' && values.link) {
+	if (result.data.attachment.name !== 'undefined' && result.data.link) {
 		const { data: announcementFile, error: announcementFileError } =
 			await supabase.storage
 				.from('files')
 				.upload(
-					`announcements/${values.attachment.name}`,
-					values.attachment,
+					`announcements/${result.data.attachment.name}`,
+					result.data.attachment,
 					{
 						upsert: true,
 					},
@@ -96,10 +114,10 @@ export async function createAnnouncement(
 
 		const { error } = await supabase.from('announcements').upsert({
 			course_id: course_id,
-			title: values.title,
-			description: values.description,
+			title: result.data.title,
+			description: result.data.description,
 			attachment: announcementFile.path,
-			link: values.link,
+			link: result.data.link,
 		})
 
 		if (error) {
@@ -107,5 +125,10 @@ export async function createAnnouncement(
 		}
 
 		revalidatePath(`/courses/${course_id}`)
+	}
+
+	return {
+		errors: undefined,
+		message: 'Announcement successfully created!',
 	}
 }

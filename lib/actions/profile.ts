@@ -24,7 +24,7 @@ export async function updateProfile(previousState: any, formData: FormData) {
 		program: formData.get('program'),
 		position: formData.get('position'),
 	})
-	console.log(values.role)
+
 	const {
 		data: { session },
 		error: sessionError,
@@ -81,6 +81,8 @@ export async function updateProfile(previousState: any, formData: FormData) {
 			throw error
 		}
 	}
+
 	revalidatePath('/profile')
+
 	redirect('/')
 }

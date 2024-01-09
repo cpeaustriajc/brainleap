@@ -21,7 +21,7 @@ export function CreateOutputGrade({
 		},
 	)
 	const { pending, data } = useFormStatus()
-	console.log(data)
+
 	return (
 		<Form
 			action={action}

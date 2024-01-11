@@ -149,11 +149,13 @@ export default async function Page({ params }: Props) {
 						<People enrolledPeople={enrolledPeople} />
 					</Suspense>
 				</TabsContent>
-				<TabsContent value="grades">
-					<Suspense fallback={<p>Loading...</p>}>
-						<Grades assignments={assignments} />
-					</Suspense>
-				</TabsContent>
+				{profile.role === 'instructor' && (
+					<TabsContent value="grades">
+						<Suspense fallback={<p>Loading...</p>}>
+							<Grades assignments={assignments} />
+						</Suspense>
+					</TabsContent>
+				)}
 			</Tabs>
 		</main>
 	)

@@ -51,7 +51,7 @@ export default async function TeacherView({
 			'output_id, attachment, submitted_at, grade, profiles ( full_name, username ) ',
 		)
 		.eq('assignment_id', assignment.assignment_id)
-		.eq(
+		.in(
 			'student_id',
 			students.map((student) => student.profile_id),
 		)

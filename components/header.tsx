@@ -53,7 +53,7 @@ export function Header({
 	)
 
 	return (
-		<header className="px-4 py-2">
+		<header className="px-4 py-2 border-b">
 			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center">
 					<div className="px-2 inline-flex items-center">

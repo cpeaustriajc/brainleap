@@ -24,7 +24,11 @@ export default async function Page({ student, teacher }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const profile = await getProfileById(user.id)
+	const { data: profile } = await supabase
+		.from('profiles')
+		.select('role')
+		.limit(1)
+		.single()
 
 	if (!profile) {
 		redirect('/auth/signin')

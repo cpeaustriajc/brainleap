@@ -2,6 +2,13 @@ import { Separator } from '@/components/ui/separator'
 import { CreateOutputForm } from './create-output-form'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card'
 
 export default async function Page({
 	params,
@@ -19,21 +26,38 @@ export default async function Page({
 
 	if (assignmentError) throw assignmentError
 
+	const assignmentDueDate = new Date(assignmentResult.due_date ?? 0)
+
 	return (
-		<div className="max-w-2xl mx-auto flex flex-col gap-2">
-			<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-				{assignmentResult.title}
-			</h1>
-			<Separator className="my-8" />
-			<div>
+		<div className="mx-auto px-16 max-w-screen-2xl pt-8 grid grid-cols-4 gap-4">
+			<div className="col-span-2">
+				<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+					{assignmentResult.title}
+				</h1>
+				<p className="font-bold">
+					Assignment Due Date:{' '}
+					{assignmentDueDate.toLocaleDateString()}
+				</p>
+				<Separator className="my-8" />
 				<p className="whitespace-pre-wrap">
 					{assignmentResult.description}
 				</p>
 			</div>
-			<CreateOutputForm
-				assignment={assignmentResult}
-				courseId={params.id}
-			/>
+			<Card className='col-start-4'>
+				<CardHeader>
+					<CardTitle>Submit Output</CardTitle>
+					<CardDescription>
+						Submit your output for this assignment (preferrably in
+						PDF format)
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<CreateOutputForm
+						assignment={assignmentResult}
+						courseId={params.id}
+					/>
+				</CardContent>
+			</Card>
 		</div>
 	)
 }

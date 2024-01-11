@@ -23,7 +23,7 @@ export default async function Page() {
 
 	const { data: enrollmentIds } = await supabase
 		.from('enrollments')
-		.select('user_id, course_id')
+		.select('course_id')
 		.eq('user_id', user.id)
 
 	if (!enrollmentIds) {
@@ -45,7 +45,7 @@ export default async function Page() {
 	return (
 		<AppShell>
 			<main>
-				<section className="flex px-7 gap-4">
+				<section className="flex px-8 pt-8 gap-4">
 					<Suspense fallback={<CourseSkeleton />}>
 						{courses.length === 0 ? (
 							<div className=" justify-center items-center flex w-full h-[90vh]">

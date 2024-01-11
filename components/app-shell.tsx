@@ -4,6 +4,7 @@ import { HeaderSkeleton } from './header-skeleton'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
+import { Aside } from './aside'
 
 type Props = {
 	children: React.ReactNode
@@ -23,7 +24,7 @@ export default async function AppShell({ children }: Props) {
 
 	const { id } = user
 
-	const { data: profileQuery, error } = await supabase
+	const { data: profile, error } = await supabase
 		.from('profiles')
 		.select('username, avatar_url, role')
 		.eq('profile_id', id)
@@ -31,19 +32,18 @@ export default async function AppShell({ children }: Props) {
 		.single()
 
 	if (error) {
-		throw new Error(`{ code: ${error.code}, hint: ${error.hint}, message: ${error.message}
-			details: ${error.details}
-		}`)
+		throw new Error(error.message)
 	}
-
-	const profile = profileQuery
 
 	return (
 		<>
 			<Suspense fallback={<HeaderSkeleton />}>
 				<Header profile={profile} />
 			</Suspense>
-			<div className="flex flex-col">{children}</div>
+			<div className='flex w-full h-full z-0 relative overflow-hidden'>
+				<Aside />
+				{children}
+			</div>
 		</>
 	)
 }

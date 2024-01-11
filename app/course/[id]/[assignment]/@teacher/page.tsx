@@ -13,6 +13,7 @@ import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Output } from '@/components/output'
 import { getAssignmentById } from '@/lib/queries/assignment'
+import { Suspense } from 'react'
 
 export default async function TeacherView({
 	params,
@@ -27,15 +28,16 @@ export default async function TeacherView({
 		notFound()
 	}
 
-	const { data: enrolledPeople } = await supabase
+	const { data: students } = await supabase
 		.from('profiles')
 		.select()
 		.in(
 			'profile_id',
 			enrollments.map((enrollment) => enrollment.user_id),
 		)
+		.eq('role', 'student')
 
-	if (!enrolledPeople) notFound()
+	if (!students) notFound()
 
 	const assignment = await getAssignmentById(params.assignment)
 
@@ -43,17 +45,16 @@ export default async function TeacherView({
 		notFound()
 	}
 
-	const students = enrolledPeople?.filter(
-		(profile) => profile.role === 'student',
-	)
-
 	const outputWithStudentsQuery = supabase
 		.from('outputs')
 		.select(
 			'output_id, attachment, submitted_at, grade, profiles ( full_name, username ) ',
 		)
 		.eq('assignment_id', assignment.assignment_id)
-		.eq('student_id', students?.map((student) => student.profile_id))
+		.eq(
+			'student_id',
+			students.map((student) => student.profile_id),
+		)
 
 	type OutputWithStudents = QueryData<typeof outputWithStudentsQuery>
 
@@ -68,10 +69,11 @@ export default async function TeacherView({
 		.from('courses')
 		.select('course_id')
 		.eq('course_id', params.id)
+		.limit(1)
 		.single()
 
 	if (courseIdError) {
-		throw new Error(`${courseIdError.message}`)
+		throw new Error(courseIdError.message)
 	}
 
 	return (
@@ -91,14 +93,16 @@ export default async function TeacherView({
 				</TableHeader>
 				<TableBody>
 					<TableRow>
-						{outputsWithStudents?.map((output) => (
-							<Output
-								key={output.output_id}
-								output={output}
-								courseId={courseIdResult.course_id}
-								assignmentId={assignment.assignment_id}
-							/>
-						))}
+						<Suspense fallback={null}>
+							{outputsWithStudents?.map((output) => (
+								<Output
+									key={output.output_id}
+									output={output}
+									courseId={courseIdResult.course_id}
+									assignmentId={assignment.assignment_id}
+								/>
+							))}
+						</Suspense>
 					</TableRow>
 				</TableBody>
 			</Table>

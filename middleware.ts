@@ -16,6 +16,7 @@ export async function middleware(request: NextRequest) {
 		.from('profiles')
 		.select('username')
 		.eq('profile_id', user.id)
+		.limit(1)
 		.single()
 
 	if (error) {

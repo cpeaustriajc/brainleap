@@ -2,7 +2,7 @@
 
 import { cx } from '@/lib/cva.config'
 import { Tables } from '@/lib/database.types'
-import { BookmarkIcon, HomeIcon } from '@radix-ui/react-icons'
+import { BookmarkIcon, HomeIcon, PersonIcon } from '@radix-ui/react-icons'
 import { usePathname } from 'next/navigation'
 import { Tab, TabList, Tabs } from 'react-aria-components'
 
@@ -22,6 +22,7 @@ export function AsideTabs({
 				'rac-orientation-horizontal:flex-col rac-orientation-horizontal:[--border-width:0_0_2px_0]',
 				// Vertical
 				'rac-orientation-vertical:[--border-width:0_2px_0_0]',
+				'w-full'
 			)}
 		>
 			<TabList
@@ -31,6 +32,8 @@ export function AsideTabs({
 					'flex border-[length:var(--border-width)] border-slate-200 dark:border-slate-700',
 					// Vertical
 					'rac-orientation-vertical:flex-col',
+				'w-full'
+
 				)}
 			>
 				<Tab
@@ -55,6 +58,30 @@ export function AsideTabs({
 							<HomeIcon className="w-8 h-8" />
 						</div>
 						<span>Home</span>
+					</div>
+				</Tab>
+				<Tab
+					id="/profile"
+					href="/profile"
+					className={cx(
+						'relative shrink-0 cursor-pointer border-[length:var(--border-width)] border-transparent px-4 py-2 text-muted-foreground outline-none transition-colors',
+						// Focus-visible
+						'focus-visible:ring-2 focus-visible:ring-slate-400',
+						// Disabled
+						'disabled:cursor-not-allowed disabled:opacity-40',
+						// Horizontal
+						'group-rac-orientation-horizontal:border-[width:var(--border-width)] group-rac-orientation-horizontal:top-[2px]',
+						// Vertical
+						'group-rac-orientation-vertical:border-[width:var(--border-width)] group-rac-orientation-vertical:left-[2px] group-rac-orientation-vertical:inline-flex',
+						// Selected
+						'rac-selected:border-[length:var(--border-width)] rac-selected:border-primary rac-selected:text-foreground',
+					)}
+				>
+					<div className="flex items-center gap-2">
+						<div className="rounded-full bg-secondary transition-all p-2">
+							<PersonIcon className="w-8 h-8" />
+						</div>
+						<span>Profile</span>
 					</div>
 				</Tab>
 				{courses.map((course) => (

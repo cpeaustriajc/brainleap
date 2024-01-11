@@ -36,9 +36,6 @@ export async function Aside() {
 
 	return (
 		<aside className="min-h-dvh min-w-64 border-r">
-			<div className="px-4">
-				<h2 className="text-2xl tracking-tight font-bold">Courses</h2>
-			</div>
 			<AsideTabs courses={courses} />
 		</aside>
 	)

@@ -1,8 +1,6 @@
 import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
 import { CourseSkeleton } from '@/components/course-skeleton'
-import { getCourses } from '@/lib/queries/course'
-import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { unstable_noStore } from 'next/cache'
@@ -23,34 +21,33 @@ export default async function Page() {
 		return notFound()
 	}
 
-	const coursesData = getCourses()
-	const enrollmentsData = getEnrollments()
+	const { data: enrollmentIds } = await supabase
+		.from('enrollments')
+		.select('user_id, course_id')
+		.eq('user_id', user.id)
 
-	const [courses, enrollments] = await Promise.all([
-		coursesData,
-		enrollmentsData,
-	])
-
-	if (!courses || !enrollments) {
-		return notFound()
+	if (!enrollmentIds) {
+		notFound()
 	}
 
-	const studentsEnrolled = enrollments.filter(
-		(enrollment) => enrollment.user_id === user.id,
-	)
+	const { data: courses } = await supabase
+		.from('courses')
+		.select('*')
+		.in(
+			'course_id',
+			enrollmentIds.map((enrollment) => enrollment.course_id),
+		)
 
-	const filterCoursesEnrolled = courses.filter((course) =>
-		studentsEnrolled.find(
-			(enrollment) => enrollment.course_id === course.course_id,
-		),
-	)
+	if (!courses) {
+		return notFound()
+	}
 
 	return (
 		<AppShell>
 			<main>
 				<section className="flex px-7 gap-4">
 					<Suspense fallback={<CourseSkeleton />}>
-						{filterCoursesEnrolled.length === 0 ? (
+						{courses.length === 0 ? (
 							<div className=" justify-center items-center flex w-full h-[90vh]">
 								<p className="text-2xl">
 									Click enroll course on the{' '}
@@ -59,7 +56,7 @@ export default async function Page() {
 								</p>
 							</div>
 						) : (
-							filterCoursesEnrolled.map((course) => (
+							courses.map((course) => (
 								<Course
 									key={course.course_id}
 									course={course}

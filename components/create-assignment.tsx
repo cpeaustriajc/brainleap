@@ -9,11 +9,7 @@ import { createAssignment } from '@/lib/actions/assignment'
 import { useFormState } from 'react-dom'
 import { Form } from 'react-aria-components'
 
-export async function CreateAssignment({
-	course,
-}: {
-	course: Tables<'courses'>
-}) {
+export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course
 
 	const createAssignmentWithCourseId = createAssignment.bind(null, course_id)
@@ -23,7 +19,11 @@ export async function CreateAssignment({
 	})
 
 	return (
-		<Form action={action} validationErrors={state.errors} className="space-y-8">
+		<Form
+			action={action}
+			validationErrors={state.errors}
+			className="space-y-8"
+		>
 			<div className="space-y-2">
 				<Label htmlFor="title">Assignment title</Label>
 				<Input

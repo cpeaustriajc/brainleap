@@ -32,7 +32,7 @@ export default async function Page({ searchParams }: Props) {
 
 	return (
 		<AppShell>
-			<main>
+			<main className='w-full'>
 				<SetupProfileForm profile={profile} message={message} />
 			</main>
 		</AppShell>

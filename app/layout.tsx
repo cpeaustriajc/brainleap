@@ -10,7 +10,6 @@ export const viewport = {
 	width: 'device-width',
 	initialScale: 1,
 	maximumScale: 1,
-	colorScheme: 'dark light',
 }
 
 type Props = {
@@ -20,7 +19,7 @@ type Props = {
 
 export default function RootLayout({ modal, children }: Props) {
 	return (
-		<html lang="en" dir="ltr" suppressHydrationWarning>
+		<html lang="en" dir="ltr">
 			<body>
 				<Providers>{children}</Providers>
 				{modal}

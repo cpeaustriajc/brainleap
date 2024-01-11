@@ -23,19 +23,6 @@ const DropdownMenu = dynamic(
 		),
 	},
 )
-const ThemeToggle = dynamic(
-	() => import('./theme-toggle').then((mod) => mod.ThemeToggle),
-	{
-		ssr: false,
-		loading: () => (
-			<Button
-				size="icon"
-				className="animate-pulse"
-				variant="secondary"
-			></Button>
-		),
-	},
-)
 const DropdownMenuContent = dynamic(
 	() => import('./ui/dropdown-menu').then((mod) => mod.DropdownMenuContent),
 	{ ssr: false },
@@ -163,7 +150,6 @@ export function Header({
 							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
-					<ThemeToggle />
 				</div>
 			</div>
 		</header>

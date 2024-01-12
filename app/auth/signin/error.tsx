@@ -25,7 +25,7 @@ export default function Error({
 					inconvenience.
 				</p>
 			</section>
-			<Button onClick={() => reset()}>Try Again</Button>
+			<Button onPress={() => reset()}>Try Again</Button>
 		</main>
 	)
 }

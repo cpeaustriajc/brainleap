@@ -13,7 +13,7 @@ export function CloseDialog() {
 			className="justify-self-end"
 			size="icon"
 			variant="ghost"
-			onClick={() => router.back()}
+			onPress={() => router.back()}
 		>
 			<span className="sr-only">Close</span>
 			<Cross1Icon />

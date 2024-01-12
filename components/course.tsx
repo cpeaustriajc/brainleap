@@ -12,7 +12,6 @@ import { Button } from './ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
-import { getProfileById } from '@/lib/queries/profile'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { PersonIcon } from '@radix-ui/react-icons'
 
@@ -32,9 +31,20 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		.from('profiles')
 		.select('role')
 		.eq('profile_id', session.user.id)
+		.limit(1)
 		.single()
 
-	const instructorProfile = await getProfileById(course.instructor_id)
+	const { data: instructorProfile, error: instructorProfileError } =
+		await supabase
+			.from('profiles')
+			.select('avatar_url')
+			.eq('profile_id', course.instructor_id)
+			.limit(1)
+			.single()
+
+	if (instructorProfileError) {
+		throw new Error(instructorProfileError.message)
+	}
 
 	if (!profile) {
 		redirect('/auth/signin')

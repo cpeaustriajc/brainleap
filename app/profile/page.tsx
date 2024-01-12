@@ -1,6 +1,5 @@
 import AppShell from '@/components/app-shell'
 import { SetupProfileForm } from '@/components/setup-profile-form'
-import { getProfileById } from '@/lib/queries/profile'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
@@ -24,7 +23,11 @@ export default async function Page({ searchParams }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const profile = await getProfileById(user.id)
+	const { data: profile } = await supabase
+		.from('profiles')
+		.select('*')
+		.eq('profile_id', user.id)
+		.single()
 
 	if (!profile) {
 		throw new Error('Profile not found')
@@ -32,7 +35,7 @@ export default async function Page({ searchParams }: Props) {
 
 	return (
 		<AppShell>
-			<main className='w-full'>
+			<main className="w-full">
 				<SetupProfileForm profile={profile} message={message} />
 			</main>
 		</AppShell>

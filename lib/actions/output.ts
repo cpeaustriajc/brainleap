@@ -3,7 +3,6 @@
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { z } from 'zod'
-import { getProfileById } from '../queries/profile'
 import { gradeSchema, outputSchema } from '../validations/output'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
@@ -51,7 +50,15 @@ export const createOutput = async (
 		redirect('/auth/signin')
 	}
 
-	const profile = await getProfileById(user.id)
+	const { data: profile, error: profileError } = await supabase
+		.from('profiles')
+		.select('username, profile_id')
+		.eq('profile_id', user.id)
+		.single()
+
+	if (profileError) {
+		throw new Error(profileError.message)
+	}
 
 	const { data: file, error: fileError } = await supabase.storage
 		.from('files')

@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { assignmentSchema } from '../validations/assignment'
 import { revalidatePath } from 'next/cache'
-import { getProfileById } from '../queries/profile'
 import { z } from 'zod'
 
 const constructDueDate = (date: string, time: string) => {
@@ -49,7 +48,16 @@ export async function createAssignment(
 		throw new Error('User not found')
 	}
 
-	const profile = await getProfileById(user.id)
+	const { data: profile, error: profileError } = await supabase
+		.from('profiles')
+		.select('profile_id')
+		.eq('profile_id', user.id)
+		.limit(1)
+		.single()
+
+	if (profileError) {
+		throw new Error(profileError.message)
+	}
 
 	const results = assignmentSchema.safeParse({
 		title: formData.get('title'),

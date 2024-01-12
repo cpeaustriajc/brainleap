@@ -31,5 +31,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/', '/profile'],
+	matcher: ['/((?!.*\\..*|_next).*)', "/(api|trpc)(.*)", '/', '/profile'],
 }

@@ -57,30 +57,28 @@ export function Header({
 								<PlusCircledIcon className="w-6 h-6" />
 							</Button>
 							<ReactAria.Popover placement="bottom right">
-								<ReactAria.Menu>
+								<ReactAria.Menu className="grid bg-popover shadow rounded">
 									{profile.role === 'instructor' && (
-										<ReactAria.MenuItem id="create-course">
-											<Link
-												href="/create/course"
-												className={buttonVariants({
-													size: 'lg',
-													variant: 'ghost',
-												})}
-											>
-												Create Course
-											</Link>
-										</ReactAria.MenuItem>
-									)}
-									<ReactAria.MenuItem id="join-course">
-										<Link
-											href="/join/course"
+										<ReactAria.MenuItem
+											id="create-course"
+											href="/create/course"
 											className={buttonVariants({
 												size: 'lg',
 												variant: 'ghost',
 											})}
 										>
-											Enroll Course
-										</Link>
+											Create Course
+										</ReactAria.MenuItem>
+									)}
+									<ReactAria.MenuItem
+										id="join-course"
+										href="/join/course"
+										className={buttonVariants({
+											size: 'lg',
+											variant: 'ghost',
+										})}
+									>
+										Enroll Course
 									</ReactAria.MenuItem>
 								</ReactAria.Menu>
 							</ReactAria.Popover>
@@ -97,31 +95,24 @@ export function Header({
 							</Avatar>
 						</Button>
 						<ReactAria.Popover placement="bottom right">
-							<ReactAria.Menu>
+							<ReactAria.Menu className="grid bg-popover shadow rounded">
 								{profile ? (
 									<>
-										<ReactAria.MenuItem>
-											<Link
-												href="/profile"
-												className={buttonVariants({
-													variant: 'link',
-												})}
-											>
-												Profile
-											</Link>
+										<ReactAria.MenuItem
+											href="/profile"
+											className={buttonVariants({
+												variant: 'link',
+											})}
+										>
+											Profile
 										</ReactAria.MenuItem>
-										<ReactAria.MenuItem>
-											<form
-												action="/api/auth/signout"
-												method="POST"
-											>
-												<Button
-													type="submit"
-													variant="link"
-												>
-													Log Out
-												</Button>
-											</form>
+										<ReactAria.MenuItem
+											href="/auth/signout"
+											className={buttonVariants({
+												variant: 'link',
+											})}
+										>
+											Sign Out
 										</ReactAria.MenuItem>
 									</>
 								) : (

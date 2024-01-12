@@ -1,7 +1,6 @@
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { getProfileById } from '@/lib/queries/profile'
 
 type Props = {
 	params: {

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const baseProfileSchema = z.object({
+const baseProfileSchema = z.object({
 	id: z.string().uuid().optional(),
 	username: z.string(),
 	avatar_url: z.string().url().optional(),

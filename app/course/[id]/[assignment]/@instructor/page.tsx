@@ -14,6 +14,22 @@ import { notFound } from 'next/navigation'
 import { Output } from '@/components/output'
 import { getAssignmentById } from '@/lib/queries/assignment'
 import { Suspense } from 'react'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
+
+export async function generateStaticParams() {
+	const supabase = createBrowserClient()
+	const { data: assignments, error } = await supabase
+		.from('assignments')
+		.select('assignment_id')
+
+	if (error) {
+		throw new Error(`${error.message}`)
+	}
+
+	return assignments.map((assignment) => ({
+		assignment: assignment.assignment_id,
+	}))
+}
 
 export default async function TeacherView({
 	params,
@@ -77,7 +93,7 @@ export default async function TeacherView({
 	}
 
 	return (
-		<div>
+		<div className="px-4 pt-4">
 			<h1 className="mx-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
 				{assignment.title}
 			</h1>

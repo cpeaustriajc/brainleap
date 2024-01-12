@@ -9,6 +9,23 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
+
+
+export async function generateStaticParams() {
+	const supabase = createBrowserClient()
+	const { data: assignments, error } = await supabase
+		.from('assignments')
+		.select('assignment_id')
+
+	if (error) {
+		throw new Error(`${error.message}`)
+	}
+
+	return assignments.map((assignment) => ({
+		assignment: assignment.assignment_id,
+	}))
+}
 
 export default async function Page({
 	params,

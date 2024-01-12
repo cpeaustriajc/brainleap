@@ -2,7 +2,6 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { getAssignments } from '@/lib/queries/assignment'
 import { getCourseById } from '@/lib/queries/course'
-import { getAnnouncements } from '@/lib/queries/announcement'
 import { notFound, redirect } from 'next/navigation'
 import { unstable_noStore } from 'next/cache'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -66,7 +65,10 @@ export default async function Page({ params }: Props) {
 		notFound()
 	}
 
-	const announcements = await getAnnouncements(course.course_id)
+	const { data: announcements } = await supabase
+		.from('announcements')
+		.select('*')
+		.eq('course_id', course.course_id)
 
 	if (!announcements) {
 		notFound()

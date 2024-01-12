@@ -41,11 +41,24 @@ export default async function AppShell({ children }: Props) {
 				<Header profile={profile} />
 			</Suspense>
 			<div className="flex w-full h-full z-0 relative overflow-hidden">
-				<Suspense fallback={<div className="w-64" />}>
+				<Suspense fallback={<AsideSkeleton />}>
 					<Aside />
 				</Suspense>
 				{children}
 			</div>
 		</>
+	)
+}
+
+function AsideSkeleton() {
+	return (
+		<div className="min-w-64 h-dvh border-r flex flex-col gap-4 pl-4 pt-4">
+			{Array.from({ length: 4 }).map((_, i) => (
+				<div
+					key={i}
+					className="w-32 h-12 bg-slate-200 animate-pulse rounded-lg"
+				/>
+			))}
+		</div>
 	)
 }

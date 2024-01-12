@@ -1,12 +1,10 @@
-import AppShell from '@/components/app-shell'
 import { Course } from '@/components/course'
-import { CourseSkeleton } from '@/components/course-skeleton'
+import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { unstable_noStore } from 'next/cache'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { Suspense } from 'react'
 
 export default async function Page() {
 	unstable_noStore()
@@ -43,29 +41,26 @@ export default async function Page() {
 	}
 
 	return (
-		<AppShell>
-			<main>
-				<section className="flex flex-wrap px-8 pt-8 gap-4">
-					<Suspense fallback={<CourseSkeleton />}>
-						{courses.length === 0 ? (
-							<div className=" justify-center items-center flex w-full h-[90vh]">
-								<p className="text-2xl">
-									Click enroll course on the{' '}
-									<PlusCircledIcon className="inline size-6" />{' '}
-									plus tab to get started
-								</p>
-							</div>
-						) : (
-							courses.map((course) => (
-								<Course
-									key={course.course_id}
-									course={course}
-								/>
-							))
-						)}
-					</Suspense>
-				</section>
-			</main>
-		</AppShell>
+		<main>
+			<section className="flex px-8 pt-8 gap-4">
+				<Courses courses={courses} />
+			</section>
+		</main>
+	)
+}
+
+const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
+	return courses.length === 0 ? (
+		<div className=" justify-center items-center flex w-full h-[90vh]">
+			<p className="text-2xl">
+				Click enroll course on the{' '}
+				<PlusCircledIcon className="inline size-6" /> plus tab to get
+				started
+			</p>
+		</div>
+	) : (
+		courses.map((course) => (
+			<Course key={course.course_id} course={course} />
+		))
 	)
 }

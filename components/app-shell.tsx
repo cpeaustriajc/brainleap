@@ -1,10 +1,16 @@
-import { Suspense } from 'react'
-import { Header } from './header'
+import dynamic from 'next/dynamic'
 import { HeaderSkeleton } from './header-skeleton'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { Aside } from './aside'
+
+const Header = dynamic(() => import('./header').then((mod) => mod.Header), {
+	loading: () => <HeaderSkeleton />,
+})
+
+const Aside = dynamic(() => import('./aside').then((mod) => mod.Aside), {
+	loading: () => <div className="w-64" />,
+})
 
 type Props = {
 	children: React.ReactNode
@@ -37,13 +43,9 @@ export default async function AppShell({ children }: Props) {
 
 	return (
 		<>
-			<Suspense fallback={<HeaderSkeleton />}>
-				<Header profile={profile} />
-			</Suspense>
+			<Header profile={profile} />
 			<div className="flex w-full h-full z-0 relative overflow-hidden">
-				<Suspense fallback={<div className="w-64" />}>
-					<Aside />
-				</Suspense>
+				<Aside />
 				{children}
 			</div>
 		</>

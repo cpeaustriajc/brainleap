@@ -7,17 +7,24 @@ import { buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { createEnrollment } from '@/lib/actions/enrollment'
-import { useRouter } from 'next/navigation'
 import { FieldError, Form, Button } from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
+function Submit() {
+	const { pending } = useFormStatus()
+
+	return (
+		<Button className={buttonVariants()} isDisabled={pending} type="submit">
+			{pending ? 'Joining Class...' : 'Join Class'}
+		</Button>
+	)
+}
+
 export default function Page() {
-	const router = useRouter()
 	const [state, action] = useFormState(createEnrollment, {
 		errors: {},
 		message: undefined,
 	})
-	const { pending } = useFormStatus()
 
 	return (
 		<ModalBackground>
@@ -44,13 +51,7 @@ export default function Page() {
 					</TextFieldDescription>
 					<FieldError className="text-destructive font-medium" />
 				</TextField>
-				<Button
-					type="submit"
-					className={buttonVariants()}
-					isDisabled={pending}
-				>
-					Join Class
-				</Button>
+				<Submit />
 			</Form>
 		</ModalBackground>
 	)

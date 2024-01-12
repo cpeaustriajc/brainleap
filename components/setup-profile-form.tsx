@@ -10,7 +10,22 @@ import { Label } from './ui/label'
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
 import { updateProfile } from '@/lib/actions/profile'
 import { TextField } from './text-field'
-import { useFormState } from 'react-dom'
+import { useFormState, useFormStatus } from 'react-dom'
+
+function Submit() {
+	const { pending } = useFormStatus()
+
+	return (
+		<Button
+			className="w-full"
+			type="submit"
+			disabled={pending}
+			aria-disabled={pending}
+		>
+			{pending ? 'Submitting...' : 'Submit'}
+		</Button>
+	)
+}
 
 export function SetupProfileForm({
 	profile,
@@ -130,7 +145,7 @@ export function SetupProfileForm({
 					<Label htmlFor="position">Position</Label>
 					<Input placeholder="Position" />
 				</TextField>
-				<Button type="submit">Submit</Button>
+				<Submit />
 			</form>
 		</div>
 	)

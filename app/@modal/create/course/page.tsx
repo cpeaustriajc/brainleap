@@ -7,17 +7,24 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { createCourse } from '@/lib/actions/course'
-import { useRouter } from 'next/navigation'
 import { FieldError, Form, TextField, Button } from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
+function SubmitButton() {
+	const { pending } = useFormStatus()
+
+	return (
+		<Button className={buttonVariants()} isDisabled={pending} type="submit">
+			{pending ? 'Creating Class...' : 'Create Class'}
+		</Button>
+	)
+}
+
 export default function Page() {
-	const router = useRouter()
 	const [state, action] = useFormState(createCourse, {
 		errors: {},
 		message: undefined,
 	})
-	const { pending } = useFormStatus()
 
 	return (
 		<ModalBackground>
@@ -62,13 +69,7 @@ export default function Page() {
 						<FieldError className="text-destructive font-medium" />
 					</TextField>
 				</fieldset>
-				<Button
-					className={buttonVariants()}
-					isDisabled={pending}
-					type="submit"
-				>
-					Create Class
-				</Button>
+				<SubmitButton />
 			</Form>
 		</ModalBackground>
 	)

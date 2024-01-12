@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 
 const Header = dynamic(() => import('./header').then((mod) => mod.Header), {
 	loading: () => <HeaderSkeleton />,
+	ssr: false,
 })
 
 const Aside = dynamic(() => import('./aside').then((mod) => mod.Aside), {

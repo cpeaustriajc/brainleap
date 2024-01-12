@@ -16,12 +16,7 @@ function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button
-			className="w-full"
-			type="submit"
-			disabled={pending}
-			aria-disabled={pending}
-		>
+		<Button className="w-full" type="submit" isDisabled={pending}>
 			{pending ? 'Submitting...' : 'Submit'}
 		</Button>
 	)
@@ -97,25 +92,13 @@ export function SetupProfileForm({
 					/>
 				</TextField>
 
-				<Label htmlFor="role">Role</Label>
-
 				<RadioGroup
-					defaultValue={profile.role ?? 'student'}
-					id="role"
 					name="role"
+					defaultValue={profile.role ?? 'student'}
 				>
-					<div className="flex items-center space-x-2">
-						<Radio value="student" id="student" title="Student" />
-						<Label htmlFor="student">Student</Label>
-					</div>
-					<div className="flex items-center space-x-2">
-						<Radio
-							value="instructor"
-							id="instructor"
-							title="Instructor"
-						/>
-						<Label htmlFor="instructor">Instructor</Label>
-					</div>
+					<Label>Role</Label>
+					<Radio value="student">Student</Radio>
+					<Radio value="instructor">Instructor</Radio>
 				</RadioGroup>
 				<TextField
 					type="text"

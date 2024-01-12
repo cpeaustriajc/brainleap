@@ -11,7 +11,7 @@ function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button disabled={pending} aria-disabled={pending} type="submit">
+		<Button isDisabled={pending} type="submit">
 			Submit
 		</Button>
 	)

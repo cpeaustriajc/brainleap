@@ -14,7 +14,6 @@ function Submit() {
 	return (
 		<ReactAria.Button
 			isDisabled={pending}
-			aria-disabled={pending}
 			type="submit"
 			className={buttonVariants()}
 		>

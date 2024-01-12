@@ -26,6 +26,7 @@ export default async function Page({ student, instructor }: Props) {
 	const { data: profile } = await supabase
 		.from('profiles')
 		.select('role')
+		.eq('profile_id', user.id)
 		.limit(1)
 		.single()
 

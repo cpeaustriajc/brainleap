@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 import * as ReactAria from 'react-aria-components'
 import { VariantProps } from 'cva'

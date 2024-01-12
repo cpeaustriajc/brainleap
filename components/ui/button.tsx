@@ -38,18 +38,28 @@ export interface ButtonProps
 	extends ReactAria.ButtonProps,
 		VariantProps<typeof buttonVariants> {}
 
-const Button = React.forwardRef<
-	React.ElementRef<typeof ReactAria.Button>,
-	ButtonProps
->(({ className, variant, size, ...props }, ref) => {
-	return (
-		<ReactAria.Button
-			className={cx(buttonVariants({ variant, size, className }))}
-			ref={ref}
-			{...props}
-		/>
-	)
-})
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+	({ className, variant, size, ...props }, ref) => {
+		return (
+			<ReactAria.Button
+				className={(values) =>
+					cx(
+						buttonVariants({
+							variant,
+							size,
+							className:
+								typeof className === 'function'
+									? className(values)
+									: className,
+						}),
+					)
+				}
+				ref={ref}
+				{...props}
+			/>
+		)
+	},
+)
 Button.displayName = 'Button'
 
 export { Button, buttonVariants }

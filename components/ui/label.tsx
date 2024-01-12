@@ -1,6 +1,6 @@
 'use client'
 
-import { cva } from '@/lib/cva.config'
+import { cva, cx } from '@/lib/cva.config'
 import * as ReactAria from 'react-aria-components'
 
 export const labelVariants = cva({
@@ -10,7 +10,7 @@ export const labelVariants = cva({
 })
 
 const Label = ({ className, ...props }: ReactAria.LabelProps) => (
-	<ReactAria.Label className={labelVariants({ className })} {...props} />
+	<ReactAria.Label className={cx(labelVariants(), className)} {...props} />
 )
 
 export { Label }

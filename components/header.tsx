@@ -103,20 +103,6 @@ export function Header({
 							<CreateCourseForm />
 						</DialogContent>
 					</DialogOverlay>
-					<DialogOverlay
-						isOpen={isEnrollCourseMenuOpen}
-						onOpenChange={setIsEnrollCourseMenuOpen}
-					>
-						<DialogContent
-							isOpen={isEnrollCourseMenuOpen}
-							onOpenChange={setIsEnrollCourseMenuOpen}
-						>
-							<DialogHeader>
-								<DialogTitle>Enroll in a Course</DialogTitle>
-							</DialogHeader>
-							<EnrollCourseForm />
-						</DialogContent>
-					</DialogOverlay>
 					<MenuTrigger>
 						<Button variant="ghost" size="icon">
 							<span className="sr-only">Open User Menu</span>
@@ -152,6 +138,20 @@ export function Header({
 							</Menu>
 						</MenuPopover>
 					</MenuTrigger>
+					<DialogOverlay
+						isOpen={isEnrollCourseMenuOpen}
+						onOpenChange={setIsEnrollCourseMenuOpen}
+					>
+						<DialogContent
+							isOpen={isEnrollCourseMenuOpen}
+							onOpenChange={setIsEnrollCourseMenuOpen}
+						>
+							<DialogHeader>
+								<DialogTitle>Enroll in a Course</DialogTitle>
+							</DialogHeader>
+							<EnrollCourseForm />
+						</DialogContent>
+					</DialogOverlay>
 				</div>
 			</div>
 		</header>

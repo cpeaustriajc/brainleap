@@ -8,13 +8,26 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
 import { useUpload } from '@/hooks/use-upload'
 import humanId from 'human-id'
-import * as ReactAria from 'react-aria-components'
+import { MenuTrigger, Menu, MenuItem, MenuPopover } from './ui/menu'
+import {
+	DialogContent,
+	DialogHeader,
+	DialogOverlay,
+	DialogTitle,
+} from './ui/dialog'
+import { useState } from 'react'
+import { CreateCourseForm } from './create-course-form'
+import { EnrollCourseForm } from './enroll-course-form'
 
 export function Header({
 	profile,
 }: {
 	profile: Pick<Tables<'profiles'>, 'avatar_url' | 'username' | 'role'>
 }) {
+	const [isCourseMenuOpen, setIsCourseMenuOpen] = useState(false)
+	const [isCreateCourseMenuOpen, setIsCreateCourseMenuOpen] = useState(false)
+	const [isEnrollCourseMenuOpen, setIsEnrollCourseMenuOpen] = useState(false)
+
 	const { fileUrl } = useUpload(
 		'avatars',
 		profile.avatar_url,
@@ -47,44 +60,72 @@ export function Header({
 				</div>
 				<div className="flex items-center gap-2">
 					{profile && (
-						<ReactAria.MenuTrigger>
+						<MenuTrigger
+							isOpen={isCourseMenuOpen}
+							onOpenChange={setIsCourseMenuOpen}
+						>
 							<Button
 								aria-label="Class Menu"
 								variant="ghost"
 								size="icon"
 							>
-								<span className="sr-only">Open Class Menu</span>
 								<PlusCircledIcon className="w-6 h-6" />
 							</Button>
-							<ReactAria.Popover placement="bottom right">
-								<ReactAria.Menu className="grid bg-popover shadow rounded">
+							<MenuPopover>
+								<Menu
+									placement="bottom right"
+									onAction={(key) => {
+										switch (key) {
+											case 'createCourse':
+												setIsCreateCourseMenuOpen(true)
+												break
+											case 'joinCourse':
+												setIsEnrollCourseMenuOpen(true)
+												break
+										}
+									}}
+								>
 									{profile.role === 'instructor' && (
-										<ReactAria.MenuItem
-											id="create-course"
-											href="/create/course"
-											className={buttonVariants({
-												size: 'lg',
-												variant: 'ghost',
-											})}
-										>
+										<MenuItem id="createCourse">
 											Create Course
-										</ReactAria.MenuItem>
+										</MenuItem>
 									)}
-									<ReactAria.MenuItem
-										id="join-course"
-										href="/join/course"
-										className={buttonVariants({
-											size: 'lg',
-											variant: 'ghost',
-										})}
-									>
+									<MenuItem id="joinCourse">
 										Enroll Course
-									</ReactAria.MenuItem>
-								</ReactAria.Menu>
-							</ReactAria.Popover>
-						</ReactAria.MenuTrigger>
+									</MenuItem>
+								</Menu>
+							</MenuPopover>
+						</MenuTrigger>
 					)}
-					<ReactAria.MenuTrigger>
+					<DialogOverlay
+						isOpen={isCreateCourseMenuOpen}
+						onOpenChange={setIsCreateCourseMenuOpen}
+					>
+						<DialogContent
+							isOpen={isCreateCourseMenuOpen}
+							onOpenChange={setIsCreateCourseMenuOpen}
+						>
+							<DialogHeader>
+								<DialogTitle>Create a new course</DialogTitle>
+							</DialogHeader>
+							<CreateCourseForm />
+						</DialogContent>
+					</DialogOverlay>
+					<DialogOverlay
+						isOpen={isEnrollCourseMenuOpen}
+						onOpenChange={setIsEnrollCourseMenuOpen}
+					>
+						<DialogContent
+							isOpen={isEnrollCourseMenuOpen}
+							onOpenChange={setIsEnrollCourseMenuOpen}
+						>
+							<DialogHeader>
+								<DialogTitle>Enroll in a Course</DialogTitle>
+							</DialogHeader>
+							<EnrollCourseForm />
+						</DialogContent>
+					</DialogOverlay>
+					<MenuTrigger>
 						<Button variant="ghost" size="icon">
 							<span className="sr-only">Open User Menu</span>
 							<Avatar className="h-8 w-8">
@@ -94,26 +135,16 @@ export function Header({
 								</AvatarFallback>
 							</Avatar>
 						</Button>
-						<ReactAria.Popover placement="bottom right">
-							<ReactAria.Menu className="grid bg-popover shadow rounded">
+						<MenuPopover>
+							<Menu placement="bottom right">
 								{profile ? (
 									<>
-										<ReactAria.MenuItem
-											href="/profile"
-											className={buttonVariants({
-												variant: 'link',
-											})}
-										>
+										<MenuItem href="/profile">
 											Profile
-										</ReactAria.MenuItem>
-										<ReactAria.MenuItem
-											href="/auth/signout"
-											className={buttonVariants({
-												variant: 'link',
-											})}
-										>
+										</MenuItem>
+										<MenuItem href="/auth/signout">
 											Sign Out
-										</ReactAria.MenuItem>
+										</MenuItem>
 									</>
 								) : (
 									<Link
@@ -126,9 +157,9 @@ export function Header({
 										Sign in
 									</Link>
 								)}
-							</ReactAria.Menu>
-						</ReactAria.Popover>
-					</ReactAria.MenuTrigger>
+							</Menu>
+						</MenuPopover>
+					</MenuTrigger>
 				</div>
 			</div>
 		</header>

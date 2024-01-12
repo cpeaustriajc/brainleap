@@ -13,16 +13,14 @@ export const viewport = {
 }
 
 type Props = {
-	modal: React.ReactNode
 	children: React.ReactNode
 }
 
-export default function RootLayout({ modal, children }: Props) {
+export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="en" dir="ltr">
-			<body>
+			<body className="bg-background text-foreground font-sans antialiased">
 				<Providers>{children}</Providers>
-				{modal}
 			</body>
 		</html>
 	)

@@ -8,10 +8,10 @@ type Props = {
 		assignment: string
 	}
 	student: React.ReactNode
-	teacher: React.ReactNode
+	instructor: React.ReactNode
 }
 
-export default async function Page({ student, teacher }: Props) {
+export default async function Page({ student, instructor }: Props) {
 	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 
@@ -33,5 +33,5 @@ export default async function Page({ student, teacher }: Props) {
 		redirect('/auth/signin')
 	}
 
-	return <main>{profile.role === 'student' ? student : teacher}</main>
+	return <main>{profile.role === 'student' ? student : instructor}</main>
 }

@@ -4,7 +4,7 @@ import { getAssignments } from '@/lib/queries/assignment'
 import { getCourseById } from '@/lib/queries/course'
 import { notFound, redirect } from 'next/navigation'
 import { unstable_noStore } from 'next/cache'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabPanel,  TabList, Tab } from '@/components/ui/tabs'
 import { Suspense } from 'react'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { Assignments } from './assignments'
@@ -99,18 +99,18 @@ export default async function Page({ params }: Props) {
 					{course.course_description}
 				</p>
 			</section>
-			<Tabs defaultValue="announcements" className="py-8">
-				<TabsList>
-					<TabsTrigger value="announcements">
+			<Tabs defaultSelectedKey="announcements" className="py-8">
+				<TabList>
+					<Tab id="announcements">
 						Announcements
-					</TabsTrigger>
-					<TabsTrigger value="assignments">Assignments</TabsTrigger>
-					<TabsTrigger value="people">People</TabsTrigger>
+					</Tab>
+					<Tab id="assignments">Assignments</Tab>
+					<Tab id="people">People</Tab>
 					{profile.role === 'instructor' && (
-						<TabsTrigger value="grades">Grades</TabsTrigger>
+						<Tab id="grades">Grades</Tab>
 					)}
-				</TabsList>
-				<TabsContent value="announcements">
+				</TabList>
+				<TabPanel id="announcements">
 					<Suspense fallback={<p>Loading...</p>}>
 						<Announcements
 							course={course}
@@ -118,8 +118,8 @@ export default async function Page({ params }: Props) {
 							announcements={announcements}
 						/>
 					</Suspense>
-				</TabsContent>
-				<TabsContent value="assignments">
+				</TabPanel>
+				<TabPanel id="assignments">
 					<Suspense fallback={<p>Loading...</p>}>
 						<Assignments
 							course={course}
@@ -127,18 +127,18 @@ export default async function Page({ params }: Props) {
 							profile={profile}
 						/>
 					</Suspense>
-				</TabsContent>
-				<TabsContent value="people">
+				</TabPanel>
+				<TabPanel id="people">
 					<Suspense fallback={<p>Loading...</p>}>
 						<People enrolledPeople={enrolledPeople} />
 					</Suspense>
-				</TabsContent>
+				</TabPanel>
 				{profile.role === 'instructor' && (
-					<TabsContent value="grades">
+					<TabPanel id="grades">
 						<Suspense fallback={<p>Loading...</p>}>
 							<Grades assignments={assignments} />
 						</Suspense>
-					</TabsContent>
+					</TabPanel>
 				)}
 			</Tabs>
 		</main>

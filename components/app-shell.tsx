@@ -40,8 +40,10 @@ export default async function AppShell({ children }: Props) {
 			<Suspense fallback={<HeaderSkeleton />}>
 				<Header profile={profile} />
 			</Suspense>
-			<div className='flex w-full h-full z-0 relative overflow-hidden'>
-				<Aside />
+			<div className="flex w-full h-full z-0 relative overflow-hidden">
+				<Suspense fallback={<div className="w-64" />}>
+					<Aside />
+				</Suspense>
 				{children}
 			</div>
 		</>

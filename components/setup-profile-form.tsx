@@ -7,7 +7,7 @@ import { extractUsername } from '@/lib/utils'
 import { cx } from '@/lib/cva.config'
 import { ProfilePicture } from './profile-picture'
 import { Label } from './ui/label'
-import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { RadioGroup, Radio } from './ui/radio-group'
 import { updateProfile } from '@/lib/actions/profile'
 import { TextField } from './text-field'
 import { useFormState, useFormStatus } from 'react-dom'
@@ -105,15 +105,11 @@ export function SetupProfileForm({
 					name="role"
 				>
 					<div className="flex items-center space-x-2">
-						<RadioGroupItem
-							value="student"
-							id="student"
-							title="Student"
-						/>
+						<Radio value="student" id="student" title="Student" />
 						<Label htmlFor="student">Student</Label>
 					</div>
 					<div className="flex items-center space-x-2">
-						<RadioGroupItem
+						<Radio
 							value="instructor"
 							id="instructor"
 							title="Instructor"

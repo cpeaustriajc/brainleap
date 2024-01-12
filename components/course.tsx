@@ -14,6 +14,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { PersonIcon } from '@radix-ui/react-icons'
+import { Suspense } from 'react'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
 	const cookieStore = cookies()
@@ -78,16 +79,24 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				</div>
 			</CardHeader>
 			<CardContent>
-				<p>
-					You currently have{' '}
-					{assignments.data.length === 0
-						? 'no'
-						: assignments.data.length}{' '}
-					pending{' '}
-					{assignments.data.length === 0 ? 'classwork' : 'classworks'}{' '}
-					{profile.role === 'instructor' ? 'to grade' : 'to complete'}
-					.
-				</p>
+				<Suspense
+					fallback={<p className="animate-pulse">Loading...</p>}
+				>
+					<p>
+						You currently have{' '}
+						{assignments.data.length === 0
+							? 'no'
+							: assignments.data.length}{' '}
+						pending{' '}
+						{assignments.data.length === 0
+							? 'classwork'
+							: 'classworks'}{' '}
+						{profile.role === 'instructor'
+							? 'to grade'
+							: 'to complete'}
+						.
+					</p>
+				</Suspense>
 			</CardContent>
 			<CardFooter>
 				<Link

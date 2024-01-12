@@ -3,7 +3,7 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
-import { Button } from './ui/button'
+import { buttonVariants } from './ui/button'
 import { cx } from '@/lib/cva.config'
 import { PersonIcon } from '@radix-ui/react-icons'
 import { useUpload } from '@/hooks/use-upload'
@@ -32,11 +32,15 @@ export function ProfilePicture({ uid, url, size }: Props) {
 			</Avatar>
 
 			<div className={cx(`w-[${size}px]`)}>
-				<Button asChild style={{ width: size }}>
-					<label htmlFor="single" className="cursor-pointer">
-						{uploading ? 'Uploading...' : 'Upload'}
-					</label>
-				</Button>
+				<label
+					htmlFor="single"
+					className={buttonVariants({
+						className: 'cursor-pointer',
+					})}
+					style={{ width: size }}
+				>
+					{uploading ? 'Uploading...' : 'Upload'}
+				</label>
 				<input
 					className="hidden absolute"
 					type="file"

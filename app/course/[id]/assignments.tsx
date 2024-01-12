@@ -1,22 +1,24 @@
-import { CreateAssignment } from '@/components/create-assignment';
+import { CreateAssignment } from '@/components/create-assignment'
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
-	CardTitle
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tables } from '@/lib/database.types';
-import Link from 'next/link';
-import { Attachments } from './attachments';
+	CardTitle,
+} from '@/components/ui/card'
+import { buttonVariants } from '@/components/ui/button'
+import { Tables } from '@/lib/database.types'
+import Link from 'next/link'
+import { Attachments } from './attachments'
 
 export async function Assignments({
-	course, assignments, profile,
+	course,
+	assignments,
+	profile,
 }: {
-	course: Tables<'courses'>;
-	assignments: Tables<'assignments'>[];
-	profile: Tables<'profiles'>;
+	course: Tables<'courses'>
+	assignments: Tables<'assignments'>[]
+	profile: Tables<'profiles'>
 }) {
 	return (
 		<>
@@ -41,30 +43,33 @@ export async function Assignments({
 									{assignment.attachment && (
 										<div className="grid grid-cols-2">
 											<Attachments
-												attachment={assignment.attachment} />
+												attachment={
+													assignment.attachment
+												}
+											/>
 										</div>
 									)}
 									{profile.role === 'student' && (
-										<Button asChild className="w-full">
-											<Link
-												href={`/course/${course.course_id}/${assignment.assignment_id}`}
-											>
-												<span className="pl-2">
-													View More
-												</span>
-											</Link>
-										</Button>
+										<Link
+											href={`/course/${course.course_id}/${assignment.assignment_id}`}
+											className={buttonVariants({
+												className: 'w-full',
+											})}
+										>
+											<span className="pl-2">
+												View More
+											</span>
+										</Link>
 									)}
 									{profile.role === 'instructor' && (
-										<Button asChild className="w-full">
-											<Link
-												href={`/course/${course.course_id}/${assignment.assignment_id}`}
-											>
-												<span className="pl-2">
-													Grade
-												</span>
-											</Link>
-										</Button>
+										<Link
+											href={`/course/${course.course_id}/${assignment.assignment_id}`}
+											className={buttonVariants({
+												className: 'w-full',
+											})}
+										>
+											<span className="pl-2">Grade</span>
+										</Link>
 									)}
 								</CardFooter>
 							</Card>
@@ -77,5 +82,5 @@ export async function Assignments({
 				</div>
 			</div>
 		</>
-	);
+	)
 }

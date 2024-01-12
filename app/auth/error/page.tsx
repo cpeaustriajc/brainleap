@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
@@ -15,9 +15,9 @@ export default function Page() {
 					inconvenience.
 				</p>
 			</div>
-			<Button asChild>
-				<Link href="/auth/signin">Try Again</Link>
-			</Button>
+			<Link href="/auth/signin" className={buttonVariants()}>
+				Try Again
+			</Link>
 		</section>
 	)
 }

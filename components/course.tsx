@@ -8,7 +8,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from './ui/card'
-import { Button } from './ui/button'
+import { buttonVariants } from './ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
@@ -90,9 +90,12 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				</p>
 			</CardContent>
 			<CardFooter>
-				<Button className="w-full" asChild>
-					<Link href={`/course/${course.course_id}`}>View More</Link>
-				</Button>
+				<Link
+					href={`/course/${course.course_id}`}
+					className={buttonVariants({ className: 'w-full' })}
+				>
+					View More
+				</Link>
 			</CardFooter>
 		</Card>
 	)

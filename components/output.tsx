@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { TableCell } from '@/components/ui/table'
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
@@ -44,11 +44,13 @@ export async function Output({ output, courseId, assignmentId }: OutputProps) {
 			</TableCell>
 			<TableCell>
 				{file ? (
-					<Button variant="link" asChild>
-						<Link href={file.signedUrl} target="_blank">
-							View
-						</Link>
-					</Button>
+					<Link
+						href={file.signedUrl}
+						target="_blank"
+						className={buttonVariants({ variant: 'link' })}
+					>
+						View
+					</Link>
 				) : (
 					<span>No file</span>
 				)}

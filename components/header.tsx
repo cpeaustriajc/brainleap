@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Button } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
 import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
@@ -58,23 +58,23 @@ export function Header({
 			<div className="flex justify-between items-center w-full">
 				<div className="flex items-center">
 					<div className="px-2 inline-flex items-center">
-						<Button
-							asChild
-							variant="ghost"
-							size="icon"
-							className="px-0"
+						<Link
+							href="/"
+							className={buttonVariants({
+								variant: 'ghost',
+								size: 'icon',
+								className: 'px-0',
+							})}
 						>
-							<Link href="/">
-								<Image
-									src="/doctrina.png"
-									width={80}
-									height={80}
-									alt="The Logo of Doctrina"
-									priority
-								/>
-								<span className="sr-only">Home</span>
-							</Link>
-						</Button>
+							<Image
+								src="/doctrina.png"
+								width={80}
+								height={80}
+								alt="The Logo of Doctrina"
+								priority
+							/>
+							<span className="sr-only">Home</span>
+						</Link>
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
@@ -91,23 +91,27 @@ export function Header({
 							<DropdownMenuContent align="end">
 								{profile.role === 'instructor' && (
 									<DropdownMenuItem>
-										<Button
-											size="lg"
-											asChild
-											variant="ghost"
+										<Link
+											href="/create/course"
+											className={buttonVariants({
+												size: 'lg',
+												variant: 'ghost',
+											})}
 										>
-											<Link href="/create/course">
-												Create Course
-											</Link>
-										</Button>
+											Create Course
+										</Link>
 									</DropdownMenuItem>
 								)}
 								<DropdownMenuItem>
-									<Button size="lg" asChild variant="ghost">
-										<Link href="/join/course">
-											Enroll Course
-										</Link>
-									</Button>
+									<Link
+										href="/join/course"
+										className={buttonVariants({
+											size: 'lg',
+											variant: 'ghost',
+										})}
+									>
+										Enroll Course
+									</Link>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
 						</DropdownMenu>
@@ -128,9 +132,14 @@ export function Header({
 							{profile ? (
 								<>
 									<DropdownMenuItem>
-										<Button asChild variant="link">
-											<Link href="/profile">Profile</Link>
-										</Button>
+										<Link
+											href="/profile"
+											className={buttonVariants({
+												variant: 'link',
+											})}
+										>
+											Profile
+										</Link>
 									</DropdownMenuItem>
 									<DropdownMenuItem>
 										<form
@@ -147,13 +156,15 @@ export function Header({
 									</DropdownMenuItem>
 								</>
 							) : (
-								<Button
-									asChild
-									variant="link"
-									className="w-full"
+								<Link
+									href="/auth/signin"
+									className={buttonVariants({
+										variant: 'link',
+										className: 'w-full',
+									})}
 								>
-									<Link href="/auth/signin">Sign in</Link>
-								</Button>
+									Sign in
+								</Link>
 							)}
 						</DropdownMenuContent>
 					</DropdownMenu>

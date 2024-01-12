@@ -63,18 +63,18 @@ export async function Grades({
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					<TableRow>
-						{students.map((student) => (
-							<TableCell key={student.username}>
+					{students.map((student) => (
+						<TableRow key={student.username}>
+							<TableCell>
 								{student.full_name ?? student.username}
 							</TableCell>
-						))}
-						{outputs.map((output) => (
-							<TableCell key={output.output_id}>
-								{output.grade}
-							</TableCell>
-						))}
-					</TableRow>
+							{outputs.map((output) => (
+								<TableCell key={output.output_id}>
+									{output.grade}
+								</TableCell>
+							))}
+						</TableRow>
+					))}
 				</TableBody>
 			</Table>
 		</div>

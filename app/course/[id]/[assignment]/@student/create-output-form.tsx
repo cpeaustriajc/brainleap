@@ -7,6 +7,16 @@ import { Tables } from '@/lib/database.types'
 import ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
+function Submit() {
+	const { pending } = useFormStatus()
+
+	return (
+		<Button disabled={pending} aria-disabled={pending} type="submit">
+			Submit
+		</Button>
+	)
+}
+
 export function CreateOutputForm({
 	assignment,
 	courseId,
@@ -24,7 +34,7 @@ export function CreateOutputForm({
 		errors: {},
 		message: undefined,
 	})
-	const { pending } = useFormStatus()
+
 	return (
 		<ReactAria.Form
 			action={action}
@@ -32,9 +42,7 @@ export function CreateOutputForm({
 			validationErrors={state.errors}
 		>
 			<Input type="file" name="output" id="output" required />
-			<Button disabled={pending} type="submit">
-				Submit
-			</Button>
+			<Submit />
 			<ReactAria.FieldError className="text-destructive font-medium" />
 		</ReactAria.Form>
 	)

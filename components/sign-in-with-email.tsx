@@ -8,6 +8,16 @@ import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
 
+function Submit() {
+	const { pending } = useFormStatus()
+
+	return (
+		<Button type="submit" disabled={pending} aria-disabled={pending}>
+			Sign In
+		</Button>
+	)
+}
+
 export function SignInWithEmail() {
 	const [state, action] = useFormState(signInWithEmail, {
 		errors: {},
@@ -20,7 +30,12 @@ export function SignInWithEmail() {
 			validationErrors={state.errors}
 			className="flex flex-col gap-2"
 		>
-			<TextField name="email" type="text" className="flex flex-col gap-2" isRequired>
+			<TextField
+				name="email"
+				type="text"
+				className="flex flex-col gap-2"
+				isRequired
+			>
 				<Label>Email</Label>
 				<Input
 					placeholder="johndoe@email.com"
@@ -28,9 +43,7 @@ export function SignInWithEmail() {
 				/>
 				<ReactAria.FieldError className="text-destructive" />
 			</TextField>
-			<Button type="submit" disabled={pending}>
-				Sign In
-			</Button>
+			<Submit />
 		</ReactAria.Form>
 	)
 }

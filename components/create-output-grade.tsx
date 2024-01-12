@@ -8,6 +8,21 @@ import { gradeOutput } from '@/lib/actions/output'
 import { OutputProps } from './output'
 import { buttonVariants } from './ui/button'
 
+function Submit() {
+	const { pending } = useFormStatus()
+
+	return (
+		<ReactAria.Button
+			isDisabled={pending}
+			aria-disabled={pending}
+			type="submit"
+			className={buttonVariants()}
+		>
+			Submit
+		</ReactAria.Button>
+	)
+}
+
 export function CreateOutputGrade({
 	output,
 	courseId,
@@ -20,7 +35,6 @@ export function CreateOutputGrade({
 			errors: {},
 		},
 	)
-	const { pending, data } = useFormStatus()
 
 	return (
 		<ReactAria.Form
@@ -54,13 +68,7 @@ export function CreateOutputGrade({
 				</div>
 				<ReactAria.FieldError className="text-destructive font-medium" />
 			</ReactAria.NumberField>
-			<ReactAria.Button
-				isDisabled={pending}
-				className={buttonVariants()}
-				type="submit"
-			>
-				Grade
-			</ReactAria.Button>
+			<Submit />
 		</ReactAria.Form>
 	)
 }

@@ -1,4 +1,5 @@
 'use client'
+
 import { Button } from '@/components/ui/button'
 import { Input } from './ui/input'
 import { Textarea } from './ui/textarea'
@@ -41,11 +42,7 @@ export function SetupProfileForm({
 			>
 				{message}
 			</p>
-			<ProfilePicture
-				uid={profile.profile_id}
-				url={profile.avatar_url}
-				size={128}
-			/>
+			<ProfilePicture url={profile.avatar_url} size={128} />
 			<form className="my-4 space-y-4" action={action}>
 				<TextField
 					type="text"

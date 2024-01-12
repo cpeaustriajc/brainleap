@@ -1,27 +1,26 @@
 'use client'
 
-import React from 'react'
+import { useTransition } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
-import { buttonVariants } from './ui/button'
-import { cx } from '@/lib/cva.config'
+import { Button } from './ui/button'
 import { PersonIcon } from '@radix-ui/react-icons'
-import { useUpload } from '@/hooks/use-upload'
+import * as ReactAria from 'react-aria-components'
+import { uploadAvatar } from '@/lib/actions/profile'
 
 type Props = {
-	uid: string
-	url: Tables<'profiles'>['avatar_url']
+	url: Tables<'profiles'>['avatar_url'] | null
 	size: number
 }
 
-export function ProfilePicture({ uid, url, size }: Props) {
-	const { fileUrl, uploadFile, uploading } = useUpload('avatars', url, uid)
+export function ProfilePicture({ url, size }: Props) {
+	const [isPending, startTransition] = useTransition()
 
 	return (
 		<div className="space-y-4">
 			<Avatar style={{ width: size, height: size }}>
 				<AvatarImage
-					src={fileUrl}
+					src={url!}
 					width={size}
 					height={size}
 					style={{ width: size, height: size }}
@@ -30,26 +29,22 @@ export function ProfilePicture({ uid, url, size }: Props) {
 					<PersonIcon style={{ width: size / 2, height: size / 2 }} />
 				</AvatarFallback>
 			</Avatar>
-
-			<div className={cx(`w-[${size}px]`)}>
-				<label
-					htmlFor="single"
-					className={buttonVariants({
-						className: 'cursor-pointer',
-					})}
-					style={{ width: size }}
-				>
-					{uploading ? 'Uploading...' : 'Upload'}
-				</label>
-				<input
-					className="hidden absolute"
-					type="file"
-					id="single"
-					accept="image/*"
-					onChange={uploadFile}
-					disabled={uploading}
-				/>
-			</div>
+			<ReactAria.FileTrigger
+				onSelect={(e) => {
+					if (e) {
+						const formData = new FormData()
+						formData.set('avatar', e[0])
+						startTransition(() => {
+							uploadAvatar(formData)
+						})
+					}
+				}}
+				acceptedFileTypes={['image/*']}
+			>
+				<Button isDisabled={isPending}>
+					{isPending ? 'Uploading...' : 'Change Profile Picture'}
+				</Button>
+			</ReactAria.FileTrigger>
 		</div>
 	)
 }

@@ -86,3 +86,42 @@ export async function updateProfile(previousState: any, formData: FormData) {
 
 	redirect('/')
 }
+
+export async function uploadAvatar(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const {
+		data: { user },
+		error: userError,
+	} = await supabase.auth.getUser()
+
+	if (userError) {
+		throw userError
+	}
+
+	if (!user) {
+		redirect('/auth/signin')
+	}
+
+	const file = formData.get('avatar') as File
+
+	const fileExt = file.name.split('.').pop()
+	const filePath = `${user.id}-${Math.random()}.${fileExt}`
+
+	const { error } = await supabase.storage
+		.from('avatars')
+		.upload(filePath, file)
+
+	if (error) {
+		throw error
+	}
+
+	const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${filePath}`
+
+	await supabase
+		.from('profiles')
+		.update({ avatar_url: fileUrl })
+		.eq('profile_id', user.id)
+
+	revalidatePath('/profile')
+}

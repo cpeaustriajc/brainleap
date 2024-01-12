@@ -6,8 +6,6 @@ import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
-import { useUpload } from '@/hooks/use-upload'
-import humanId from 'human-id'
 import { MenuTrigger, Menu, MenuItem, MenuPopover } from './ui/menu'
 import {
 	DialogContent,
@@ -27,12 +25,6 @@ export function Header({
 	const [isCourseMenuOpen, setIsCourseMenuOpen] = useState(false)
 	const [isCreateCourseMenuOpen, setIsCreateCourseMenuOpen] = useState(false)
 	const [isEnrollCourseMenuOpen, setIsEnrollCourseMenuOpen] = useState(false)
-
-	const { fileUrl } = useUpload(
-		'avatars',
-		profile.avatar_url,
-		profile.username || humanId(),
-	)
 
 	return (
 		<header className="px-4 py-2 border-b">
@@ -129,7 +121,7 @@ export function Header({
 						<Button variant="ghost" size="icon">
 							<span className="sr-only">Open User Menu</span>
 							<Avatar className="h-8 w-8">
-								<AvatarImage src={fileUrl || undefined} />
+								<AvatarImage src={profile.avatar_url!} />
 								<AvatarFallback>
 									<PersonIcon />
 								</AvatarFallback>

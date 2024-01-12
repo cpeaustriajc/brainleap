@@ -23,14 +23,14 @@ export default async function Page({ searchParams }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const { data: profile } = await supabase
+	const { data: profile, error: profileError } = await supabase
 		.from('profiles')
 		.select('*')
 		.eq('profile_id', user.id)
 		.single()
 
-	if (!profile) {
-		throw new Error('Profile not found')
+	if (profileError) {
+		throw profileError
 	}
 
 	return (

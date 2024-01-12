@@ -7,7 +7,7 @@ import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { createAssignment } from '@/lib/actions/assignment'
 import { useFormState } from 'react-dom'
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 
 export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course

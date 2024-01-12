@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { cx } from '@/lib/cva.config'
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 
 export interface TextareaProps
 	extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}

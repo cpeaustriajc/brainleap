@@ -1,6 +1,6 @@
 'use client'
 
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { useFormState, useFormStatus } from 'react-dom'

@@ -1,7 +1,7 @@
 'use client'
 
 import { cx } from '@/lib/cva.config'
-import ReactAria from 'react-aria-components'
+import * as  ReactAria from 'react-aria-components'
 
 const Label = ({ className, ...props }: ReactAria.LabelProps) => (
 	<ReactAria.Label

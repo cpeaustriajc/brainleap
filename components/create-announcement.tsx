@@ -7,7 +7,7 @@ import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import { Tables } from '@/lib/database.types'
 import { useFormState } from 'react-dom'
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 
 export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 	const createAnnouncementWithCourseId = createAnnouncement.bind(

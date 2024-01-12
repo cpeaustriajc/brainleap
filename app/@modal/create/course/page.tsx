@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { createCourse } from '@/lib/actions/course'
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
 function SubmitButton() {

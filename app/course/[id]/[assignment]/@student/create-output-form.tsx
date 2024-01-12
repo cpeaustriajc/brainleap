@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { createOutput } from '@/lib/actions/output'
 import { Tables } from '@/lib/database.types'
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
 function Submit() {

@@ -4,7 +4,7 @@ import { cx } from '@/lib/cva.config'
 import { Tables } from '@/lib/database.types'
 import { BookmarkIcon, HomeIcon, PersonIcon } from '@radix-ui/react-icons'
 import { usePathname } from 'next/navigation'
-import ReactAria from 'react-aria-components'
+import * as ReactAria from 'react-aria-components'
 
 export function AsideTabs({
 	courses,

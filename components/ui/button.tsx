@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 import * as ReactAria from 'react-aria-components'
 import { VariantProps } from 'cva'
@@ -44,18 +42,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ className, variant, size, ...props }, ref) => {
 		return (
 			<ReactAria.Button
-				className={(values) =>
-					cx(
-						buttonVariants({
-							variant,
-							size,
-							className:
-								typeof className === 'function'
-									? className(values)
-									: className,
-						}),
-					)
-				}
+				className={cx(
+					buttonVariants({
+						variant,
+						size,
+					}),
+					className,
+				)}
 				ref={ref}
 				{...props}
 			/>

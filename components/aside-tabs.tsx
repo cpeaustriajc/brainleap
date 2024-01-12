@@ -4,7 +4,7 @@ import { cx } from '@/lib/cva.config'
 import { Tables } from '@/lib/database.types'
 import { BookmarkIcon, HomeIcon, PersonIcon } from '@radix-ui/react-icons'
 import { usePathname } from 'next/navigation'
-import { Tab, TabList, Tabs } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 
 export function AsideTabs({
 	courses,
@@ -13,7 +13,7 @@ export function AsideTabs({
 }) {
 	const pathname = usePathname()
 	return (
-		<Tabs
+		<ReactAria.Tabs
 			selectedKey={pathname}
 			orientation="vertical"
 			className={cx(
@@ -22,21 +22,20 @@ export function AsideTabs({
 				'rac-orientation-horizontal:flex-col rac-orientation-horizontal:[--border-width:0_0_2px_0]',
 				// Vertical
 				'rac-orientation-vertical:[--border-width:0_2px_0_0]',
-				'w-full'
+				'w-full',
 			)}
 		>
-			<TabList
+			<ReactAria.TabList
 				aria-label="Tabs"
 				className={cx(
 					'group',
 					'flex border-[length:var(--border-width)] border-slate-200 dark:border-slate-700',
 					// Vertical
 					'rac-orientation-vertical:flex-col',
-				'w-full'
-
+					'w-full',
 				)}
 			>
-				<Tab
+				<ReactAria.Tab
 					id="/"
 					href="/"
 					className={cx(
@@ -59,8 +58,8 @@ export function AsideTabs({
 						</div>
 						<span>Home</span>
 					</div>
-				</Tab>
-				<Tab
+				</ReactAria.Tab>
+				<ReactAria.Tab
 					id="/profile"
 					href="/profile"
 					className={cx(
@@ -83,9 +82,9 @@ export function AsideTabs({
 						</div>
 						<span>Profile</span>
 					</div>
-				</Tab>
+				</ReactAria.Tab>
 				{courses.map((course) => (
-					<Tab
+					<ReactAria.Tab
 						id={`/course/${course.course_id}`}
 						href={`/course/${course.course_id}`}
 						key={course.course_id}
@@ -114,9 +113,9 @@ export function AsideTabs({
 								</p>
 							</div>
 						</div>
-					</Tab>
+					</ReactAria.Tab>
 				))}
-			</TabList>
-		</Tabs>
+			</ReactAria.TabList>
+		</ReactAria.Tabs>
 	)
 }

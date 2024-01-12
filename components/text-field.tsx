@@ -1,21 +1,18 @@
 'use client'
 
-import {
-	Text,
-	TextField,
-	type TextFieldProps,
-	type TextProps,
-} from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 
 import { cx } from '@/lib/cva.config'
 
-const _TextField = ({ className, ...props }: TextFieldProps) => {
-	return <TextField className={cx('w-full', className)} {...props} />
+const TextField = ({ className, ...props }: ReactAria.TextFieldProps) => {
+	return (
+		<ReactAria.TextField className={cx('w-full', className)} {...props} />
+	)
 }
 
-const _TextFieldDescription = ({ className, ...props }: TextProps) => {
+const TextFieldDescription = ({ className, ...props }: ReactAria.TextProps) => {
 	return (
-		<Text
+		<ReactAria.Text
 			elementType="div"
 			slot="description"
 			className={cx('mt-2 text-sm text-muted-foreground', className)}
@@ -24,9 +21,12 @@ const _TextFieldDescription = ({ className, ...props }: TextProps) => {
 	)
 }
 
-const _TextFieldErrorMessage = ({ className, ...props }: TextProps) => {
+const TextFieldErrorMessage = ({
+	className,
+	...props
+}: ReactAria.TextProps) => {
 	return (
-		<Text
+		<ReactAria.Text
 			elementType="div"
 			slot="error-message"
 			className={cx('mt-2 text-sm text-destructive', className)}
@@ -35,8 +35,4 @@ const _TextFieldErrorMessage = ({ className, ...props }: TextProps) => {
 	)
 }
 
-export {
-	_TextField as TextField,
-	_TextFieldDescription as TextFieldDescription,
-	_TextFieldErrorMessage as TextFieldErrorMessage,
-}
+export { TextField, TextFieldDescription, TextFieldErrorMessage }

@@ -7,16 +7,16 @@ import { buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { createEnrollment } from '@/lib/actions/enrollment'
-import { FieldError, Form, Button } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
 function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button className={buttonVariants()} isDisabled={pending} type="submit">
+		<ReactAria.Button className={buttonVariants()} isDisabled={pending} type="submit">
 			{pending ? 'Joining Class...' : 'Join Class'}
-		</Button>
+		</ReactAria.Button>
 	)
 }
 
@@ -28,7 +28,7 @@ export default function Page() {
 
 	return (
 		<ModalBackground>
-			<Form
+			<ReactAria.Form
 				action={action}
 				className="flex flex-col gap-4 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-border p-4 rounded bg-card w-64"
 				validationErrors={state.errors}
@@ -49,10 +49,10 @@ export default function Page() {
 					<TextFieldDescription className="text-xs px-1">
 						Ask your teacher for the class code. Then enter it here.
 					</TextFieldDescription>
-					<FieldError className="text-destructive font-medium" />
+					<ReactAria.FieldError className="text-destructive font-medium" />
 				</TextField>
 				<Submit />
-			</Form>
+			</ReactAria.Form>
 		</ModalBackground>
 	)
 }

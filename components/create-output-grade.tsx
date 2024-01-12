@@ -1,6 +1,6 @@
 'use client'
 
-import { Form, NumberField, Button, FieldError } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { useFormState, useFormStatus } from 'react-dom'
@@ -23,12 +23,12 @@ export function CreateOutputGrade({
 	const { pending, data } = useFormStatus()
 
 	return (
-		<Form
+		<ReactAria.Form
 			action={action}
 			className="flex flex-row gap-2"
 			validationErrors={state.errors}
 		>
-			<NumberField
+			<ReactAria.NumberField
 				defaultValue={output.grade ?? 0}
 				isRequired
 				minValue={0}
@@ -38,23 +38,29 @@ export function CreateOutputGrade({
 			>
 				<div className="flex flex-row">
 					<Label className="sr-only">Grade</Label>
-					<Button className={buttonVariants()} slot="decrement">
+					<ReactAria.Button
+						className={buttonVariants()}
+						slot="decrement"
+					>
 						-
-					</Button>
+					</ReactAria.Button>
 					<Input className="shrink" />
-					<Button className={buttonVariants()} slot="increment">
+					<ReactAria.Button
+						className={buttonVariants()}
+						slot="increment"
+					>
 						+
-					</Button>
+					</ReactAria.Button>
 				</div>
-				<FieldError className="text-destructive font-medium" />
-			</NumberField>
-			<Button
+				<ReactAria.FieldError className="text-destructive font-medium" />
+			</ReactAria.NumberField>
+			<ReactAria.Button
 				isDisabled={pending}
 				className={buttonVariants()}
 				type="submit"
 			>
 				Grade
-			</Button>
-		</Form>
+			</ReactAria.Button>
+		</ReactAria.Form>
 	)
 }

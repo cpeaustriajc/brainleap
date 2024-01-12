@@ -7,16 +7,16 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { createCourse } from '@/lib/actions/course'
-import { FieldError, Form, TextField, Button } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
 function SubmitButton() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button className={buttonVariants()} isDisabled={pending} type="submit">
+		<ReactAria.Button className={buttonVariants()} isDisabled={pending} type="submit">
 			{pending ? 'Creating Class...' : 'Create Class'}
-		</Button>
+		</ReactAria.Button>
 	)
 }
 
@@ -28,7 +28,7 @@ export default function Page() {
 
 	return (
 		<ModalBackground>
-			<Form
+			<ReactAria.Form
 				action={action}
 				className="flex flex-col space-y-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border border-border p-4 rounded bg-card w-96"
 				validationErrors={state.errors}
@@ -40,37 +40,37 @@ export default function Page() {
 					<legend className="text-lg font-semibold my-2">
 						Add a class
 					</legend>
-					<TextField name="title" type="text" isRequired>
+					<ReactAria.TextField name="title" type="text" isRequired>
 						<Label>Class Title</Label>
 						<Input placeholder="Class Title" />
-						<FieldError className="text-destructive font-medium" />
-					</TextField>
-					<TextField name="section" type="text" isRequired>
+						<ReactAria.FieldError className="text-destructive font-medium" />
+					</ReactAria.TextField>
+					<ReactAria.TextField name="section" type="text" isRequired>
 						<Label>Section</Label>
 						<Input placeholder="Section" />
-						<FieldError className="text-destructive font-medium" />
-					</TextField>
-					<TextField type="text" name="subject">
+						<ReactAria.FieldError className="text-destructive font-medium" />
+					</ReactAria.TextField>
+					<ReactAria.TextField type="text" name="subject">
 						<Label>Subject</Label>
 						<Input placeholder="Subject" />
-						<FieldError className="text-destructive font-medium" />
-					</TextField>
-					<TextField type="text" name="room">
+						<ReactAria.FieldError className="text-destructive font-medium" />
+					</ReactAria.TextField>
+					<ReactAria.TextField type="text" name="room">
 						<Label>Room</Label>
 						<Input placeholder="Room" />
-						<FieldError className="text-destructive font-medium" />
-					</TextField>
-					<TextField name="description">
+						<ReactAria.FieldError className="text-destructive font-medium" />
+					</ReactAria.TextField>
+					<ReactAria.TextField name="description">
 						<Label>Class Description</Label>
 						<Textarea
 							placeholder="Class Description"
 							className="resize-none"
 						/>
-						<FieldError className="text-destructive font-medium" />
-					</TextField>
+						<ReactAria.FieldError className="text-destructive font-medium" />
+					</ReactAria.TextField>
 				</fieldset>
 				<SubmitButton />
-			</Form>
+			</ReactAria.Form>
 		</ModalBackground>
 	)
 }

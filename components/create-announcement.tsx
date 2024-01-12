@@ -7,7 +7,7 @@ import { Label } from './ui/label'
 import { Textarea } from './ui/textarea'
 import { Tables } from '@/lib/database.types'
 import { useFormState } from 'react-dom'
-import { Form } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 
 export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 	const createAnnouncementWithCourseId = createAnnouncement.bind(
@@ -20,7 +20,7 @@ export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 	})
 
 	return (
-		<Form
+		<ReactAria.Form
 			action={action}
 			className="flex flex-col gap-2 border border-border px-4 py-2 rounded"
 			validationErrors={state.errors}
@@ -57,6 +57,6 @@ export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 					Announce
 				</Button>
 			</div>
-		</Form>
+		</ReactAria.Form>
 	)
 }

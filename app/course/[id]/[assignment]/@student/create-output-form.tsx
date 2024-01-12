@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { createOutput } from '@/lib/actions/output'
 import { Tables } from '@/lib/database.types'
-import { FieldError, Form } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
 export function CreateOutputForm({
@@ -26,7 +26,7 @@ export function CreateOutputForm({
 	})
 	const { pending } = useFormStatus()
 	return (
-		<Form
+		<ReactAria.Form
 			action={action}
 			className="flex flex-col gap-4"
 			validationErrors={state.errors}
@@ -35,7 +35,7 @@ export function CreateOutputForm({
 			<Button disabled={pending} type="submit">
 				Submit
 			</Button>
-			<FieldError className="text-destructive font-medium" />
-		</Form>
+			<ReactAria.FieldError className="text-destructive font-medium" />
+		</ReactAria.Form>
 	)
 }

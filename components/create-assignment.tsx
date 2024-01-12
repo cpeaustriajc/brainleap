@@ -7,7 +7,7 @@ import { Button } from './ui/button'
 import { Textarea } from './ui/textarea'
 import { createAssignment } from '@/lib/actions/assignment'
 import { useFormState } from 'react-dom'
-import { Form } from 'react-aria-components'
+import ReactAria from 'react-aria-components'
 
 export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course
@@ -19,7 +19,7 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	})
 
 	return (
-		<Form
+		<ReactAria.Form
 			action={action}
 			validationErrors={state.errors}
 			className="space-y-8"
@@ -82,6 +82,6 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 			</div>
 
 			<Button type="submit">Create assignment</Button>
-		</Form>
+		</ReactAria.Form>
 	)
 }

@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { Button } from './ui/button'
-import { HomeIcon, PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
+import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
+import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -64,7 +65,13 @@ export function Header({
 							className="px-0"
 						>
 							<Link href="/">
-								<HomeIcon className="size-6" />{' '}
+								<Image
+									src="/doctrina.png"
+									width={80}
+									height={80}
+									alt="The Logo of Doctrina"
+									priority
+								/>
 								<span className="sr-only">Home</span>
 							</Link>
 						</Button>

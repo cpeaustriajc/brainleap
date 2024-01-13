@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
 		throw new Error(error.message)
 	}
 
-	if (!profile.username && request.nextUrl.pathname === '/') {
+	if (!profile.username && request.nextUrl.pathname === '/dashboard') {
 		return NextResponse.redirect(new URL('/profile', request.url))
 	}
 
@@ -31,5 +31,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-	matcher: ['/', '/profile'],
+	matcher: ['/dashboard', '/profile'],
 }

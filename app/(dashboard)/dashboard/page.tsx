@@ -41,8 +41,8 @@ export default async function Page() {
 	}
 
 	return (
-		<main>
-			<section className="flex px-8 pt-8 gap-4">
+		<main className="w-full">
+			<section className="flex w-full px-8 pt-8 gap-4">
 				<Courses courses={courses} />
 			</section>
 		</main>
@@ -50,7 +50,11 @@ export default async function Page() {
 }
 
 const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
-	return courses.length === 0 ? (
+	return courses.length > 0 ? (
+		courses.map((course) => (
+			<Course key={course.course_id} course={course} />
+		))
+	) : (
 		<div className=" justify-center items-center flex w-full h-[90vh]">
 			<p className="text-2xl">
 				Click enroll course on the{' '}
@@ -58,9 +62,5 @@ const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
 				started
 			</p>
 		</div>
-	) : (
-		courses.map((course) => (
-			<Course key={course.course_id} course={course} />
-		))
 	)
 }

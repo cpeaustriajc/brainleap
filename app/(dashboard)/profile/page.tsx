@@ -1,4 +1,3 @@
-import AppShell from '@/components/app-shell'
 import { SetupProfileForm } from '@/components/setup-profile-form'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'

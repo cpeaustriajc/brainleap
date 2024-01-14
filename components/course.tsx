@@ -60,6 +60,16 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		notFound()
 	}
 
+	let message
+	if (assignments.data.length > 0 && profile.role === 'instructor') {
+		message = `You currently have ${assignments.data.length} pending classworks to grade.`
+	} else if (assignments.data.length > 0 && profile.role === 'student') {
+		message = `You currently have ${assignments.data.length} pending classworks to complete.`
+	} else if (profile.role === 'instructor') {
+		message = 'You currently have no pending classworks to grade.'
+	} else {
+		message = 'You currently have no pending classworks to complete.'
+	}
 	return (
 		<Card className="max-w-sm h-60">
 			<CardHeader className="flex flex-row justify-between items-center">
@@ -82,20 +92,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				<Suspense
 					fallback={<p className="animate-pulse">Loading...</p>}
 				>
-					<p>
-						You currently have{' '}
-						{assignments.data.length === 0
-							? 'no'
-							: assignments.data.length}{' '}
-						pending{' '}
-						{assignments.data.length === 0
-							? 'classwork'
-							: 'classworks'}{' '}
-						{profile.role === 'instructor'
-							? 'to grade'
-							: 'to complete'}
-						.
-					</p>
+					<p>{message}</p>
 				</Suspense>
 			</CardContent>
 			<CardFooter>

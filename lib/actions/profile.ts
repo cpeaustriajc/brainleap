@@ -84,7 +84,7 @@ export async function updateProfile(previousState: any, formData: FormData) {
 
 	revalidatePath('/profile')
 
-	redirect('/')
+	redirect('/dashboard')
 }
 
 export async function uploadAvatar(formData: FormData) {

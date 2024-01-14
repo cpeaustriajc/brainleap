@@ -36,8 +36,8 @@ export function AsideTabs({
 				)}
 			>
 				<ReactAria.Tab
-					id="/"
-					href="/"
+					id="/dashboard"
+					href="/dashboard"
 					className={cx(
 						'relative shrink-0 cursor-pointer border-[length:var(--border-width)] border-transparent px-4 py-2 text-muted-foreground outline-none transition-colors',
 						// Focus-visible

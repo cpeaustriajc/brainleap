@@ -34,10 +34,8 @@ export default async function Page({ searchParams }: Props) {
 	}
 
 	return (
-		<AppShell>
-			<main className="w-full">
-				<SetupProfileForm profile={profile} message={message} />
-			</main>
-		</AppShell>
+		<main className="w-full">
+			<SetupProfileForm profile={profile} message={message} />
+		</main>
 	)
 }

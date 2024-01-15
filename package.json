@@ -19,13 +19,11 @@
 	},
 	"license": "MIT",
 	"dependencies": {
-		"@google/generative-ai": "^0.1.3",
 		"@radix-ui/react-avatar": "^1.0.4",
 		"@radix-ui/react-icons": "^1.3.0",
 		"@radix-ui/react-separator": "^1.0.3",
 		"@supabase/ssr": "^0.0.10",
 		"@supabase/supabase-js": "^2.39.1",
-		"ai": "^2.2.31",
 		"cva": "1.0.0-beta.1",
 		"eslint-config-prettier": "^9.1.0",
 		"human-id": "^4.1.0",
@@ -34,7 +32,6 @@
 		"react-aria": "^3.31.0",
 		"react-aria-components": "^1.0.0",
 		"react-dom": "^18.2.0",
-		"react-markdown": "^9.0.1",
 		"sharp": "^0.33.1",
 		"tailwind-merge": "^2.2.0",
 		"tailwindcss-animate": "^1.0.7",
@@ -42,7 +39,6 @@
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@tailwindcss/typography": "^0.5.10",
 		"@types/node": "20.10.5",
 		"@types/react": "18.2.45",
 		"@types/react-dom": "^18.2.18",

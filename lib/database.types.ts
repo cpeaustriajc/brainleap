@@ -41,7 +41,7 @@ export interface Database {
 					course_id: string | null
 					created_at: string | null
 					description: string | null
-					links: string | null
+					link: string | null
 					profile_id: string | null
 					title: string | null
 				}
@@ -51,7 +51,7 @@ export interface Database {
 					course_id?: string | null
 					created_at?: string | null
 					description?: string | null
-					links?: string | null
+					link?: string | null
 					profile_id?: string | null
 					title?: string | null
 				}
@@ -61,13 +61,13 @@ export interface Database {
 					course_id?: string | null
 					created_at?: string | null
 					description?: string | null
-					links?: string | null
+					link?: string | null
 					profile_id?: string | null
 					title?: string | null
 				}
 				Relationships: [
 					{
-						foreignKeyName: 'assignments_class_id_fkey'
+						foreignKeyName: 'announcements_course_id_fkey'
 						columns: ['course_id']
 						isOneToOne: false
 						referencedRelation: 'courses'
@@ -186,13 +186,6 @@ export interface Database {
 				}
 				Relationships: [
 					{
-						foreignKeyName: 'enrollments_class_id_fkey'
-						columns: ['course_id']
-						isOneToOne: false
-						referencedRelation: 'courses'
-						referencedColumns: ['course_id']
-					},
-					{
 						foreignKeyName: 'enrollments_user_id_fkey'
 						columns: ['user_id']
 						isOneToOne: false
@@ -205,6 +198,7 @@ export interface Database {
 				Row: {
 					assignment_id: string | null
 					attachment: string
+					course_id: string
 					grade: number | null
 					output_id: string
 					student_id: string | null
@@ -213,6 +207,7 @@ export interface Database {
 				Insert: {
 					assignment_id?: string | null
 					attachment: string
+					course_id: string
 					grade?: number | null
 					output_id?: string
 					student_id?: string | null
@@ -221,6 +216,7 @@ export interface Database {
 				Update: {
 					assignment_id?: string | null
 					attachment?: string
+					course_id?: string
 					grade?: number | null
 					output_id?: string
 					student_id?: string | null
@@ -233,6 +229,13 @@ export interface Database {
 						isOneToOne: false
 						referencedRelation: 'assignments'
 						referencedColumns: ['assignment_id']
+					},
+					{
+						foreignKeyName: 'outputs_course_id_fkey'
+						columns: ['course_id']
+						isOneToOne: false
+						referencedRelation: 'courses'
+						referencedColumns: ['course_id']
 					},
 					{
 						foreignKeyName: 'outputs_student_id_fkey'
@@ -252,7 +255,7 @@ export interface Database {
 					position: string | null
 					profile_id: string
 					program: string | null
-					role: Database['public']['Enums']['role_type'] | null
+					role: Database['public']['Enums']['role_type']
 					section: string | null
 					university: string | null
 					updated_at: string | null
@@ -266,7 +269,7 @@ export interface Database {
 					position?: string | null
 					profile_id: string
 					program?: string | null
-					role?: Database['public']['Enums']['role_type'] | null
+					role?: Database['public']['Enums']['role_type']
 					section?: string | null
 					university?: string | null
 					updated_at?: string | null
@@ -280,7 +283,7 @@ export interface Database {
 					position?: string | null
 					profile_id?: string
 					program?: string | null
-					role?: Database['public']['Enums']['role_type'] | null
+					role?: Database['public']['Enums']['role_type']
 					section?: string | null
 					university?: string | null
 					updated_at?: string | null

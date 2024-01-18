@@ -9,7 +9,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"format": "prettier --write --ignore-unknown ."
+		"format": "prettier --write --ignore-unknown .",
+		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > types/supabase.ts"
 	},
 	"prettier": {
 		"semi": false,

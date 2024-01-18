@@ -64,7 +64,7 @@ export default async function TeacherView({
 	const outputWithStudentsQuery = supabase
 		.from('outputs')
 		.select(
-			'output_id, attachment, submitted_at, grade, profiles ( full_name, username ) ',
+			'output_id, attachment, submitted_at, grade, course_id, profiles ( full_name, username ) ',
 		)
 		.eq('assignment_id', assignment.assignment_id)
 		.in(

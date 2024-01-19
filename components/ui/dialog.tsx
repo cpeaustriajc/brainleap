@@ -1,6 +1,6 @@
 'use client'
 
-import { Cross2Icon } from '@radix-ui/react-icons'
+import { CrossIcon } from 'lucide-react'
 import { VariantProps } from 'cva'
 import { cx, cva } from '@/lib/cva.config'
 import * as ReactAria from 'react-aria-components'
@@ -100,7 +100,7 @@ export const DialogContent = ({
 							onPress={values.close}
 							className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[entering]:bg-accent data-[entering]:text-muted-foreground"
 						>
-							<Cross2Icon className="h-4 w-4" />
+							<CrossIcon className="h-4 w-4" />
 							<span className="sr-only">Close</span>
 						</ReactAria.Button>
 					)}

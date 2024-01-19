@@ -1,7 +1,7 @@
 'use client'
 
 import { cx } from '@/lib/cva.config'
-import { CheckIcon, CircleIcon } from '@radix-ui/react-icons'
+import { CheckIcon, CircleIcon } from 'lucide-react'
 import * as ReactAria from 'react-aria-components'
 
 export const MenuTrigger = ReactAria.MenuTrigger

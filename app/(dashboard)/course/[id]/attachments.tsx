@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button'
 import { Tables } from '@/lib/database.types'
 import { getFilename } from '@/lib/utils'
 import Link from 'next/link'
-import { FileIcon } from '@radix-ui/react-icons'
+import { FileIcon } from 'lucide-react'
 
 export function Attachments({
 	attachment,

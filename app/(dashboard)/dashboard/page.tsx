@@ -1,7 +1,7 @@
 import { Course } from '@/components/course'
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
-import { PlusCircledIcon } from '@radix-ui/react-icons'
+import { PlusCircleIcon } from 'lucide-react'
 import { unstable_noStore } from 'next/cache'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
@@ -58,7 +58,7 @@ const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
 		<div className=" justify-center items-center flex w-full h-[90vh]">
 			<p className="text-2xl">
 				Click enroll course on the{' '}
-				<PlusCircledIcon className="inline size-6" /> plus tab to get
+				<PlusCircleIcon className="inline size-6" /> plus tab to get
 				started
 			</p>
 		</div>

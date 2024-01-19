@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { Tables } from '@/lib/database.types'
-import { PersonIcon } from '@radix-ui/react-icons'
+import { UserRoundIcon } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export async function People({
@@ -55,7 +55,7 @@ export async function People({
 								alt={instructor.username ?? ''}
 							/>
 							<AvatarFallback>
-								<PersonIcon />
+								<UserRoundIcon />
 							</AvatarFallback>
 						</Avatar>
 						<span>

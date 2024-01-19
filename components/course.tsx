@@ -13,7 +13,7 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { PersonIcon } from '@radix-ui/react-icons'
+import { UserRoundIcon } from 'lucide-react'
 import { Suspense } from 'react'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
@@ -83,7 +83,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 					<Avatar>
 						<AvatarImage src={instructorProfile.avatar_url ?? ''} />
 						<AvatarFallback>
-							<PersonIcon />
+							<UserRoundIcon />
 						</AvatarFallback>
 					</Avatar>
 				</div>

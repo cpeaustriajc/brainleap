@@ -2,7 +2,7 @@
 
 import { cx } from '@/lib/cva.config'
 import { Tables } from '@/lib/database.types'
-import { BookmarkIcon, HomeIcon, PersonIcon } from '@radix-ui/react-icons'
+import { BookmarkIcon, HomeIcon, UserRoundIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import * as ReactAria from 'react-aria-components'
 
@@ -78,7 +78,7 @@ export function AsideTabs({
 				>
 					<div className="flex items-center gap-2">
 						<div className="rounded-full bg-secondary transition-all p-2">
-							<PersonIcon className="w-8 h-8" />
+							<UserRoundIcon className="w-8 h-8" />
 						</div>
 						<span>Profile</span>
 					</div>

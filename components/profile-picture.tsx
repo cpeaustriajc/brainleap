@@ -4,7 +4,7 @@ import { useTransition } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
 import { Button } from './ui/button'
-import { PersonIcon } from '@radix-ui/react-icons'
+import {  UserRoundIcon } from 'lucide-react'
 import * as ReactAria from 'react-aria-components'
 import { uploadAvatar } from '@/lib/actions/profile'
 
@@ -26,7 +26,7 @@ export function ProfilePicture({ url, size }: Props) {
 					style={{ width: size, height: size }}
 				/>
 				<AvatarFallback style={{ width: size, height: size }}>
-					<PersonIcon style={{ width: size / 2, height: size / 2 }} />
+					<UserRoundIcon style={{ width: size / 2, height: size / 2 }} />
 				</AvatarFallback>
 			</Avatar>
 			<ReactAria.FileTrigger

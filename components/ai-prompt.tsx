@@ -2,7 +2,7 @@
 
 import { useChat } from 'ai/react'
 import Image from 'next/image'
-import { PaperPlaneIcon, PersonIcon } from '@radix-ui/react-icons'
+import { UserRoundIcon, SendHorizonalIcon } from 'lucide-react'
 import { TextField } from './text-field'
 import { Button } from './ui/button'
 import { Group, TextArea } from 'react-aria-components'
@@ -21,7 +21,7 @@ export function AIPrompt() {
 						<div className="flex shrink-0 flex-col">
 							{m.role === 'user' ? (
 								<div className="rounded-full bg-muted p-2">
-									<PersonIcon className="size-6" />
+									<UserRoundIcon className="size-6" />
 								</div>
 							) : (
 								<div className="rounded-full bg-muted p-2">
@@ -60,7 +60,7 @@ export function AIPrompt() {
 							isDisabled={isLoading}
 							type="submit"
 						>
-							<PaperPlaneIcon />
+							<SendHorizonalIcon />
 						</Button>
 					</Group>
 				</TextField>

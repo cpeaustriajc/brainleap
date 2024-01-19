@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Button, buttonVariants } from './ui/button'
-import { PersonIcon, PlusCircledIcon } from '@radix-ui/react-icons'
+import { UserRoundIcon, PlusCircleIcon } from 'lucide-react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Tables } from '@/lib/database.types'
@@ -61,7 +61,7 @@ export function Header({
 								variant="ghost"
 								size="icon"
 							>
-								<PlusCircledIcon className="w-6 h-6" />
+								<PlusCircleIcon className="w-6 h-6" />
 							</Button>
 							<MenuPopover>
 								<Menu
@@ -109,7 +109,7 @@ export function Header({
 							<Avatar className="h-8 w-8">
 								<AvatarImage src={profile.avatar_url!} />
 								<AvatarFallback>
-									<PersonIcon />
+									<UserRoundIcon />
 								</AvatarFallback>
 							</Avatar>
 						</Button>

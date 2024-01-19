@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { Button } from './ui/button'
-import { Cross1Icon } from '@radix-ui/react-icons'
+import { CrossIcon } from 'lucide-react'
 
 export function CloseDialog() {
 	const router = useRouter()
@@ -16,7 +16,7 @@ export function CloseDialog() {
 			onPress={() => router.back()}
 		>
 			<span className="sr-only">Close</span>
-			<Cross1Icon />
+			<CrossIcon />
 		</Button>
 	)
 }

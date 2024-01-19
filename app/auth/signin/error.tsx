@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
+import {  AlertTriangleIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
 export default function Error({
@@ -17,7 +17,7 @@ export default function Error({
 
 	return (
 		<main className="flex flex-col justify-center items-center h-dvh gap-8">
-			<ExclamationTriangleIcon className="text-destructive size-16 self-center" />
+			<AlertTriangleIcon className="text-destructive size-16 self-center" />
 			<section className="text-center flex flex-col gap-4">
 				<h2 className="text-4xl font-bold text-destructive">Oops!</h2>
 				<p className="text-lg">

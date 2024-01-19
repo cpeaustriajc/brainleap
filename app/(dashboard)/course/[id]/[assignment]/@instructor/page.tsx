@@ -1,4 +1,3 @@
-import { Separator } from '@/components/ui/separator'
 import {
 	Table,
 	TableBody,
@@ -97,7 +96,6 @@ export default async function TeacherView({
 			<h1 className="mx-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
 				{assignment.title}
 			</h1>
-			<Separator className="my-8" />
 			<Table>
 				<TableHeader>
 					<TableRow>

@@ -1,4 +1,3 @@
-import { Separator } from '@/components/ui/separator'
 import { CreateOutputForm } from './create-output-form'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
@@ -55,7 +54,6 @@ export default async function Page({
 					Assignment Due Date:{' '}
 					{assignmentDueDate.toLocaleDateString()}
 				</p>
-				<Separator className="my-8" />
 				<p className="whitespace-pre-wrap">
 					{assignmentResult.description}
 				</p>

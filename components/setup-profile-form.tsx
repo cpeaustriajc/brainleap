@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Tables } from '@/lib/database.types'
-import { extractUsername } from '@/lib/utils'
+import { extractUsernameFromEmail } from '@/lib/utils'
 import { cx } from '@/lib/cva.config'
 import { ProfilePicture } from '@/components/profile-picture'
 import { Label } from '@/components/ui/label'
@@ -49,7 +49,7 @@ export function SetupProfileForm({
 					type="text"
 					name="username"
 					defaultValue={
-						profile.username ?? extractUsername(profile.email)
+						profile.username ?? extractUsernameFromEmail(profile.email)
 					}
 				>
 					<Label>Username</Label>

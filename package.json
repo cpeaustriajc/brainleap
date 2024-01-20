@@ -10,7 +10,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"format": "prettier --write --ignore-unknown .",
-		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > types/supabase.ts"
+		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > lib/database.types.ts"
 	},
 	"prettier": {
 		"semi": false,

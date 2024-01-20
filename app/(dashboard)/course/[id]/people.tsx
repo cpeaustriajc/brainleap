@@ -80,7 +80,7 @@ export async function People({
 								alt={student.username ?? ''}
 							/>
 							<AvatarFallback>
-								<PersonIcon />
+								<UserRoundIcon />
 							</AvatarFallback>
 						</Avatar>
 						<span>{student.full_name ?? student.username}</span>

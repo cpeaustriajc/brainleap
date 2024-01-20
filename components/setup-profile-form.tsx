@@ -53,7 +53,7 @@ export function SetupProfileForm({
 					}
 				>
 					<Label>Username</Label>
-					<Input type="text" placeholder="Username" />
+					<Input placeholder="Username" />
 				</TextField>
 				<TextField
 					type="text"
@@ -61,11 +61,11 @@ export function SetupProfileForm({
 					defaultValue={profile.full_name ?? ''}
 				>
 					<Label>Display Name</Label>
-					<Input type="text" placeholder="Display Name" />
+					<Input placeholder="Display Name" />
 				</TextField>
 				<TextField name="email" defaultValue={profile.email ?? ''}>
 					<Label>Email</Label>
-					<Input type="text" placeholder="johndoe@email.com" />
+					<Input placeholder="johndoe@email.com" />
 				</TextField>
 				<TextField
 					name="biography"
@@ -78,7 +78,6 @@ export function SetupProfileForm({
 					/>
 				</TextField>
 				<TextField
-					type="text"
 					defaultValue={profile.university ?? ''}
 					name="university"
 				>

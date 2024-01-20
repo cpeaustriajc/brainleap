@@ -8,6 +8,7 @@ import { Button } from './ui/button'
 import { Group, TextArea } from 'react-aria-components'
 import { cx } from '@/lib/cva.config'
 import ReactMarkdown from 'react-markdown'
+import { Form } from '@/components/ui/form'
 
 export function AIPrompt() {
 	const { messages, input, handleInputChange, handleSubmit, isLoading } =
@@ -42,7 +43,7 @@ export function AIPrompt() {
 				))}
 			</div>
 
-			<form onSubmit={handleSubmit} className="max-w-full">
+			<Form onSubmit={handleSubmit} className="max-w-full">
 				<TextField name="prompt" isDisabled={isLoading}>
 					<Group
 						className={cx(
@@ -64,7 +65,7 @@ export function AIPrompt() {
 						</Button>
 					</Group>
 				</TextField>
-			</form>
+			</Form>
 		</div>
 	)
 }

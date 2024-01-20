@@ -1,17 +1,18 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Input } from './ui/input'
-import { Textarea } from './ui/textarea'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Tables } from '@/lib/database.types'
 import { extractUsername } from '@/lib/utils'
 import { cx } from '@/lib/cva.config'
-import { ProfilePicture } from './profile-picture'
-import { Label } from './ui/label'
-import { RadioGroup, Radio } from './ui/radio-group'
+import { ProfilePicture } from '@/components/profile-picture'
+import { Label } from '@/components/ui/label'
+import { RadioGroup, Radio } from '@/components/ui/radio-group'
 import { updateProfile } from '@/lib/actions/profile'
-import { TextField } from './text-field'
+import { TextField } from '@/components/text-field'
 import { useFormState, useFormStatus } from 'react-dom'
+import { Form } from '@/components/ui/form'
 
 function Submit() {
 	const { pending } = useFormStatus()
@@ -43,7 +44,7 @@ export function SetupProfileForm({
 				{message}
 			</p>
 			<ProfilePicture url={profile.avatar_url} size={128} />
-			<form className="my-4 space-y-4" action={action}>
+			<Form className="py-4" action={action}>
 				<TextField
 					type="text"
 					name="username"
@@ -122,7 +123,7 @@ export function SetupProfileForm({
 					<Input placeholder="Position" />
 				</TextField>
 				<Submit />
-			</form>
+			</Form>
 		</div>
 	)
 }

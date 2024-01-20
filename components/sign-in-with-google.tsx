@@ -1,5 +1,6 @@
 import { signInWithGoogle } from '@/lib/actions/auth'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 
 const GoogleIcon = () => (
 	<svg
@@ -17,10 +18,10 @@ const GoogleIcon = () => (
 
 export function SignInWithGoogle() {
 	return (
-		<form action={signInWithGoogle} className="flex flex-col gap-2">
+		<Form action={signInWithGoogle}>
 			<Button type="submit">
 				<GoogleIcon /> <span className='pl-2'>Sign in with Google</span>
 			</Button>
-		</form>
+		</Form>
 	)
 }

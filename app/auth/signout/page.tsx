@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Form } from '@/components/ui/form'
 import Link from 'next/link'
 
 export default function Page() {
@@ -7,15 +8,14 @@ export default function Page() {
 			<h2 className="text-4xl tracking-tight">
 				Are you sure you want to sign out?
 			</h2>
-			<form
+			<Form
 				action="/api/auth/signout"
-				className="grid gap-2"
-				method="POST"
+				method="post"
 			>
 				<Button type="submit" size="lg">
 					Log Out
 				</Button>
-			</form>
+			</Form>
 			<Link href="/">
 				<Button variant="ghost" size="lg">
 					Cancel

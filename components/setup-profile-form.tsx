@@ -49,7 +49,8 @@ export function SetupProfileForm({
 					type="text"
 					name="username"
 					defaultValue={
-						profile.username ?? extractUsernameFromEmail(profile.email)
+						profile.username ??
+						extractUsernameFromEmail(profile.email)
 					}
 				>
 					<Label>Username</Label>

@@ -8,10 +8,7 @@ export default function Page() {
 			<h2 className="text-4xl tracking-tight">
 				Are you sure you want to sign out?
 			</h2>
-			<Form
-				action="/api/auth/signout"
-				method="post"
-			>
+			<Form action="/api/auth/signout" method="post">
 				<Button type="submit" size="lg">
 					Log Out
 				</Button>

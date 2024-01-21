@@ -36,7 +36,7 @@ export function CreateOutputGrade({
 
 	return (
 		<ReactAria.Form action={action} validationErrors={state.errors}>
-			<div className="flex gap-2" >
+			<div className="flex gap-2">
 				<ReactAria.Group className="bg-background border border-border rounded-lg">
 					<ReactAria.NumberField
 						defaultValue={output.grade ?? 0}

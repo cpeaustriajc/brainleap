@@ -20,7 +20,7 @@ export function SignInWithGoogle() {
 	return (
 		<Form action={signInWithGoogle}>
 			<Button type="submit">
-				<GoogleIcon /> <span className='pl-2'>Sign in with Google</span>
+				<GoogleIcon /> <span className="pl-2">Sign in with Google</span>
 			</Button>
 		</Form>
 	)

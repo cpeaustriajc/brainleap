@@ -28,7 +28,10 @@ export async function Aside() {
 	const { data: courses, error: courseError } = await supabase
 		.from('courses')
 		.select('course_id, course_name, section')
-		.in('course_id', enrollments?.map((enrollment) => enrollment.course_id))
+		.in(
+			'course_id',
+			enrollments?.map((enrollment) => enrollment.course_id),
+		)
 
 	if (courseError) {
 		throw new Error(courseError.message)

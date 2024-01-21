@@ -111,26 +111,28 @@ export const DialogContent = ({
 )
 
 export const DialogHeader = ({
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div
-      className={cx(
-        "flex flex-col space-y-1.5 text-center sm:text-left",
-        className
-      )}
-      {...props}
-    />
-  )
+	className,
+	...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+	<div
+		className={cx(
+			'flex flex-col space-y-1.5 text-center sm:text-left',
+			className,
+		)}
+		{...props}
+	/>
+)
 
-
-  export const DialogTitle = ({ className, ...props }: ReactAria.HeadingProps) => (
-    <ReactAria.Heading
-      slot="title"
-      className={cx(
-        "text-lg font-semibold leading-none tracking-tight",
-        className
-      )}
-      {...props}
-    />
-  )
+export const DialogTitle = ({
+	className,
+	...props
+}: ReactAria.HeadingProps) => (
+	<ReactAria.Heading
+		slot="title"
+		className={cx(
+			'text-lg font-semibold leading-none tracking-tight',
+			className,
+		)}
+		{...props}
+	/>
+)

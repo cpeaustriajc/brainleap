@@ -1,11 +1,5 @@
 import { CreateAssignment } from '@/components/create-assignment'
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/ui/card'
 import { buttonVariants } from '@/ui/button'
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'

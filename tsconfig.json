@@ -3,7 +3,7 @@
 		"target": "ESNext",
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./*"]
+			"@/*": ["./*"],
 		},
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
@@ -19,11 +19,11 @@
 		"jsx": "preserve",
 		"plugins": [
 			{
-				"name": "next"
-			}
+				"name": "next",
+			},
 		],
-		"types": ["react/canary"]
+		"types": ["react/canary"],
 	},
 	"include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules", ".next/**/*", "out/**/*"]
+	"exclude": ["node_modules", ".next/**/*", "out/**/*"],
 }

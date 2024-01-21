@@ -10,7 +10,11 @@ function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<ReactAria.Button className={buttonVariants()} isDisabled={pending} type="submit">
+		<ReactAria.Button
+			className={buttonVariants()}
+			isDisabled={pending}
+			type="submit"
+		>
 			{pending ? 'Creating Class...' : 'Create Class'}
 		</ReactAria.Button>
 	)
@@ -55,7 +59,7 @@ export function CreateCourseForm() {
 				/>
 				<ReactAria.FieldError className="text-destructive font-medium" />
 			</ReactAria.TextField>
-            <Submit/>
+			<Submit />
 		</ReactAria.Form>
 	)
 }

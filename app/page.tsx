@@ -89,11 +89,9 @@ export default async function Page() {
 					</h2>
 				</section>
 
-                <section>
-                    <p>
-
-                    </p>
-                </section>
+				<section>
+					<p></p>
+				</section>
 			</article>
 		</main>
 	)

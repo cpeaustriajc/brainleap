@@ -4,7 +4,7 @@ import { getAssignments } from '@/lib/queries/assignment'
 import { getCourseById } from '@/lib/queries/course'
 import { notFound, redirect } from 'next/navigation'
 import { unstable_noStore } from 'next/cache'
-import { Tabs, TabPanel,  TabList, Tab } from '@/ui/tabs'
+import { Tabs, TabPanel, TabList, Tab } from '@/ui/tabs'
 import { Suspense } from 'react'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { Assignments } from './assignments'
@@ -101,9 +101,7 @@ export default async function Page({ params }: Props) {
 			</section>
 			<Tabs defaultSelectedKey="announcements" className="py-8">
 				<TabList>
-					<Tab id="announcements">
-						Announcements
-					</Tab>
+					<Tab id="announcements">Announcements</Tab>
 					<Tab id="assignments">Assignments</Tab>
 					<Tab id="people">People</Tab>
 					{profile.role === 'instructor' && (

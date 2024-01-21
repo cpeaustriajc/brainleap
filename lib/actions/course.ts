@@ -88,5 +88,4 @@ export async function createCourse(
 		errors: undefined,
 		message: 'Course created successfully',
 	}
-
 }

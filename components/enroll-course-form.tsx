@@ -37,9 +37,7 @@ export function EnrollCourseForm() {
 				type="text"
 				isRequired
 			>
-				<Label>
-					Class Code
-				</Label>
+				<Label>Class Code</Label>
 				<Input placeholder="Class Code" />
 				<TextFieldDescription className="text-xs px-1">
 					Ask your teacher for the class code. Then enter it here.

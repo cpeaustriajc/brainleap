@@ -10,7 +10,6 @@ import {
 } from '@/ui/card'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
-
 export async function generateStaticParams() {
 	const supabase = createBrowserClient()
 	const { data: assignments, error } = await supabase
@@ -58,7 +57,7 @@ export default async function Page({
 					{assignmentResult.description}
 				</p>
 			</div>
-			<Card className='col-start-4'>
+			<Card className="col-start-4">
 				<CardHeader>
 					<CardTitle>Submit Output</CardTitle>
 					<CardDescription>

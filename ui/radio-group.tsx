@@ -64,6 +64,6 @@ const Radio = React.forwardRef<
 		</ReactAria.Radio>
 	)
 })
-Radio.displayName = "Radio"
+Radio.displayName = 'Radio'
 
 export { RadioGroup, Radio }

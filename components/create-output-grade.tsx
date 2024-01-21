@@ -1,11 +1,11 @@
 'use client'
 
 import * as ReactAria from 'react-aria-components'
-import { Label } from './ui/label'
+import { Label } from '../ui/label'
 import { useFormState, useFormStatus } from 'react-dom'
 import { gradeOutput } from '@/lib/actions/output'
 import { OutputProps } from './output'
-import { buttonVariants } from './ui/button'
+import { buttonVariants } from '../ui/button'
 
 function Submit() {
 	const { pending } = useFormStatus()

@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Button } from '@/ui/button'
+import { Form } from '@/ui/form'
 import Link from 'next/link'
 
 export default function Page() {

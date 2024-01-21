@@ -4,9 +4,9 @@ import { signInWithEmail } from '@/lib/actions/auth'
 import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 import { TextField } from './text-field'
-import { Button } from './ui/button'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
 
 function Submit() {
 	const { pending } = useFormStatus()

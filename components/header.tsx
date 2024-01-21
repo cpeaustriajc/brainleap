@@ -1,18 +1,18 @@
 'use client'
 
 import Link from 'next/link'
-import { Button, buttonVariants } from './ui/button'
+import { Button, buttonVariants } from '../ui/button'
 import { UserRoundIcon, PlusCircleIcon } from 'lucide-react'
 import Image from 'next/image'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Tables } from '@/lib/database.types'
-import { MenuTrigger, Menu, MenuItem, MenuPopover } from './ui/menu'
+import { MenuTrigger, Menu, MenuItem, MenuPopover } from '../ui/menu'
 import {
 	DialogContent,
 	DialogHeader,
 	DialogOverlay,
 	DialogTitle,
-} from './ui/dialog'
+} from '../ui/dialog'
 import { useState } from 'react'
 import { CreateCourseForm } from './create-course-form'
 import { EnrollCourseForm } from './enroll-course-form'

@@ -7,12 +7,12 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from './ui/card'
-import { buttonVariants } from './ui/button'
+} from '../ui/card'
+import { buttonVariants } from '../ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { UserRoundIcon } from 'lucide-react'
 import { Suspense } from 'react'
 

@@ -1,10 +1,10 @@
 import { createCourse } from '@/lib/actions/course'
 import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
-import { Textarea } from './ui/textarea'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { buttonVariants } from './ui/button'
+import { Textarea } from '../ui/textarea'
+import { Label } from '../ui/label'
+import { Input } from '../ui/input'
+import { buttonVariants } from '../ui/button'
 
 function Submit() {
 	const { pending } = useFormStatus()

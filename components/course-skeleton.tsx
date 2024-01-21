@@ -5,7 +5,7 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from './ui/card'
+} from '../ui/card'
 
 export function CourseSkeleton() {
 	return (

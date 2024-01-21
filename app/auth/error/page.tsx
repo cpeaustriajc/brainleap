@@ -1,6 +1,6 @@
 'use client'
 
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import Link from 'next/link'
 

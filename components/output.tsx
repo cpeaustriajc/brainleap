@@ -1,5 +1,5 @@
-import { buttonVariants } from '@/components/ui/button'
-import { TableCell } from '@/components/ui/table'
+import { buttonVariants } from '@/ui/button'
+import { TableCell } from '@/ui/table'
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'

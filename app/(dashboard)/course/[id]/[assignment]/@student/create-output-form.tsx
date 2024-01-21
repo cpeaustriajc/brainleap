@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Button } from '@/ui/button'
+import { Input } from '@/ui/input'
 import { createOutput } from '@/lib/actions/output'
 import { Tables } from '@/lib/database.types'
 import * as ReactAria from 'react-aria-components'

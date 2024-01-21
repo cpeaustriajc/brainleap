@@ -1,11 +1,11 @@
-import { Badge } from '@/components/ui/badge'
+import { Badge } from '@/ui/badge'
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card'
+} from '@/ui/card'
 import { Tables } from '@/lib/database.types'
 import { CreateAnnouncement } from '@/components/create-announcement'
 import { Attachments } from './attachments'

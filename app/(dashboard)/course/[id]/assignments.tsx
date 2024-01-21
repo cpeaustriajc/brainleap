@@ -5,8 +5,8 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card'
-import { buttonVariants } from '@/components/ui/button'
+} from '@/ui/card'
+import { buttonVariants } from '@/ui/button'
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
 import { Attachments } from './attachments'

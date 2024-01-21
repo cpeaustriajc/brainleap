@@ -7,7 +7,7 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from '@/components/ui/card'
+} from '@/ui/card'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
 

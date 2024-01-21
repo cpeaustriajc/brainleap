@@ -1,10 +1,10 @@
 import { useFormState, useFormStatus } from 'react-dom'
 import { TextField, TextFieldDescription } from './text-field'
-import { Input } from './ui/input'
-import { Label } from './ui/label'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
 import * as ReactAria from 'react-aria-components'
 import { createEnrollment } from '@/lib/actions/enrollment'
-import { buttonVariants } from './ui/button'
+import { buttonVariants } from '../ui/button'
 
 function Submit() {
 	const { pending } = useFormStatus()

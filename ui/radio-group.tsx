@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { CheckIcon } from 'lucide-react'
 import * as ReactAria from 'react-aria-components'
-import { labelVariants } from '@/components/ui/label'
+import { labelVariants } from '@/ui/label'
 
 import { cx } from '@/lib/cva.config'
 

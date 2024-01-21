@@ -4,11 +4,11 @@ import { useChat } from 'ai/react'
 import Image from 'next/image'
 import { UserRoundIcon, SendHorizonalIcon } from 'lucide-react'
 import { TextField } from './text-field'
-import { Button } from './ui/button'
+import { Button } from '../ui/button'
 import { Group, TextArea } from 'react-aria-components'
 import { cx } from '@/lib/cva.config'
 import ReactMarkdown from 'react-markdown'
-import { Form } from '@/components/ui/form'
+import { Form } from '@/ui/form'
 
 export function AIPrompt() {
 	const { messages, input, handleInputChange, handleSubmit, isLoading } =

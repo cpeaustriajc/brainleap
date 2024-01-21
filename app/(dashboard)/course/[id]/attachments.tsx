@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/ui/button'
 import { Tables } from '@/lib/database.types'
 import { getFilename } from '@/lib/utils'
 import Link from 'next/link'

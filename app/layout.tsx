@@ -1,5 +1,4 @@
 import '@/styles/styles.css'
-import { Providers } from './providers'
 
 export const metadata = {
 	title: 'Doctrina',
@@ -19,8 +18,8 @@ type Props = {
 export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="en" dir="ltr">
-			<body className="bg-background text-foreground font-sans antialiased">
-				<Providers>{children}</Providers>
+			<body className="font-sans h-dvh antialiased">
+				{children}
 			</body>
 		</html>
 	)

@@ -279,12 +279,7 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      get_username_from_email: {
-        Args: {
-          email_address: string
-        }
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
       post_type: "assignment" | "announcement"

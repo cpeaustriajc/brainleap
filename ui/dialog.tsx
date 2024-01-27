@@ -78,8 +78,12 @@ export const DialogContent = ({
 }: DialogContentProps) => (
 	<ReactAria.Modal
 		className={cx(
-			!side &&
-				'fixed left-[50%] top-[50%] z-[110] w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-background p-6 shadow-lg duration-200 data-[entering]:animate-in data-[exiting]:animate-out data-[entering]:fade-in-0 data-[exiting]:fade-out-0 data-[entering]:zoom-in-95 data-[exiting]:zoom-out-95 data-[entering]:slide-in-from-left-1/2 data-[entering]:slide-in-from-top-[48%] data-[exiting]:slide-out-to-left-1/2 data-[exiting]:slide-out-to-top-[48%] sm:rounded-lg md:w-full',
+			!side && [
+				'fixed left-[50%] top-[50%] z-[110] w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-background p-6 shadow-lg duration-200',
+				'data-[entering]:animate-in data-[exiting]:animate-out data-[entering]:fade-in-0 data-[entering]:zoom-in-95 data-[entering]:slide-in-from-left-1/2 data-[entering]:slide-in-from-top-[48%]',
+				'data-[exiting]:slide-out-to-left-1/2 data-[exiting]:slide-out-to-top-[48%] data-[exiting]:fade-out-0data-[exiting]:zoom-out-95',
+				'sm:rounded-lg md:w-full',
+			],
 			side && sheetVariants({ side }),
 			side && 'h-full p-6',
 			className,
@@ -98,7 +102,14 @@ export const DialogContent = ({
 					{closeButton && (
 						<ReactAria.Button
 							onPress={values.close}
-							className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[entering]:bg-accent data-[entering]:text-muted-foreground"
+							className={cx([
+								'absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity',
+								'hover:opacity-100',
+								'focus:outline-none',
+								'focus:ring-2 focus:ring-ring focus:ring-offset-2',
+								'disabled:pointer-events-none',
+								'data-[entering]:bg-accent data-[entering]:text-muted-foreground',
+							])}
 						>
 							<CrossIcon className="h-4 w-4" />
 							<span className="sr-only">Close</span>

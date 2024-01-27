@@ -24,8 +24,11 @@ export default async function Page() {
 					<Image
 						src="/doctrina.png"
 						alt="Doctrina Logo"
-						width={48}
-						height={48}
+						className={cx(
+							'outline outline-green-500  rounded-full'
+						)}
+						width={36}
+						height={36}
 					/>
 				</Link>
 				<nav className="pt-2 px-4">

@@ -37,7 +37,7 @@ export default async function Page() {
 										href="/dashboard"
 										className={cx(
 											'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors',
-											'bg-primary text-primary-foreground hover:bg-primary/90',
+											'bg-green-500 text-green-50 hover:bg-primary/90',
 											'disabled:pointer-events-none disabled:opacity-50',
 											'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ',
 											'h-9 rounded-md px-3',
@@ -66,10 +66,10 @@ export default async function Page() {
 								<Link
 									href="/auth/signin"
 									className={cx(
-										'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors',
-										'bg-primary text-primary-foreground hover:bg-primary/90',
+										'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors',
+										'bg-green-600 text-green-50  hover:bg-green-600/90',
 										'disabled:pointer-events-none disabled:opacity-50',
-										'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ',
+										'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600  ring-offset-stone-900 focus-visible:ring-offset-2 ',
 										'h-10 px-4 py-2',
 									)}
 								>

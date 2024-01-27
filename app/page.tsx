@@ -1,7 +1,6 @@
 import { cx } from '@/lib/cva.config'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -20,18 +19,6 @@ export default async function Page() {
 	return (
 		<main>
 			<header>
-				<Link href="/">
-					<Image
-						src="/doctrina.png"
-						alt="Doctrina Logo"
-						className={cx(
-							'focus:outline focus:outline-green-500  rounded-full',
-						)}
-						priority
-						width={36}
-						height={36}
-					/>
-				</Link>
 				<nav>
 					<ul>
 						{session ? (

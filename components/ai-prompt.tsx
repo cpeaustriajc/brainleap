@@ -1,8 +1,7 @@
 'use client'
 
 import { useChat } from 'ai/react'
-import Image from 'next/image'
-import { UserRoundIcon, SendHorizonalIcon } from 'lucide-react'
+import { UserRoundIcon, SendHorizonalIcon, CogIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 export function AIPrompt() {
@@ -21,12 +20,7 @@ export function AIPrompt() {
 								</div>
 							) : (
 								<div>
-									<Image
-										src="/doctrina.png"
-										alt="Doctrina Logo"
-										width={24}
-										height={24}
-									/>
+									<CogIcon />
 								</div>
 							)}
 						</div>

@@ -10,9 +10,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"format": "prettier --write --ignore-unknown .",
-		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > lib/database.types.ts",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > lib/database.types.ts"
 	},
 	"prettier": {
 		"semi": false,
@@ -43,14 +41,6 @@
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@storybook/addon-essentials": "^7.6.10",
-		"@storybook/addon-interactions": "^7.6.10",
-		"@storybook/addon-links": "^7.6.10",
-		"@storybook/addon-onboarding": "^1.0.10",
-		"@storybook/blocks": "^7.6.10",
-		"@storybook/nextjs": "^7.6.10",
-		"@storybook/react": "^7.6.10",
-		"@storybook/test": "^7.6.10",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/node": "20",
 		"@types/react": "18",

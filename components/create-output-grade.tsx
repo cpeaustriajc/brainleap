@@ -35,8 +35,8 @@ export function CreateOutputGrade({
 
 	return (
 		<ReactAria.Form action={action} validationErrors={state.errors}>
-			<div  >
-				<ReactAria.Group  >
+			<div>
+				<ReactAria.Group>
 					<ReactAria.NumberField
 						defaultValue={output.grade ?? 0}
 						isRequired
@@ -45,8 +45,8 @@ export function CreateOutputGrade({
 						name="grade"
 						className={'flex flex-col gap-2'}
 					>
-						<div  >
-							<Label  >Grade</Label>
+						<div>
+							<Label>Grade</Label>
 							<ReactAria.Button
 								className={buttonVariants({
 									variant: 'outline',
@@ -55,7 +55,7 @@ export function CreateOutputGrade({
 							>
 								-
 							</ReactAria.Button>
-							<ReactAria.Input   />
+							<ReactAria.Input />
 							<ReactAria.Button
 								className={buttonVariants({
 									variant: 'outline',
@@ -65,7 +65,7 @@ export function CreateOutputGrade({
 								+
 							</ReactAria.Button>
 						</div>
-						<ReactAria.FieldError   />
+						<ReactAria.FieldError />
 					</ReactAria.NumberField>
 				</ReactAria.Group>
 

@@ -13,16 +13,14 @@ export function Announcements({
 	announcements: Tables<'announcements'>[]
 }) {
 	return (
-		<section  >
+		<section>
 			{profile.role === 'instructor' && (
-				<div  >
+				<div>
 					<div>
-						<p  >
-							Get started by sharing the class code:{' '}
-						</p>
+						<p>Get started by sharing the class code: </p>
 						<div>{course.course_id}</div>
 					</div>
-					<div  >
+					<div>
 						<p>Room: {course.room}</p>
 						<p>Subject: {course.subject}</p>
 						<p>Section: {course.section}</p>
@@ -30,9 +28,9 @@ export function Announcements({
 				</div>
 			)}
 
-			<div  >
+			<div>
 				<CreateAnnouncement course={course} />
-				<div  >
+				<div>
 					{announcements.length > 0 ? (
 						announcements.map((announcement) => (
 							<Card key={announcement.announcement_id}>
@@ -40,12 +38,10 @@ export function Announcements({
 									<CardTitle>{announcement.title}</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p  >
-										{announcement.description}
-									</p>
+									<p>{announcement.description}</p>
 								</CardContent>
 								{announcement.attachment && (
-									<CardFooter  >
+									<CardFooter>
 										<Attachments
 											attachment={announcement.attachment}
 										/>
@@ -54,9 +50,7 @@ export function Announcements({
 							</Card>
 						))
 					) : (
-						<p  >
-							This is the start of your classroom.
-						</p>
+						<p>This is the start of your classroom.</p>
 					)}
 				</div>
 			</div>

@@ -17,12 +17,8 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	})
 
 	return (
-		<ReactAria.Form
-			action={action}
-			validationErrors={state.errors}
-
-		>
-			<div  >
+		<ReactAria.Form action={action} validationErrors={state.errors}>
+			<div>
 				<Label htmlFor="title">Assignment title</Label>
 				<Input
 					type="text"
@@ -31,7 +27,7 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 					placeholder="Assignment title"
 				/>
 			</div>
-			<div  >
+			<div>
 				<Label htmlFor="description">Assignment description</Label>
 				<Textarea
 					id="description"

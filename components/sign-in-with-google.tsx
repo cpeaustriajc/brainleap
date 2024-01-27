@@ -19,7 +19,7 @@ export function SignInWithGoogle() {
 	return (
 		<Form action={signInWithGoogle}>
 			<button type="submit">
-				<GoogleIcon /> <span  >Sign in with Google</span>
+				<GoogleIcon /> <span>Sign in with Google</span>
 			</button>
 		</Form>
 	)

@@ -15,8 +15,8 @@ export function ProfilePicture({ url, size }: Props) {
 	const [isPending, startTransition] = useTransition()
 
 	return (
-		<div  >
-			<div  >
+		<div>
+			<div>
 				<div>
 					<strong>Profile Picture</strong>
 					<p>This is your profile picture</p>

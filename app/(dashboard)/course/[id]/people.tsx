@@ -39,16 +39,11 @@ export async function People({
 	}
 
 	return (
-		<div  >
-			<h2  >
-				Instructors
-			</h2>
-			<ul  >
+		<div>
+			<h2>Instructors</h2>
+			<ul>
 				{instructors.map((instructor) => (
-					<li
-						key={instructor.username}
-
-					>
+					<li key={instructor.username}>
 						<Avatar>
 							<AvatarImage
 								src={instructor.avatar_url ?? ''}
@@ -65,15 +60,10 @@ export async function People({
 				))}
 			</ul>
 
-			<h2  >
-				Students
-			</h2>
-			<ul  >
+			<h2>Students</h2>
+			<ul>
 				{students.map((student) => (
-					<li
-						key={student.username}
-
-					>
+					<li key={student.username}>
 						<Avatar>
 							<AvatarImage
 								src={student.avatar_url ?? ''}

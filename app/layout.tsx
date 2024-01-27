@@ -10,7 +10,7 @@ export const viewport = {
 	width: 'device-width',
 	initialScale: 1,
 	maximumScale: 1,
-	colorScheme: 'light dark'
+	colorScheme: 'light dark',
 }
 
 type Props = {
@@ -20,7 +20,7 @@ type Props = {
 export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="en" dir="ltr">
-			<body  >
+			<body>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

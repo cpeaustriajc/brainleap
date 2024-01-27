@@ -18,22 +18,22 @@ export default async function Page() {
 	} = await supabase.auth.getSession()
 
 	return (
-		<main  >
-			<header  >
+		<main>
+			<header>
 				<Link href="/">
 					<Image
 						src="/doctrina.png"
 						alt="Doctrina Logo"
 						className={cx(
-							'focus:outline focus:outline-green-500  rounded-full'
+							'focus:outline focus:outline-green-500  rounded-full',
 						)}
 						priority
 						width={36}
 						height={36}
 					/>
 				</Link>
-				<nav  >
-					<ul  >
+				<nav>
+					<ul>
 						{session ? (
 							<>
 								<li>
@@ -84,12 +84,10 @@ export default async function Page() {
 					</ul>
 				</nav>
 			</header>
-			<article  >
-				<section  >
-					<h1  >
-						{content.hero}
-					</h1>
-					<h2  >
+			<article>
+				<section>
+					<h1>{content.hero}</h1>
+					<h2>
 						A collaborative e-learning platform tool based on Google
 						Classroom for 3rd year engineering department at
 						Pamantasan ng Lungsod ng San Pablo

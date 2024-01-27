@@ -16,12 +16,12 @@ export async function Assignments({
 }) {
 	return (
 		<>
-			<div  >
+			<div>
 				{profile.role === 'instructor' && (
 					<CreateAssignment course={course} />
 				)}
 
-				<div  >
+				<div>
 					{assignments.length > 0 ? (
 						assignments.map((assignment) => (
 							<Card key={assignment.assignment_id}>
@@ -29,13 +29,11 @@ export async function Assignments({
 									<CardTitle>{assignment.title}</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p  >
-										{assignment.description}
-									</p>
+									<p>{assignment.description}</p>
 								</CardContent>
-								<CardFooter  >
+								<CardFooter>
 									{assignment.attachment && (
-										<div  >
+										<div>
 											<Attachments
 												attachment={
 													assignment.attachment
@@ -50,9 +48,7 @@ export async function Assignments({
 												className: 'w-full',
 											})}
 										>
-											<span  >
-												View More
-											</span>
+											<span>View More</span>
 										</Link>
 									)}
 									{profile.role === 'instructor' && (
@@ -62,16 +58,14 @@ export async function Assignments({
 												className: 'w-full',
 											})}
 										>
-											<span  >Grade</span>
+											<span>Grade</span>
 										</Link>
 									)}
 								</CardFooter>
 							</Card>
 						))
 					) : (
-						<p  >
-							Your assignments will appear here.
-						</p>
+						<p>Your assignments will appear here.</p>
 					)}
 				</div>
 			</div>

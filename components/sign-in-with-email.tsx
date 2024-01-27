@@ -22,20 +22,11 @@ export function SignInWithEmail() {
 	})
 
 	return (
-		<form action={action}  >
-			<TextField
-				name="email"
-				type="text"
-
-				isRequired
-			>
+		<form action={action}>
+			<TextField name="email" type="text" isRequired>
 				<Label>Email</Label>
-				<Input
-					placeholder="johndoe@email.com"
-
-					required
-				/>
-				<ReactAria.FieldError   />
+				<Input placeholder="johndoe@email.com" required />
+				<ReactAria.FieldError />
 			</TextField>
 			<Submit />
 		</form>

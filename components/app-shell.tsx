@@ -40,7 +40,7 @@ export default async function AppShell({ children }: Props) {
 			<Suspense fallback={<HeaderSkeleton />}>
 				<Header profile={profile} />
 			</Suspense>
-			<div  >
+			<div>
 				<Suspense fallback={<AsideSkeleton />}>
 					<Aside />
 				</Suspense>
@@ -52,12 +52,9 @@ export default async function AppShell({ children }: Props) {
 
 function AsideSkeleton() {
 	return (
-		<div  >
+		<div>
 			{Array.from({ length: 4 }).map((_, i) => (
-				<div
-					key={i}
-
-				/>
+				<div key={i} />
 			))}
 		</div>
 	)

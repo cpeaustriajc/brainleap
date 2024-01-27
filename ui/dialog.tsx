@@ -110,8 +110,8 @@ export const DialogContent = ({
 								'data-[entering]:bg-accent data-[entering]:text-muted-foreground',
 							])}
 						>
-							<CrossIcon   />
-							<span  >Close</span>
+							<CrossIcon />
+							<span>Close</span>
 						</ReactAria.Button>
 					)}
 				</>

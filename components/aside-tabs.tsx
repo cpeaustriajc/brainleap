@@ -51,9 +51,9 @@ export function AsideTabs({
 						'rac-selected:border-[length:var(--border-width)] rac-selected:border-primary rac-selected:text-foreground',
 					)}
 				>
-					<div  >
-						<div  >
-							<HomeIcon   />
+					<div>
+						<div>
+							<HomeIcon />
 						</div>
 						<span>Home</span>
 					</div>
@@ -75,9 +75,9 @@ export function AsideTabs({
 						'rac-selected:border-[length:var(--border-width)] rac-selected:border-primary rac-selected:text-foreground',
 					)}
 				>
-					<div  >
-						<div  >
-							<UserRoundIcon   />
+					<div>
+						<div>
+							<UserRoundIcon />
 						</div>
 						<span>Profile</span>
 					</div>
@@ -101,15 +101,13 @@ export function AsideTabs({
 							'rac-selected:border-[length:var(--border-width)] rac-selected:border-primary rac-selected:text-foreground',
 						)}
 					>
-						<div  >
-							<div  >
-								<BookmarkIcon   />
+						<div>
+							<div>
+								<BookmarkIcon />
 							</div>
 							<div>
 								<p>{course.course_name}</p>
-								<p  >
-									{course.section}
-								</p>
+								<p>{course.section}</p>
 							</div>
 						</div>
 					</ReactAria.Tab>

@@ -9,25 +9,21 @@ import {
 } from '@/ui/card'
 export default function Page() {
 	return (
-		<Card  >
+		<Card>
 			<CardHeader>
-				<CardTitle  >
-					Sign in
-				</CardTitle>
-				<CardDescription  >
+				<CardTitle>Sign in</CardTitle>
+				<CardDescription>
 					Sign in via Google or by sending a magic link to your email.
 				</CardDescription>
 			</CardHeader>
-			<CardContent  >
+			<CardContent>
 				<SignInWithGoogle />
-				<div  >
-					<div  >
-						<span   />
+				<div>
+					<div>
+						<span />
 					</div>
-					<div  >
-						<span  >
-							Or continue with
-						</span>
+					<div>
+						<span>Or continue with</span>
 					</div>
 				</div>
 				<SignInWithEmail />

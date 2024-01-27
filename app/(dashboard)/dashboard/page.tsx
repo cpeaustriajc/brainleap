@@ -41,8 +41,8 @@ export default async function Page() {
 	}
 
 	return (
-		<main  >
-			<section  >
+		<main>
+			<section>
 				<Courses courses={courses} />
 			</section>
 		</main>
@@ -55,10 +55,9 @@ const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
 			<Course key={course.course_id} course={course} />
 		))
 	) : (
-		<div  >
-			<p  >
-				Click enroll course on the{' '}
-				<PlusCircleIcon   /> plus tab to get
+		<div>
+			<p>
+				Click enroll course on the <PlusCircleIcon /> plus tab to get
 				started
 			</p>
 		</div>

@@ -27,10 +27,10 @@ export function Header({
 	const [isEnrollCourseMenuOpen, setIsEnrollCourseMenuOpen] = useState(false)
 
 	return (
-		<header  >
-			<div  >
-				<div  >
-					<div  >
+		<header>
+			<div>
+				<div>
+					<div>
 						<Link
 							href="/"
 							className={buttonVariants({
@@ -46,18 +46,18 @@ export function Header({
 								alt="The Logo of Doctrina"
 								priority
 							/>
-							<span  >Home</span>
+							<span>Home</span>
 						</Link>
 					</div>
 				</div>
-				<div  >
+				<div>
 					{profile && (
 						<MenuTrigger
 							isOpen={isCourseMenuOpen}
 							onOpenChange={setIsCourseMenuOpen}
 						>
 							<button aria-label="Class Menu">
-								<PlusCircleIcon   />
+								<PlusCircleIcon />
 							</button>
 							<MenuPopover>
 								<Menu
@@ -101,8 +101,8 @@ export function Header({
 					</DialogOverlay>
 					<MenuTrigger>
 						<button>
-							<span  >Open User Menu</span>
-							<Avatar  >
+							<span>Open User Menu</span>
+							<Avatar>
 								<AvatarImage src={profile.avatar_url!} />
 								<AvatarFallback>
 									<UserRoundIcon />

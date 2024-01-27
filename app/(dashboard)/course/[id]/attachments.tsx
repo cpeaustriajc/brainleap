@@ -24,8 +24,8 @@ export function Attachments({
 			target="_blank"
 			className={buttonVariants({ variant: 'outline', size: 'lg' })}
 		>
-			<FileIcon   />
-			<span  >{filename}</span>
+			<FileIcon />
+			<span>{filename}</span>
 		</Link>
 	)
 }

@@ -14,8 +14,8 @@ export default async function Page() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const {
-		data: { user },
-	} = await supabase.auth.getUser()
+		data: { session },
+	} = await supabase.auth.getSession()
 
 	return (
 		<main className="max-w-screen-xl mx-auto">
@@ -30,7 +30,7 @@ export default async function Page() {
 				</Link>
 				<nav className="pt-2 px-4">
 					<ul className="flex items-center gap-4">
-						{user ? (
+						{session ? (
 							<>
 								<li>
 									<Link

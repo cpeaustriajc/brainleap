@@ -1,7 +1,7 @@
 export default function Loading() {
 	return (
-		<div>
-			<p>Loading...</p>
-		</div>
+		<main className="grid h-dvh place-items-center">
+			<p className="animate-pulse font-medium text-green-600">Loading page...</p>
+		</main>
 	)
 }

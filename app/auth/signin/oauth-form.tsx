@@ -1,4 +1,6 @@
 import { signInWithGoogle } from '@/lib/actions/auth'
+import { button } from '@/ui/button'
+import { form } from '@/ui/form'
 
 const GoogleIcon = () => (
 	<svg
@@ -14,10 +16,14 @@ const GoogleIcon = () => (
 	</svg>
 )
 
-export function SignInWithGoogle() {
+export function OAuthForm() {
 	return (
-		<form action={signInWithGoogle}>
-			<button type="submit">
+		<form className={form}>
+			<button
+				type="submit"
+				formAction={signInWithGoogle}
+				className={button}
+			>
 				<GoogleIcon /> <span>Sign in with Google</span>
 			</button>
 		</form>

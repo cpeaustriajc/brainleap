@@ -4,17 +4,13 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { signInWithEmailSchema } from '../validations/auth'
-import { z } from 'zod'
-import { getURL } from '../utils'
+import { revalidatePath } from 'next/cache'
 
 export async function signInWithGoogle() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const { error, data } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
-		options: {
-			redirectTo: getURL('/api/auth/callback'),
-		},
 	})
 
 	if (error) {
@@ -22,23 +18,13 @@ export async function signInWithGoogle() {
 		throw new Error(error.message)
 	}
 
+	revalidatePath('/', 'layout')
 	redirect(data.url)
 }
-type FieldErrors = z.inferFlattenedErrors<
-	typeof signInWithEmailSchema
->['fieldErrors']
 
-export async function signInWithEmail(
-	previousState: {
-		errors: FieldErrors
-	},
-	formData: FormData,
-): Promise<{
-	errors: FieldErrors
-}> {
+export async function signInWithEmail(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const redirectURL = getURL('/api/auth/confirm')
 
 	const values = signInWithEmailSchema.safeParse({
 		email: formData.get('email'),
@@ -50,13 +36,12 @@ export async function signInWithEmail(
 		}
 	}
 
-	const { error } = await supabase.auth.signInWithOtp({
+	const { data, error } = await supabase.auth.signInWithOtp({
 		email: values.data.email,
 		options: {
 			data: {
 				email: values.data.email,
 			},
-			emailRedirectTo: redirectURL,
 		},
 	})
 
@@ -64,5 +49,6 @@ export async function signInWithEmail(
 		throw error
 	}
 
+	revalidatePath('/', 'layout')
 	redirect('/auth/confirm')
 }

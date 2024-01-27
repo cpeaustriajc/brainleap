@@ -11,15 +11,6 @@ type Props = {
 
 export default async function AppShell({ children }: Props) {
 	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-
-	const {
-		data: { user },
-	} = await supabase.auth.getUser()
-
-	if (!user) {
-		redirect('/auth/signin')
-	}
 
 	return (
 		<>

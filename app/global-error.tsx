@@ -1,5 +1,6 @@
 'use client'
 
+import { button } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -26,7 +27,7 @@ export default function GlobalError({
 							for the inconvenience.
 						</p>
 					</section>
-					<button onClick={() => reset()}>Try Again</button>
+					<button className={button} onClick={() => reset()}>Try Again</button>
 				</main>
 			</body>
 		</html>

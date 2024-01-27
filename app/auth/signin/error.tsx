@@ -1,5 +1,6 @@
 'use client'
 
+import { button } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -15,16 +16,18 @@ export default function Error({
 	}, [error])
 
 	return (
-		<main>
-			<AlertTriangleIcon />
-			<section>
-				<h2>Oops!</h2>
+		<article className="grid place-items-center">
+			<AlertTriangleIcon className="text-red-500" />
+			<section className="text-center max-w-prose grid gap-y-2 py-2">
+				<h2 className="text-2xl">Oops!</h2>
 				<p>
 					It seems like something went wrong. We&apos;re sorry for the
 					inconvenience.
 				</p>
 			</section>
-			<button onClick={() => reset()}>Try Again</button>
-		</main>
+			<button className={button} onClick={() => reset()}>
+				Try Again
+			</button>
+		</article>
 	)
 }

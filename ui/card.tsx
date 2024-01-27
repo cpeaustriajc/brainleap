@@ -9,11 +9,7 @@ const Card = React.forwardRef<
 	<div
 		ref={ref}
 		className={cx(
-<<<<<<< HEAD
 			'rounded-lg p-4 border bg-card text-card-foreground shadow',
-=======
-			'rounded-xl border bg-card text-card-foreground shadow',
->>>>>>> parent of 4f2f395 (Bare minimum in main)
 			className,
 		)}
 		{...props}

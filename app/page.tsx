@@ -25,7 +25,7 @@ export default async function Page() {
 						src="/doctrina.png"
 						alt="Doctrina Logo"
 						className={cx(
-							'outline outline-green-500  rounded-full'
+							'focus:outline focus:outline-green-500  rounded-full'
 						)}
 						width={36}
 						height={36}

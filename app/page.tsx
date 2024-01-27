@@ -5,6 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+export const content = {
+	hero: 'Meet your next assistant to a better learning experience.',
+	about: 'Brainleap is a collaborative e-learning platform tool that is focused on using AI as an assistant.',
+}
+
 export default async function Page() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
@@ -78,9 +83,7 @@ export default async function Page() {
 			<article className="pt-4">
 				<section className="grid justify-center justify-items-center gap-4 pt-16">
 					<h1 className="text-4xl text-foreground max-w-screen-lg tracking-tight font-bold text-center">
-						DOCTRINA: AN E-LEARNING PLATFORM TOOL BASED ON GOOGLE
-						CLASSROOM FOR 3RD YEAR ENGINEERING DEPARTMENT AT
-						PAMANTASAN NG LUNGSOD NG SAN PABLO
+						{content.hero}
 					</h1>
 					<h2 className="text-xl font-semibold max-w-screen-md text-center text-secondary-foreground">
 						A collaborative e-learning platform tool based on Google

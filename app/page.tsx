@@ -27,6 +27,7 @@ export default async function Page() {
 						className={cx(
 							'focus:outline focus:outline-green-500  rounded-full'
 						)}
+						priority
 						width={36}
 						height={36}
 					/>

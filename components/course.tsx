@@ -1,13 +1,5 @@
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '../ui/card'
 import { buttonVariants } from '../ui/button'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
@@ -71,13 +63,11 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		message = 'You currently have no pending classworks to complete.'
 	}
 	return (
-		<Card className="max-w-sm h-60">
-			<CardHeader className="flex flex-row justify-between items-center">
+		<div>
+			<div>
 				<div>
-					<CardTitle>{course.course_name}</CardTitle>
-					<CardDescription>
-						{course.course_description}
-					</CardDescription>
+					<strong>{course.course_name}</strong>
+					<p>{course.course_description}</p>
 				</div>
 				<div>
 					<Avatar>
@@ -87,22 +77,20 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 						</AvatarFallback>
 					</Avatar>
 				</div>
-			</CardHeader>
-			<CardContent>
-				<Suspense
-					fallback={<p className="animate-pulse">Loading...</p>}
-				>
+			</div>
+			<p>
+				<Suspense fallback={<p>Loading...</p>}>
 					<p>{message}</p>
 				</Suspense>
-			</CardContent>
-			<CardFooter>
+			</p>
+			<div>
 				<Link
 					href={`/course/${course.course_id}`}
 					className={buttonVariants({ className: 'w-full' })}
 				>
 					View More
 				</Link>
-			</CardFooter>
-		</Card>
+			</div>
+		</div>
 	)
 }

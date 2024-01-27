@@ -3,7 +3,6 @@
 import { CrossIcon } from 'lucide-react'
 import { VariantProps } from 'cva'
 import { cx, cva } from '@/lib/cva.config'
-import * as ReactAria from 'react-aria-components'
 
 const sheetVariants = cva({
 	base: [
@@ -111,8 +110,8 @@ export const DialogContent = ({
 								'data-[entering]:bg-accent data-[entering]:text-muted-foreground',
 							])}
 						>
-							<CrossIcon className="h-4 w-4" />
-							<span className="sr-only">Close</span>
+							<CrossIcon   />
+							<span  >Close</span>
 						</ReactAria.Button>
 					)}
 				</>

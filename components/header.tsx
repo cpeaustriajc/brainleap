@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Button, buttonVariants } from '../ui/button'
+import { buttonVariants } from '../ui/button'
 import { UserRoundIcon, PlusCircleIcon } from 'lucide-react'
 import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
@@ -27,10 +27,10 @@ export function Header({
 	const [isEnrollCourseMenuOpen, setIsEnrollCourseMenuOpen] = useState(false)
 
 	return (
-		<header className="px-4 py-2 border-b">
-			<div className="flex justify-between items-center w-full">
-				<div className="flex items-center">
-					<div className="px-2 inline-flex items-center">
+		<header  >
+			<div  >
+				<div  >
+					<div  >
 						<Link
 							href="/"
 							className={buttonVariants({
@@ -46,23 +46,19 @@ export function Header({
 								alt="The Logo of Doctrina"
 								priority
 							/>
-							<span className="sr-only">Home</span>
+							<span  >Home</span>
 						</Link>
 					</div>
 				</div>
-				<div className="flex items-center gap-2">
+				<div  >
 					{profile && (
 						<MenuTrigger
 							isOpen={isCourseMenuOpen}
 							onOpenChange={setIsCourseMenuOpen}
 						>
-							<Button
-								aria-label="Class Menu"
-								variant="ghost"
-								size="icon"
-							>
-								<PlusCircleIcon className="w-6 h-6" />
-							</Button>
+							<button aria-label="Class Menu">
+								<PlusCircleIcon   />
+							</button>
 							<MenuPopover>
 								<Menu
 									placement="bottom right"
@@ -104,15 +100,15 @@ export function Header({
 						</DialogContent>
 					</DialogOverlay>
 					<MenuTrigger>
-						<Button variant="ghost" size="icon">
-							<span className="sr-only">Open User Menu</span>
-							<Avatar className="h-8 w-8">
+						<button>
+							<span  >Open User Menu</span>
+							<Avatar  >
 								<AvatarImage src={profile.avatar_url!} />
 								<AvatarFallback>
 									<UserRoundIcon />
 								</AvatarFallback>
 							</Avatar>
-						</Button>
+						</button>
 						<MenuPopover>
 							<Menu placement="bottom right">
 								{profile ? (

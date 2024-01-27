@@ -1,5 +1,4 @@
 import { signInWithGoogle } from '@/lib/actions/auth'
-import { Button } from '@/ui/button'
 import { Form } from '@/ui/form'
 
 const GoogleIcon = () => (
@@ -19,9 +18,9 @@ const GoogleIcon = () => (
 export function SignInWithGoogle() {
 	return (
 		<Form action={signInWithGoogle}>
-			<Button type="submit">
-				<GoogleIcon /> <span className="pl-2">Sign in with Google</span>
-			</Button>
+			<button type="submit">
+				<GoogleIcon /> <span  >Sign in with Google</span>
+			</button>
 		</Form>
 	)
 }

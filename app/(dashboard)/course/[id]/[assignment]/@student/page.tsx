@@ -44,20 +44,20 @@ export default async function Page({
 	const assignmentDueDate = new Date(assignmentResult.due_date ?? 0)
 
 	return (
-		<div className="mx-auto px-16 max-w-screen-2xl pt-8 grid grid-cols-4 gap-4">
-			<div className="col-span-2">
-				<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+		<div  >
+			<div  >
+				<h1  >
 					{assignmentResult.title}
 				</h1>
-				<p className="font-bold">
+				<p  >
 					Assignment Due Date:{' '}
 					{assignmentDueDate.toLocaleDateString()}
 				</p>
-				<p className="whitespace-pre-wrap">
+				<p  >
 					{assignmentResult.description}
 				</p>
 			</div>
-			<Card className="col-start-4">
+			<Card  >
 				<CardHeader>
 					<CardTitle>Submit Output</CardTitle>
 					<CardDescription>

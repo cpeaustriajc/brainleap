@@ -3,11 +3,9 @@
 import { Input } from '../ui/input'
 import { Tables } from '@/lib/database.types'
 import { Label } from '../ui/label'
-import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
 import { createAssignment } from '@/lib/actions/assignment'
 import { useFormState } from 'react-dom'
-import * as ReactAria from 'react-aria-components'
 
 export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	const { course_id } = course
@@ -22,9 +20,9 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 		<ReactAria.Form
 			action={action}
 			validationErrors={state.errors}
-			className="space-y-8"
+
 		>
-			<div className="space-y-2">
+			<div  >
 				<Label htmlFor="title">Assignment title</Label>
 				<Input
 					type="text"
@@ -33,7 +31,7 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 					placeholder="Assignment title"
 				/>
 			</div>
-			<div className="space-y-2">
+			<div  >
 				<Label htmlFor="description">Assignment description</Label>
 				<Textarea
 					id="description"
@@ -81,7 +79,7 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 				/>
 			</div>
 
-			<Button type="submit">Create assignment</Button>
+			<button type="submit">Create assignment</button>
 		</ReactAria.Form>
 	)
 }

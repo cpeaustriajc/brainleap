@@ -1,4 +1,3 @@
-import { Badge } from '@/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/ui/card'
 import { Tables } from '@/lib/database.types'
 import { CreateAnnouncement } from '@/components/create-announcement'
@@ -14,16 +13,16 @@ export function Announcements({
 	announcements: Tables<'announcements'>[]
 }) {
 	return (
-		<section className="grid grid-cols-8">
+		<section  >
 			{profile.role === 'instructor' && (
-				<div className="grid pt-10 col-span-2 place-items-start place-content-start gap-4">
+				<div  >
 					<div>
-						<p className="leading-7 [&:not(:first-child)]:mt-6">
+						<p  >
 							Get started by sharing the class code:{' '}
 						</p>
-						<Badge>{course.course_id}</Badge>
+						<div>{course.course_id}</div>
 					</div>
-					<div className="p-4 border rounded border-border">
+					<div  >
 						<p>Room: {course.room}</p>
 						<p>Subject: {course.subject}</p>
 						<p>Section: {course.section}</p>
@@ -31,9 +30,9 @@ export function Announcements({
 				</div>
 			)}
 
-			<div className="pt-10 col-span-5 border px-4 py-2">
+			<div  >
 				<CreateAnnouncement course={course} />
-				<div className="flex flex-col gap-4 py-8">
+				<div  >
 					{announcements.length > 0 ? (
 						announcements.map((announcement) => (
 							<Card key={announcement.announcement_id}>
@@ -41,12 +40,12 @@ export function Announcements({
 									<CardTitle>{announcement.title}</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="whitespace-pre-line">
+									<p  >
 										{announcement.description}
 									</p>
 								</CardContent>
 								{announcement.attachment && (
-									<CardFooter className="grid grid-cols-2">
+									<CardFooter  >
 										<Attachments
 											attachment={announcement.attachment}
 										/>
@@ -55,7 +54,7 @@ export function Announcements({
 							</Card>
 						))
 					) : (
-						<p className="leading-7 [&:not(:first-child)]:mt-6">
+						<p  >
 							This is the start of your classroom.
 						</p>
 					)}

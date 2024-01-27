@@ -1,19 +1,16 @@
 'use client'
 
-import { Button } from '@/ui/button'
-import { Input } from '@/ui/input'
 import { createOutput } from '@/lib/actions/output'
 import { Tables } from '@/lib/database.types'
-import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 
 function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button isDisabled={pending} type="submit">
+		<button disabled={pending} type="submit">
 			Submit
-		</Button>
+		</button>
 	)
 }
 
@@ -36,14 +33,9 @@ export function CreateOutputForm({
 	})
 
 	return (
-		<ReactAria.Form
-			action={action}
-			className="flex flex-col gap-4"
-			validationErrors={state.errors}
-		>
-			<Input type="file" name="output" id="output" required />
+		<form action={action}  >
+			<input type="file" name="output" id="output" required />
 			<Submit />
-			<ReactAria.FieldError className="text-destructive font-medium" />
-		</ReactAria.Form>
+		</form>
 	)
 }

@@ -1,5 +1,4 @@
 import { createCourse } from '@/lib/actions/course'
-import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 import { Textarea } from '../ui/textarea'
 import { Label } from '../ui/label'
@@ -28,36 +27,36 @@ export function CreateCourseForm() {
 	return (
 		<ReactAria.Form
 			action={action}
-			className="grid gap-2 p-4"
+
 			validationErrors={state.errors}
 		>
 			<ReactAria.TextField name="title" type="text" isRequired>
 				<Label>Class Title</Label>
 				<Input placeholder="Class Title" />
-				<ReactAria.FieldError className="text-destructive font-medium" />
+				<ReactAria.FieldError   />
 			</ReactAria.TextField>
 			<ReactAria.TextField name="section" type="text" isRequired>
 				<Label>Section</Label>
 				<Input placeholder="Section" />
-				<ReactAria.FieldError className="text-destructive font-medium" />
+				<ReactAria.FieldError   />
 			</ReactAria.TextField>
 			<ReactAria.TextField type="text" name="subject">
 				<Label>Subject</Label>
 				<Input placeholder="Subject" />
-				<ReactAria.FieldError className="text-destructive font-medium" />
+				<ReactAria.FieldError   />
 			</ReactAria.TextField>
 			<ReactAria.TextField type="text" name="room">
 				<Label>Room</Label>
 				<Input placeholder="Room" />
-				<ReactAria.FieldError className="text-destructive font-medium" />
+				<ReactAria.FieldError   />
 			</ReactAria.TextField>
 			<ReactAria.TextField name="description">
 				<Label>Class Description</Label>
 				<Textarea
 					placeholder="Class Description"
-					className="resize-none"
+
 				/>
-				<ReactAria.FieldError className="text-destructive font-medium" />
+				<ReactAria.FieldError   />
 			</ReactAria.TextField>
 			<Submit />
 		</ReactAria.Form>

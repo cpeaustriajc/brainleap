@@ -86,8 +86,8 @@ export default async function TeacherView({
 	}
 
 	return (
-		<div className="px-4 pt-4">
-			<h1 className="mx-4 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+		<div  >
+			<h1  >
 				{assignment.title}
 			</h1>
 			<Table>

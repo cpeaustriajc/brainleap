@@ -1,7 +1,5 @@
 'use client'
 
-import * as ReactAria from 'react-aria-components'
-
 import { cx } from '@/lib/cva.config'
 
 const TextField = ({ className, ...props }: ReactAria.TextFieldProps) => {

@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import { CheckIcon } from 'lucide-react'
-import * as ReactAria from 'react-aria-components'
 import { labelVariants } from '@/ui/label'
 
 import { cx } from '@/lib/cva.config'
@@ -51,9 +50,9 @@ const Radio = React.forwardRef<
 		>
 			{(values) => (
 				<>
-					<span className="flex aspect-square h-4 w-4 items-center justify-center rounded-full border border-primary text-primary ring-offset-background group-data-rac-disabled:opacity-50 group-data-rac-focus-visible:ring-2 group-data-rac-focus-visible:ring-ring group-data-rac-focus-visible:ring-offset-2">
+					<span  >
 						{values.isSelected && (
-							<CheckIcon className="h-2.5 w-2.5 fill-current text-current" />
+							<CheckIcon   />
 						)}
 					</span>
 					{typeof children === 'function'

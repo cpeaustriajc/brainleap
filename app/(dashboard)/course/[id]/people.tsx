@@ -39,15 +39,15 @@ export async function People({
 	}
 
 	return (
-		<div className="w-1/2 mx-auto">
-			<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+		<div  >
+			<h2  >
 				Instructors
 			</h2>
-			<ul className="grid gap-4 py-4">
+			<ul  >
 				{instructors.map((instructor) => (
 					<li
 						key={instructor.username}
-						className="flex gap-4 items-center"
+
 					>
 						<Avatar>
 							<AvatarImage
@@ -65,14 +65,14 @@ export async function People({
 				))}
 			</ul>
 
-			<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+			<h2  >
 				Students
 			</h2>
-			<ul className="py-4 grid gap-4">
+			<ul  >
 				{students.map((student) => (
 					<li
 						key={student.username}
-						className="flex gap-4 items-center"
+
 					>
 						<Avatar>
 							<AvatarImage

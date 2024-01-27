@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/ui/button'
 import { Input } from '@/ui/input'
 import { Textarea } from '@/ui/textarea'
 import { Tables } from '@/lib/database.types'
@@ -18,9 +17,9 @@ function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button className="w-full" type="submit" isDisabled={pending}>
+		<button   type="submit" disabled={pending}>
 			{pending ? 'Submitting...' : 'Submit'}
-		</Button>
+		</button>
 	)
 }
 
@@ -34,7 +33,7 @@ export function SetupProfileForm({
 	const [state, action] = useFormState(updateProfile, null)
 
 	return (
-		<div className="max-w-2xl mx-auto space-y-2">
+		<div  >
 			<p
 				className={cx(
 					message ? 'visible' : 'invisible',
@@ -44,7 +43,7 @@ export function SetupProfileForm({
 				{message}
 			</p>
 			<ProfilePicture url={profile.avatar_url} size={128} />
-			<Form className="py-4" action={action}>
+			<Form   action={action}>
 				<TextField
 					type="text"
 					name="username"
@@ -75,7 +74,7 @@ export function SetupProfileForm({
 					<Label>Biography</Label>
 					<Textarea
 						placeholder="Tell us a little bit about yourself"
-						className="resize-none"
+
 					/>
 				</TextField>
 				<TextField

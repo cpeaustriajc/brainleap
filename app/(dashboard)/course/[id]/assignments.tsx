@@ -16,12 +16,12 @@ export async function Assignments({
 }) {
 	return (
 		<>
-			<div className="border rounded px-4 py-2 w-1/2 mx-auto">
+			<div  >
 				{profile.role === 'instructor' && (
 					<CreateAssignment course={course} />
 				)}
 
-				<div className="flex flex-col gap-4 py-8">
+				<div  >
 					{assignments.length > 0 ? (
 						assignments.map((assignment) => (
 							<Card key={assignment.assignment_id}>
@@ -29,13 +29,13 @@ export async function Assignments({
 									<CardTitle>{assignment.title}</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<p className="whitespace-pre-line">
+									<p  >
 										{assignment.description}
 									</p>
 								</CardContent>
-								<CardFooter className="flex flex-col gap-4">
+								<CardFooter  >
 									{assignment.attachment && (
-										<div className="grid grid-cols-2">
+										<div  >
 											<Attachments
 												attachment={
 													assignment.attachment
@@ -50,7 +50,7 @@ export async function Assignments({
 												className: 'w-full',
 											})}
 										>
-											<span className="pl-2">
+											<span  >
 												View More
 											</span>
 										</Link>
@@ -62,14 +62,14 @@ export async function Assignments({
 												className: 'w-full',
 											})}
 										>
-											<span className="pl-2">Grade</span>
+											<span  >Grade</span>
 										</Link>
 									)}
 								</CardFooter>
 							</Card>
 						))
 					) : (
-						<p className="leading-7 [&:not(:first-child)]:mt-6">
+						<p  >
 							Your assignments will appear here.
 						</p>
 					)}

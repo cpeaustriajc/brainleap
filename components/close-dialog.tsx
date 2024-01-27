@@ -7,12 +7,8 @@ export function CloseDialog() {
 	const router = useRouter()
 
 	return (
-		<button
-			type="button"
-
-			onClick={() => router.back()}
-		>
-			<span  >Close</span>
+		<button type="button" onClick={() => router.back()}>
+			<span>Close</span>
 			<CrossIcon />
 		</button>
 	)

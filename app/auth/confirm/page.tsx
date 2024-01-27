@@ -1,22 +1,19 @@
 export default function Page() {
 	return (
-		<section  >
-			<div  >
+		<section>
+			<div>
 				<div>
-					<h2  >
-						Magic Link Sent
-					</h2>
-					<p  >
+					<h2>Magic Link Sent</h2>
+					<p>
 						We have sent a magic link to your email address. Please
 						check your inbox and click on the link to proceed.
 					</p>
 				</div>
-				<div  >
-					<div  >
-						<div  >
+				<div>
+					<div>
+						<div>
 							<svg
 								aria-hidden="true"
-
 								fill="currentColor"
 								viewBox="0 0 20 20"
 							>
@@ -27,10 +24,8 @@ export default function Page() {
 								/>
 							</svg>
 						</div>
-						<div  >
-							<p  >
-								Magic link sent successfully!
-							</p>
+						<div>
+							<p>Magic link sent successfully!</p>
 						</div>
 					</div>
 				</div>

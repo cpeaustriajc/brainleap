@@ -33,7 +33,7 @@ export default async function Page({ searchParams }: Props) {
 	}
 
 	return (
-		<main  >
+		<main>
 			<SetupProfileForm profile={profile} message={message} />
 		</main>
 	)

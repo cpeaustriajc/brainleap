@@ -10,17 +10,17 @@ export function AIPrompt() {
 		useChat()
 
 	return (
-		<div  >
-			<div  >
+		<div>
+			<div>
 				{messages.map((m) => (
-					<div   key={m.id}>
-						<div  >
+					<div key={m.id}>
+						<div>
 							{m.role === 'user' ? (
-								<div  >
-									<UserRoundIcon   />
+								<div>
+									<UserRoundIcon />
 								</div>
 							) : (
-								<div  >
+								<div>
 									<Image
 										src="/doctrina.png"
 										alt="Doctrina Logo"
@@ -31,19 +31,16 @@ export function AIPrompt() {
 							)}
 						</div>
 
-						<ReactMarkdown  >
-							{m.content}
-						</ReactMarkdown>
+						<ReactMarkdown>{m.content}</ReactMarkdown>
 					</div>
 				))}
 			</div>
 
-			<form onSubmit={handleSubmit}  >
+			<form onSubmit={handleSubmit}>
 				<textarea
 					value={input}
 					placeholder="Say something to the AI..."
 					onChange={handleInputChange}
-
 				/>
 				<button
 					aria-label="Send Prompt"

@@ -38,7 +38,7 @@ export async function Aside() {
 	}
 
 	return (
-		<aside  >
+		<aside>
 			<AsideTabs courses={courses} />
 		</aside>
 	)

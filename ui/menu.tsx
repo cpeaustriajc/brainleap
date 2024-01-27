@@ -71,17 +71,9 @@ export const MenuItem = ({
 			{({ selectionMode }) => (
 				<>
 					{selectionMode === 'single' ? (
-						<CircleIcon
-							aria-hidden="true"
-							strokeWidth="3"
-
-						/>
+						<CircleIcon aria-hidden="true" strokeWidth="3" />
 					) : selectionMode === 'multiple' ? (
-						<CheckIcon
-							aria-hidden="true"
-							strokeWidth="3"
-
-						/>
+						<CheckIcon aria-hidden="true" strokeWidth="3" />
 					) : null}
 					{children}
 				</>

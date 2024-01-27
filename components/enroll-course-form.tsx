@@ -25,23 +25,14 @@ export function EnrollCourseForm() {
 		message: undefined,
 	})
 	return (
-		<ReactAria.Form
-			action={action}
-
-			validationErrors={state.errors}
-		>
-			<TextField
-
-				name="courseCode"
-				type="text"
-				isRequired
-			>
+		<ReactAria.Form action={action} validationErrors={state.errors}>
+			<TextField name="courseCode" type="text" isRequired>
 				<Label>Class Code</Label>
 				<Input placeholder="Class Code" />
-				<TextFieldDescription  >
+				<TextFieldDescription>
 					Ask your teacher for the class code. Then enter it here.
 				</TextFieldDescription>
-				<ReactAria.FieldError   />
+				<ReactAria.FieldError />
 			</TextField>
 			<Submit />
 		</ReactAria.Form>

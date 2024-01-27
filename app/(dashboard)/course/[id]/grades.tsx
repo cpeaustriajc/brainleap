@@ -47,10 +47,8 @@ export async function Grades({
 	if (outputsError) throw outputsError
 
 	return (
-		<div  >
-			<h2  >
-				Grades
-			</h2>
+		<div>
+			<h2>Grades</h2>
 			<Table>
 				<TableHeader>
 					<TableRow>

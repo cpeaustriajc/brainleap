@@ -50,11 +50,7 @@ const Radio = React.forwardRef<
 		>
 			{(values) => (
 				<>
-					<span  >
-						{values.isSelected && (
-							<CheckIcon   />
-						)}
-					</span>
+					<span>{values.isSelected && <CheckIcon />}</span>
 					{typeof children === 'function'
 						? children(values)
 						: children}

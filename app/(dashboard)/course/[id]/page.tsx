@@ -90,16 +90,12 @@ export default async function Page({ params }: Props) {
 	}
 
 	return (
-		<main  >
+		<main>
 			<section>
-				<h1  >
-					{course.course_name}
-				</h1>
-				<p  >
-					{course.course_description}
-				</p>
+				<h1>{course.course_name}</h1>
+				<p>{course.course_description}</p>
 			</section>
-			<Tabs defaultSelectedKey="announcements"  >
+			<Tabs defaultSelectedKey="announcements">
 				<TabList>
 					<Tab id="announcements">Announcements</Tab>
 					<Tab id="assignments">Assignments</Tab>

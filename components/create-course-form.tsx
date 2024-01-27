@@ -25,38 +25,31 @@ export function CreateCourseForm() {
 		message: undefined,
 	})
 	return (
-		<ReactAria.Form
-			action={action}
-
-			validationErrors={state.errors}
-		>
+		<ReactAria.Form action={action} validationErrors={state.errors}>
 			<ReactAria.TextField name="title" type="text" isRequired>
 				<Label>Class Title</Label>
 				<Input placeholder="Class Title" />
-				<ReactAria.FieldError   />
+				<ReactAria.FieldError />
 			</ReactAria.TextField>
 			<ReactAria.TextField name="section" type="text" isRequired>
 				<Label>Section</Label>
 				<Input placeholder="Section" />
-				<ReactAria.FieldError   />
+				<ReactAria.FieldError />
 			</ReactAria.TextField>
 			<ReactAria.TextField type="text" name="subject">
 				<Label>Subject</Label>
 				<Input placeholder="Subject" />
-				<ReactAria.FieldError   />
+				<ReactAria.FieldError />
 			</ReactAria.TextField>
 			<ReactAria.TextField type="text" name="room">
 				<Label>Room</Label>
 				<Input placeholder="Room" />
-				<ReactAria.FieldError   />
+				<ReactAria.FieldError />
 			</ReactAria.TextField>
 			<ReactAria.TextField name="description">
 				<Label>Class Description</Label>
-				<Textarea
-					placeholder="Class Description"
-
-				/>
-				<ReactAria.FieldError   />
+				<Textarea placeholder="Class Description" />
+				<ReactAria.FieldError />
 			</ReactAria.TextField>
 			<Submit />
 		</ReactAria.Form>

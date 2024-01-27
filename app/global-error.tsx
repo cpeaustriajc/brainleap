@@ -17,13 +17,11 @@ export default function GlobalError({
 	return (
 		<html>
 			<body>
-				<main  >
-					<AlertTriangleIcon   />
-					<section  >
-						<h2  >
-							Oops!
-						</h2>
-						<p  >
+				<main>
+					<AlertTriangleIcon />
+					<section>
+						<h2>Oops!</h2>
+						<p>
 							It seems like something went wrong. We&apos;re sorry
 							for the inconvenience.
 						</p>

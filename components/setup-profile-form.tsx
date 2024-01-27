@@ -17,7 +17,7 @@ function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<button   type="submit" disabled={pending}>
+		<button type="submit" disabled={pending}>
 			{pending ? 'Submitting...' : 'Submit'}
 		</button>
 	)
@@ -33,7 +33,7 @@ export function SetupProfileForm({
 	const [state, action] = useFormState(updateProfile, null)
 
 	return (
-		<div  >
+		<div>
 			<p
 				className={cx(
 					message ? 'visible' : 'invisible',
@@ -43,7 +43,7 @@ export function SetupProfileForm({
 				{message}
 			</p>
 			<ProfilePicture url={profile.avatar_url} size={128} />
-			<Form   action={action}>
+			<Form action={action}>
 				<TextField
 					type="text"
 					name="username"
@@ -72,10 +72,7 @@ export function SetupProfileForm({
 					defaultValue={profile.biography ?? ''}
 				>
 					<Label>Biography</Label>
-					<Textarea
-						placeholder="Tell us a little bit about yourself"
-
-					/>
+					<Textarea placeholder="Tell us a little bit about yourself" />
 				</TextField>
 				<TextField
 					defaultValue={profile.university ?? ''}

@@ -86,10 +86,8 @@ export default async function TeacherView({
 	}
 
 	return (
-		<div  >
-			<h1  >
-				{assignment.title}
-			</h1>
+		<div>
+			<h1>{assignment.title}</h1>
 			<Table>
 				<TableHeader>
 					<TableRow>

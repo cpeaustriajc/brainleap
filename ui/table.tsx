@@ -6,7 +6,7 @@ const Table = React.forwardRef<
 	HTMLTableElement,
 	React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-	<div  >
+	<div>
 		<table
 			ref={ref}
 			className={cx('w-full caption-bottom text-sm', className)}

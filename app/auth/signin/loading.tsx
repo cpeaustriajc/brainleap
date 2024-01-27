@@ -5,25 +5,23 @@ export default function Loading() {
 	return (
 		<Card>
 			<CardHeader>
-				<Skeleton   />
-				<Skeleton   />
+				<Skeleton />
+				<Skeleton />
 			</CardHeader>
-			<CardContent  >
-				<Skeleton   />
-				<div  >
-					<div  >
-						<span   />
+			<CardContent>
+				<Skeleton />
+				<div>
+					<div>
+						<span />
 					</div>
-					<div  >
-						<span  >
-							Or continue with
-						</span>
+					<div>
+						<span>Or continue with</span>
 					</div>
 				</div>
-				<div  >
-					<Skeleton   />
-					<Skeleton   />
-					<Skeleton   />
+				<div>
+					<Skeleton />
+					<Skeleton />
+					<Skeleton />
 				</div>
 			</CardContent>
 		</Card>

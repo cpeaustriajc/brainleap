@@ -33,7 +33,7 @@ export function CreateOutputForm({
 	})
 
 	return (
-		<form action={action}  >
+		<form action={action}>
 			<input type="file" name="output" id="output" required />
 			<Submit />
 		</form>

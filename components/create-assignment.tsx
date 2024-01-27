@@ -1,9 +1,6 @@
 'use client'
 
-import { Input } from '../ui/input'
 import { Tables } from '@/lib/database.types'
-import { Label } from '../ui/label'
-import { Textarea } from '../ui/textarea'
 import { createAssignment } from '@/lib/actions/assignment'
 import { useFormState } from 'react-dom'
 
@@ -17,10 +14,10 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 	})
 
 	return (
-		<ReactAria.Form action={action} validationErrors={state.errors}>
+		<form action={action}>
 			<div>
-				<Label htmlFor="title">Assignment title</Label>
-				<Input
+				<label htmlFor="title">Assignment title</label>
+				<input
 					type="text"
 					id="title"
 					name="title"
@@ -28,8 +25,8 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 				/>
 			</div>
 			<div>
-				<Label htmlFor="description">Assignment description</Label>
-				<Textarea
+				<label htmlFor="description">Assignment description</label>
+				<textarea
 					id="description"
 					name="description"
 					placeholder="Assignment description"
@@ -37,8 +34,8 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 			</div>
 
 			<div>
-				<Label htmlFor="dueDate">Assignment due date</Label>
-				<Input
+				<label htmlFor="dueDate">Assignment due date</label>
+				<input
 					type="date"
 					id="dueDate"
 					name="dueDate"
@@ -46,8 +43,8 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 				/>
 			</div>
 			<div>
-				<Label htmlFor="dueTime">Assignment due time</Label>
-				<Input
+				<label htmlFor="dueTime">Assignment due time</label>
+				<input
 					type="time"
 					id="dueTime"
 					name="dueTime"
@@ -56,8 +53,8 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 			</div>
 
 			<div>
-				<Label htmlFor="attachment">Assignment attachment</Label>
-				<Input
+				<label htmlFor="attachment">Assignment attachment</label>
+				<input
 					type="file"
 					id="attachment"
 					name="attachment"
@@ -66,8 +63,8 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 			</div>
 
 			<div>
-				<Label htmlFor="link">Assignment Link</Label>
-				<Input
+				<label htmlFor="link">Assignment Link</label>
+				<input
 					type="url"
 					id="link"
 					name="link"
@@ -76,6 +73,6 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 			</div>
 
 			<button type="submit">Create assignment</button>
-		</ReactAria.Form>
+		</form>
 	)
 }

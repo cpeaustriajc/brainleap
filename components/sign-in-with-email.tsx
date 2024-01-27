@@ -2,9 +2,6 @@
 
 import { signInWithEmail } from '@/lib/actions/auth'
 import { useFormState, useFormStatus } from 'react-dom'
-import { TextField } from './text-field'
-import { Input } from '../ui/input'
-import { Label } from '../ui/label'
 
 function Submit() {
 	const { pending } = useFormStatus()
@@ -23,11 +20,8 @@ export function SignInWithEmail() {
 
 	return (
 		<form action={action}>
-			<TextField name="email" type="text" isRequired>
-				<Label>Email</Label>
-				<Input placeholder="johndoe@email.com" required />
-				<ReactAria.FieldError />
-			</TextField>
+			<label>Email</label>
+			<input placeholder="johndoe@email.com" required />
 			<Submit />
 		</form>
 	)

@@ -1,4 +1,3 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/ui/card'
 import { Tables } from '@/lib/database.types'
 import { CreateAnnouncement } from '@/components/create-announcement'
 import { Attachments } from './attachments'
@@ -33,21 +32,21 @@ export function Announcements({
 				<div>
 					{announcements.length > 0 ? (
 						announcements.map((announcement) => (
-							<Card key={announcement.announcement_id}>
-								<CardHeader>
-									<CardTitle>{announcement.title}</CardTitle>
-								</CardHeader>
-								<CardContent>
+							<div key={announcement.announcement_id}>
+								<div>
+									<strong>{announcement.title}</strong>
+								</div>
+								<div>
 									<p>{announcement.description}</p>
-								</CardContent>
+								</div>
 								{announcement.attachment && (
-									<CardFooter>
+									<div>
 										<Attachments
 											attachment={announcement.attachment}
 										/>
-									</CardFooter>
+									</div>
 								)}
-							</Card>
+							</div>
 						))
 					) : (
 						<p>This is the start of your classroom.</p>

@@ -4,7 +4,6 @@ import { getAssignments } from '@/lib/queries/assignment'
 import { getCourseById } from '@/lib/queries/course'
 import { notFound, redirect } from 'next/navigation'
 import { unstable_noStore } from 'next/cache'
-import { Tabs, TabPanel, TabList, Tab } from '@/ui/tabs'
 import { Suspense } from 'react'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { Assignments } from './assignments'
@@ -95,46 +94,28 @@ export default async function Page({ params }: Props) {
 				<h1>{course.course_name}</h1>
 				<p>{course.course_description}</p>
 			</section>
-			<Tabs defaultSelectedKey="announcements">
-				<TabList>
-					<Tab id="announcements">Announcements</Tab>
-					<Tab id="assignments">Assignments</Tab>
-					<Tab id="people">People</Tab>
-					{profile.role === 'instructor' && (
-						<Tab id="grades">Grades</Tab>
-					)}
-				</TabList>
-				<TabPanel id="announcements">
-					<Suspense fallback={<p>Loading...</p>}>
-						<Announcements
-							course={course}
-							profile={profile}
-							announcements={announcements}
-						/>
-					</Suspense>
-				</TabPanel>
-				<TabPanel id="assignments">
-					<Suspense fallback={<p>Loading...</p>}>
-						<Assignments
-							course={course}
-							assignments={assignments}
-							profile={profile}
-						/>
-					</Suspense>
-				</TabPanel>
-				<TabPanel id="people">
-					<Suspense fallback={<p>Loading...</p>}>
-						<People enrolledPeople={enrolledPeople} />
-					</Suspense>
-				</TabPanel>
-				{profile.role === 'instructor' && (
-					<TabPanel id="grades">
-						<Suspense fallback={<p>Loading...</p>}>
-							<Grades assignments={assignments} />
-						</Suspense>
-					</TabPanel>
-				)}
-			</Tabs>
+			<Suspense fallback={<p>Loading...</p>}>
+				<Announcements
+					course={course}
+					profile={profile}
+					announcements={announcements}
+				/>
+			</Suspense>
+			<Suspense fallback={<p>Loading...</p>}>
+				<Assignments
+					course={course}
+					assignments={assignments}
+					profile={profile}
+				/>
+			</Suspense>
+			<Suspense fallback={<p>Loading...</p>}>
+				<People enrolledPeople={enrolledPeople} />
+			</Suspense>
+			{profile.role === 'instructor' && (
+				<Suspense fallback={<p>Loading...</p>}>
+					<Grades assignments={assignments} />
+				</Suspense>
+			)}
 		</main>
 	)
 }

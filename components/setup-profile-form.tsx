@@ -1,17 +1,10 @@
 'use client'
 
-import { Input } from '@/ui/input'
-import { Textarea } from '@/ui/textarea'
-import { Tables } from '@/lib/database.types'
-import { extractUsernameFromEmail } from '@/lib/utils'
-import { cx } from '@/lib/cva.config'
 import { ProfilePicture } from '@/components/profile-picture'
-import { Label } from '@/ui/label'
-import { RadioGroup, Radio } from '@/ui/radio-group'
 import { updateProfile } from '@/lib/actions/profile'
-import { TextField } from '@/components/text-field'
+import { cx } from '@/lib/cva.config'
+import { Tables } from '@/lib/database.types'
 import { useFormState, useFormStatus } from 'react-dom'
-import { Form } from '@/ui/form'
 
 function Submit() {
 	const { pending } = useFormStatus()
@@ -43,83 +36,35 @@ export function SetupProfileForm({
 				{message}
 			</p>
 			<ProfilePicture url={profile.avatar_url} size={128} />
-			<Form action={action}>
-				<TextField
+			<form action={action}>
+				<label>Username</label>
+				<input placeholder="Username" />
+				<label>Display Name</label>
+				<input placeholder="Display Name" />
+				<label>Email</label>
+				<input placeholder="johndoe@email.com" />
+				<label>Biography</label>
+				<textarea placeholder="Tell us a little bit about yourself" />
+				<label>University</label>
+				<input
 					type="text"
-					name="username"
-					defaultValue={
-						profile.username ??
-						extractUsernameFromEmail(profile.email)
-					}
-				>
-					<Label>Username</Label>
-					<Input placeholder="Username" />
-				</TextField>
-				<TextField
-					type="text"
-					name="full_name"
-					defaultValue={profile.full_name ?? ''}
-				>
-					<Label>Display Name</Label>
-					<Input placeholder="Display Name" />
-				</TextField>
-				<TextField name="email" defaultValue={profile.email ?? ''}>
-					<Label>Email</Label>
-					<Input placeholder="johndoe@email.com" />
-				</TextField>
-				<TextField
-					name="biography"
-					defaultValue={profile.biography ?? ''}
-				>
-					<Label>Biography</Label>
-					<Textarea placeholder="Tell us a little bit about yourself" />
-				</TextField>
-				<TextField
-					defaultValue={profile.university ?? ''}
-					name="university"
-				>
-					<Label>University</Label>
-					<Input
-						type="text"
-						placeholder="What university do you attend?"
-						id="university"
-					/>
-				</TextField>
+					placeholder="What university do you attend?"
+					id="university"
+				/>
 
-				<RadioGroup
-					name="role"
-					defaultValue={profile.role ?? 'student'}
-				>
-					<Label>Role</Label>
-					<Radio value="student">Student</Radio>
-					<Radio value="instructor">Instructor</Radio>
-				</RadioGroup>
-				<TextField
-					type="text"
-					defaultValue={profile.program ?? ''}
-					name="program"
-				>
-					<Label htmlFor="program">Program</Label>
-					<Input placeholder="Program" />
-				</TextField>
-				<TextField
-					type="text"
-					defaultValue={profile.section ?? ''}
-					name="section"
-				>
-					<Label>Section</Label>
-					<Input placeholder="Section" />
-				</TextField>
-				<TextField
-					name="position"
-					type="text"
-					defaultValue={profile.position ?? ''}
-				>
-					<Label htmlFor="position">Position</Label>
-					<Input placeholder="Position" />
-				</TextField>
+				<label>Role</label>
+				<input type="radio" />
+				<label htmlFor="">Student</label>
+				<input type="radio" />
+				<label htmlFor="">Instructor</label>
+				<label htmlFor="program">Program</label>
+				<input placeholder="Program" />
+				<label>Section</label>
+				<input placeholder="Section" />
+				<label htmlFor="position">Position</label>
+				<input placeholder="Position" />
 				<Submit />
-			</Form>
+			</form>
 		</div>
 	)
 }

@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
-import { buttonVariants } from '@/ui/button'
 import { Tables } from '@/lib/database.types'
 import { getFilename } from '@/lib/utils'
 import Link from 'next/link'
@@ -18,12 +17,7 @@ export function Attachments({
 	const { data } = supabase.storage.from('files').getPublicUrl(attachment)
 	const filename = getFilename(attachment)
 	return (
-		<Link
-			href={data.publicUrl}
-			download
-			target="_blank"
-			className={buttonVariants({ variant: 'outline', size: 'lg' })}
-		>
+		<Link href={data.publicUrl} download target="_blank">
 			<FileIcon />
 			<span>{filename}</span>
 		</Link>

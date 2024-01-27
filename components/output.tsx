@@ -1,5 +1,3 @@
-import { buttonVariants } from '@/ui/button'
-import { TableCell } from '@/ui/table'
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
@@ -32,32 +30,24 @@ export async function Output({ output, courseId, assignmentId }: OutputProps) {
 
 	return (
 		<Fragment key={output.output_id}>
-			<TableCell>
-				{output.profiles?.full_name ?? output.profiles?.username}{' '}
-			</TableCell>
-			<TableCell>
+			<td>{output.profiles?.full_name ?? output.profiles?.username} </td>
+			<td>
 				<CreateOutputGrade
 					output={output}
 					courseId={courseId}
 					assignmentId={assignmentId}
 				/>
-			</TableCell>
-			<TableCell>
+			</td>
+			<td>
 				{file ? (
-					<Link
-						href={file.signedUrl}
-						target="_blank"
-						className={buttonVariants({ variant: 'link' })}
-					>
+					<Link href={file.signedUrl} target="_blank">
 						View
 					</Link>
 				) : (
 					<span>No file</span>
 				)}
-			</TableCell>
-			<TableCell>
-				{submittedAt.toLocaleDateString('en-US', options)}
-			</TableCell>
+			</td>
+			<td>{submittedAt.toLocaleDateString('en-US', options)}</td>
 		</Fragment>
 	)
 }

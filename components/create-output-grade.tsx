@@ -1,22 +1,16 @@
 'use client'
 
-import { Label } from '../ui/label'
 import { useFormState, useFormStatus } from 'react-dom'
 import { gradeOutput } from '@/lib/actions/output'
 import { OutputProps } from './output'
-import { buttonVariants } from '../ui/button'
 
 function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<ReactAria.Button
-			isDisabled={pending}
-			type="submit"
-			className={buttonVariants()}
-		>
+		<button disabled={pending} type="submit">
 			Submit
-		</ReactAria.Button>
+		</button>
 	)
 }
 
@@ -34,43 +28,17 @@ export function CreateOutputGrade({
 	)
 
 	return (
-		<ReactAria.Form action={action} validationErrors={state.errors}>
+		<form action={action}>
 			<div>
-				<ReactAria.Group>
-					<ReactAria.NumberField
-						defaultValue={output.grade ?? 0}
-						isRequired
-						minValue={0}
-						maxValue={100}
-						name="grade"
-						className={'flex flex-col gap-2'}
-					>
-						<div>
-							<Label>Grade</Label>
-							<ReactAria.Button
-								className={buttonVariants({
-									variant: 'outline',
-								})}
-								slot="decrement"
-							>
-								-
-							</ReactAria.Button>
-							<ReactAria.Input />
-							<ReactAria.Button
-								className={buttonVariants({
-									variant: 'outline',
-								})}
-								slot="increment"
-							>
-								+
-							</ReactAria.Button>
-						</div>
-						<ReactAria.FieldError />
-					</ReactAria.NumberField>
-				</ReactAria.Group>
+				<div>
+					<label>Grade</label>
+					<button>-</button>
+					<input />
+					<button>+</button>
+				</div>
 
 				<Submit />
 			</div>
-		</ReactAria.Form>
+		</form>
 	)
 }

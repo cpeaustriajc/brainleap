@@ -1,13 +1,6 @@
 import { CreateOutputForm } from './create-output-form'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/ui/card'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
 export async function generateStaticParams() {
@@ -53,21 +46,21 @@ export default async function Page({
 				</p>
 				<p>{assignmentResult.description}</p>
 			</div>
-			<Card>
-				<CardHeader>
-					<CardTitle>Submit Output</CardTitle>
-					<CardDescription>
+			<div>
+				<div>
+					<strong>Submit Output</strong>
+					<p>
 						Submit your output for this assignment (preferrably in
 						PDF format)
-					</CardDescription>
-				</CardHeader>
-				<CardContent>
+					</p>
+				</div>
+				<div>
 					<CreateOutputForm
 						assignment={assignmentResult}
 						courseId={params.id}
 					/>
-				</CardContent>
-			</Card>
+				</div>
+			</div>
 		</div>
 	)
 }

@@ -21,7 +21,6 @@
 	"license": "MIT",
 	"dependencies": {
 		"@google/generative-ai": "^0.1.3",
-		"@radix-ui/react-avatar": "^1",
 		"@supabase/ssr": "^0.0.10",
 		"@supabase/supabase-js": "^2",
 		"ai": "^2",

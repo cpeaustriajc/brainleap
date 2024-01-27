@@ -1,22 +1,16 @@
 import { SignInWithGoogle } from '@/components/sign-in-with-google'
 import { SignInWithEmail } from '@/components/sign-in-with-email'
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/ui/card'
+
 export default function Page() {
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Sign in</CardTitle>
-				<CardDescription>
+		<div>
+			<div>
+				<strong>Sign in</strong>
+				<p>
 					Sign in via Google or by sending a magic link to your email.
-				</CardDescription>
-			</CardHeader>
-			<CardContent>
+				</p>
+			</div>
+			<div>
 				<SignInWithGoogle />
 				<div>
 					<div>
@@ -27,7 +21,7 @@ export default function Page() {
 					</div>
 				</div>
 				<SignInWithEmail />
-			</CardContent>
-		</Card>
+			</div>
+		</div>
 	)
 }

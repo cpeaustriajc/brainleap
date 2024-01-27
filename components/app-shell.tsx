@@ -4,7 +4,6 @@ import { HeaderSkeleton } from './header-skeleton'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { Aside } from './aside'
 
 type Props = {
 	children: React.ReactNode
@@ -22,40 +21,12 @@ export default async function AppShell({ children }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const { id } = user
-
-	const { data: profile, error } = await supabase
-		.from('profiles')
-		.select('username, avatar_url, role')
-		.eq('profile_id', id)
-		.limit(1)
-		.single()
-
-	if (error) {
-		throw new Error(error.message)
-	}
-
 	return (
 		<>
 			<Suspense fallback={<HeaderSkeleton />}>
-				<Header profile={profile} />
+				<Header />
 			</Suspense>
-			<div>
-				<Suspense fallback={<AsideSkeleton />}>
-					<Aside />
-				</Suspense>
-				{children}
-			</div>
+			<div>{children}</div>
 		</>
-	)
-}
-
-function AsideSkeleton() {
-	return (
-		<div>
-			{Array.from({ length: 4 }).map((_, i) => (
-				<div key={i} />
-			))}
-		</div>
 	)
 }

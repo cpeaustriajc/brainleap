@@ -2,14 +2,6 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { Tables } from '@/lib/database.types'
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from '@/ui/table'
 
 export async function Grades({
 	assignments,
@@ -49,32 +41,28 @@ export async function Grades({
 	return (
 		<div>
 			<h2>Grades</h2>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Student</TableHead>
+			<table>
+				<th>
+					<tr>
+						<th>Student</th>
 						{assignments.map((assignment) => (
-							<TableHead key={assignment.assignment_id}>
+							<th key={assignment.assignment_id}>
 								{assignment.title}
-							</TableHead>
+							</th>
 						))}
-					</TableRow>
-				</TableHeader>
-				<TableBody>
+					</tr>
+				</th>
+				<tbody>
 					{students.map((student) => (
-						<TableRow key={student.username}>
-							<TableCell>
-								{student.full_name ?? student.username}
-							</TableCell>
+						<tr key={student.username}>
+							<td>{student.full_name ?? student.username}</td>
 							{outputs.map((output) => (
-								<TableCell key={output.output_id}>
-									{output.grade}
-								</TableCell>
+								<td key={output.output_id}>{output.grade}</td>
 							))}
-						</TableRow>
+						</tr>
 					))}
-				</TableBody>
-			</Table>
+				</tbody>
+			</table>
 		</div>
 	)
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import { buttonVariants } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import Link from 'next/link'
 
@@ -15,9 +14,7 @@ export default function Page() {
 					inconvenience.
 				</p>
 			</div>
-			<Link href="/auth/signin" className={buttonVariants()}>
-				Try Again
-			</Link>
+			<Link href="/auth/signin">Try Again</Link>
 		</section>
 	)
 }

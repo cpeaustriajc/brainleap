@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { Tables } from '@/lib/database.types'
 import { UserRoundIcon } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar'
+import Image from 'next/image'
 
 export async function People({
 	enrolledPeople,
@@ -44,15 +44,15 @@ export async function People({
 			<ul>
 				{instructors.map((instructor) => (
 					<li key={instructor.username}>
-						<Avatar>
-							<AvatarImage
+						<div>
+							<Image
 								src={instructor.avatar_url ?? ''}
 								alt={instructor.username ?? ''}
 							/>
-							<AvatarFallback>
+							<div>
 								<UserRoundIcon />
-							</AvatarFallback>
-						</Avatar>
+							</div>
+						</div>
 						<span>
 							{instructor.full_name ?? instructor.username}
 						</span>
@@ -64,15 +64,15 @@ export async function People({
 			<ul>
 				{students.map((student) => (
 					<li key={student.username}>
-						<Avatar>
-							<AvatarImage
+						<div>
+							<Image
 								src={student.avatar_url ?? ''}
 								alt={student.username ?? ''}
 							/>
-							<AvatarFallback>
+							<div>
 								<UserRoundIcon />
-							</AvatarFallback>
-						</Avatar>
+							</div>
+						</div>
 						<span>{student.full_name ?? student.username}</span>
 					</li>
 				))}

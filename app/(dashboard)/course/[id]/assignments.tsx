@@ -1,6 +1,4 @@
 import { CreateAssignment } from '@/components/create-assignment'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/ui/card'
-import { buttonVariants } from '@/ui/button'
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
 import { Attachments } from './attachments'
@@ -24,14 +22,14 @@ export async function Assignments({
 				<div>
 					{assignments.length > 0 ? (
 						assignments.map((assignment) => (
-							<Card key={assignment.assignment_id}>
-								<CardHeader>
-									<CardTitle>{assignment.title}</CardTitle>
-								</CardHeader>
-								<CardContent>
+							<div key={assignment.assignment_id}>
+								<div>
+									<strong>{assignment.title}</strong>
+								</div>
+								<div>
 									<p>{assignment.description}</p>
-								</CardContent>
-								<CardFooter>
+								</div>
+								<div>
 									{assignment.attachment && (
 										<div>
 											<Attachments
@@ -44,9 +42,6 @@ export async function Assignments({
 									{profile.role === 'student' && (
 										<Link
 											href={`/course/${course.course_id}/${assignment.assignment_id}`}
-											className={buttonVariants({
-												className: 'w-full',
-											})}
 										>
 											<span>View More</span>
 										</Link>
@@ -54,15 +49,12 @@ export async function Assignments({
 									{profile.role === 'instructor' && (
 										<Link
 											href={`/course/${course.course_id}/${assignment.assignment_id}`}
-											className={buttonVariants({
-												className: 'w-full',
-											})}
 										>
 											<span>Grade</span>
 										</Link>
 									)}
-								</CardFooter>
-							</Card>
+								</div>
+							</div>
 						))
 					) : (
 						<p>Your assignments will appear here.</p>

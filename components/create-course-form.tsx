@@ -1,21 +1,13 @@
 import { createCourse } from '@/lib/actions/course'
 import { useFormState, useFormStatus } from 'react-dom'
-import { Textarea } from '../ui/textarea'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { buttonVariants } from '../ui/button'
 
 function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<ReactAria.Button
-			className={buttonVariants()}
-			isDisabled={pending}
-			type="submit"
-		>
+		<button disabled={pending} type="submit">
 			{pending ? 'Creating Class...' : 'Create Class'}
-		</ReactAria.Button>
+		</button>
 	)
 }
 
@@ -25,33 +17,18 @@ export function CreateCourseForm() {
 		message: undefined,
 	})
 	return (
-		<ReactAria.Form action={action} validationErrors={state.errors}>
-			<ReactAria.TextField name="title" type="text" isRequired>
-				<Label>Class Title</Label>
-				<Input placeholder="Class Title" />
-				<ReactAria.FieldError />
-			</ReactAria.TextField>
-			<ReactAria.TextField name="section" type="text" isRequired>
-				<Label>Section</Label>
-				<Input placeholder="Section" />
-				<ReactAria.FieldError />
-			</ReactAria.TextField>
-			<ReactAria.TextField type="text" name="subject">
-				<Label>Subject</Label>
-				<Input placeholder="Subject" />
-				<ReactAria.FieldError />
-			</ReactAria.TextField>
-			<ReactAria.TextField type="text" name="room">
-				<Label>Room</Label>
-				<Input placeholder="Room" />
-				<ReactAria.FieldError />
-			</ReactAria.TextField>
-			<ReactAria.TextField name="description">
-				<Label>Class Description</Label>
-				<Textarea placeholder="Class Description" />
-				<ReactAria.FieldError />
-			</ReactAria.TextField>
+		<form action={action}>
+			<label>Class Title</label>
+			<input placeholder="Class Title" />
+			<label>Section</label>
+			<input placeholder="Section" />
+			<label>Subject</label>
+			<input placeholder="Subject" />
+			<label>Room</label>
+			<input placeholder="Room" />
+			<label>Class Description</label>
+			<textarea placeholder="Class Description" />
 			<Submit />
-		</ReactAria.Form>
+		</form>
 	)
 }

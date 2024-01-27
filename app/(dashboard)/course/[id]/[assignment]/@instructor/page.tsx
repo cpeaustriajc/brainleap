@@ -1,4 +1,3 @@
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/ui/table'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
 import { QueryData } from '@supabase/supabase-js'
@@ -88,17 +87,17 @@ export default async function TeacherView({
 	return (
 		<div>
 			<h1>{assignment.title}</h1>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Student</TableHead>
-						<TableHead>Grade</TableHead>
-						<TableHead>Output</TableHead>
-						<TableHead>Submitted At</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					<TableRow>
+			<table>
+				<th>
+					<tr>
+						<th>Student</th>
+						<th>Grade</th>
+						<th>Output</th>
+						<th>Submitted At</th>
+					</tr>
+				</th>
+				<tbody>
+					<tr>
 						<Suspense fallback={null}>
 							{outputsWithStudents?.map((output) => (
 								<Output
@@ -109,9 +108,9 @@ export default async function TeacherView({
 								/>
 							))}
 						</Suspense>
-					</TableRow>
-				</TableBody>
-			</Table>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	)
 }

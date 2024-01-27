@@ -1,10 +1,9 @@
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
-import { buttonVariants } from '../ui/button'
+import Image from 'next/image'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { UserRoundIcon } from 'lucide-react'
 import { Suspense } from 'react'
 
@@ -70,12 +69,15 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 					<p>{course.course_description}</p>
 				</div>
 				<div>
-					<Avatar>
-						<AvatarImage src={instructorProfile.avatar_url ?? ''} />
-						<AvatarFallback>
+					<div>
+						<Image
+							src={instructorProfile.avatar_url ?? ''}
+							alt=""
+						/>
+						<div>
 							<UserRoundIcon />
-						</AvatarFallback>
-					</Avatar>
+						</div>
+					</div>
 				</div>
 			</div>
 			<p>
@@ -84,12 +86,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				</Suspense>
 			</p>
 			<div>
-				<Link
-					href={`/course/${course.course_id}`}
-					className={buttonVariants({ className: 'w-full' })}
-				>
-					View More
-				</Link>
+				<Link href={`/course/${course.course_id}`}>View More</Link>
 			</div>
 		</div>
 	)

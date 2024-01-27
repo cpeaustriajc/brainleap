@@ -1,10 +1,8 @@
 'use client'
 
 import { signInWithEmail } from '@/lib/actions/auth'
-import * as ReactAria from 'react-aria-components'
 import { useFormState, useFormStatus } from 'react-dom'
 import { TextField } from './text-field'
-import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 
@@ -12,9 +10,9 @@ function Submit() {
 	const { pending } = useFormStatus()
 
 	return (
-		<Button type="submit" isDisabled={pending}>
+		<button type="submit" disabled={pending}>
 			Sign In
-		</Button>
+		</button>
 	)
 }
 
@@ -24,20 +22,20 @@ export function SignInWithEmail() {
 	})
 
 	return (
-		<form action={action} className="flex flex-col gap-2">
+		<form action={action}  >
 			<TextField
 				name="email"
 				type="text"
-				className="flex flex-col gap-2"
+
 				isRequired
 			>
 				<Label>Email</Label>
 				<Input
 					placeholder="johndoe@email.com"
-					className="rac-invalid:border-destructive"
+
 					required
 				/>
-				<ReactAria.FieldError className="text-destructive" />
+				<ReactAria.FieldError   />
 			</TextField>
 			<Submit />
 		</form>

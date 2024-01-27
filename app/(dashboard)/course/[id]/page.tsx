@@ -90,16 +90,16 @@ export default async function Page({ params }: Props) {
 	}
 
 	return (
-		<main className="px-8 py-6 w-full flex flex-col">
+		<main  >
 			<section>
-				<h1 className="scroll-m-20 text-4xl font-bold tracking-tight lg:text-5xl">
+				<h1  >
 					{course.course_name}
 				</h1>
-				<p className="leading-7 [&:not(:first-child)]:mt-6 text-gray-500">
+				<p  >
 					{course.course_description}
 				</p>
 			</section>
-			<Tabs defaultSelectedKey="announcements" className="py-8">
+			<Tabs defaultSelectedKey="announcements"  >
 				<TabList>
 					<Tab id="announcements">Announcements</Tab>
 					<Tab id="assignments">Assignments</Tab>

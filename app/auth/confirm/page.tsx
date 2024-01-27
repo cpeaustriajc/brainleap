@@ -1,22 +1,22 @@
 export default function Page() {
 	return (
-		<section className="py-12 px-4 sm:px-6 lg:px-8">
-			<div className="max-w-md w-full space-y-8">
+		<section  >
+			<div  >
 				<div>
-					<h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
+					<h2  >
 						Magic Link Sent
 					</h2>
-					<p className="mt-2 text-center text-sm text-foreground">
+					<p  >
 						We have sent a magic link to your email address. Please
 						check your inbox and click on the link to proceed.
 					</p>
 				</div>
-				<div className="rounded-md bg-primary p-4">
-					<div className="flex">
-						<div className="flex-shrink-0">
+				<div  >
+					<div  >
+						<div  >
 							<svg
 								aria-hidden="true"
-								className="h-5 w-5 text-secondary"
+
 								fill="currentColor"
 								viewBox="0 0 20 20"
 							>
@@ -27,8 +27,8 @@ export default function Page() {
 								/>
 							</svg>
 						</div>
-						<div className="ml-3">
-							<p className="text-sm font-medium text-secondary">
+						<div  >
+							<p  >
 								Magic link sent successfully!
 							</p>
 						</div>

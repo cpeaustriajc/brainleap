@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react'
-import * as ReactAria from 'react-aria-components'
 
 import { cx } from '@/lib/cva.config'
 

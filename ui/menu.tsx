@@ -2,7 +2,6 @@
 
 import { cx } from '@/lib/cva.config'
 import { CheckIcon, CircleIcon } from 'lucide-react'
-import * as ReactAria from 'react-aria-components'
 
 export const MenuTrigger = ReactAria.MenuTrigger
 
@@ -75,13 +74,13 @@ export const MenuItem = ({
 						<CircleIcon
 							aria-hidden="true"
 							strokeWidth="3"
-							className="invisible h-2 w-2 fill-current group-selected:visible"
+
 						/>
 					) : selectionMode === 'multiple' ? (
 						<CheckIcon
 							aria-hidden="true"
 							strokeWidth="3"
-							className="invisible h-4 w-4 group-selected:visible"
+
 						/>
 					) : null}
 					{children}

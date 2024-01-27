@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -18,18 +17,18 @@ export default function GlobalError({
 	return (
 		<html>
 			<body>
-				<main className="flex flex-col justify-center items-center h-dvh gap-8">
-					<AlertTriangleIcon className="text-destructive size-16 self-center" />
-					<section className="text-center flex flex-col gap-4">
-						<h2 className="text-4xl font-bold text-destructive">
+				<main  >
+					<AlertTriangleIcon   />
+					<section  >
+						<h2  >
 							Oops!
 						</h2>
-						<p className="text-lg">
+						<p  >
 							It seems like something went wrong. We&apos;re sorry
 							for the inconvenience.
 						</p>
 					</section>
-					<Button onPress={() => reset()}>Try Again</Button>
+					<button onClick={() => reset()}>Try Again</button>
 				</main>
 			</body>
 		</html>

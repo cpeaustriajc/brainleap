@@ -47,8 +47,8 @@ export async function Grades({
 	if (outputsError) throw outputsError
 
 	return (
-		<div className="w-1/2 mx-auto">
-			<h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+		<div  >
+			<h2  >
 				Grades
 			</h2>
 			<Table>

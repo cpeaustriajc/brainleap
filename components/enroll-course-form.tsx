@@ -2,7 +2,6 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { TextField, TextFieldDescription } from './text-field'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
-import * as ReactAria from 'react-aria-components'
 import { createEnrollment } from '@/lib/actions/enrollment'
 import { buttonVariants } from '../ui/button'
 
@@ -28,21 +27,21 @@ export function EnrollCourseForm() {
 	return (
 		<ReactAria.Form
 			action={action}
-			className="grid gap-4 p-4"
+
 			validationErrors={state.errors}
 		>
 			<TextField
-				className="flex flex-col gap-2"
+
 				name="courseCode"
 				type="text"
 				isRequired
 			>
 				<Label>Class Code</Label>
 				<Input placeholder="Class Code" />
-				<TextFieldDescription className="text-xs px-1">
+				<TextFieldDescription  >
 					Ask your teacher for the class code. Then enter it here.
 				</TextFieldDescription>
-				<ReactAria.FieldError className="text-destructive font-medium" />
+				<ReactAria.FieldError   />
 			</TextField>
 			<Submit />
 		</ReactAria.Form>

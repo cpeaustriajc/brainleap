@@ -41,8 +41,8 @@ export default async function Page() {
 	}
 
 	return (
-		<main className="w-full">
-			<section className="flex w-full px-8 pt-8 gap-4">
+		<main  >
+			<section  >
 				<Courses courses={courses} />
 			</section>
 		</main>
@@ -55,10 +55,10 @@ const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
 			<Course key={course.course_id} course={course} />
 		))
 	) : (
-		<div className=" justify-center items-center flex w-full h-[90vh]">
-			<p className="text-2xl">
+		<div  >
+			<p  >
 				Click enroll course on the{' '}
-				<PlusCircleIcon className="inline size-6" /> plus tab to get
+				<PlusCircleIcon   /> plus tab to get
 				started
 			</p>
 		</div>

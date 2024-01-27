@@ -18,8 +18,8 @@ export default async function Page() {
 	} = await supabase.auth.getSession()
 
 	return (
-		<main className="max-w-screen-xl mx-auto">
-			<header className="flex items-center py-4 justify-between">
+		<main  >
+			<header  >
 				<Link href="/">
 					<Image
 						src="/doctrina.png"
@@ -32,8 +32,8 @@ export default async function Page() {
 						height={36}
 					/>
 				</Link>
-				<nav className="pt-2 px-4">
-					<ul className="flex items-center gap-4">
+				<nav  >
+					<ul  >
 						{session ? (
 							<>
 								<li>
@@ -84,12 +84,12 @@ export default async function Page() {
 					</ul>
 				</nav>
 			</header>
-			<article className="pt-4">
-				<section className="grid justify-center justify-items-center gap-4 pt-16">
-					<h1 className="text-4xl text-foreground max-w-screen-lg tracking-tight font-bold text-center">
+			<article  >
+				<section  >
+					<h1  >
 						{content.hero}
 					</h1>
-					<h2 className="text-xl font-semibold max-w-screen-md text-center text-secondary-foreground">
+					<h2  >
 						A collaborative e-learning platform tool based on Google
 						Classroom for 3rd year engineering department at
 						Pamantasan ng Lungsod ng San Pablo

@@ -1,6 +1,5 @@
 'use client'
 
-import * as ReactAria from 'react-aria-components'
 import { Label } from '../ui/label'
 import { useFormState, useFormStatus } from 'react-dom'
 import { gradeOutput } from '@/lib/actions/output'
@@ -36,8 +35,8 @@ export function CreateOutputGrade({
 
 	return (
 		<ReactAria.Form action={action} validationErrors={state.errors}>
-			<div className="flex gap-2">
-				<ReactAria.Group className="bg-background border border-border rounded-lg">
+			<div  >
+				<ReactAria.Group  >
 					<ReactAria.NumberField
 						defaultValue={output.grade ?? 0}
 						isRequired
@@ -46,8 +45,8 @@ export function CreateOutputGrade({
 						name="grade"
 						className={'flex flex-col gap-2'}
 					>
-						<div className="flex flex-row">
-							<Label className="sr-only">Grade</Label>
+						<div  >
+							<Label  >Grade</Label>
 							<ReactAria.Button
 								className={buttonVariants({
 									variant: 'outline',
@@ -56,7 +55,7 @@ export function CreateOutputGrade({
 							>
 								-
 							</ReactAria.Button>
-							<ReactAria.Input className="pl-2 shrink outline-none" />
+							<ReactAria.Input   />
 							<ReactAria.Button
 								className={buttonVariants({
 									variant: 'outline',
@@ -66,7 +65,7 @@ export function CreateOutputGrade({
 								+
 							</ReactAria.Button>
 						</div>
-						<ReactAria.FieldError className="text-destructive font-medium" />
+						<ReactAria.FieldError   />
 					</ReactAria.NumberField>
 				</ReactAria.Group>
 

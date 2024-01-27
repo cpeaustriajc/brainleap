@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as ReactAria from 'react-aria-components'
 import { VariantProps } from 'cva'
 import { cva, cx } from '@/lib/cva.config'
 

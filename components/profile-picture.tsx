@@ -3,9 +3,7 @@
 import { useTransition } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Tables } from '@/lib/database.types'
-import { Button } from '../ui/button'
 import { UserRoundIcon } from 'lucide-react'
-import * as ReactAria from 'react-aria-components'
 import { uploadAvatar } from '@/lib/actions/profile'
 
 type Props = {
@@ -17,8 +15,8 @@ export function ProfilePicture({ url, size }: Props) {
 	const [isPending, startTransition] = useTransition()
 
 	return (
-		<div className="flex justify-between gap-4">
-			<div className="grid">
+		<div  >
+			<div  >
 				<div>
 					<strong>Profile Picture</strong>
 					<p>This is your profile picture</p>
@@ -35,9 +33,9 @@ export function ProfilePicture({ url, size }: Props) {
 					}}
 					acceptedFileTypes={['image/*']}
 				>
-					<Button isDisabled={isPending}>
+					<button disabled={isPending}>
 						{isPending ? 'Uploading...' : 'Change Profile Picture'}
-					</Button>
+					</button>
 				</ReactAria.FileTrigger>
 			</div>
 			<Avatar style={{ width: size, height: size }}>

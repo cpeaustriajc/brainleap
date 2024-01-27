@@ -1,7 +1,6 @@
 'use client'
 
 import { cva, cx } from '@/lib/cva.config'
-import * as ReactAria from 'react-aria-components'
 
 export const labelVariants = cva({
 	base: [

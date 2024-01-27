@@ -1,11 +1,14 @@
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
-	const { searchParams, origin } = new URL(req.url)
+	const { searchParams } = new URL(req.url)
 	const code = searchParams.get('code')
 	const next = searchParams.get('next') ?? '/profile'
+	const redirectTo = req.nextUrl.clone()
+	redirectTo.pathname = next
+	redirectTo.searchParams.delete('code')
 
 	if (code) {
 		const cookieStore = cookies()
@@ -13,8 +16,12 @@ export async function GET(req: NextRequest) {
 
 		const { error } = await supabase.auth.exchangeCodeForSession(code)
 
-		if (!error) return Response.redirect(`${origin}${next}`)
+		if (!error) {
+			redirectTo.searchParams.delete('next')
+			return NextResponse.redirect(redirectTo)
+		}
 	}
 
-	return Response.redirect(`${origin}/auth/error`)
+	redirectTo.pathname = '/auth/error'
+	return NextResponse.redirect(redirectTo)
 }

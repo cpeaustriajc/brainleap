@@ -9,7 +9,7 @@ import {
 } from '@/ui/card'
 export default function Page() {
 	return (
-		<Card>
+		<Card className="grid gap-4">
 			<CardHeader>
 				<CardTitle className="text-2xl tracking-tight font-bold">
 					Sign in
@@ -25,7 +25,7 @@ export default function Page() {
 						<span className="w-full border-t" />
 					</div>
 					<div className="relative flex justify-center text-xs uppercase">
-						<span className="bg-card px-2 text-muted-foreground">
+						<span className="bg-stone-900 px-2 text-stone-400">
 							Or continue with
 						</span>
 					</div>

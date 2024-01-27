@@ -22,14 +22,9 @@ export function SignInWithEmail() {
 	const [state, action] = useFormState(signInWithEmail, {
 		errors: {},
 	})
-	const { pending } = useFormStatus()
 
 	return (
-		<ReactAria.Form
-			action={action}
-			validationErrors={state.errors}
-			className="flex flex-col gap-2"
-		>
+		<form action={action} className="flex flex-col gap-2">
 			<TextField
 				name="email"
 				type="text"
@@ -40,10 +35,11 @@ export function SignInWithEmail() {
 				<Input
 					placeholder="johndoe@email.com"
 					className="rac-invalid:border-destructive"
+					required
 				/>
 				<ReactAria.FieldError className="text-destructive" />
 			</TextField>
 			<Submit />
-		</ReactAria.Form>
+		</form>
 	)
 }

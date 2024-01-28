@@ -1,4 +1,4 @@
-import { CreateAssignment } from '@/components/create-assignment'
+import { CreateAssignment } from './forms/create-assignment-form'
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
 import { Attachments } from './attachments'

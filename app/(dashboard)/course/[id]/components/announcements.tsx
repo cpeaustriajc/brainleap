@@ -1,4 +1,4 @@
-import { CreateAnnouncement } from '@/components/create-announcement'
+import { CreateAnnouncement } from './forms/create-announcement-form'
 import { Tables } from '@/lib/database.types'
 import { Attachments } from './attachments'
 

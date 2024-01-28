@@ -2,7 +2,7 @@
 
 import { gradeOutput } from '@/lib/actions/output'
 import { useFormState, useFormStatus } from 'react-dom'
-import { OutputProps } from './output'
+import { OutputProps } from '../output'
 
 function Submit() {
 	const { pending } = useFormStatus()

@@ -1,7 +1,7 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
 import { gradeOutput } from '@/lib/actions/output'
+import { useFormState, useFormStatus } from 'react-dom'
 import { OutputProps } from './output'
 
 function Submit() {
@@ -32,9 +32,9 @@ export function CreateOutputGrade({
 			<div>
 				<div>
 					<label>Grade</label>
-					<button>-</button>
+					<button type="button">-</button>
 					<input />
-					<button>+</button>
+					<button type="button">+</button>
 				</div>
 
 				<Submit />

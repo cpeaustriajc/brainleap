@@ -1,10 +1,10 @@
 import { Tables } from '@/lib/database.types'
-import Link from 'next/link'
-import Image from 'next/image'
-import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
-import { notFound, redirect } from 'next/navigation'
 import { UserRoundIcon } from 'lucide-react'
+import { cookies } from 'next/headers'
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound, redirect } from 'next/navigation'
 import { Suspense } from 'react'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
@@ -51,7 +51,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		notFound()
 	}
 
-	let message
+	let message: string
 	if (assignments.data.length > 0 && profile.role === 'instructor') {
 		message = `You currently have ${assignments.data.length} pending classworks to grade.`
 	} else if (assignments.data.length > 0 && profile.role === 'student') {
@@ -70,10 +70,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				</div>
 				<div>
 					<div>
-						<Image
-							src={instructorProfile.avatar_url ?? ''}
-							alt=""
-						/>
+						<Image src={instructorProfile.avatar_url ?? ''} alt="" />
 						<div>
 							<UserRoundIcon />
 						</div>

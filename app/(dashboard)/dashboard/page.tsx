@@ -51,14 +51,11 @@ export default async function Page() {
 
 const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
 	return courses.length > 0 ? (
-		courses.map((course) => (
-			<Course key={course.course_id} course={course} />
-		))
+		courses.map((course) => <Course key={course.course_id} course={course} />)
 	) : (
 		<div>
 			<p>
-				Click enroll course on the <PlusCircleIcon /> plus tab to get
-				started
+				Click enroll course on the <PlusCircleIcon /> plus tab to get started
 			</p>
 		</div>
 	)

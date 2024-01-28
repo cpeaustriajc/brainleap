@@ -1,6 +1,6 @@
-import { OAuthForm } from './oauth-form'
-import { SignInWithEmail } from './magic-link-form'
 import { cx } from '@/lib/cva.config'
+import { SignInWithEmail } from './magic-link-form'
+import { OAuthForm } from './oauth-form'
 
 export default function Page() {
 	return (
@@ -11,9 +11,7 @@ export default function Page() {
 		>
 			<header className="max-w-prose">
 				<strong>Sign in</strong>
-				<p>
-					Sign in via Google or by sending a magic link to your email.
-				</p>
+				<p>Sign in via Google or by sending a magic link to your email.</p>
 			</header>
 			<OAuthForm />
 			<SignInWithEmail />

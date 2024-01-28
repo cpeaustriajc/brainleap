@@ -1,5 +1,5 @@
-import { useFormState, useFormStatus } from 'react-dom'
 import { createEnrollment } from '@/lib/actions/enrollment'
+import { useFormState, useFormStatus } from 'react-dom'
 
 function Submit() {
 	const { pending } = useFormStatus()

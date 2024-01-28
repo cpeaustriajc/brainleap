@@ -1,6 +1,6 @@
+import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
 
 export const getCourseById = async (id: string) => {
 	const cookieStore = cookies()

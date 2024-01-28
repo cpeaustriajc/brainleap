@@ -1,7 +1,7 @@
 'use client'
 
 import { useChat } from 'ai/react'
-import { UserRoundIcon, SendHorizonalIcon, CogIcon } from 'lucide-react'
+import { CogIcon, SendHorizonalIcon, UserRoundIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 export function AIPrompt() {
@@ -36,11 +36,7 @@ export function AIPrompt() {
 					placeholder="Say something to the AI..."
 					onChange={handleInputChange}
 				/>
-				<button
-					aria-label="Send Prompt"
-					disabled={isLoading}
-					type="submit"
-				>
+				<button aria-label="Send Prompt" disabled={isLoading} type="submit">
 					<SendHorizonalIcon />
 				</button>
 			</form>

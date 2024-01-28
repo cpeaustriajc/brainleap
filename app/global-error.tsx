@@ -16,18 +16,20 @@ export default function GlobalError({
 	}, [error])
 
 	return (
-		<html>
+		<html lang="en" dir="ltr">
 			<body>
 				<main>
 					<AlertTriangleIcon />
 					<section>
 						<h2>Oops!</h2>
 						<p>
-							It seems like something went wrong. We&apos;re sorry
-							for the inconvenience.
+							It seems like something went wrong. We&apos;re sorry for the
+							inconvenience.
 						</p>
 					</section>
-					<button className={button} onClick={() => reset()}>Try Again</button>
+					<button type="button" className={button} onClick={() => reset()}>
+						Try Again
+					</button>
 				</main>
 			</body>
 		</html>

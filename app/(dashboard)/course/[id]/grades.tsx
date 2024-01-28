@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
-import { getEnrollments } from '@/lib/queries/enrollment'
 import { Tables } from '@/lib/database.types'
+import { getEnrollments } from '@/lib/queries/enrollment'
+import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 
 export async function Grades({
 	assignments,
@@ -46,9 +46,7 @@ export async function Grades({
 					<tr>
 						<th>Student</th>
 						{assignments.map((assignment) => (
-							<th key={assignment.assignment_id}>
-								{assignment.title}
-							</th>
+							<th key={assignment.assignment_id}>{assignment.title}</th>
 						))}
 					</tr>
 				</th>

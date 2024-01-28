@@ -7,9 +7,7 @@ export default function Page() {
 			<form action="/api/auth/signout" method="post">
 				<button type="submit">Log Out</button>
 			</form>
-			<Link href="/">
-				<button>Cancel</button>
-			</Link>
+			<Link href="/">Cancel</Link>
 		</div>
 	)
 }

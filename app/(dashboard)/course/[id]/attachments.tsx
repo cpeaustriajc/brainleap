@@ -1,9 +1,9 @@
-import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
 import { Tables } from '@/lib/database.types'
+import { createClient } from '@/lib/supabase/server'
 import { getFilename } from '@/lib/utils'
-import Link from 'next/link'
 import { FileIcon } from 'lucide-react'
+import { cookies } from 'next/headers'
+import Link from 'next/link'
 
 export function Attachments({
 	attachment,

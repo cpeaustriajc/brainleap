@@ -1,12 +1,12 @@
+import { Output } from '@/components/output'
+import { getAssignmentById } from '@/lib/queries/assignment'
 import { getEnrollments } from '@/lib/queries/enrollment'
+import { createClient as createBrowserClient } from '@/lib/supabase/client'
 import { createClient } from '@/lib/supabase/server'
 import { QueryData } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { Output } from '@/components/output'
-import { getAssignmentById } from '@/lib/queries/assignment'
 import { Suspense } from 'react'
-import { createClient as createBrowserClient } from '@/lib/supabase/client'
 
 export async function generateStaticParams() {
 	const supabase = createBrowserClient()

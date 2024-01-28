@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 export const getEnrollments = async () => {

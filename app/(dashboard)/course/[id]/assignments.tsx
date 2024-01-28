@@ -15,9 +15,7 @@ export async function Assignments({
 	return (
 		<>
 			<div>
-				{profile.role === 'instructor' && (
-					<CreateAssignment course={course} />
-				)}
+				{profile.role === 'instructor' && <CreateAssignment course={course} />}
 
 				<div>
 					{assignments.length > 0 ? (
@@ -32,11 +30,7 @@ export async function Assignments({
 								<div>
 									{assignment.attachment && (
 										<div>
-											<Attachments
-												attachment={
-													assignment.attachment
-												}
-											/>
+											<Attachments attachment={assignment.attachment} />
 										</div>
 									)}
 									{profile.role === 'student' && (

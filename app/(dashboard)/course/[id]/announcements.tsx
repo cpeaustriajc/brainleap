@@ -1,5 +1,5 @@
-import { Tables } from '@/lib/database.types'
 import { CreateAnnouncement } from '@/components/create-announcement'
+import { Tables } from '@/lib/database.types'
 import { Attachments } from './attachments'
 
 export function Announcements({
@@ -41,9 +41,7 @@ export function Announcements({
 								</div>
 								{announcement.attachment && (
 									<div>
-										<Attachments
-											attachment={announcement.attachment}
-										/>
+										<Attachments attachment={announcement.attachment} />
 									</div>
 								)}
 							</div>

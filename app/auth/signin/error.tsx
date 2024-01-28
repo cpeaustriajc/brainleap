@@ -4,7 +4,7 @@ import { button } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
-export default function Error({
+export default function SignInErrorPage({
 	error,
 	reset,
 }: {
@@ -25,7 +25,7 @@ export default function Error({
 					inconvenience.
 				</p>
 			</section>
-			<button className={button} onClick={() => reset()}>
+			<button type="button" className={button} onClick={() => reset()}>
 				Try Again
 			</button>
 		</article>

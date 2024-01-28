@@ -1,14 +1,14 @@
 'use server'
 
-import 'server-only'
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { type CookieOptions, createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import 'server-only'
 import { Database } from '../database.types'
 
 export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
 	return createServerClient<Database>(
-		process.env['NEXT_PUBLIC_SUPABASE_URL']!,
-		process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']!,
+		process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
 		{
 			cookies: {
 				get(name: string) {

@@ -1,13 +1,16 @@
 'use server'
 
-import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 import { profileSchema } from '@/lib/validations/profile'
-import { createPostgresTimestamp } from '../utils'
-import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { createPostgresTimestamp } from '../utils'
 
-export async function updateProfile(previousState: any, formData: FormData) {
+export async function updateProfile(
+	previousState: unknown,
+	formData: FormData,
+) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const date = new Date()

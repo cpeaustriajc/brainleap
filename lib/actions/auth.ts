@@ -1,10 +1,10 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { signInWithEmailSchema } from '../validations/auth'
-import { revalidatePath } from 'next/cache'
 
 export async function signInWithGoogle() {
 	const cookieStore = cookies()

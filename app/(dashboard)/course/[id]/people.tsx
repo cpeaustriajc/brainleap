@@ -1,7 +1,7 @@
-import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
 import { Tables } from '@/lib/database.types'
+import { createClient } from '@/lib/supabase/server'
 import { UserRoundIcon } from 'lucide-react'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 
 export async function People({
@@ -53,9 +53,7 @@ export async function People({
 								<UserRoundIcon />
 							</div>
 						</div>
-						<span>
-							{instructor.full_name ?? instructor.username}
-						</span>
+						<span>{instructor.full_name ?? instructor.username}</span>
 					</li>
 				))}
 			</ul>

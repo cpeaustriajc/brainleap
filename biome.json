@@ -8,10 +8,7 @@
 		"rules": {
 			"recommended": true
 		},
-		"ignore": [
-			".next",
-			".vercel"
-		]
+		"ignore": [".next", ".vercel"]
 	},
 	"javascript": {
 		"formatter": {
@@ -22,9 +19,6 @@
 		}
 	},
 	"formatter": {
-		"ignore": [
-			".next",
-			".vercel"
-		]
+		"ignore": [".next", ".vercel"]
 	}
 }

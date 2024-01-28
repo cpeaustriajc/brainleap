@@ -1,7 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { CrossIcon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 export function CloseDialog() {
 	const router = useRouter()

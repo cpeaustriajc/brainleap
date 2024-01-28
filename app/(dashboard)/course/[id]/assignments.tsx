@@ -2,6 +2,7 @@ import { CreateAssignment } from '@/components/create-assignment'
 import { Tables } from '@/lib/database.types'
 import Link from 'next/link'
 import { Attachments } from './attachments'
+import React from 'react'
 
 export async function Assignments({
 	course,
@@ -13,7 +14,7 @@ export async function Assignments({
 	profile: Tables<'profiles'>
 }) {
 	return (
-		<>
+		<React.Fragment>
 			<div>
 				{profile.role === 'instructor' && <CreateAssignment course={course} />}
 
@@ -55,6 +56,6 @@ export async function Assignments({
 					)}
 				</div>
 			</div>
-		</>
+		</React.Fragment>
 	)
 }

@@ -3,6 +3,7 @@ import { button } from '@/ui/button'
 import { input } from '@/ui/input'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
+import React from 'react'
 
 export default function Page() {
 	const insertUsername = async (formData: FormData) => {
@@ -21,7 +22,7 @@ export default function Page() {
 	}
 
 	return (
-		<>
+		<React.Fragment>
 			<h1>Let&apos;s get you setup</h1>
 			<p>Let's start with you username</p>
 
@@ -37,6 +38,6 @@ export default function Page() {
 					Submit
 				</button>
 			</form>
-		</>
+		</React.Fragment>
 	)
 }

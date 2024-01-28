@@ -1,4 +1,4 @@
-import { Course } from '@/components/course'
+import { Course } from './components/course'
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { PlusCircleIcon } from 'lucide-react'

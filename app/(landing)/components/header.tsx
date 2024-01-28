@@ -2,6 +2,7 @@ import { cx } from '@/lib/cva.config'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
+import React from 'react'
 
 export async function Header() {
 	const cookieStore = cookies()
@@ -15,7 +16,7 @@ export async function Header() {
 			<nav>
 				<ul>
 					{session ? (
-						<>
+						<React.Fragment>
 							<li>
 								<Link
 									href="/dashboard"
@@ -44,7 +45,7 @@ export async function Header() {
 									Sign Out
 								</Link>
 							</li>
-						</>
+						</React.Fragment>
 					) : (
 						<li>
 							<Link

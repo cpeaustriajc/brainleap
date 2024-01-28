@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Fragment } from 'react'
-import { CreateOutputGrade } from './forms/create-output-grade-form'
+import { CreateOutputGrade } from './create-output-grade-form'
 
 export type OutputProps = {
 	output: Omit<Tables<'outputs'>, 'assignment_id' | 'student_id'> & {

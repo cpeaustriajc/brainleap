@@ -1,20 +1,42 @@
+import { createClient } from '@/lib/supabase/server'
 import { button } from '@/ui/button'
-import { form } from '@/ui/form'
 import { input } from '@/ui/input'
-import { label } from '@/ui/label'
+import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 export default function Page() {
+	const insertUsername = async (formData: FormData) => {
+		'use server'
+		const cookieStore = cookies()
+		const supabase = createClient(cookieStore)
+		const username = formData.get('username') as string | null
+
+		const { error } = await supabase.from('profiles').update({ username })
+
+		if (error) {
+			throw error
+		}
+
+		redirect('/profile/setup/name')
+	}
+
 	return (
-		<div>
-			<form className={form}>
-				<label className={label} htmlFor="name">
-					Name
-				</label>
-				<input className={input} type="text" name="name" id="name" />
-				<button className={button} type="submit">
-					Submit Name
+		<>
+			<h1>Let&apos;s get you setup</h1>
+			<p>Let's start with you username</p>
+
+			<form action={insertUsername}>
+				<input
+					type="text"
+					name="username"
+					id="username"
+					placeholder="coolusername"
+					className={input}
+				/>
+				<button type="submit" className={button}>
+					Submit
 				</button>
 			</form>
-		</div>
+		</>
 	)
 }

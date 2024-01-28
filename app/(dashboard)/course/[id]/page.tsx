@@ -58,7 +58,12 @@ export default async function Page({ params }: Props) {
 		redirect('/auth/signin')
 	}
 
-	const course = await getCourseById(params.id)
+	const { data: course } = await supabase
+		.from('courses')
+		.select('*')
+		.eq('course_id', params.id)
+		.limit(1)
+		.single()
 
 	if (!course) {
 		notFound()

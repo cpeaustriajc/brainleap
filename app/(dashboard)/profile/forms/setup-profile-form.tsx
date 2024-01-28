@@ -2,7 +2,6 @@
 
 import { ProfilePicture } from '@/components/profile-picture'
 import { updateProfile } from '@/lib/actions/profile'
-import { cx } from '@/lib/cva.config'
 import { Tables } from '@/lib/database.types'
 import { useFormState, useFormStatus } from 'react-dom'
 
@@ -18,23 +17,13 @@ function Submit() {
 
 export function SetupProfileForm({
 	profile,
-	message,
 }: {
 	profile: Tables<'profiles'>
-	message: string
 }) {
 	const [state, action] = useFormState(updateProfile, null)
 
 	return (
 		<div>
-			<p
-				className={cx(
-					message ? 'visible' : 'invisible',
-					'fixed z-50 bottom-4 right-4 flex flex-col items-center justify-center text-center text-sm text-gray-500 bg-gray-100 rounded-md py-2 px-4',
-				)}
-			>
-				{message}
-			</p>
 			<ProfilePicture url={profile.avatar_url} size={128} />
 			<form action={action}>
 				<label>Username</label>

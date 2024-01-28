@@ -128,3 +128,56 @@ export async function uploadAvatar(formData: FormData) {
 
 	revalidatePath('/profile')
 }
+
+export async function updateUsername(formData: FormData) {
+	'use server'
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const username = formData.get('username') as string | null
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
+	const { error } = await supabase
+		.from('profiles')
+		.update({ username, updated_at: new Date().toISOString() })
+		.eq('profile_id', session.user.id)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/profile')
+	redirect('/profile/setup/name')
+}
+
+export async function updateName(formData: FormData) {
+	'use server'
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const full_name = formData.get('name') as string | null
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
+	const { error } = await supabase
+		.from('profiles')
+		.update({ full_name, updated_at: new Date().toISOString() })
+		.eq('profile_id', session.user.id)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/profile')
+	redirect('/profile/setup/avatar')
+}

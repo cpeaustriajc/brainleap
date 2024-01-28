@@ -1,18 +1,19 @@
-import { SetupProfileForm } from '@/components/setup-profile-form'
+import { SetupProfileForm } from './forms/setup-profile-form'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
+import { notFound } from 'next/navigation'
 
-type Props = {
-	searchParams: {
-		message: string
-	}
-}
-
-export default async function Page({ searchParams }: Props) {
+export default async function Page() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const { message } = searchParams
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
+
+	if (!user) {
+		notFound()
+	}
 
 	const { data: profile, error: profileError } = await supabase
 		.from('profiles')
@@ -26,7 +27,7 @@ export default async function Page({ searchParams }: Props) {
 
 	return (
 		<main>
-			<SetupProfileForm profile={profile} message={message} />
+			<SetupProfileForm profile={profile} />
 		</main>
 	)
 }

@@ -1,3 +1,4 @@
+import { signUp } from '@/lib/actions/auth'
 import { cx } from '@/lib/cva.config'
 import { button } from '@/ui/button'
 import { form } from '@/ui/form'
@@ -11,9 +12,12 @@ export default function SignUpPage() {
 				form,
 				'bg-stone-600 shadow-xl shadow-stone-950/50 rounded-md p-4 max-w-96',
 			)}
+			action={signUp}
 		>
 			<header className="max-w-prose">
-				<h2 className="font-bold text-xl text-pretty">Welcome to Brainleap! 🧠</h2>
+				<h2 className="font-bold text-xl text-pretty">
+					Welcome to Brainleap! 🧠
+				</h2>
 				<p>
 					We're glad that you're getting onboard, get started by filling out
 					these fields
@@ -22,13 +26,7 @@ export default function SignUpPage() {
 			<label className={cx(label)} htmlFor="name">
 				Name
 			</label>
-			<input
-				className={cx(input)}
-				type="text"
-				name="name"
-				id="name"
-				required
-			/>
+			<input className={cx(input)} type="text" name="name" id="name" required />
 			<label className={cx(label)} htmlFor="username">
 				Username
 			</label>
@@ -58,6 +56,15 @@ export default function SignUpPage() {
 				name="password"
 				id="password"
 				required
+			/>
+			<label className={cx(label)} htmlFor="confirmPassword">
+				Confirm Password
+			</label>
+			<input
+				className={cx(input)}
+				type="password"
+				name="confirmPassword"
+				id="confirmPassword"
 			/>
 			<button className={cx(button)} type="submit">
 				Sign Up

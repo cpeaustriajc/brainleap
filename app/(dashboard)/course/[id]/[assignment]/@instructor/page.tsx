@@ -1,4 +1,4 @@
-import { Output } from '@/components/output'
+import { Output } from './components/output'
 import { getAssignmentById } from '@/lib/queries/assignment'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient as createBrowserClient } from '@/lib/supabase/client'

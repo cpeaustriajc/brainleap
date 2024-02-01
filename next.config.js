@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const config = {
+	experimental: {
+		ppr: true,
+	},
 	logging: {
 		fetches: { fullUrl: true },
 	},

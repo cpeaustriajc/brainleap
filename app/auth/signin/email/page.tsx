@@ -22,9 +22,10 @@ function Submit({ children }: SubmitButtonProps) {
 	)
 }
 
-export function SignInWithEmail() {
+export default function SignInWithEmail() {
 	return (
 		<form className={form} action={signInWithEmail}>
+			<h2>Continue Signing In to Email</h2>
 			<label className={label}>Email</label>
 			<input
 				className={input}

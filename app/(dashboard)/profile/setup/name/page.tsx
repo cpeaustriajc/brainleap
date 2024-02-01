@@ -6,6 +6,29 @@ import { label } from '@/ui/label'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { updateName } from '@/lib/actions/profile'
+import { Session } from '@supabase/supabase-js'
+
+const getName = async (session: Session) => {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const { data, error } = await supabase
+		.from('profiles')
+		.select('full_name')
+		.eq('profile_id', session.user.id)
+		.limit(1)
+		.single()
+
+	if (error) {
+		throw error
+	}
+
+	// Return empty string if no username is found
+	if (!data || !data.full_name) {
+		return ''
+	}
+
+	return data.full_name
+}
 
 export default async function Page() {
 	const cookieStore = cookies()
@@ -19,12 +42,8 @@ export default async function Page() {
 		redirect('/auth/signin')
 	}
 
-	const { data } = await supabase
-		.from('profiles')
-		.select('full_name')
-		.eq('profile_id', session.user.id)
-		.limit(1)
-		.single()
+	const fullName = await getName(session)
+
 	return (
 		<div>
 			<form className={form} action={updateName}>
@@ -36,7 +55,7 @@ export default async function Page() {
 					type="text"
 					name="name"
 					id="name"
-					defaultValue={data?.full_name ?? ''}
+					defaultValue={fullName}
 				/>
 				<button className={button} type="submit">
 					Submit Name

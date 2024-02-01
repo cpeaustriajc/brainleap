@@ -1,6 +1,7 @@
-import { SetupProfileForm } from './forms/setup-profile-form'
+import { UserIcon } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 export default async function Page() {
@@ -27,7 +28,20 @@ export default async function Page() {
 
 	return (
 		<main>
-			<SetupProfileForm profile={profile} />
+			{profile.avatar_url ? (
+				<Image
+					src={profile.avatar_url}
+					alt={profile.full_name}
+					width={128}
+					height={128}
+				/>
+			) : (
+				<UserIcon />
+			)}
+
+			<p>{profile.full_name}</p>
+			<p>{profile.username}</p>
+			<p>{profile.biography}</p>
 		</main>
 	)
 }

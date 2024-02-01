@@ -1,94 +1,14 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import { profileSchema } from '@/lib/validations/profile'
+import {
+	fullNameSchema,
+	profileSchema,
+	usernameSchema,
+} from '@/lib/validations/profile'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createPostgresTimestamp } from '../utils'
-
-export async function updateProfile(
-	previousState: unknown,
-	formData: FormData,
-) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const date = new Date()
-	const updated_at = createPostgresTimestamp(date)
-
-	const values = profileSchema.parse({
-		biography: formData.get('biography'),
-		email: formData.get('email'),
-		full_name: formData.get('full_name'),
-		role: formData.get('role'),
-		section: formData.get('section'),
-		university: formData.get('university'),
-		username: formData.get('username'),
-		program: formData.get('program'),
-		position: formData.get('position'),
-	})
-
-	const {
-		data: { session },
-		error: sessionError,
-	} = await supabase.auth.getSession()
-
-	if (sessionError) {
-		throw sessionError
-	}
-
-	if (!session) {
-		redirect('/auth/signin')
-	}
-
-	const {
-		user: { id },
-	} = session
-
-	if (values.role === 'student') {
-		const { error } = await supabase
-			.from('profiles')
-			.update({
-				full_name: values.full_name,
-				username: values.username,
-				biography: values.biography,
-				program: values.program,
-				section: values.section,
-				university: values.university,
-				email: values.email,
-				role: values.role,
-				updated_at,
-			})
-			.eq('profile_id', id)
-
-		if (error) {
-			throw error
-		}
-	} else if (values.role === 'instructor') {
-		const { error } = await supabase
-			.from('profiles')
-			.update({
-				full_name: values.full_name,
-				username: values.username,
-				biography: values.biography,
-				university: values.university,
-				email: values.email,
-				role: values.role,
-				updated_at,
-				avatar_url: values.avatar_url,
-				position: values.position,
-			})
-			.eq('profile_id', id)
-
-		if (error) {
-			throw error
-		}
-	}
-
-	revalidatePath('/profile')
-
-	redirect('/dashboard')
-}
 
 export async function uploadAvatar(formData: FormData) {
 	const cookieStore = cookies()
@@ -129,11 +49,17 @@ export async function uploadAvatar(formData: FormData) {
 	revalidatePath('/profile')
 }
 
+export async function updateAvatar(formData: FormData) {
+	await uploadAvatar(formData)
+	redirect('/profile')
+}
+
 export async function updateUsername(formData: FormData) {
-	'use server'
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const username = formData.get('username') as string | null
+	const res = usernameSchema.safeParse({
+		username: formData.get('username'),
+	})
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()
@@ -142,9 +68,18 @@ export async function updateUsername(formData: FormData) {
 		redirect('/auth/signin')
 	}
 
+	if (!res.success) {
+		return {
+			errors: res.error,
+		}
+	}
+
 	const { error } = await supabase
 		.from('profiles')
-		.update({ username, updated_at: new Date().toISOString() })
+		.update({
+			username: res.data.username,
+			updated_at: new Date().toISOString(),
+		})
 		.eq('profile_id', session.user.id)
 
 	if (error) {
@@ -156,10 +91,11 @@ export async function updateUsername(formData: FormData) {
 }
 
 export async function updateName(formData: FormData) {
-	'use server'
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const full_name = formData.get('name') as string | null
+	const res = fullNameSchema.safeParse({
+		full_name: formData.get('name'),
+	})
 
 	const {
 		data: { session },
@@ -169,9 +105,15 @@ export async function updateName(formData: FormData) {
 		redirect('/auth/signin')
 	}
 
+	if (!res.success) {
+		return {
+			error: res.error,
+		}
+	}
+
 	const { error } = await supabase
 		.from('profiles')
-		.update({ full_name, updated_at: new Date().toISOString() })
+		.update({ full_name: res.data.name, updated_at: new Date().toISOString() })
 		.eq('profile_id', session.user.id)
 
 	if (error) {

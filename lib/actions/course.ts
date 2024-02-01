@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/action'
 import humanId from 'human-id'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
@@ -14,9 +14,8 @@ type FormState = {
 	message: string | undefined
 }
 export async function createCourse(
-	previousState: FormState,
 	formData: FormData,
-): Promise<FormState> {
+) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -81,7 +80,7 @@ export async function createCourse(
 
 	if (error) throw error
 
-	revalidatePath('/')
+	revalidatePath('/dashboard')
 	revalidatePath('@/modal/create/course')
 
 	return {

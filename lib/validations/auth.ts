@@ -7,3 +7,11 @@ export const signInWithEmailSchema = z.object({
 		.min(1, { message: 'Email is required' })
 		.max(255, { message: 'Email is too long' }),
 })
+
+export const signUpSchema = z.object({
+	name: z.string(),
+	username: z.string(),
+	email: z.string().email(),
+	password: z.string(),
+	confirmPassword: z.string(),
+})

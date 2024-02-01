@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/action'
 import { cookies } from 'next/headers'
 
 export async function POST(req: Request) {

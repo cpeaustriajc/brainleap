@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import {
+	signInWithCredentialsSchema,
 	signInWithEmailSchema,
 	signUpSchema,
 } from '../validations/auth'
@@ -54,6 +55,33 @@ export async function signInWithEmail(formData: FormData) {
 
 	revalidatePath('/', 'layout')
 	redirect('/auth/confirm')
+}
+
+export async function signInWithCredentials(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const res = signInWithCredentialsSchema.safeParse({
+		email: formData.get('email'),
+		password: formData.get('password'),
+	})
+
+	if (!res.success) {
+		throw res.error
+	}
+
+	const { data, error } = await supabase.auth.signInWithPassword({
+		email: res.data.email,
+		password: res.data.password,
+	})
+
+	console.log(data)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/', 'layout')
+	redirect('/dashboard')
 }
 
 export async function signUp(formData: FormData) {

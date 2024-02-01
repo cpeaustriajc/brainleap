@@ -7,21 +7,15 @@ import React from 'react'
 export async function Header() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-
 	const {
-		data: { user },
-		error,
-	} = await supabase.auth.getUser()
-
-	if (error) {
-		throw error
-	}
+		data: { session },
+	} = await supabase.auth.getSession()
 
 	return (
 		<header>
 			<nav>
 				<ul>
-					{user ? (
+					{session ? (
 						<React.Fragment>
 							<li>
 								<Link

@@ -20,7 +20,7 @@ type Props = {
 export default function RootLayout({ children }: Props) {
 	return (
 		<html lang="en" dir="ltr">
-			<body>
+			<body className="dark:bg-stone-800 bg-white">
 				<Providers>{children}</Providers>
 			</body>
 		</html>

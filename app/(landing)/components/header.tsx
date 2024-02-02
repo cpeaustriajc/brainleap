@@ -12,9 +12,12 @@ export async function Header() {
 	} = await supabase.auth.getSession()
 
 	return (
-		<header>
+		<header className="flex justify-between items-center px-4 py-2">
+			<h1 className="text-xl">
+				<Link href="/">🧠</Link>
+			</h1>
 			<nav>
-				<ul>
+				<ul className="flex items-center gap-4">
 					{session ? (
 						<React.Fragment>
 							<li>

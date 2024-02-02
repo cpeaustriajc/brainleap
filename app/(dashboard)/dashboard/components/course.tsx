@@ -1,7 +1,6 @@
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { link } from '@/ui/link'
-import { CircleUserRoundIcon } from 'lucide-react'
 import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -30,7 +29,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 
 	const instructor = await supabase
 		.from('profiles')
-		.select('avatar_url')
+		.select('avatar_url, full_name')
 		.eq('profile_id', course.instructor_id)
 		.limit(1)
 		.single()
@@ -71,11 +70,14 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 				<strong className="col-start-1">{course.course_name}</strong>
 				<p className="col-start-1 row-start-2">{course.course_description}</p>
 				<figure className=" row-span-2 justify-self-end">
-					{instructor.data.avatar_url ? (
-						<Image src={instructor.data.avatar_url} alt="" />
-					) : (
-						<CircleUserRoundIcon className="size-10" />
-					)}
+					<Image
+						src={instructor.data.avatar_url}
+						width={48}
+						height={48}
+						placeholder="blur"
+						blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(74 222 128)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20a6 6 0 0 0-12 0'/%3E%3Ccircle cx='12' cy='10' r='4'/%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E"
+						alt={instructor.data.full_name}
+					/>
 				</figure>
 			</header>
 			<article>

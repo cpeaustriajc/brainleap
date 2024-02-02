@@ -7,9 +7,11 @@ type Props = {
 
 export default function LandingPageLayout({ children }: Props) {
 	return (
-		<React.Fragment>
-			<Header />
-			<main>{children}</main>
-		</React.Fragment>
+		<html lang="en" dir="ltr">
+			<body className="dark:bg-stone-800 bg-white">
+				<Header />
+				<main>{children}</main>
+			</body>
+		</html>
 	)
 }

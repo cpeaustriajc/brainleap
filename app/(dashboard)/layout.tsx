@@ -1,4 +1,16 @@
-export default function DashboardRootLayout({
+
+export const metadata = {
+	title: 'Brainleap - Dashboard',
+	description: 'Brainleap: An e-learning platform for the modern age.',
+}
+
+export const viewport = {
+	width: 'device-width',
+	initialScale: 1,
+	maximumScale: 1,
+	colorScheme: 'light dark',
+}
+
 	children,
 }: { children: React.ReactNode }) {
 	return (

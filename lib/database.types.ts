@@ -226,7 +226,7 @@ export interface Database {
           avatar_url: string | null
           biography: string | null
           email: string
-          full_name: string | null
+          full_name: string
           position: string | null
           profile_id: string
           program: string | null
@@ -234,13 +234,13 @@ export interface Database {
           section: string | null
           university: string | null
           updated_at: string | null
-          username: string | null
+          username: string
         }
         Insert: {
           avatar_url?: string | null
           biography?: string | null
           email: string
-          full_name?: string | null
+          full_name: string
           position?: string | null
           profile_id: string
           program?: string | null
@@ -248,13 +248,13 @@ export interface Database {
           section?: string | null
           university?: string | null
           updated_at?: string | null
-          username?: string | null
+          username: string
         }
         Update: {
           avatar_url?: string | null
           biography?: string | null
           email?: string
-          full_name?: string | null
+          full_name?: string
           position?: string | null
           profile_id?: string
           program?: string | null
@@ -262,7 +262,7 @@ export interface Database {
           section?: string | null
           university?: string | null
           updated_at?: string | null
-          username?: string | null
+          username?: string
         }
         Relationships: [
           {

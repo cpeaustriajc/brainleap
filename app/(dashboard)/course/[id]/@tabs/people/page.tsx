@@ -32,7 +32,7 @@ export default async function People() {
 	// }
 
 	return (
-		<div>
+		<div role="tabpanel">
 			<h2>Instructors</h2>
 			<ul>
 				{/* {instructors.map((instructor) => (

@@ -41,7 +41,7 @@ export default async function Assignments({
 
 	return (
 		<React.Fragment>
-			<div>
+			<div role="tabpanel">
 				<div>
 					{assignments.length > 0 ? (
 						assignments.map((assignment) => (

@@ -34,7 +34,7 @@ export default async function Grades() {
 	// if (outputsError) throw outputsError
 
 	return (
-		<div>
+		<div role="tabpanel">
 			<h2>Grades</h2>
 			<table>
 				<th>

@@ -50,7 +50,7 @@ export default async function Announcements({
 	}
 
 	return (
-		<section>
+		<section role="tabpanel" className="col-start-2 px-4 py-2">
 			{profile.role === 'instructor' && (
 				<div>
 					<div>

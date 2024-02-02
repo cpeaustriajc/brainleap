@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/static'
-import Link from 'next/link'
 import React from 'react'
+import { Tabs } from '../components/tabs'
 
 export async function generateStaticParams() {
 	const supabase = createClient()
@@ -16,29 +16,11 @@ export async function generateStaticParams() {
 	}))
 }
 
-export default function CourseLayout({
-	tabs,
-	params,
-}: { tabs: React.ReactNode; params: { id: string } }) {
+export default function CourseLayout({ tabs }: { tabs: React.ReactNode }) {
 	return (
 		<React.Fragment>
-			<nav>
-				<ul className="flex gap-2">
-					<li>
-						<Link href={`/course/${params.id}`}>Announcements</Link>
-					</li>
-					<li>
-						<Link href={`/course/${params.id}/assignments`}>Assignments</Link>
-					</li>
-					<li>
-						<Link href={`/course/${params.id}/grades`}>Grades</Link>
-					</li>
-					<li>
-						<Link href={`/course/${params.id}/people`}>People</Link>
-					</li>
-				</ul>
-			</nav>
-			{tabs}
+			<Tabs />
+			<main className="dark:bg-stone-900 px-4 rounded-b-lg">{tabs}</main>
 		</React.Fragment>
 	)
 }

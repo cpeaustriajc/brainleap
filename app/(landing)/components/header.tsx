@@ -1,6 +1,5 @@
-import { cx } from '@/lib/cva.config'
 import { createClient } from '@/lib/supabase/server'
-import { button } from '@/ui/button'
+import { link } from '@/ui/link'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import React from 'react'
@@ -19,18 +18,12 @@ export async function Header() {
 					{session ? (
 						<React.Fragment>
 							<li>
-								<Link
-									href="/dashboard"
-									className="font-medium underline underline-offset-4 text-green-400 hover:text-green-200 transition-colors duration-500"
-								>
+								<Link href="/dashboard" className={link}>
 									Dashboard
 								</Link>
 							</li>
 							<li>
-								<Link
-									href="/auth/signout"
-									className="font-medium underline underline-offset-4 text-green-400 hover:text-green-200 transition-colors duration-500"
-								>
+								<Link href="/auth/signout" className={link}>
 									Sign Out
 								</Link>
 							</li>
@@ -38,18 +31,12 @@ export async function Header() {
 					) : (
 						<React.Fragment>
 							<li>
-								<Link
-									href="/auth/signin"
-									className="font-medium underline underline-offset-4 text-green-400 hover:text-green-200 transition-colors duration-500"
-								>
+								<Link href="/auth/signin" className={link}>
 									Sign In
 								</Link>
 							</li>
 							<li>
-								<Link
-									href="/auth/signup"
-									className="font-medium underline underline-offset-4 text-green-400 hover:text-green-200 transition-colors duration-500"
-								>
+								<Link href="/auth/signup" className={link}>
 									Sign Up
 								</Link>
 							</li>

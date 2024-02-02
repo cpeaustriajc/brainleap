@@ -1,12 +1,9 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/static'
 import Link from 'next/link'
 import React from 'react'
 
 export async function generateStaticParams() {
-	const supabase = createClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
-	)
+	const supabase = createClient()
 
 	const { data, error } = await supabase.from('courses').select('course_id')
 

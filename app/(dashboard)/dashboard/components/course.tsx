@@ -1,90 +1,91 @@
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
-import { UserRoundIcon } from 'lucide-react'
+import { link } from '@/ui/link'
+import { CircleUserRoundIcon } from 'lucide-react'
 import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
-import { Suspense } from 'react'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
-	const {
-		data: { session },
-	} = await supabase.auth.getSession()
+	const res = await supabase.auth.getSession()
 
-	if (!session) {
+	if (res.error) {
+		throw res.error
+	}
+
+	if (!res.data.session) {
 		redirect('/auth/signin')
 	}
 
-	const { data: profile } = await supabase
+	const profile = await supabase
 		.from('profiles')
 		.select('role')
-		.eq('profile_id', session.user.id)
+		.eq('profile_id', res.data.session.user.id)
 		.limit(1)
 		.single()
 
-	const { data: instructorProfile, error: instructorProfileError } =
-		await supabase
-			.from('profiles')
-			.select('avatar_url')
-			.eq('profile_id', course.instructor_id)
-			.limit(1)
-			.single()
-
-	if (instructorProfileError) {
-		throw new Error(instructorProfileError.message)
-	}
-
-	if (!profile) {
-		redirect('/auth/signin')
-	}
+	const instructor = await supabase
+		.from('profiles')
+		.select('avatar_url')
+		.eq('profile_id', course.instructor_id)
+		.limit(1)
+		.single()
 
 	const assignments = await supabase
 		.from('assignments')
 		.select('*')
 		.eq('course_id', course.course_id)
 
+	if (profile.error) {
+		throw profile.error
+	}
+
+	if (!profile.data) {
+		redirect('/auth/signin')
+	}
+
+	if (instructor.error) {
+		throw instructor.error
+	}
+
+	if (assignments.error) {
+		throw assignments.error
+	}
+
 	if (!assignments.data) {
 		notFound()
 	}
 
-	let message: string
-	if (assignments.data.length > 0 && profile.role === 'instructor') {
-		message = `You currently have ${assignments.data.length} pending classworks to grade.`
-	} else if (assignments.data.length > 0 && profile.role === 'student') {
-		message = `You currently have ${assignments.data.length} pending classworks to complete.`
-	} else if (profile.role === 'instructor') {
-		message = 'You currently have no pending classworks to grade.'
-	} else {
-		message = 'You currently have no pending classworks to complete.'
-	}
+	const hasPendingAssignments = assignments.data.length > 0
+
+	// biome-ignore format: It is much more readable when it is in a single line
+	const message = `You currently have ${hasPendingAssignments ? `pending classworks to ${profile.data.role === 'instructor' ? 'grade' : 'complete'}` : 'no pending classworks'}`;
+
 	return (
-		<div>
-			<div>
-				<div>
-					<strong>{course.course_name}</strong>
-					<p>{course.course_description}</p>
-				</div>
-				<div>
-					<div>
-						<Image src={instructorProfile.avatar_url ?? ''} alt="" />
-						<div>
-							<UserRoundIcon />
-						</div>
-					</div>
-				</div>
-			</div>
-			<p>
-				<Suspense fallback={<p>Loading...</p>}>
-					<p>{message}</p>
-				</Suspense>
-			</p>
-			<div>
-				<Link href={`/course/${course.course_id}`}>View More</Link>
-			</div>
-		</div>
+		<li className="border border-stone-800 rounded-md bg-stone-600  shadow-xl shadow-stone-950/50 grid gap-y-4 max-w-96 p-4">
+			<header className="grid grid-rows-2 grid-cols-2 place-content-center">
+				<strong className="col-start-1">{course.course_name}</strong>
+				<p className="col-start-1 row-start-2">{course.course_description}</p>
+				<figure className=" row-span-2 justify-self-end">
+					{instructor.data.avatar_url ? (
+						<Image src={instructor.data.avatar_url} alt="" />
+					) : (
+						<CircleUserRoundIcon className="size-10" />
+					)}
+				</figure>
+			</header>
+			<article>
+				<p>{message}</p>
+			</article>
+			<footer className="place-self-center">
+				<Link className={link} href={`/course/${course.course_id}`}>
+					View More
+				</Link>
+			</footer>
+		</li>
 	)
 }

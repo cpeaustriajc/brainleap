@@ -1,49 +1,51 @@
-import { cx } from '@/lib/cva.config'
 import { signInWithCredentials } from '@/lib/actions/auth'
-import { label } from '@/ui/label'
-import { input } from '@/ui/input'
+import { cx } from '@/lib/cva.config'
 import { button } from '@/ui/button'
+import { input } from '@/ui/input'
+import { label } from '@/ui/label'
+import { link } from '@/ui/link'
 import Link from 'next/link'
 
 export default function Page() {
 	return (
-		<article
+		<form
 			className={cx(
-				'border border-stone-800 grid gap-y-4 bg-stone-900 rounded-lg p-4',
+				'border border-stone-800 rounded-md bg-stone-600  shadow-xl shadow-stone-950/50 grid gap-y-4 max-w-96 p-4',
 			)}
 		>
 			<header className="max-w-prose">
-				<strong>Sign in</strong>
-				<p>Sign in via Google or by sending a magic link to your email.</p>
+				<h2 className="font-bold text-xl text-pretty">
+					Sign-in to Brainleap 🧠
+				</h2>
+				<p>Sign-in with Google, Email, or Email and Password</p>
 			</header>
-			<form className="grid gap-4" action={signInWithCredentials}>
-				<label className={label}>Email</label>
-				<input className={input} type="email" name="email" id="email" />
-				<label className={label}>Password</label>
-				<input
-					className={input}
-					type="password"
-					name="password"
-					id="password"
-				/>
-				<button className={button} type="submit">
-					Sign In
-				</button>
-			</form>
+			<label className={label}>Email</label>
+			<input className={input} type="email" name="email" id="email" />
+			<label className={label}>Password</label>
+			<input className={input} type="password" name="password" id="password" />
+			<button
+				formAction={signInWithCredentials}
+				className={button}
+				type="submit"
+			>
+				Sign In
+			</button>
 			<div className="flex gap-4">
-				<Link
-					href="/auth/signin/google"
-					className="w-full  text-center font-medium underline underline-offset-4 text-green-400 hover:text-green-200 transition-colors duration-500"
-				>
+				<Link href="/auth/signin/google" className={link}>
 					Sign In With Google
 				</Link>
-				<Link
-					href="/auth/signin/email"
-					className="w-full text-center font-medium underline underline-offset-4 text-green-400 hover:text-green-200 transition-colors duration-500"
-				>
+				<Link href="/auth/signin/email" className={link}>
 					Sign In With Email
 				</Link>
 			</div>
-		</article>
+			<div className="flex justify-center">
+				<p>
+					Don't have an account?{' '}
+					<Link className={link} href="/auth/signup">
+						Sign Up
+					</Link>
+				</p>
+			</div>
+		</form>
 	)
 }

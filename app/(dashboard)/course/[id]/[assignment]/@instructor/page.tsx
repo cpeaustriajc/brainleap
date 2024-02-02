@@ -1,27 +1,10 @@
-import { Output } from './components/output'
 import { getAssignmentById } from '@/lib/queries/assignment'
 import { getEnrollments } from '@/lib/queries/enrollment'
-import { createClient as createStaticClient } from '@/lib/supabase/static'
 import { createClient as createServerClient } from '@/lib/supabase/server'
-import { QueryData } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-
-export async function generateStaticParams() {
-	const supabase = createStaticClient()
-	const { data: assignments, error } = await supabase
-		.from('assignments')
-		.select('assignment_id')
-
-	if (error) {
-		throw new Error(`${error.message}`)
-	}
-
-	return assignments.map((assignment) => ({
-		assignment: assignment.assignment_id,
-	}))
-}
+import { Output } from './components/output'
 
 export default async function TeacherView({
 	params,

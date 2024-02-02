@@ -1,22 +1,7 @@
-import { createClient as createStaticClient } from '@/lib/supabase/static'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { CreateOutputForm } from './create-output-form'
 
-export async function generateStaticParams() {
-	const supabase = createStaticClient()
-	const { data: assignments, error } = await supabase
-		.from('assignments')
-		.select('assignment_id')
-
-	if (error) {
-		throw new Error(`${error.message}`)
-	}
-
-	return assignments.map((assignment) => ({
-		assignment: assignment.assignment_id,
-	}))
-}
 export default async function Page({
 	params,
 }: {

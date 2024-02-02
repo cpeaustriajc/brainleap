@@ -1,23 +1,47 @@
-import { CreateAssignment } from './forms/create-assignment-form'
-import { Tables } from '@/lib/database.types'
+import { createClient } from '@/lib/supabase/server'
+import { cookies } from 'next/headers'
 import Link from 'next/link'
-import { Attachments } from './attachments'
+import { notFound, redirect } from 'next/navigation'
 import React from 'react'
+import { Attachments } from '../../components/attachments'
 
-export async function Assignments({
-	course,
-	assignments,
-	profile,
-}: {
-	course: Tables<'courses'>
-	assignments: Tables<'assignments'>[]
-	profile: Tables<'profiles'>
-}) {
+export default async function Assignments({
+	params,
+}: { params: { id: string } }) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
+
+	if (!user) {
+		redirect('/auth/signin')
+	}
+
+	const { data: profile } = await supabase
+		.from('profiles')
+		.select('*')
+		.limit(1)
+		.eq('profile_id', user.id)
+		.single()
+
+	if (!profile) {
+		redirect('/auth/signin')
+	}
+
+	const { data: assignments } = await supabase
+		.from('assignments')
+		.select()
+		.eq('course_id', params.id)
+
+	if (!assignments) {
+		notFound()
+	}
+
 	return (
 		<React.Fragment>
 			<div>
-				{profile.role === 'instructor' && <CreateAssignment course={course} />}
-
 				<div>
 					{assignments.length > 0 ? (
 						assignments.map((assignment) => (
@@ -36,14 +60,14 @@ export async function Assignments({
 									)}
 									{profile.role === 'student' && (
 										<Link
-											href={`/course/${course.course_id}/${assignment.assignment_id}`}
+											href={`/course/${params.id}/${assignment.assignment_id}`}
 										>
 											<span>View More</span>
 										</Link>
 									)}
 									{profile.role === 'instructor' && (
 										<Link
-											href={`/course/${course.course_id}/${assignment.assignment_id}`}
+											href={`/course/${params.id}/${assignment.assignment_id}`}
 										>
 											<span>Grade</span>
 										</Link>

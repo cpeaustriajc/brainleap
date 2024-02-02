@@ -1,13 +1,8 @@
-import { Tables } from '@/lib/database.types'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 
-export async function Grades({
-	assignments,
-}: {
-	assignments: Tables<'assignments'>[]
-}) {
+export default async function Grades() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 
@@ -24,19 +19,19 @@ export async function Grades({
 
 	if (studentsError) throw studentsError
 
-	const { data: outputs, error: outputsError } = await supabase
-		.from('outputs')
-		.select()
-		.in(
-			'assignment_id',
-			assignments.map((assignment) => assignment.assignment_id),
-		)
-		.in(
-			'student_id',
-			students.map((person) => person.profile_id),
-		)
+	// const { data: outputs, error: outputsError } = await supabase
+	// 	.from('outputs')
+	// 	.select()
+	// 	.in(
+	// 		'assignment_id',
+	// 		assignments.map((assignment) => assignment.assignment_id),
+	// 	)
+	// 	.in(
+	// 		'student_id',
+	// 		students.map((person) => person.profile_id),
+	// 	)
 
-	if (outputsError) throw outputsError
+	// if (outputsError) throw outputsError
 
 	return (
 		<div>
@@ -45,18 +40,18 @@ export async function Grades({
 				<th>
 					<tr>
 						<th>Student</th>
-						{assignments.map((assignment) => (
+						{/* {assignments.map((assignment) => (
 							<th key={assignment.assignment_id}>{assignment.title}</th>
-						))}
+						))} */}
 					</tr>
 				</th>
 				<tbody>
 					{students.map((student) => (
 						<tr key={student.username}>
 							<td>{student.full_name ?? student.username}</td>
-							{outputs.map((output) => (
+							{/* {outputs.map((output) => (
 								<td key={output.output_id}>{output.grade}</td>
-							))}
+							))} */}
 						</tr>
 					))}
 				</tbody>

@@ -4,6 +4,8 @@ import { button } from '@/ui/button'
 import { form } from '@/ui/form'
 import { input } from '@/ui/input'
 import { label } from '@/ui/label'
+import { link } from '@/ui/link'
+import Link from 'next/link'
 
 export default function SignUpPage() {
 	return (
@@ -69,6 +71,14 @@ export default function SignUpPage() {
 			<button className={cx(button)} type="submit">
 				Sign Up
 			</button>
+			<div className="flex justify-center">
+				<p>
+					Already have an account?{' '}
+					<Link className={link} href="/auth/signin">
+						Sign In
+					</Link>
+				</p>
+			</div>
 		</form>
 	)
 }

@@ -1,7 +1,6 @@
 import { getAssignments } from '@/lib/queries/assignment'
-import { getCourseById } from '@/lib/queries/course'
-import { createClient as createBrowserClient } from '@/lib/supabase/client'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createClientServer } from '@/lib/supabase/server'
+import { createClient as createClientStatic } from '@/lib/supabase/static'
 import { unstable_noStore } from 'next/cache'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
@@ -20,7 +19,7 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-	const supabase = createBrowserClient()
+	const supabase = createClientStatic()
 	const { data: courseIds, error } = await supabase
 		.from('courses')
 		.select('course_id')
@@ -37,7 +36,7 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Props) {
 	unstable_noStore()
 	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClientServer(cookieStore)
 
 	const {
 		data: { user },

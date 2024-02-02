@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
-import { createClient } from '../supabase/server'
+import { createClient } from '../supabase/action'
 import { joinCourseSchema } from '../validations/course'
 
 type FieldErrors = z.inferFlattenedErrors<

@@ -1,10 +1,10 @@
-import { createClient as createBrowserClient } from '@/lib/supabase/client'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createStaticClient } from '@/lib/supabase/static'
+import { createClient as createServerClient } from '@/lib/supabase/server'
 import { cookies } from 'next/headers'
 import { CreateOutputForm } from './create-output-form'
 
 export async function generateStaticParams() {
-	const supabase = createBrowserClient()
+	const supabase = createStaticClient()
 	const { data: assignments, error } = await supabase
 		.from('assignments')
 		.select('assignment_id')
@@ -17,14 +17,13 @@ export async function generateStaticParams() {
 		assignment: assignment.assignment_id,
 	}))
 }
-
 export default async function Page({
 	params,
 }: {
 	params: { assignment: string; id: string }
 }) {
 	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createServerClient(cookieStore)
 
 	const { data: assignmentResult, error: assignmentError } = await supabase
 		.from('assignments')

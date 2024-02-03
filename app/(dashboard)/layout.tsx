@@ -1,10 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import '@/styles/styles.css'
+import { Tab, TabItem, TabList, Tabs } from '@/ui/tabs'
 import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
-import { Tabs } from './components/tabs'
 
 export const metadata = {
 	title: 'Brainleap - Dashboard',
@@ -56,13 +56,27 @@ export default async function DashboardRootLayout({
 	}
 	return (
 		<html dir="ltr" lang="en">
-			<body className="grid grid-cols-[minmax(auto,25%),1fr] grid-rows-[auto,auto,1fr] dark:bg-stone-800 h-dvh">
-				<header className="flex items-center px-4 py-2 col-span-2">
+			<body className="grid grid-cols-[minmax(auto,25%),1fr] grid-rows-[auto,auto,1fr] bg-stone-100 dark:bg-stone-800 h-dvh">
+				<header className="flex items-center px-4 bg-stone-100 py-2 col-span-2">
 					<h1 className="text-xl">
 						<Link href="/dashboard">Brainleap 🧠</Link>
 					</h1>
 				</header>
-				<Tabs courses={courses.data} />
+				<Tabs className="col-start-1 px-2 row-span-3 bg-stone-100">
+					<TabList orientation="vertical">
+						{courses.data.length > 0 &&
+							courses.data.map((course) => (
+								<TabItem
+									key={course.course_id}
+									pathname={`/course/${course.course_id}`}
+								>
+									<Tab href={`/course/${course.course_id}`}>
+										{course.course_name}
+									</Tab>
+								</TabItem>
+							))}
+					</TabList>
+				</Tabs>
 				{children}
 			</body>
 		</html>

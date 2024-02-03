@@ -1,6 +1,6 @@
 import { signInWithCredentials } from '@/lib/actions/auth'
-import { cx } from '@/lib/cva.config'
 import { button } from '@/ui/button'
+import { form } from '@/ui/form'
 import { input } from '@/ui/input'
 import { label } from '@/ui/label'
 import { link } from '@/ui/link'
@@ -8,11 +8,7 @@ import Link from 'next/link'
 
 export default function Page() {
 	return (
-		<form
-			className={cx(
-				'border border-stone-800 rounded-md bg-stone-600  shadow-xl shadow-stone-950/50 grid gap-y-4 max-w-96 p-4',
-			)}
-		>
+		<form className={form}>
 			<header className="max-w-prose">
 				<h2 className="font-bold text-xl text-pretty">
 					Sign-in to Brainleap 🧠

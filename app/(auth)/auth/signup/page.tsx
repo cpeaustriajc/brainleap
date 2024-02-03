@@ -9,13 +9,7 @@ import Link from 'next/link'
 
 export default function SignUpPage() {
 	return (
-		<form
-			className={cx(
-				form,
-				'bg-stone-600 shadow-xl shadow-stone-950/50 rounded-md p-4 max-w-96',
-			)}
-			action={signUp}
-		>
+		<form className={cx(form)} action={signUp}>
 			<header className="max-w-prose">
 				<h2 className="font-bold text-xl text-pretty">
 					Welcome to Brainleap! 🧠

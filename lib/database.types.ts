@@ -223,7 +223,7 @@ export interface Database {
       }
       profiles: {
         Row: {
-          avatar_url: string | null
+          avatar_url: string
           biography: string | null
           email: string
           full_name: string
@@ -237,10 +237,10 @@ export interface Database {
           username: string
         }
         Insert: {
-          avatar_url?: string | null
+          avatar_url?: string
           biography?: string | null
           email: string
-          full_name: string
+          full_name?: string
           position?: string | null
           profile_id: string
           program?: string | null
@@ -248,10 +248,10 @@ export interface Database {
           section?: string | null
           university?: string | null
           updated_at?: string | null
-          username: string
+          username?: string
         }
         Update: {
-          avatar_url?: string | null
+          avatar_url?: string
           biography?: string | null
           email?: string
           full_name?: string

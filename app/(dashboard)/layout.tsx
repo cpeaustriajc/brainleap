@@ -64,17 +64,12 @@ export default async function DashboardRootLayout({
 				</header>
 				<Tabs className="col-start-1 px-2 row-span-3 bg-stone-100">
 					<TabList orientation="vertical">
-						{courses.data.length > 0 &&
-							courses.data.map((course) => (
-								<TabItem
-									key={course.course_id}
-									pathname={`/course/${course.course_id}`}
-								>
-									<Tab href={`/course/${course.course_id}`}>
-										{course.course_name}
-									</Tab>
-								</TabItem>
-							))}
+						<TabItem>
+							<Tab href="/dashboard">Dashboard</Tab>
+						</TabItem>
+						<TabItem>
+							<Tab href="/profile">Profile</Tab>
+						</TabItem>
 					</TabList>
 				</Tabs>
 				{children}

@@ -4,6 +4,7 @@ import { createAnnouncement } from '@/lib/actions/announcement'
 import { cx } from '@/lib/cva.config'
 import { Tables } from '@/lib/database.types'
 import { button } from '@/ui/button'
+import { form } from '@/ui/form'
 import { input } from '@/ui/input'
 import { label } from '@/ui/label'
 import { textarea } from '@/ui/textarea'
@@ -20,10 +21,7 @@ export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 	})
 
 	return (
-		<form
-			className="grid gap-4 border border-stone-800 p-4 rounded-lg shadow-lg shadow-stone-700/50 items-center grid-cols-[auto,1fr] max-w-96"
-			action={action}
-		>
+		<form className={form} action={action}>
 			<label htmlFor="title" className={label}>
 				Title
 			</label>

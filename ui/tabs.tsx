@@ -42,22 +42,12 @@ TabList.displayName = 'TabList'
 
 interface TabItemProps {
 	className?: string
-	pathname: string
 	children: React.ReactNode
 }
 export const TabItem = React.forwardRef<HTMLLIElement, TabItemProps>(
 	(props, ref) => {
-		const pathname = usePathname()
 		return (
-			<li
-				ref={ref}
-				className={cx(
-					pathname === props.pathname && 'dark:bg-stone-800 bg-stone-400',
-
-					'rounded h-9 flex items-center px-4 py-4',
-				)}
-				role="presentation"
-			>
+			<li ref={ref} role="presentation">
 				{props.children}
 			</li>
 		)
@@ -71,11 +61,20 @@ interface TabProps {
 }
 export const Tab = React.forwardRef<HTMLAnchorElement, TabProps>(
 	(props, ref) => {
+		const pathname = usePathname()
 		return (
 			<Link
 				ref={ref}
 				href={props.href}
-				className={cx('text-xl dark:text-stone-300', props.className)}
+				className={cx(
+					pathname === props.href && 'dark:bg-green-600 bg-green-600',
+					'rounded h-9 flex items-center px-4 py-4 shadow',
+					'hover:bg-stone-300',
+					'aria-selected:hover:bg-green-600/90',
+					'text-xl dark:text-stone-100 text-stone-950 transition-colors',
+					props.className,
+				)}
+				aria-selected={pathname === props.href}
 				role="tab"
 			>
 				{props.children}

@@ -24,21 +24,23 @@ export default function CourseLayout({
 		<React.Fragment>
 			<Tabs>
 				<TabList orientation="horizontal">
-					<TabItem pathname={`/course/${params.id}`}>
+					<TabItem>
 						<Tab href={`/course/${params.id}`}>Announcements</Tab>
 					</TabItem>
-					<TabItem pathname={`/course/${params.id}/assignments`}>
+					<TabItem>
 						<Tab href={`/course/${params.id}/assignments`}>Assignments</Tab>
 					</TabItem>
-					<TabItem pathname={`/course/${params.id}/grades`}>
+					<TabItem>
 						<Tab href={`/course/${params.id}/grades`}>Grades</Tab>
 					</TabItem>
-					<TabItem pathname={`/course/${params.id}/people`}>
+					<TabItem>
 						<Tab href={`/course/${params.id}/people`}>People</Tab>
 					</TabItem>
 				</TabList>
 			</Tabs>
-			<main className="dark:bg-stone-900 px-4 rounded-b-lg">{tabs}</main>
+			<main className="dark:bg-stone-900 rounded-b-lg" role="tabpanel">
+				{tabs}
+			</main>
 		</React.Fragment>
 	)
 }

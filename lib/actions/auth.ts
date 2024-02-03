@@ -69,12 +69,10 @@ export async function signInWithCredentials(formData: FormData) {
 		throw res.error
 	}
 
-	const { data, error } = await supabase.auth.signInWithPassword({
+	const { error } = await supabase.auth.signInWithPassword({
 		email: res.data.email,
 		password: res.data.password,
 	})
-
-	console.log(data)
 
 	if (error) {
 		throw error

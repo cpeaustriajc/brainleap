@@ -65,7 +65,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 	const message = `You currently have ${hasPendingAssignments ? `pending classworks to ${profile.data.role === 'instructor' ? 'grade' : 'complete'}` : 'no pending classworks'}`;
 
 	return (
-		<li className="border border-stone-600/20 rounded-md bg-stone-800  shadow-xl shadow-stone-700 grid gap-y-4 max-w-96 p-4">
+		<li className="border border-stone-600/20 rounded-md dark:bg-stone-800 bg-stone-100 shadow-xl shadow-stone-700 grid gap-y-4 max-w-96 p-4">
 			<header className="grid grid-rows-2 grid-cols-2 place-content-center">
 				<strong className="col-start-1">{course.course_name}</strong>
 				<p className="col-start-1 row-start-2">{course.course_description}</p>

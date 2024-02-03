@@ -7,5 +7,7 @@ export const input = cx(
 	'placeholder:text-stone-400 placeholder:font-medium',
 	'disabled:cursor-not-allowed disabled:opacity-50',
 	'focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-400',
-	'file:bg-stone-800 file:px-2 file:h-full file:rounded file:border file:border-solid hover:file:bg-stone-700 file:transition-colors duration-500 file:border-stone-600',
+	'file:bg-stone-200 file:px-2 file:h-full file:rounded file:border file:border-solid file:transition-colors file:duration-500 file:border-stone-400',
+	'file:dark:bg-stone-800 file:dark:border-stone-700',
+	'hover:dark:file:bg-stone-700 hover:file:bg-stone-300',
 )

@@ -102,7 +102,7 @@ export default function Page() {
 			</CardContent>
 			<CardFooter className='justify-center'>
 				<p>
-					Don't have an account?{' '}
+					Don&apos;t have an account?{' '}
 					<Link className={link} href="/auth/signup">
 						Sign Up
 					</Link>

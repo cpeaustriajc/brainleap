@@ -15,7 +15,7 @@ export default function SignUpPage() {
 					Welcome to Brainleap! 🧠
 				</h2>
 				<p>
-					We're glad that you're getting onboard, get started by filling out
+					We&apos;re glad that you&apos;re getting onboard, get started by filling out
 					these fields
 				</p>
 			</header>

@@ -2,9 +2,9 @@ import { updateUsername } from '@/lib/actions/profile'
 import { createClient } from '@/lib/supabase/server'
 import { button } from '@/ui/button'
 import { input } from '@/ui/input'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
 import { Session } from '@supabase/supabase-js'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 const getUsername = async (session: Session) => {
 	const cookieStore = cookies()
@@ -50,7 +50,7 @@ export default async function SetupUsernamePage() {
 
 	return (
 		<>
-			<p>Let's start with you username</p>
+			<p>Let&apos;s start with you username</p>
 
 			<form action={updateUsername}>
 				<input

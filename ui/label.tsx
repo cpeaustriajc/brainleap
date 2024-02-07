@@ -6,7 +6,7 @@ import * as React from "react"
 
 import { cva, cx } from "@/lib/cva.config"
 
-const label = cva({
+export const label = cva({
   base: "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 })
 

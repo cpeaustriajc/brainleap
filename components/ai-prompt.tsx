@@ -2,6 +2,7 @@
 
 import { useChat } from 'ai/react'
 import { SendHorizonalIcon, UserRoundIcon } from 'lucide-react'
+import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 
 export function AIPrompt() {

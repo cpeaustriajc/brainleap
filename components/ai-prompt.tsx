@@ -11,8 +11,6 @@ export function AIPrompt() {
 	return (
 		<div>
 			<div>
-		<div>
-			<div>
 				{messages.map((m) => (
 					<div key={m.id}>
 						<div>

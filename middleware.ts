@@ -81,6 +81,8 @@ export async function middleware(request: NextRequest) {
 	return response
 }
 
-export const config = {
+export const config = process.env.NODE_ENV === "production" ? {
+	matcher: ["!/", '/((?!api|_next/static|_next/image|favicon.ico).*)',]
+} : {
 	matcher: ['/dashboard', '/profile'],
 }

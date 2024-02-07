@@ -1,57 +1,85 @@
 'use client'
 
-import * as React from 'react'
-
 import { cx } from '@/lib/cva.config'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import React from 'react'
 
-const Tabs = ReactAria.Tabs
+export interface TabsProps extends React.HTMLAttributes<HTMLElement> {}
+export const Tabs = React.forwardRef<HTMLElement, TabsProps>((props, ref) => {
+	return (
+		<nav ref={ref} className={cx(props.className)}>
+			{props.children}
+		</nav>
+	)
+})
+Tabs.displayName = 'Tabs'
 
-const TabList = React.forwardRef<
-	React.ElementRef<typeof ReactAria.TabList>,
-	React.ComponentPropsWithoutRef<typeof ReactAria.TabList>
->(({ className, ...props }, ref) => (
-	<ReactAria.TabList
-		ref={ref}
-		className={cx(
-			'inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground',
-			className,
-		)}
-		{...props}
-	/>
-))
+export interface TabListProps {
+	children: React.ReactNode
+	className?: string
+	orientation: 'vertical' | 'horizontal'
+}
+export const TabList = React.forwardRef<HTMLUListElement, TabListProps>(
+	(props, ref) => {
+		return (
+			<ul
+				className={cx(
+					'flex gap-2',
+					props.orientation === 'vertical' && 'flex-col',
+					props.className,
+				)}
+				role="tablist"
+				aria-orientation={props.orientation}
+				ref={ref}
+			>
+				{props.children}
+			</ul>
+		)
+	},
+)
 TabList.displayName = 'TabList'
 
-const Tab = React.forwardRef<
-	React.ElementRef<typeof ReactAria.Tab>,
-	React.ComponentPropsWithoutRef<typeof ReactAria.Tab>
->(({ className, ...props }, ref) => (
-	<ReactAria.Tab
-		ref={ref}
-		className={cx(
-			'inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all',
-			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-			'disabled:pointer-events-none disabled:opacity-50',
-			'rac-selected:bg-background rac-selected:text-foreground rac-selected:shadow',
-			className,
-		)}
-		{...props}
-	/>
-))
+interface TabItemProps {
+	className?: string
+	children: React.ReactNode
+}
+export const TabItem = React.forwardRef<HTMLLIElement, TabItemProps>(
+	(props, ref) => {
+		return (
+			<li ref={ref} role="presentation">
+				{props.children}
+			</li>
+		)
+	},
+)
+
+interface TabProps {
+	href: string
+	className?: string
+	children: React.ReactNode
+}
+export const Tab = React.forwardRef<HTMLAnchorElement, TabProps>(
+	(props, ref) => {
+		const pathname = usePathname()
+		return (
+			<Link
+				ref={ref}
+				href={props.href}
+				className={cx(
+					pathname === props.href && 'dark:bg-green-600 bg-green-600',
+					'rounded h-9 flex items-center px-4 py-4 shadow',
+					'hover:bg-stone-300',
+					'aria-selected:hover:bg-green-600/90',
+					'text-xl dark:text-stone-100 text-stone-950 transition-colors',
+					props.className,
+				)}
+				aria-selected={pathname === props.href}
+				role="tab"
+			>
+				{props.children}
+			</Link>
+		)
+	},
+)
 Tab.displayName = 'Tab'
-
-const TabPanel = React.forwardRef<
-	React.ElementRef<typeof ReactAria.TabPanel>,
-	React.ComponentPropsWithoutRef<typeof ReactAria.TabPanel>
->(({ className, ...props }, ref) => (
-	<ReactAria.TabPanel
-		ref={ref}
-		className={cx(
-			'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-			className,
-		)}
-		{...props}
-	/>
-))
-TabPanel.displayName = 'TabPanel'
-
-export { Tabs, TabList, Tab, TabPanel }

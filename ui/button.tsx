@@ -1,59 +1,13 @@
-import * as React from 'react'
-import { VariantProps } from 'cva'
-import { cva, cx } from '@/lib/cva.config'
+import { cx } from '@/lib/cva.config'
 
-const buttonVariants = cva({
-	base: [
-		'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors',
-		'disabled:pointer-events-none disabled:opacity-50',
-		'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ',
-	],
-	variants: {
-		variant: {
-			default: 'bg-green-500 text-primary-foreground hover:bg-primary/90',
-			destructive:
-				'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-			outline:
-				'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-			secondary:
-				'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-			ghost: 'hover:bg-accent hover:text-accent-foreground',
-			link: 'text-primary underline-offset-4 hover:underline',
-		},
-		size: {
-			default: 'h-10 px-4 py-2',
-			sm: 'h-9 rounded-md px-3',
-			lg: 'h-11 rounded-md px-8',
-			icon: 'h-10 w-10',
-		},
-	},
-	defaultVariants: {
-		variant: 'default',
-		size: 'default',
-	},
-})
-
-export interface ButtonProps
-	extends ReactAria.ButtonProps,
-		VariantProps<typeof buttonVariants> {}
-
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ className, variant, size, ...props }, ref) => {
-		return (
-			<ReactAria.Button
-				className={cx(
-					buttonVariants({
-						variant,
-						size,
-					}),
-					className,
-				)}
-				ref={ref}
-				{...props}
-			/>
-		)
-	},
+export const button = cx(
+	// Base
+	'inline-flex cursor-default items-center justify-center border rounded-md text-sm font-medium gap-x-1 w-full ring-offset-background transition-colors',
+	' text-emerald-50 bg-emerald-500 hover:bg-emerald-500/90 border-emerald-400',
+	'dark:bg-emerald-700 dark:hover:bg-emerald-700/90 dark:border-emerald-600',
+	// Disabled
+	'disabled:pointer-events-none disabled:opacity-50',
+	// Focus
+	'focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-700  focus-visible:outline-offset-2 ',
+	'h-9 rounded-md px-3',
 )
-Button.displayName = 'Button'
-
-export { Button, buttonVariants }

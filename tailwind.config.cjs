@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}'],
+	content: [
+		'./components/**/*.{ts,tsx}',
+		'./app/**/*.{ts,tsx}',
+		'./ui/**/*.{ts,tsx}',
+	],
 	theme: {
 		container: {
 			center: true,
@@ -26,8 +30,5 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [
-		require('tailwindcss-animate'),
-		require('@tailwindcss/typography'),
-	],
+	plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 }

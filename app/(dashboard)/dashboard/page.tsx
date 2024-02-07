@@ -1,65 +1,52 @@
-import { Course } from '@/components/course'
-import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
-import { PlusCircleIcon } from 'lucide-react'
 import { unstable_noStore } from 'next/cache'
 import { cookies } from 'next/headers'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
+import { Course } from './components/course'
 
 export default async function Page() {
 	unstable_noStore()
 
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const {
-		data: { user },
-	} = await supabase.auth.getUser()
 
-	if (!user) {
-		return notFound()
+	const res = await supabase.auth.getUser()
+
+	if (res.error) {
+		throw res.error
 	}
 
-	const { data: enrollmentIds } = await supabase
+	if (!res.data.user) {
+		redirect('/auth/signin')
+	}
+
+	const enrollments = await supabase
 		.from('enrollments')
 		.select('course_id')
-		.eq('user_id', user.id)
+		.eq('user_id', res.data.user.id)
 
-	if (!enrollmentIds) {
+	if (!enrollments.data) {
 		notFound()
 	}
+
+	const course_id = enrollments.data.map((enrollment) => enrollment.course_id)
 
 	const { data: courses } = await supabase
 		.from('courses')
 		.select('*')
-		.in(
-			'course_id',
-			enrollmentIds.map((enrollment) => enrollment.course_id),
-		)
+		.in('course_id', course_id)
 
 	if (!courses) {
 		return notFound()
 	}
 
 	return (
-		<main>
-			<section>
-				<Courses courses={courses} />
-			</section>
-		</main>
-	)
-}
-
-const Courses = ({ courses }: { courses: Tables<'courses'>[] }) => {
-	return courses.length > 0 ? (
-		courses.map((course) => (
-			<Course key={course.course_id} course={course} />
-		))
-	) : (
-		<div>
-			<p>
-				Click enroll course on the <PlusCircleIcon /> plus tab to get
-				started
-			</p>
-		</div>
+		<section className="col-start-2 row-start-2">
+			<ul className="p-4">
+				{courses.map((course) => (
+					<Course key={course.course_id} course={course} />
+				))}
+			</ul>
+		</section>
 	)
 }

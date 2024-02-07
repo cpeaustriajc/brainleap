@@ -1,12 +1,12 @@
 'use server'
 
+import { createClient } from '@/lib/supabase/action'
 import humanId from 'human-id'
+import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import { courseSchema } from '../validations/course'
-import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { courseSchema } from '../validations/course'
 
 type FieldErrors = z.inferFlattenedErrors<typeof courseSchema>['fieldErrors']
 type FormState = {

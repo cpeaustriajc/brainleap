@@ -1,31 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { buttonVariants } from '../ui/button'
-import { UserRoundIcon, PlusCircleIcon } from 'lucide-react'
-import Image from 'next/image'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Tables } from '@/lib/database.types'
-import { MenuTrigger, Menu, MenuItem, MenuPopover } from '../ui/menu'
-import {
-	DialogContent,
-	DialogHeader,
-	DialogOverlay,
-	DialogTitle,
-} from '../ui/dialog'
-import { useState } from 'react'
-import { CreateCourseForm } from './create-course-form'
-import { EnrollCourseForm } from './enroll-course-form'
 
-export function Header({
-	profile,
-}: {
-	profile: Pick<Tables<'profiles'>, 'avatar_url' | 'username' | 'role'>
-}) {
-	const [isCourseMenuOpen, setIsCourseMenuOpen] = useState(false)
-	const [isCreateCourseMenuOpen, setIsCreateCourseMenuOpen] = useState(false)
-	const [isEnrollCourseMenuOpen, setIsEnrollCourseMenuOpen] = useState(false)
-
+export function Header() {
 	return (
 		<header>
 			<div>

@@ -1,28 +1,11 @@
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/ui/table'
+import { getAssignmentById } from '@/lib/queries/assignment'
 import { getEnrollments } from '@/lib/queries/enrollment'
-import { createClient } from '@/lib/supabase/server'
+import { createClient as createServerClient } from '@/lib/supabase/server'
 import { QueryData } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { Output } from '@/components/output'
-import { getAssignmentById } from '@/lib/queries/assignment'
 import { Suspense } from 'react'
-import { createClient as createBrowserClient } from '@/lib/supabase/client'
-
-export async function generateStaticParams() {
-	const supabase = createBrowserClient()
-	const { data: assignments, error } = await supabase
-		.from('assignments')
-		.select('assignment_id')
-
-	if (error) {
-		throw new Error(`${error.message}`)
-	}
-
-	return assignments.map((assignment) => ({
-		assignment: assignment.assignment_id,
-	}))
-}
+import { Output } from './components/output'
 
 export default async function TeacherView({
 	params,
@@ -30,7 +13,7 @@ export default async function TeacherView({
 	params: { assignment: string; id: string }
 }) {
 	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createServerClient(cookieStore)
 	const enrollments = await getEnrollments()
 
 	if (!enrollments) {
@@ -88,17 +71,17 @@ export default async function TeacherView({
 	return (
 		<div>
 			<h1>{assignment.title}</h1>
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead>Student</TableHead>
-						<TableHead>Grade</TableHead>
-						<TableHead>Output</TableHead>
-						<TableHead>Submitted At</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					<TableRow>
+			<table>
+				<th>
+					<tr>
+						<th>Student</th>
+						<th>Grade</th>
+						<th>Output</th>
+						<th>Submitted At</th>
+					</tr>
+				</th>
+				<tbody>
+					<tr>
 						<Suspense fallback={null}>
 							{outputsWithStudents?.map((output) => (
 								<Output
@@ -109,9 +92,9 @@ export default async function TeacherView({
 								/>
 							))}
 						</Suspense>
-					</TableRow>
-				</TableBody>
-			</Table>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	)
 }

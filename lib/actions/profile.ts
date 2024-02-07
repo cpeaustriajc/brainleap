@@ -1,91 +1,10 @@
 'use server'
 
-import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
-import { profileSchema } from '@/lib/validations/profile'
-import { createPostgresTimestamp } from '../utils'
-import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/action'
+import { fullNameSchema, usernameSchema } from '@/lib/validations/profile'
 import { revalidatePath } from 'next/cache'
-
-export async function updateProfile(previousState: any, formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
-	const date = new Date()
-	const updated_at = createPostgresTimestamp(date)
-
-	const values = profileSchema.parse({
-		biography: formData.get('biography'),
-		email: formData.get('email'),
-		full_name: formData.get('full_name'),
-		role: formData.get('role'),
-		section: formData.get('section'),
-		university: formData.get('university'),
-		username: formData.get('username'),
-		program: formData.get('program'),
-		position: formData.get('position'),
-	})
-
-	const {
-		data: { session },
-		error: sessionError,
-	} = await supabase.auth.getSession()
-
-	if (sessionError) {
-		throw sessionError
-	}
-
-	if (!session) {
-		redirect('/auth/signin')
-	}
-
-	const {
-		user: { id },
-	} = session
-
-	if (values.role === 'student') {
-		const { error } = await supabase
-			.from('profiles')
-			.update({
-				full_name: values.full_name,
-				username: values.username,
-				biography: values.biography,
-				program: values.program,
-				section: values.section,
-				university: values.university,
-				email: values.email,
-				role: values.role,
-				updated_at,
-			})
-			.eq('profile_id', id)
-
-		if (error) {
-			throw error
-		}
-	} else if (values.role === 'instructor') {
-		const { error } = await supabase
-			.from('profiles')
-			.update({
-				full_name: values.full_name,
-				username: values.username,
-				biography: values.biography,
-				university: values.university,
-				email: values.email,
-				role: values.role,
-				updated_at,
-				avatar_url: values.avatar_url,
-				position: values.position,
-			})
-			.eq('profile_id', id)
-
-		if (error) {
-			throw error
-		}
-	}
-
-	revalidatePath('/profile')
-
-	redirect('/dashboard')
-}
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export async function uploadAvatar(formData: FormData) {
 	const cookieStore = cookies()
@@ -122,6 +41,145 @@ export async function uploadAvatar(formData: FormData) {
 		.from('profiles')
 		.update({ avatar_url: fileUrl })
 		.eq('profile_id', user.id)
+
+	revalidatePath('/profile')
+}
+
+export async function updateAvatar(formData: FormData) {
+	await uploadAvatar(formData)
+	redirect('/profile')
+}
+
+export async function updateUsername(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const res = usernameSchema.safeParse({
+		username: formData.get('username'),
+	})
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
+	if (!res.success) {
+		return {
+			errors: res.error,
+		}
+	}
+
+	const { error } = await supabase
+		.from('profiles')
+		.update({
+			username: res.data.username,
+			updated_at: new Date().toISOString(),
+		})
+		.eq('profile_id', session.user.id)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/profile')
+}
+
+export async function updateName(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const res = fullNameSchema.safeParse({
+		full_name: formData.get('name'),
+	})
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
+	if (!res.success) {
+		return {
+			error: res.error,
+		}
+	}
+
+	const { error } = await supabase
+		.from('profiles')
+		.update({ full_name: res.data.name, updated_at: new Date().toISOString() })
+		.eq('profile_id', session.user.id)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/profile')
+}
+
+export async function updateUniversity(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const university = formData.get('university') as string
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
+	const { error } = await supabase
+		.from('profiles')
+		.update({
+			university: university,
+			updated_at: new Date().toISOString(),
+		})
+		.eq('profile_id', session.user.id)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/profile')
+}
+
+export async function updateSection(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	// const res = profileSchema.safeParse({
+	// 	section: formData.get('section'),
+	// })
+	const section = formData.get('section') as string
+
+	const {
+		data: { session },
+	} = await supabase.auth.getSession()
+
+	if (!session) {
+		redirect('/auth/signin')
+	}
+
+	// if (!res.success) {
+	// 	return {
+	// 		error: res.error,
+	// 	}
+	// }
+
+	const { error } = await supabase
+		.from('profiles')
+		.update({
+			section: section,
+			updated_at: new Date().toISOString(),
+		})
+		.eq('profile_id', session.user.id)
+
+	if (error) {
+		throw error
+	}
 
 	revalidatePath('/profile')
 }

@@ -10,7 +10,7 @@ export const gradeSchema = z.object({
 		.or(
 			z.string().transform((grade, ctx) => {
 				const parsed = parseInt(grade)
-				if (isNaN(parsed)) {
+				if (Number.isNaN(parsed)) {
 					ctx.addIssue({
 						code: z.ZodIssueCode.invalid_type,
 						expected: 'number',

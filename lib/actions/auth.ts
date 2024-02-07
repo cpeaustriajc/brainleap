@@ -1,20 +1,20 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/action'
+import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { signInWithEmailSchema } from '../validations/auth'
-import { z } from 'zod'
-import { getURL } from '../utils'
+import {
+	signInWithCredentialsSchema,
+	signInWithEmailSchema,
+	signUpSchema,
+} from '../validations/auth'
 
 export async function signInWithGoogle() {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
 	const { error, data } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
-		options: {
-			redirectTo: getURL('/api/auth/callback'),
-		},
 	})
 
 	if (error) {
@@ -22,23 +22,13 @@ export async function signInWithGoogle() {
 		throw new Error(error.message)
 	}
 
+	revalidatePath('/', 'layout')
 	redirect(data.url)
 }
-type FieldErrors = z.inferFlattenedErrors<
-	typeof signInWithEmailSchema
->['fieldErrors']
 
-export async function signInWithEmail(
-	previousState: {
-		errors: FieldErrors
-	},
-	formData: FormData,
-): Promise<{
-	errors: FieldErrors
-}> {
+export async function signInWithEmail(formData: FormData) {
 	const cookieStore = cookies()
 	const supabase = createClient(cookieStore)
-	const redirectURL = getURL('/api/auth/confirm')
 
 	const values = signInWithEmailSchema.safeParse({
 		email: formData.get('email'),
@@ -50,13 +40,12 @@ export async function signInWithEmail(
 		}
 	}
 
-	const { error } = await supabase.auth.signInWithOtp({
+	const { data, error } = await supabase.auth.signInWithOtp({
 		email: values.data.email,
 		options: {
 			data: {
 				email: values.data.email,
 			},
-			emailRedirectTo: redirectURL,
 		},
 	})
 
@@ -64,5 +53,75 @@ export async function signInWithEmail(
 		throw error
 	}
 
+	revalidatePath('/', 'layout')
 	redirect('/auth/confirm')
+}
+
+export async function signInWithCredentials(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+	const res = signInWithCredentialsSchema.safeParse({
+		email: formData.get('email'),
+		password: formData.get('password'),
+	})
+
+	if (!res.success) {
+		throw res.error
+	}
+
+	const { error } = await supabase.auth.signInWithPassword({
+		email: res.data.email,
+		password: res.data.password,
+	})
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/', 'layout')
+	redirect('/dashboard')
+}
+
+export async function signUp(formData: FormData) {
+	const cookieStore = cookies()
+	const supabase = createClient(cookieStore)
+
+	const res = signUpSchema.safeParse({
+		name: formData.get('name'),
+		username: formData.get('username'),
+		email: formData.get('email'),
+		password: formData.get('password'),
+		confirmPassword: formData.get('confirmPassword'),
+	})
+
+	if (!res.success) {
+		throw res.error
+	}
+	const {
+		data: { password, confirmPassword },
+	} = res
+
+	if (password !== confirmPassword) {
+		throw new Error('Password does not match!')
+	}
+
+	const { data, error } = await supabase.auth.signUp({
+		email: res.data.email,
+		password: res.data.password,
+		options: {
+			data: {
+				email: res.data.email,
+				username: res.data.username,
+				full_name: res.data.name,
+			},
+		},
+	})
+	console.log(data)
+
+	if (error) {
+		throw error
+	}
+
+	revalidatePath('/', 'layout')
+	redirect('/dashboard')
 }

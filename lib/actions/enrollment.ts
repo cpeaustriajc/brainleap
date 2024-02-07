@@ -1,11 +1,11 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createClient } from '../supabase/server'
-import { joinCourseSchema } from '../validations/course'
-import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { createClient } from '../supabase/action'
+import { joinCourseSchema } from '../validations/course'
 
 type FieldErrors = z.inferFlattenedErrors<
 	typeof joinCourseSchema

@@ -1,11 +1,11 @@
 'use server'
 
+import { createClient } from '@/lib/supabase/action'
+import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
-import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { gradeSchema, outputSchema } from '../validations/output'
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
 type OutputSchemaFieldErrors = z.inferFlattenedErrors<
 	typeof outputSchema

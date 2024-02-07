@@ -1,8 +1,7 @@
 'use client'
 
 import { useChat } from 'ai/react'
-import Image from 'next/image'
-import { UserRoundIcon, SendHorizonalIcon } from 'lucide-react'
+import { SendHorizonalIcon, UserRoundIcon } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 
 export function AIPrompt() {
@@ -10,6 +9,8 @@ export function AIPrompt() {
 		useChat()
 
 	return (
+		<div>
+			<div>
 		<div>
 			<div>
 				{messages.map((m) => (
@@ -32,6 +33,7 @@ export function AIPrompt() {
 						</div>
 
 						<ReactMarkdown>{m.content}</ReactMarkdown>
+						<ReactMarkdown>{m.content}</ReactMarkdown>
 					</div>
 				))}
 			</div>
@@ -42,11 +44,7 @@ export function AIPrompt() {
 					placeholder="Say something to the AI..."
 					onChange={handleInputChange}
 				/>
-				<button
-					aria-label="Send Prompt"
-					disabled={isLoading}
-					type="submit"
-				>
+				<button aria-label="Send Prompt" disabled={isLoading} type="submit">
 					<SendHorizonalIcon />
 				</button>
 			</form>

@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/action'
 import { EmailOtpType } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url)
 	const token_hash = searchParams.get('token_hash')
 	const type = searchParams.get('type') as EmailOtpType | null
-	const next = searchParams.get('next') ?? '/profile'
+	const next = searchParams.get('next') ?? '/profile/setup'
 	const redirectTo = request.nextUrl.clone()
 	redirectTo.pathname = next
 	redirectTo.searchParams.delete('token_hash')

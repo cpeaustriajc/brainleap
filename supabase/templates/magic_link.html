@@ -1,0 +1,13 @@
+<h2>Magic Link</h2>
+
+<p>Follow this link to login:</p>
+<p>
+	<a
+		href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/profile/setup"
+		>Log In</a
+	>
+</p>
+
+<p>
+	Or copy and paste this token into the login form: <pre><strong>{{ .Token }}</strong></pre>
+</p>

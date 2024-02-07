@@ -1,0 +1,24 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		},
+		"ignore": [".next", ".vercel"]
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded",
+			"quoteProperties": "asNeeded",
+			"quoteStyle": "single",
+			"jsxQuoteStyle": "double"
+		}
+	},
+	"formatter": {
+		"ignore": [".next", ".vercel"]
+	}
+}

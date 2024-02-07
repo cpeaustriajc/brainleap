@@ -1,10 +1,9 @@
 'use client'
 
-import { useTransition } from 'react'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { Tables } from '@/lib/database.types'
 import { UserRoundIcon } from 'lucide-react'
-import { uploadAvatar } from '@/lib/actions/profile'
+import Image from 'next/image'
+import { useTransition } from 'react'
 
 type Props = {
 	url: Tables<'profiles'>['avatar_url'] | null
@@ -21,36 +20,23 @@ export function ProfilePicture({ url, size }: Props) {
 					<strong>Profile Picture</strong>
 					<p>This is your profile picture</p>
 				</div>
-				<ReactAria.FileTrigger
-					onSelect={(e) => {
-						if (e) {
-							const formData = new FormData()
-							formData.set('avatar', e[0])
-							startTransition(() => {
-								uploadAvatar(formData)
-							})
-						}
-					}}
-					acceptedFileTypes={['image/*']}
-				>
-					<button disabled={isPending}>
-						{isPending ? 'Uploading...' : 'Change Profile Picture'}
-					</button>
-				</ReactAria.FileTrigger>
+				<input type="file" accept={'image/*'} />
+				<button type="button" disabled={isPending}>
+					{isPending ? 'Uploading...' : 'Change Profile Picture'}
+				</button>
 			</div>
-			<Avatar style={{ width: size, height: size }}>
-				<AvatarImage
-					src={url!}
+			<div style={{ width: size, height: size }}>
+				<Image
+					src={url ?? ''}
 					width={size}
 					height={size}
 					style={{ width: size, height: size }}
+					alt="Profile"
 				/>
-				<AvatarFallback style={{ width: size, height: size }}>
-					<UserRoundIcon
-						style={{ width: size / 2, height: size / 2 }}
-					/>
-				</AvatarFallback>
-			</Avatar>
+				<div style={{ width: size, height: size }}>
+					<UserRoundIcon style={{ width: size / 2, height: size / 2 }} />
+				</div>
+			</div>
 		</div>
 	)
 }

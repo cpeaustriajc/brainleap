@@ -3,12 +3,10 @@ import { createClient } from '@/lib/supabase/server'
 import { button } from '@/ui/button'
 import { input } from '@/ui/input'
 import { Session } from '@supabase/supabase-js'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 const getUsername = async (session: Session) => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const { data, error } = await supabase
 		.from('profiles')
@@ -21,7 +19,6 @@ const getUsername = async (session: Session) => {
 		throw error
 	}
 
-
 	// Return empty string if no username is found
 	if (!data || !data.username) {
 		return ''
@@ -31,8 +28,7 @@ const getUsername = async (session: Session) => {
 }
 
 export default async function SetupUsernamePage() {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const {
 		data: { session },
 		error,

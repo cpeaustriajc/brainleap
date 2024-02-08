@@ -1,6 +1,5 @@
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createClient as createStaticClient } from '@/lib/supabase/static'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 type Props = {
@@ -28,7 +27,6 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ student, instructor }: Props) {
-	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 
 	const {

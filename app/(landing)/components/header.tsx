@@ -1,12 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { link } from '@/ui/link'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import React from 'react'
 
 export async function Header() {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()

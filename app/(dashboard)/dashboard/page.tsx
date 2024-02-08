@@ -1,14 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
 import { unstable_noStore } from 'next/cache'
-import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { Course } from './components/course'
 
 export default async function Page() {
 	unstable_noStore()
 
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const res = await supabase.auth.getUser()
 

@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { Attachments } from '../components/attachments'
 import { CreateAnnouncement } from '../components/forms/create-announcement-form'
@@ -7,8 +6,7 @@ import { CreateAnnouncement } from '../components/forms/create-announcement-form
 export default async function Announcements({
 	params,
 }: { params: { id: string } }) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const {
 		data: { user },
@@ -79,7 +77,9 @@ export default async function Announcements({
 								</div>
 								{announcement.attachment && (
 									<div>
-										<Attachments attachment={announcement.attachment} />
+										<Attachments
+											attachment={announcement.attachment}
+										/>
 									</div>
 								)}
 							</div>

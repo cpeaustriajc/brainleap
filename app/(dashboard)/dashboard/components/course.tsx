@@ -1,14 +1,12 @@
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { link } from '@/ui/link'
-import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const res = await supabase.auth.getSession()
 
@@ -68,7 +66,9 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
 		<li className="border border-stone-600/20 rounded-md dark:bg-stone-800 bg-stone-100 shadow-xl shadow-stone-700 grid gap-y-4 max-w-96 p-4">
 			<header className="grid grid-rows-2 grid-cols-2 place-content-center">
 				<strong className="col-start-1">{course.course_name}</strong>
-				<p className="col-start-1 row-start-2">{course.course_description}</p>
+				<p className="col-start-1 row-start-2">
+					{course.course_description}
+				</p>
 				<figure className=" row-span-2 justify-self-end">
 					<Image
 						src={instructor.data.avatar_url}

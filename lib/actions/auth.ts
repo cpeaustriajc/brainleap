@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/action'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import {
 	signInWithCredentialsSchema,
@@ -11,8 +10,7 @@ import {
 } from '../validations/auth'
 
 export async function signInWithGoogle() {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { error, data } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
 	})
@@ -27,8 +25,7 @@ export async function signInWithGoogle() {
 }
 
 export async function signInWithEmail(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const values = signInWithEmailSchema.safeParse({
 		email: formData.get('email'),
@@ -58,8 +55,7 @@ export async function signInWithEmail(formData: FormData) {
 }
 
 export async function signInWithCredentials(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const res = signInWithCredentialsSchema.safeParse({
 		email: formData.get('email'),
 		password: formData.get('password'),
@@ -83,8 +79,7 @@ export async function signInWithCredentials(formData: FormData) {
 }
 
 export async function signUp(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const res = signUpSchema.safeParse({
 		name: formData.get('name'),

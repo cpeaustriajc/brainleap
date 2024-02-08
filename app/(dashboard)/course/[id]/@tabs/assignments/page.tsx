@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import React from 'react'
@@ -8,8 +7,7 @@ import { Attachments } from '../../components/attachments'
 export default async function Assignments({
 	params,
 }: { params: { id: string } }) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const {
 		data: { user },
@@ -55,7 +53,11 @@ export default async function Assignments({
 								<div>
 									{assignment.attachment && (
 										<div>
-											<Attachments attachment={assignment.attachment} />
+											<Attachments
+												attachment={
+													assignment.attachment
+												}
+											/>
 										</div>
 									)}
 									{profile.role === 'student' && (

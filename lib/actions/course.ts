@@ -3,7 +3,6 @@
 import { createClient } from '@/lib/supabase/action'
 import humanId from 'human-id'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { courseSchema } from '../validations/course'
@@ -15,10 +14,9 @@ type FormState = {
 }
 export async function createCourse(
 	previousState: FormState,
-	formData: FormData,
+	formData: FormData
 ): Promise<FormState> {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const values = courseSchema.parse({
 		title: formData.get('title'),

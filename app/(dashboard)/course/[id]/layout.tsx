@@ -28,7 +28,9 @@ export default function CourseLayout({
 						<Tab href={`/course/${params.id}`}>Announcements</Tab>
 					</TabItem>
 					<TabItem>
-						<Tab href={`/course/${params.id}/assignments`}>Assignments</Tab>
+						<Tab href={`/course/${params.id}/assignments`}>
+							Assignments
+						</Tab>
 					</TabItem>
 					<TabItem>
 						<Tab href={`/course/${params.id}/grades`}>Grades</Tab>

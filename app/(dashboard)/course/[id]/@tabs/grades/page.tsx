@@ -1,10 +1,8 @@
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
 
 export default async function Grades() {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const enrollments = await getEnrollments()
 
@@ -13,7 +11,7 @@ export default async function Grades() {
 		.select()
 		.in(
 			'profile_id',
-			enrollments.map((enrollment) => enrollment.user_id),
+			enrollments.map((enrollment) => enrollment.user_id)
 		)
 		.eq('role', 'student')
 

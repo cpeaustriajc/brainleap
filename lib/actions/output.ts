@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/action'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { gradeSchema, outputSchema } from '../validations/output'
@@ -28,10 +27,9 @@ export const createOutput = async (
 	assignmentId: string,
 	courseId: string,
 	previousState: OutputSchemaFormState,
-	formData: FormData,
+	formData: FormData
 ): Promise<OutputSchemaFormState> => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const values = outputSchema.parse({
 		file: formData.get('output'),
@@ -67,7 +65,7 @@ export const createOutput = async (
 			values.file,
 			{
 				upsert: true,
-			},
+			}
 		)
 
 	if (fileError) {
@@ -100,10 +98,9 @@ export const gradeOutput = async (
 	assignmentId: string,
 	outputId: string,
 	previousState: GradeSchemaFormState,
-	formData: FormData,
+	formData: FormData
 ): Promise<GradeSchemaFormState> => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const result = gradeSchema.safeParse({
 		grade: formData.get('grade'),
 	})

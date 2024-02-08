@@ -1,9 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
 
 export const getAssignments = async (courseId: string) => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { data: assignments } = await supabase
 		.from('assignments')
 		.select()
@@ -13,8 +11,7 @@ export const getAssignments = async (courseId: string) => {
 }
 
 export const getAssignmentById = async (assignmentId: string) => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { data: assignment } = await supabase
 		.from('assignments')
 		.select()

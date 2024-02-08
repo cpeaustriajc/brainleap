@@ -2,7 +2,6 @@ import { getAssignmentById } from '@/lib/queries/assignment'
 import { getEnrollments } from '@/lib/queries/enrollment'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { QueryData } from '@supabase/supabase-js'
-import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Output } from './components/output'
@@ -12,7 +11,6 @@ export default async function TeacherView({
 }: {
 	params: { assignment: string; id: string }
 }) {
-	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 	const enrollments = await getEnrollments()
 
@@ -25,7 +23,7 @@ export default async function TeacherView({
 		.select()
 		.in(
 			'profile_id',
-			enrollments.map((enrollment) => enrollment.user_id),
+			enrollments.map((enrollment) => enrollment.user_id)
 		)
 		.eq('role', 'student')
 
@@ -40,12 +38,12 @@ export default async function TeacherView({
 	const outputWithStudentsQuery = supabase
 		.from('outputs')
 		.select(
-			'output_id, attachment, submitted_at, grade, course_id, profiles ( full_name, username ) ',
+			'output_id, attachment, submitted_at, grade, course_id, profiles ( full_name, username ) '
 		)
 		.eq('assignment_id', assignment.assignment_id)
 		.in(
 			'student_id',
-			students.map((student) => student.profile_id),
+			students.map((student) => student.profile_id)
 		)
 
 	type OutputWithStudents = QueryData<typeof outputWithStudentsQuery>

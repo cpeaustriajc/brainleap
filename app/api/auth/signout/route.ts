@@ -1,9 +1,7 @@
 import { createClient } from '@/lib/supabase/action'
-import { cookies } from 'next/headers'
 
 export async function POST(req: Request) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const {
 		data: { session },

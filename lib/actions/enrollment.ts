@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { createClient } from '../supabase/action'
@@ -18,13 +17,12 @@ type FormState = {
 
 export async function createEnrollment(
 	previousState: FormState,
-	formData: FormData,
+	formData: FormData
 ): Promise<FormState> {
 	const result = joinCourseSchema.safeParse({
 		courseCode: formData.get('courseCode'),
 	})
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()

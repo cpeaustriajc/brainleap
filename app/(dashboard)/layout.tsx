@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import '@/styles/styles.css'
 import { Tab, TabItem, TabList, Tabs } from '@/ui/tabs'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
@@ -21,8 +20,7 @@ export const viewport = {
 export default async function DashboardRootLayout({
 	children,
 }: { children: React.ReactNode }) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const res = await supabase.auth.getUser()
 
@@ -48,7 +46,7 @@ export default async function DashboardRootLayout({
 		.select('course_id, course_name')
 		.in(
 			'course_id',
-			enrollee.data.map((course_id) => course_id.course_id),
+			enrollee.data.map((course_id) => course_id.course_id)
 		)
 
 	if (courses.error) {

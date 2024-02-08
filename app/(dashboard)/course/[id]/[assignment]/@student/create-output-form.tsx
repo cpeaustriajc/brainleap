@@ -24,7 +24,7 @@ export function CreateOutputForm({
 	const createOutputBound = createOutput.bind(
 		null,
 		assignment.assignment_id,
-		courseId,
+		courseId
 	)
 
 	const [state, action] = useFormState(createOutputBound, {

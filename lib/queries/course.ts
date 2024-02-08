@@ -1,10 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
 
 export const getCourseById = async (id: string) => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { data: course } = await supabase
 		.from('courses')
 		.select()
@@ -14,8 +12,7 @@ export const getCourseById = async (id: string) => {
 	return course
 }
 export const getCourseIds = async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { data: courses } = await supabase.from('courses').select('course_id')
 
 	if (!courses) {
@@ -26,8 +23,7 @@ export const getCourseIds = async () => {
 }
 
 export const getCourses = async () => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { data: courses, error } = await supabase.from('courses').select()
 
 	if (error) {

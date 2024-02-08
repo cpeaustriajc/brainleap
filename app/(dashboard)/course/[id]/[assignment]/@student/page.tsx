@@ -1,13 +1,11 @@
-import { createClient as createServerClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
-import { CreateOutputForm } from './create-output-form';
+import { createClient as createServerClient } from '@/lib/supabase/server'
+import { CreateOutputForm } from './create-output-form'
 
 export default async function Page({
 	params,
 }: {
 	params: { assignment: string; id: string }
 }) {
-	const cookieStore = cookies()
 	const supabase = createServerClient(cookieStore)
 
 	const { data: assignmentResult, error: assignmentError } = await supabase
@@ -24,14 +22,18 @@ export default async function Page({
 		<div>
 			<div>
 				<h1>{assignmentResult.title}</h1>
-				<p>Assignment Due Date: {assignmentDueDate.toLocaleDateString()}</p>
+				<p>
+					Assignment Due Date:{' '}
+					{assignmentDueDate.toLocaleDateString()}
+				</p>
 				<p>{assignmentResult.description}</p>
 			</div>
 			<div>
 				<div>
 					<strong>Submit Output</strong>
 					<p>
-						Submit your output for this assignment (preferrably in PDF format)
+						Submit your output for this assignment (preferrably in
+						PDF format)
 					</p>
 				</div>
 				<div>

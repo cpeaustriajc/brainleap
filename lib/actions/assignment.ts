@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/action'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 import { assignmentSchema } from '../validations/assignment'
 
@@ -15,7 +14,7 @@ const constructDueDate = (date: string, time: string) => {
 		parseInt(month) - 1,
 		parseInt(day),
 		parseInt(hours),
-		parseInt(minutes),
+		parseInt(minutes)
 	)
 }
 
@@ -30,14 +29,13 @@ type FormState = {
 export async function createAssignment(
 	course_id: string,
 	previousState: FormState,
-	formData: FormData,
+	formData: FormData
 ): Promise<FormState> {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const dueDate = constructDueDate(
 		formData.get('dueDate') as string,
-		formData.get('dueTime') as string,
+		formData.get('dueTime') as string
 	)
 
 	const {
@@ -119,7 +117,7 @@ export async function createAssignment(
 					results.data.attachment,
 					{
 						upsert: true,
-					},
+					}
 				)
 
 		if (assignmentFilesError) {

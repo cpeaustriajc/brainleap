@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/action'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { z } from 'zod'
 import { announcementSchema } from '../validations/announcement'
 
@@ -18,10 +17,9 @@ type FormState = {
 export async function createAnnouncement(
 	course_id: string,
 	previousState: FormState,
-	formData: FormData,
+	formData: FormData
 ): Promise<FormState> {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const result = announcementSchema.safeParse({
 		title: formData.get('title'),
@@ -75,7 +73,7 @@ export async function createAnnouncement(
 					result.data.attachment,
 					{
 						upsert: true,
-					},
+					}
 				)
 
 		if (announcementFileError) {
@@ -105,7 +103,7 @@ export async function createAnnouncement(
 					result.data.attachment,
 					{
 						upsert: true,
-					},
+					}
 				)
 
 		if (announcementFileError) {

@@ -22,7 +22,7 @@ export const gradeSchema = z.object({
 				}
 
 				return parsed
-			}),
+			})
 		)
 		.pipe(z.number().min(0).max(100)),
 })

@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/action'
-import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(req: NextRequest) {
@@ -11,8 +10,7 @@ export async function GET(req: NextRequest) {
 	redirectTo.searchParams.delete('code')
 
 	if (code) {
-		const cookieStore = cookies()
-		const supabase = createClient(cookieStore)
+		const supabase = createClient()
 
 		const { error } = await supabase.auth.exchangeCodeForSession(code)
 

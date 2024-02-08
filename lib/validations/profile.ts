@@ -27,10 +27,14 @@ export const profileSchema = z.discriminatedUnion('role', [
 		.merge(baseProfileSchema),
 ])
 
-export const usernameSchema =  z.object({
-	username: z.string().min(3).max(20).regex(/^[a-zA-Z0-9_]+$/)
+export const usernameSchema = z.object({
+	username: z
+		.string()
+		.min(3)
+		.max(20)
+		.regex(/^[a-zA-Z0-9_]+$/),
 })
 
 export const fullNameSchema = z.object({
-	name: z.string().regex(/^[a-zA-Z0-9_]+$/)
+	name: z.string().regex(/^[a-zA-Z0-9_]+$/),
 })

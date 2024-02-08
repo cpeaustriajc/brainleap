@@ -15,14 +15,20 @@ export default function SignUpPage() {
 					Welcome to Brainleap! 🧠
 				</h2>
 				<p>
-					We&apos;re glad that you&apos;re getting onboard, get started by filling out
-					these fields
+					We&apos;re glad that you&apos;re getting onboard, get
+					started by filling out these fields
 				</p>
 			</header>
 			<label className={cx(label)} htmlFor="name">
 				Name
 			</label>
-			<input className={cx(input)} type="text" name="name" id="name" required />
+			<input
+				className={cx(input)}
+				type="text"
+				name="name"
+				id="name"
+				required
+			/>
 			<label className={cx(label)} htmlFor="username">
 				Username
 			</label>

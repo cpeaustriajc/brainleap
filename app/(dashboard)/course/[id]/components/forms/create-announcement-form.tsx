@@ -13,7 +13,7 @@ import { useFormState } from 'react-dom'
 export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 	const createAnnouncementWithCourseId = createAnnouncement.bind(
 		null,
-		course.course_id,
+		course.course_id
 	)
 	const [state, action] = useFormState(createAnnouncementWithCourseId, {
 		message: undefined,
@@ -46,7 +46,12 @@ export function CreateAnnouncement({ course }: { course: Tables<'courses'> }) {
 			<label htmlFor="attachment" className={label}>
 				Upload a file
 			</label>
-			<input type="file" name="attachment" className={input} id="attachment" />
+			<input
+				type="file"
+				name="attachment"
+				className={input}
+				id="attachment"
+			/>
 			<label htmlFor="link" className={label}>
 				Link
 			</label>

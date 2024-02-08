@@ -64,7 +64,12 @@ export function CreateAssignment({ course }: { course: Tables<'courses'> }) {
 
 			<div>
 				<label htmlFor="link">Assignment Link</label>
-				<input type="url" id="link" name="link" placeholder="Assignment Link" />
+				<input
+					type="url"
+					id="link"
+					name="link"
+					placeholder="Assignment Link"
+				/>
 			</div>
 
 			<button type="submit">Create assignment</button>

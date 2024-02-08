@@ -3,12 +3,10 @@
 import { createClient } from '@/lib/supabase/action'
 import { fullNameSchema, usernameSchema } from '@/lib/validations/profile'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 export async function uploadAvatar(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const {
 		data: { user },
 		error: userError,
@@ -51,8 +49,7 @@ export async function updateAvatar(formData: FormData) {
 }
 
 export async function updateUsername(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const res = usernameSchema.safeParse({
 		username: formData.get('username'),
 	})
@@ -86,8 +83,7 @@ export async function updateUsername(formData: FormData) {
 }
 
 export async function updateName(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const res = fullNameSchema.safeParse({
 		full_name: formData.get('name'),
 	})
@@ -108,7 +104,10 @@ export async function updateName(formData: FormData) {
 
 	const { error } = await supabase
 		.from('profiles')
-		.update({ full_name: res.data.name, updated_at: new Date().toISOString() })
+		.update({
+			full_name: res.data.name,
+			updated_at: new Date().toISOString(),
+		})
 		.eq('profile_id', session.user.id)
 
 	if (error) {
@@ -119,8 +118,7 @@ export async function updateName(formData: FormData) {
 }
 
 export async function updateUniversity(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const university = formData.get('university') as string
 
@@ -148,8 +146,7 @@ export async function updateUniversity(formData: FormData) {
 }
 
 export async function updateSection(formData: FormData) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	// const res = profileSchema.safeParse({
 	// 	section: formData.get('section'),
 	// })

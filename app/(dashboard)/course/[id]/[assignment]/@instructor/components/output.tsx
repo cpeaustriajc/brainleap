@@ -1,6 +1,5 @@
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
-import { cookies } from 'next/headers'
 import Link from 'next/link'
 import { Fragment } from 'react'
 import { CreateOutputGrade } from './create-output-grade-form'
@@ -14,8 +13,7 @@ export type OutputProps = {
 }
 
 export async function Output({ output, courseId, assignmentId }: OutputProps) {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 
 	const { data: file } = await supabase.storage
 		.from('files')

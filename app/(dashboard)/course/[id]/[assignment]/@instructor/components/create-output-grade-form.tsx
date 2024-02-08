@@ -24,7 +24,7 @@ export function CreateOutputGrade({
 		{
 			message: undefined,
 			errors: {},
-		},
+		}
 	)
 
 	return (

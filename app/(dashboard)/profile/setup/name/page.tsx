@@ -1,16 +1,14 @@
+import { updateName } from '@/lib/actions/profile'
 import { createClient } from '@/lib/supabase/server'
 import { button } from '@/ui/button'
 import { form } from '@/ui/form'
 import { input } from '@/ui/input'
 import { label } from '@/ui/label'
-import { redirect } from 'next/navigation'
-import { cookies } from 'next/headers'
-import { updateName } from '@/lib/actions/profile'
 import { Session } from '@supabase/supabase-js'
+import { redirect } from 'next/navigation'
 
 const getName = async (session: Session) => {
-	const cookieStore = cookies()
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const { data, error } = await supabase
 		.from('profiles')
 		.select('full_name')
@@ -31,9 +29,7 @@ const getName = async (session: Session) => {
 }
 
 export default async function Page() {
-	const cookieStore = cookies()
-
-	const supabase = createClient(cookieStore)
+	const supabase = createClient()
 	const {
 		data: { session },
 	} = await supabase.auth.getSession()

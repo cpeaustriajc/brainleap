@@ -57,7 +57,7 @@ export async function signInWithEmail(formData: FormData) {
 export async function signInWithCredentials(
   previousState: any,
   formData: FormData,
-) {
+): Promise<any> {
   const supabase = createClient()
   const res = signInWithCredentialsSchema.safeParse({
     email: formData.get('email'),

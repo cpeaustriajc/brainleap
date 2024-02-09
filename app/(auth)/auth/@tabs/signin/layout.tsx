@@ -1,11 +1,13 @@
+import * as React from 'react'
+
 export default function Layout({
   children,
   dialog,
 }: { children: React.ReactNode; dialog: React.ReactNode }) {
   return (
-    <main className="grid h-dvh place-items-center">
+    <React.Fragment>
       {children}
       {dialog}
-    </main>
+    </React.Fragment>
   )
 }

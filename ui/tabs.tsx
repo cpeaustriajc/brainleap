@@ -1,40 +1,36 @@
 'use client'
 
 import { cx } from '@/lib/cva.config'
+import * as AriaKit from '@ariakit/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 export interface TabsProps extends React.HTMLAttributes<HTMLElement> {}
-export const Tabs = React.forwardRef<HTMLElement, TabsProps>((props, ref) => {
+export function Tabs(props: AriaKit.TabProviderProps) {
+  const router = useRouter()
+  const selectedId = usePathname()
   return (
-    <nav ref={ref} className={cx(props.className)}>
-      {props.children}
-    </nav>
+    <AriaKit.TabProvider
+      selectedId={selectedId}
+      setSelectedId={id => router.push(id || selectedId)}
+      {...props}
+    />
   )
-})
-Tabs.displayName = 'Tabs'
-
-export interface TabListProps {
-  children: React.ReactNode
-  className?: string
-  orientation: 'vertical' | 'horizontal'
 }
-export const TabList = React.forwardRef<HTMLUListElement, TabListProps>(
+
+export const TabList = React.forwardRef<HTMLDivElement, AriaKit.TabListProps>(
   (props, ref) => {
     return (
-      <ul
+      <AriaKit.TabList
+        ref={ref}
         className={cx(
-          'flex gap-2',
-          props.orientation === 'vertical' && 'flex-col',
+          'flex justify-center items-center p-1 h-9 gap-2 bg-muted rounded',
           props.className,
         )}
-        role="tablist"
-        aria-orientation={props.orientation}
-        ref={ref}
-      >
-        {props.children}
-      </ul>
+        {...props}
+      />
     )
   },
 )
@@ -54,32 +50,34 @@ export const TabItem = React.forwardRef<HTMLLIElement, TabItemProps>(
   },
 )
 
-interface TabProps {
-  href: string
-  className?: string
-  children: React.ReactNode
-}
-export const Tab = React.forwardRef<HTMLAnchorElement, TabProps>(
+export const Tab = React.forwardRef<
+  HTMLAnchorElement,
+  React.ComponentPropsWithoutRef<typeof Link>
+>((props, ref) => {
+  const id = props.href.toString()
+  return (
+    <AriaKit.Tab
+      id={id}
+      className={cx(
+        'rounded h-9 inline-flex items-center whitespace-nowrap px-4 py-4 shadow font-medium',
+        'hover:bg-primary',
+        'aria-selected:text-foreground aria-selected:bg-background',
+        'text-muted-foreground transition-colors',
+        props.className,
+      )}
+      render={<Link ref={ref} {...props} />}
+    />
+  )
+})
+Tab.displayName = 'Tab'
+
+export const TabPanel = React.forwardRef<HTMLDivElement, AriaKit.TabPanelProps>(
   (props, ref) => {
-    const pathname = usePathname()
-    return (
-      <Link
-        ref={ref}
-        href={props.href}
-        className={cx(
-          pathname === props.href && 'dark:bg-green-600 bg-green-600',
-          'rounded h-9 flex items-center px-4 py-4 shadow',
-          'hover:bg-stone-300',
-          'aria-selected:hover:bg-green-600/90',
-          'text-xl dark:text-stone-100 text-stone-950 transition-colors',
-          props.className,
-        )}
-        aria-selected={pathname === props.href}
-        role="tab"
-      >
-        {props.children}
-      </Link>
-    )
+    const tab = AriaKit.useTabContext()
+    if (!tab) throw new Error('TabPanel must be wrapped in a Tabs component')
+
+    const tabId = tab.useState('selectedId')
+
+    return <AriaKit.TabPanel ref={ref} tabId={tabId} {...props} />
   },
 )
-Tab.displayName = 'Tab'

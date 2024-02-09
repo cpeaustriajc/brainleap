@@ -15,6 +15,7 @@ import { Input } from '@/ui/input'
 import { Label } from '@/ui/label'
 import { link } from '@/ui/link'
 import Link from 'next/link'
+import React from 'react'
 import { useId } from 'react'
 import { useFormState } from 'react-dom'
 import { z } from 'zod'
@@ -74,14 +75,6 @@ export default function Page() {
           </FormButton>
         </form>
       </CardContent>
-      <CardFooter className="justify-center">
-        <p>
-          Don&apos;t have an account?{' '}
-          <Link className={link} href="/auth/signup">
-            Sign Up
-          </Link>
-        </p>
-      </CardFooter>
     </Card>
   )
 }

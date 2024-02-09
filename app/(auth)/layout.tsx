@@ -1,4 +1,6 @@
 import '@/styles/styles.css'
+import { Tab, TabList, TabPanel, Tabs } from '@/ui/tabs'
+import Link from 'next/link'
 import React from 'react'
 
 export const metadata = {
@@ -15,12 +17,10 @@ export const viewport = {
 
 export default function AuthRootLayout({
   children,
-}: { children: React.ReactNode }) {
+}: { children: React.ReactNode; tabs: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr">
-      <body className="dark:bg-stone-900 dark:text-white bg-white text-stone-900">
-        {children}
-      </body>
+      <body className="bg-background text-foreground">{children}</body>
     </html>
   )
 }

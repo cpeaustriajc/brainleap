@@ -54,7 +54,10 @@ export async function signInWithEmail(formData: FormData) {
   redirect('/auth/confirm')
 }
 
-export async function signInWithCredentials(formData: FormData) {
+export async function signInWithCredentials(
+  previousState: any,
+  formData: FormData,
+) {
   const supabase = createClient()
   const res = signInWithCredentialsSchema.safeParse({
     email: formData.get('email'),
@@ -71,14 +74,19 @@ export async function signInWithCredentials(formData: FormData) {
   })
 
   if (error) {
-    throw error
+    return {
+      errors: {},
+    }
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard')
+
+  return {
+    values: {},
+  }
 }
 
-export async function signUp(formData: FormData) {
+export async function signUp(previousState: any, formData: FormData) {
   const supabase = createClient()
 
   const res = signUpSchema.safeParse({
@@ -90,7 +98,9 @@ export async function signUp(formData: FormData) {
   })
 
   if (!res.success) {
-    throw res.error
+    return {
+      values: {},
+    }
   }
   const {
     data: { password, confirmPassword },
@@ -114,9 +124,11 @@ export async function signUp(formData: FormData) {
   console.log(data)
 
   if (error) {
-    throw error
+    return {
+      values: {},
+    }
   }
 
   revalidatePath('/', 'layout')
-  redirect('/dashboard')
+  return { values: {} }
 }

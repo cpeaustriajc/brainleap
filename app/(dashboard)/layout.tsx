@@ -54,8 +54,8 @@ export default async function DashboardRootLayout({
   }
   return (
     <html dir="ltr" lang="en">
-      <body className="grid grid-cols-[minmax(auto,240px),1fr] grid-rows-[auto,auto,1fr] bg-stone-100 dark:bg-stone-800 h-dvh">
-        <header className="flex justify-between items-center px-4 bg-stone-100 dark:bg-stone-800 py-2 col-span-2">
+      <body className="grid grid-cols-[minmax(auto,240px),1fr] grid-rows-[auto,auto,1fr] bg-background h-dvh">
+        <header className="flex justify-between items-center px-4 py-2 col-span-2">
           <h1 className="pl-2 text-xl">
             <Link href="/">Brainleap 🧠</Link>
           </h1>

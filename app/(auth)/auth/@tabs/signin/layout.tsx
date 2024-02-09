@@ -11,7 +11,6 @@ export default function Layout({
   return (
     <React.Fragment>
       {children}
-      {dialog}
     </React.Fragment>
   )
 }

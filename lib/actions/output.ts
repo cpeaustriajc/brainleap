@@ -7,126 +7,126 @@ import { z } from 'zod'
 import { gradeSchema, outputSchema } from '../validations/output'
 
 type OutputSchemaFieldErrors = z.inferFlattenedErrors<
-	typeof outputSchema
+  typeof outputSchema
 >['fieldErrors']
 
 type OutputSchemaFormState = {
-	errors: OutputSchemaFieldErrors | undefined
-	message: string | undefined
+  errors: OutputSchemaFieldErrors | undefined
+  message: string | undefined
 }
 
 type GradeSchemaFieldErrors = z.inferFlattenedErrors<
-	typeof gradeSchema
+  typeof gradeSchema
 >['fieldErrors']
 type GradeSchemaFormState = {
-	errors: GradeSchemaFieldErrors | undefined
-	message: string | undefined
+  errors: GradeSchemaFieldErrors | undefined
+  message: string | undefined
 }
 
 export const createOutput = async (
-	assignmentId: string,
-	courseId: string,
-	previousState: OutputSchemaFormState,
-	formData: FormData
+  assignmentId: string,
+  courseId: string,
+  previousState: OutputSchemaFormState,
+  formData: FormData,
 ): Promise<OutputSchemaFormState> => {
-	const supabase = createClient()
+  const supabase = createClient()
 
-	const values = outputSchema.parse({
-		file: formData.get('output'),
-	})
+  const values = outputSchema.parse({
+    file: formData.get('output'),
+  })
 
-	const {
-		data: { user },
-		error: userError,
-	} = await supabase.auth.getUser()
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser()
 
-	if (userError) {
-		throw new Error(userError.message)
-	}
+  if (userError) {
+    throw new Error(userError.message)
+  }
 
-	if (!user) {
-		redirect('/auth/signin')
-	}
+  if (!user) {
+    redirect('/auth/signin')
+  }
 
-	const { data: profile, error: profileError } = await supabase
-		.from('profiles')
-		.select('username, profile_id')
-		.eq('profile_id', user.id)
-		.single()
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('username, profile_id')
+    .eq('profile_id', user.id)
+    .single()
 
-	if (profileError) {
-		throw new Error(profileError.message)
-	}
+  if (profileError) {
+    throw new Error(profileError.message)
+  }
 
-	const { data: file, error: fileError } = await supabase.storage
-		.from('files')
-		.upload(
-			`assignments/${profile.username}/${values.file.name}`,
-			values.file,
-			{
-				upsert: true,
-			}
-		)
+  const { data: file, error: fileError } = await supabase.storage
+    .from('files')
+    .upload(
+      `assignments/${profile.username}/${values.file.name}`,
+      values.file,
+      {
+        upsert: true,
+      },
+    )
 
-	if (fileError) {
-		throw new Error(fileError.message)
-	}
+  if (fileError) {
+    throw new Error(fileError.message)
+  }
 
-	const { error } = await supabase.from('outputs').insert({
-		course_id: courseId,
-		assignment_id: assignmentId,
-		student_id: profile.profile_id,
-		attachment: file.path,
-		grade: 0,
-		submitted_at: new Date().toISOString(),
-	})
+  const { error } = await supabase.from('outputs').insert({
+    course_id: courseId,
+    assignment_id: assignmentId,
+    student_id: profile.profile_id,
+    attachment: file.path,
+    grade: 0,
+    submitted_at: new Date().toISOString(),
+  })
 
-	if (error) {
-		throw new Error(error.message)
-	}
+  if (error) {
+    throw new Error(error.message)
+  }
 
-	revalidatePath(`/course/${courseId}/${assignmentId}`)
+  revalidatePath(`/course/${courseId}/${assignmentId}`)
 
-	return {
-		errors: undefined,
-		message: 'Output created successfully',
-	}
+  return {
+    errors: undefined,
+    message: 'Output created successfully',
+  }
 }
 
 export const gradeOutput = async (
-	courseId: string,
-	assignmentId: string,
-	outputId: string,
-	previousState: GradeSchemaFormState,
-	formData: FormData
+  courseId: string,
+  assignmentId: string,
+  outputId: string,
+  previousState: GradeSchemaFormState,
+  formData: FormData,
 ): Promise<GradeSchemaFormState> => {
-	const supabase = createClient()
-	const result = gradeSchema.safeParse({
-		grade: formData.get('grade'),
-	})
+  const supabase = createClient()
+  const result = gradeSchema.safeParse({
+    grade: formData.get('grade'),
+  })
 
-	if (!result.success) {
-		return {
-			errors: result.error.flatten().fieldErrors,
-			message: undefined,
-		}
-	}
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+      message: undefined,
+    }
+  }
 
-	const { error } = await supabase
-		.from('outputs')
-		.update({
-			grade: result.data.grade,
-		})
-		.eq('output_id', outputId)
+  const { error } = await supabase
+    .from('outputs')
+    .update({
+      grade: result.data.grade,
+    })
+    .eq('output_id', outputId)
 
-	if (error) {
-		throw new Error(error.message)
-	}
+  if (error) {
+    throw new Error(error.message)
+  }
 
-	revalidatePath(`/course/${courseId}/${assignmentId}`)
+  revalidatePath(`/course/${courseId}/${assignmentId}`)
 
-	return {
-		errors: undefined,
-		message: 'Output graded successfully',
-	}
+  return {
+    errors: undefined,
+    message: 'Output graded successfully',
+  }
 }

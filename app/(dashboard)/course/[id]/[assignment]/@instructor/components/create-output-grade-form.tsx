@@ -5,40 +5,40 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { OutputProps } from './output'
 
 function Submit() {
-	const { pending } = useFormStatus()
+  const { pending } = useFormStatus()
 
-	return (
-		<button disabled={pending} type="submit">
-			Submit
-		</button>
-	)
+  return (
+    <button disabled={pending} type="submit">
+      Submit
+    </button>
+  )
 }
 
 export function CreateOutputGrade({
-	output,
-	courseId,
-	assignmentId,
+  output,
+  courseId,
+  assignmentId,
 }: OutputProps) {
-	const [state, action] = useFormState(
-		gradeOutput.bind(null, courseId, assignmentId, output.output_id),
-		{
-			message: undefined,
-			errors: {},
-		}
-	)
+  const [state, action] = useFormState(
+    gradeOutput.bind(null, courseId, assignmentId, output.output_id),
+    {
+      message: undefined,
+      errors: {},
+    },
+  )
 
-	return (
-		<form action={action}>
-			<div>
-				<div>
-					<label>Grade</label>
-					<button type="button">-</button>
-					<input />
-					<button type="button">+</button>
-				</div>
+  return (
+    <form action={action}>
+      <div>
+        <div>
+          <label>Grade</label>
+          <button type="button">-</button>
+          <input />
+          <button type="button">+</button>
+        </div>
 
-				<Submit />
-			</div>
-		</form>
-	)
+        <Submit />
+      </div>
+    </form>
+  )
 }

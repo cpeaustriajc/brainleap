@@ -5,37 +5,37 @@ import { Tables } from '@/lib/database.types'
 import { useFormState, useFormStatus } from 'react-dom'
 
 function Submit() {
-	const { pending } = useFormStatus()
+  const { pending } = useFormStatus()
 
-	return (
-		<button disabled={pending} type="submit">
-			Submit
-		</button>
-	)
+  return (
+    <button disabled={pending} type="submit">
+      Submit
+    </button>
+  )
 }
 
 export function CreateOutputForm({
-	assignment,
-	courseId,
+  assignment,
+  courseId,
 }: {
-	assignment: Tables<'assignments'>
-	courseId: string
+  assignment: Tables<'assignments'>
+  courseId: string
 }) {
-	const createOutputBound = createOutput.bind(
-		null,
-		assignment.assignment_id,
-		courseId
-	)
+  const createOutputBound = createOutput.bind(
+    null,
+    assignment.assignment_id,
+    courseId,
+  )
 
-	const [state, action] = useFormState(createOutputBound, {
-		errors: {},
-		message: undefined,
-	})
+  const [state, action] = useFormState(createOutputBound, {
+    errors: {},
+    message: undefined,
+  })
 
-	return (
-		<form action={action}>
-			<input type="file" name="output" id="output" required />
-			<Submit />
-		</form>
-	)
+  return (
+    <form action={action}>
+      <input type="file" name="output" id="output" required />
+      <Submit />
+    </form>
+  )
 }

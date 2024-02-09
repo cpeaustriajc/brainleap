@@ -1,8 +1,8 @@
 export default function NotFound() {
-	return (
-		<main>
-			<h1>Not Found</h1>
-			<p>The assignment was not found</p>
-		</main>
-	)
+  return (
+    <main>
+      <h1>Not Found</h1>
+      <p>The assignment was not found</p>
+    </main>
+  )
 }

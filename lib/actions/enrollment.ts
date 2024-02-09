@@ -7,63 +7,63 @@ import { createClient } from '../supabase/action'
 import { joinCourseSchema } from '../validations/course'
 
 type FieldErrors = z.inferFlattenedErrors<
-	typeof joinCourseSchema
+  typeof joinCourseSchema
 >['fieldErrors']
 
 type FormState = {
-	errors: FieldErrors | undefined
-	message: string | undefined
+  errors: FieldErrors | undefined
+  message: string | undefined
 }
 
 export async function createEnrollment(
-	previousState: FormState,
-	formData: FormData
+  previousState: FormState,
+  formData: FormData,
 ): Promise<FormState> {
-	const result = joinCourseSchema.safeParse({
-		courseCode: formData.get('courseCode'),
-	})
-	const supabase = createClient()
-	const {
-		data: { session },
-	} = await supabase.auth.getSession()
+  const result = joinCourseSchema.safeParse({
+    courseCode: formData.get('courseCode'),
+  })
+  const supabase = createClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-	if (!session) {
-		redirect('/auth/signin')
-	}
+  if (!session) {
+    redirect('/auth/signin')
+  }
 
-	if (!result.success) {
-		return {
-			message: undefined,
-			errors: result.error.flatten().fieldErrors,
-		}
-	}
+  if (!result.success) {
+    return {
+      message: undefined,
+      errors: result.error.flatten().fieldErrors,
+    }
+  }
 
-	const { count } = await supabase
-		.from('courses')
-		.select('*', { count: 'exact', head: true })
-		.eq('course_id', result.data.courseCode)
-		.single()
+  const { count } = await supabase
+    .from('courses')
+    .select('*', { count: 'exact', head: true })
+    .eq('course_id', result.data.courseCode)
+    .single()
 
-	if (count === 0) {
-		throw new Error('Course not found')
-	}
+  if (count === 0) {
+    throw new Error('Course not found')
+  }
 
-	const { error: insertEnrollmentError } = await supabase
-		.from('enrollments')
-		.insert({
-			course_id: result.data.courseCode,
-			user_id: session.user.id,
-		})
+  const { error: insertEnrollmentError } = await supabase
+    .from('enrollments')
+    .insert({
+      course_id: result.data.courseCode,
+      user_id: session.user.id,
+    })
 
-	if (insertEnrollmentError) {
-		throw insertEnrollmentError
-	}
+  if (insertEnrollmentError) {
+    throw insertEnrollmentError
+  }
 
-	revalidatePath('/')
-	revalidatePath('@modal/join/course')
+  revalidatePath('/')
+  revalidatePath('@modal/join/course')
 
-	return {
-		message: 'Successfully joined course',
-		errors: undefined,
-	}
+  return {
+    message: 'Successfully joined course',
+    errors: undefined,
+  }
 }

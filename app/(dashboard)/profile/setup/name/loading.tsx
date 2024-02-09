@@ -1,7 +1,7 @@
 export default function NameLoadingPage() {
-	return (
-		<div>
-			<p>Loading...</p>
-		</div>
-	)
+  return (
+    <div>
+      <p>Loading...</p>
+    </div>
+  )
 }

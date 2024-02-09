@@ -9,13 +9,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"format": "biome format . --write",
 		"update-types": "npx supabase gen types typescript --project-id \"$PROJECT_REF\" > lib/database.types.ts"
-	},
-	"prettier": {
-		"semi": false,
-		"useTabs": true,
-		"singleQuote": true,
-		"tabWidth": 4
 	},
 	"license": "MIT",
 	"dependencies": {
@@ -39,6 +34,7 @@
 		"zod": "^3"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.5.3",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/node": "^20",
 		"@types/react": "^18",

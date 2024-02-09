@@ -5,19 +5,19 @@ import { FileIcon } from 'lucide-react'
 import Link from 'next/link'
 
 export function Attachments({
-	attachment,
+  attachment,
 }: {
-	attachment: Tables<'announcements'>['attachment']
+  attachment: Tables<'announcements'>['attachment']
 }) {
-	if (!attachment) return null
+  if (!attachment) return null
 
-	const supabase = createClient()
-	const { data } = supabase.storage.from('files').getPublicUrl(attachment)
-	const filename = getFilename(attachment)
-	return (
-		<Link href={data.publicUrl} download target="_blank">
-			<FileIcon />
-			<span>{filename}</span>
-		</Link>
-	)
+  const supabase = createClient()
+  const { data } = supabase.storage.from('files').getPublicUrl(attachment)
+  const filename = getFilename(attachment)
+  return (
+    <Link href={data.publicUrl} download target="_blank">
+      <FileIcon />
+      <span>{filename}</span>
+    </Link>
+  )
 }

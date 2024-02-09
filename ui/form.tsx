@@ -14,6 +14,8 @@ import {
 
 import { cx } from '@/lib/cva.config'
 import { Label } from '@/ui/label'
+import { useFormStatus } from 'react-dom'
+import { button } from './button'
 
 export const form = cx(
   'grid gap-y-4 shadow',
@@ -173,8 +175,27 @@ const FormMessage = React.forwardRef<
 })
 FormMessage.displayName = 'FormMessage'
 
+const FormButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement>
+>(({ className, children, ...props }, ref) => {
+  const { pending } = useFormStatus()
+
+  return (
+    <button
+      ref={ref}
+      className={button({ className })}
+      disabled={pending || props.disabled}
+      aria-disabled={pending || props.disabled}
+      {...props}
+    />
+  )
+})
+FormButton.displayName = 'FormButton'
+
 export {
   Form,
+  FormButton,
   FormControl,
   FormDescription,
   FormField,

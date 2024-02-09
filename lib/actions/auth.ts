@@ -80,10 +80,7 @@ export async function signInWithCredentials(
   }
 
   revalidatePath('/', 'layout')
-
-  return {
-    values: {},
-  }
+  redirect('/dashboard')
 }
 
 export async function signUp(previousState: any, formData: FormData) {

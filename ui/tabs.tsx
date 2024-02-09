@@ -21,18 +21,15 @@ export function Tabs(props: AriaKit.TabProviderProps) {
 }
 
 export const TabList = React.forwardRef<HTMLDivElement, AriaKit.TabListProps>(
-  (props, ref) => {
-    return (
-      <AriaKit.TabList
-        ref={ref}
-        className={cx(
-          'flex justify-center items-center p-1 h-9 gap-2 bg-muted rounded',
-          props.className,
-        )}
-        {...props}
-      />
-    )
-  },
+  ({className, ...props}, ref) => (
+    <AriaKit.TabList
+      ref={ref}
+      className={cx(
+        'inline-flex h-10 justify-center items-center p-1 bg-muted rounded-sm w-full',
+        className
+      )}
+      {...props} />
+  ),
 )
 TabList.displayName = 'TabList'
 
@@ -59,10 +56,10 @@ export const Tab = React.forwardRef<
     <AriaKit.Tab
       id={id}
       className={cx(
-        'rounded h-9 inline-flex items-center whitespace-nowrap px-4 py-4 shadow font-medium',
-        'hover:bg-primary',
-        'aria-selected:text-foreground aria-selected:bg-background',
-        'text-muted-foreground transition-colors',
+        'rounded-sm inline-flex text-sm justify-center items-center whitespace-nowrap px-3 py-1.5 font-medium ring-offset-background outline-none',
+        'focus-visible:ring focus-visible:ring-primary',
+        'aria-selected:text-foreground aria-selected:bg-background aria-selected:shadow',
+        'text-muted-foreground transition-all',
         props.className,
       )}
       render={<Link ref={ref} {...props} />}

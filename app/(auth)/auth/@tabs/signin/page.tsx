@@ -6,14 +6,12 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/ui/card'
 import { FormButton } from '@/ui/form'
 import { Input } from '@/ui/input'
 import { Label } from '@/ui/label'
-import { link } from '@/ui/link'
 import Link from 'next/link'
 import React from 'react'
 import { useId } from 'react'
@@ -37,7 +35,9 @@ export default function Page() {
       <CardHeader className="space-y-1">
         <CardTitle>Sign-in to Brainleap 🧠</CardTitle>
         <CardDescription>
-          Sign-in with Google, Email, or Email and Password
+          We&apos;re glad that you&apos;re getting onboard, get started by
+          filling out these fields. Sign-in with Google, Email, or Email and
+          Password
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -1,5 +1,9 @@
 import * as React from 'react'
 
+export const metadata = {
+  title: 'Sign In to Brainleap',
+}
+
 export default function Layout({
   children,
   dialog,

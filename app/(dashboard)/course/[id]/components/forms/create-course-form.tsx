@@ -1,15 +1,6 @@
 import { createCourse } from '@/lib/actions/course'
-import { useFormState, useFormStatus } from 'react-dom'
-
-function Submit() {
-  const { pending } = useFormStatus()
-
-  return (
-    <button disabled={pending} type="submit">
-      {pending ? 'Creating Class...' : 'Create Class'}
-    </button>
-  )
-}
+import { FormButton } from '@/ui/form'
+import { useFormState } from 'react-dom'
 
 export function CreateCourseForm() {
   const [state, action] = useFormState(createCourse, {
@@ -28,7 +19,7 @@ export function CreateCourseForm() {
       <input placeholder="Room" />
       <label>Class Description</label>
       <textarea placeholder="Class Description" />
-      <Submit />
+      <FormButton>Create Class</FormButton>
     </form>
   )
 }

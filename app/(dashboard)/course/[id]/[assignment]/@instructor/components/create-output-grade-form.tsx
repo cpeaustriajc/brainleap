@@ -1,18 +1,9 @@
 'use client'
 
 import { gradeOutput } from '@/lib/actions/output'
-import { useFormState, useFormStatus } from 'react-dom'
+import { FormButton } from '@/ui/form'
+import { useFormState } from 'react-dom'
 import { OutputProps } from './output'
-
-function Submit() {
-  const { pending } = useFormStatus()
-
-  return (
-    <button disabled={pending} type="submit">
-      Submit
-    </button>
-  )
-}
 
 export function CreateOutputGrade({
   output,
@@ -36,8 +27,7 @@ export function CreateOutputGrade({
           <input />
           <button type="button">+</button>
         </div>
-
-        <Submit />
+        <FormButton>Submit</FormButton>
       </div>
     </form>
   )

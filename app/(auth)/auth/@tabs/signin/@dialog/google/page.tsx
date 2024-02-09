@@ -3,7 +3,7 @@
 import { signInWithGoogle } from '@/lib/actions/auth'
 import { cx } from '@/lib/cva.config'
 import { Button } from '@/ui/button'
-import { form } from '@/ui/form'
+import { FormButton, form } from '@/ui/form'
 import * as Ariakit from '@ariakit/react'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -33,9 +33,9 @@ export default function GoogleSignIn() {
         Continue Signing in to Google
       </Ariakit.DialogHeading>
       <form className="flex flex-col">
-        <Button type="submit" formAction={signInWithGoogle}>
+        <FormButton type="submit" formAction={signInWithGoogle}>
           Sign in with Google
-        </Button>
+        </FormButton>
       </form>
     </Ariakit.Dialog>
   )

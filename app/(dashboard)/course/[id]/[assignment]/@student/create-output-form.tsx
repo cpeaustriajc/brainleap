@@ -2,17 +2,8 @@
 
 import { createOutput } from '@/lib/actions/output'
 import { Tables } from '@/lib/database.types'
-import { useFormState, useFormStatus } from 'react-dom'
-
-function Submit() {
-  const { pending } = useFormStatus()
-
-  return (
-    <button disabled={pending} type="submit">
-      Submit
-    </button>
-  )
-}
+import { FormButton } from '@/ui/form'
+import { useFormState } from 'react-dom'
 
 export function CreateOutputForm({
   assignment,
@@ -35,7 +26,7 @@ export function CreateOutputForm({
   return (
     <form action={action}>
       <input type="file" name="output" id="output" required />
-      <Submit />
+      <FormButton>Submit</FormButton>
     </form>
   )
 }

@@ -2,28 +2,12 @@
 
 import { signInWithEmail } from '@/lib/actions/auth'
 import { cx } from '@/lib/cva.config'
-import { Button } from '@/ui/button'
-import { form } from '@/ui/form'
+import { FormButton, form } from '@/ui/form'
 import { Input } from '@/ui/input'
 import { Label } from '@/ui/label'
 import * as Ariakit from '@ariakit/react'
 import { usePathname, useRouter } from 'next/navigation'
 import React from 'react'
-import { useFormStatus } from 'react-dom'
-
-type SubmitButtonProps = {
-  children: React.ReactNode
-}
-
-function Submit({ children }: SubmitButtonProps) {
-  const { pending } = useFormStatus()
-
-  return (
-    <Button type="submit" disabled={pending}>
-      {children}
-    </Button>
-  )
-}
 
 export default function SignInWithEmail() {
   const router = useRouter()
@@ -55,7 +39,7 @@ export default function SignInWithEmail() {
           placeholder="johndoe@email.com"
           required
         />
-        <Submit>Submit</Submit>
+        <FormButton>Submit</FormButton>
       </form>
     </Ariakit.Dialog>
   )

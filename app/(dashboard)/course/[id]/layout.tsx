@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/static'
-import { Tab, TabItem, TabList, Tabs } from '@/ui/tabs'
+import { Tab, TabItem, TabList, TabPanel, Tabs } from '@/ui/tabs'
 import React from 'react'
 
 export async function generateStaticParams() {
@@ -23,24 +23,14 @@ export default function CourseLayout({
   return (
     <React.Fragment>
       <Tabs>
-        <TabList orientation="horizontal">
-          <TabItem>
-            <Tab href={`/course/${params.id}`}>Announcements</Tab>
-          </TabItem>
-          <TabItem>
-            <Tab href={`/course/${params.id}/assignments`}>Assignments</Tab>
-          </TabItem>
-          <TabItem>
-            <Tab href={`/course/${params.id}/grades`}>Grades</Tab>
-          </TabItem>
-          <TabItem>
-            <Tab href={`/course/${params.id}/people`}>People</Tab>
-          </TabItem>
+        <TabList>
+          <Tab href={`/course/${params.id}`}>Announcements</Tab>
+          <Tab href={`/course/${params.id}/assignments`}>Assignments</Tab>
+          <Tab href={`/course/${params.id}/grades`}>Grades</Tab>
+          <Tab href={`/course/${params.id}/people`}>People</Tab>
         </TabList>
+        <TabPanel>{tabs}</TabPanel>
       </Tabs>
-      <main className="dark:bg-stone-900 rounded-b-lg" role="tabpanel">
-        {tabs}
-      </main>
     </React.Fragment>
   )
 }

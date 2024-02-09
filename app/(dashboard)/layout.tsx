@@ -61,13 +61,14 @@ export default async function DashboardRootLayout({
           </h1>
         </header>
         <Tabs>
-          <TabList>
-            <TabItem>
-              <Tab href="/dashboard">Dashboard</Tab>
-            </TabItem>
-            <TabItem>
-              <Tab href="/profile">Profile</Tab>
-            </TabItem>
+          <TabList
+            aria-orientation="vertical"
+            className="flex flex-col h-full w-full"
+          >
+            <Tab className="w-full" href="/dashboard">
+              Dashboard
+            </Tab>
+            <Tab className="w-full" href="/profile">Profile</Tab>
           </TabList>
         </Tabs>
         {children}

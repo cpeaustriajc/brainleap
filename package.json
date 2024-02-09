@@ -15,13 +15,11 @@
 	"license": "MIT",
 	"dependencies": {
 		"@ariakit/react": "^0.4.1",
-		"@google/generative-ai": "^0.2.0",
 		"@hookform/resolvers": "^3",
 		"@radix-ui/react-label": "^2",
 		"@radix-ui/react-slot": "^1",
 		"@supabase/ssr": "^0.1.0",
 		"@supabase/supabase-js": "^2",
-		"ai": "^2",
 		"cva": "1.0.0-beta.1",
 		"human-id": "^4",
 		"lucide-react": "^0.321.0",

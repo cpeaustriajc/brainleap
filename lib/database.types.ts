@@ -37,7 +37,6 @@ export interface Database {
       announcements: {
         Row: {
           announcement_id: string
-          attachment: string | null
           course_id: string | null
           created_at: string | null
           description: string | null
@@ -47,7 +46,6 @@ export interface Database {
         }
         Insert: {
           announcement_id?: string
-          attachment?: string | null
           course_id?: string | null
           created_at?: string | null
           description?: string | null
@@ -57,7 +55,6 @@ export interface Database {
         }
         Update: {
           announcement_id?: string
-          attachment?: string | null
           course_id?: string | null
           created_at?: string | null
           description?: string | null
@@ -79,54 +76,6 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
-          }
-        ]
-      }
-      assignments: {
-        Row: {
-          assignment_id: string
-          attachment: string | null
-          course_id: string | null
-          description: string | null
-          due_date: string | null
-          instructor_id: string | null
-          link: string | null
-          title: string | null
-        }
-        Insert: {
-          assignment_id?: string
-          attachment?: string | null
-          course_id?: string | null
-          description?: string | null
-          due_date?: string | null
-          instructor_id?: string | null
-          link?: string | null
-          title?: string | null
-        }
-        Update: {
-          assignment_id?: string
-          attachment?: string | null
-          course_id?: string | null
-          description?: string | null
-          due_date?: string | null
-          instructor_id?: string | null
-          link?: string | null
-          title?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "assignments_instructor_id_fkey"
-            columns: ["instructor_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "course_id_fk"
-            columns: ["course_id"]
-            isOneToOne: false
-            referencedRelation: "courses"
-            referencedColumns: ["course_id"]
           }
         ]
       }
@@ -188,58 +137,6 @@ export interface Database {
           {
             foreignKeyName: "enrollments_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      outputs: {
-        Row: {
-          assignment_id: string | null
-          attachment: string
-          course_id: string
-          grade: number | null
-          output_id: string
-          student_id: string | null
-          submitted_at: string
-        }
-        Insert: {
-          assignment_id?: string | null
-          attachment: string
-          course_id: string
-          grade?: number | null
-          output_id?: string
-          student_id?: string | null
-          submitted_at?: string
-        }
-        Update: {
-          assignment_id?: string | null
-          attachment?: string
-          course_id?: string
-          grade?: number | null
-          output_id?: string
-          student_id?: string | null
-          submitted_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "outputs_assignment_id_fkey"
-            columns: ["assignment_id"]
-            isOneToOne: false
-            referencedRelation: "assignments"
-            referencedColumns: ["assignment_id"]
-          },
-          {
-            foreignKeyName: "outputs_course_id_fkey"
-            columns: ["course_id"]
-            isOneToOne: false
-            referencedRelation: "courses"
-            referencedColumns: ["course_id"]
-          },
-          {
-            foreignKeyName: "outputs_student_id_fkey"
-            columns: ["student_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]

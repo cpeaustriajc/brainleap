@@ -19,7 +19,7 @@ export default function LandingPageLayout({
 }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="ltr">
-      <body className="dark:bg-stone-800 bg-white">
+      <body className="bg-background">
         <Header />
         <main>{children}</main>
       </body>

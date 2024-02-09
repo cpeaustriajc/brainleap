@@ -18,7 +18,7 @@ export async function generateStaticParams() {
     .select('assignment_id')
 
   if (error) {
-    throw new Error(`${error.message}`)
+    throw error
   }
 
   return assignments.map(assignment => ({

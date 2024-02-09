@@ -45,7 +45,7 @@ export async function createCourse(
     .eq('user_id', session.user.id)
     .single()
 
-  const { data: insertedCourse, error } = await supabase
+  const { data: insertedCourse, error: insertCourseError } = await supabase
     .from('courses')
     .insert({
       course_id: humanId({ separator: '-', capitalize: false }),
@@ -57,10 +57,9 @@ export async function createCourse(
     })
     .select()
     .single()
+  if (insertCourseError) throw insertCourseError
 
   if (session) {
-    if (!insertedCourse) throw new Error('Class not found')
-
     const { data: course, error: selectCourseError } = await supabase
       .from('courses')
       .select('*')
@@ -76,8 +75,6 @@ export async function createCourse(
 
     if (error) throw error
   }
-
-  if (error) throw error
 
   revalidatePath('/')
   revalidatePath('@/modal/create/course')

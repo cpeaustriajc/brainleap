@@ -7,7 +7,7 @@ export async function generateStaticParams() {
 
   const { data, error } = await supabase.from('courses').select('course_id')
 
-  if (error) throw new Error(`${error.message}`)
+  if (error) throw error
 
   return data.map(id => ({
     params: {

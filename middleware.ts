@@ -71,7 +71,7 @@ export async function middleware(request: NextRequest) {
     .single()
 
   if (error) {
-    throw new Error(error.message)
+    throw error
   }
 
   if (!profile.username && request.nextUrl.pathname === '/dashboard') {

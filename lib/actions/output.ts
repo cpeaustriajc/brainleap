@@ -41,7 +41,7 @@ export const createOutput = async (
   } = await supabase.auth.getUser()
 
   if (userError) {
-    throw new Error(userError.message)
+    throw userError
   }
 
   if (!user) {
@@ -55,7 +55,7 @@ export const createOutput = async (
     .single()
 
   if (profileError) {
-    throw new Error(profileError.message)
+    throw profileError
   }
 
   const { data: file, error: fileError } = await supabase.storage
@@ -69,7 +69,7 @@ export const createOutput = async (
     )
 
   if (fileError) {
-    throw new Error(fileError.message)
+    throw fileError
   }
 
   const { error } = await supabase.from('outputs').insert({
@@ -82,7 +82,7 @@ export const createOutput = async (
   })
 
   if (error) {
-    throw new Error(error.message)
+    throw error
   }
 
   revalidatePath(`/course/${courseId}/${assignmentId}`)
@@ -120,7 +120,7 @@ export const gradeOutput = async (
     .eq('output_id', outputId)
 
   if (error) {
-    throw new Error(error.message)
+    throw error
   }
 
   revalidatePath(`/course/${courseId}/${assignmentId}`)

@@ -178,7 +178,7 @@ FormMessage.displayName = 'FormMessage'
 const FormButton = React.forwardRef<
   HTMLButtonElement,
   React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, children, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   const { pending } = useFormStatus()
 
   return (

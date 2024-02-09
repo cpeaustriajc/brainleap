@@ -14,7 +14,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         type={type}
-        className={cx(input, className)}
+        className={input({ className })}
         ref={ref}
         {...props}
       />

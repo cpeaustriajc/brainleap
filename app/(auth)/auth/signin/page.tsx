@@ -1,7 +1,7 @@
 'use client'
 
 import { signInWithCredentials } from '@/lib/actions/auth'
-import { Button, buttonVariants } from '@/ui/button'
+import { buttonVariants } from '@/ui/button'
 import {
   Card,
   CardContent,
@@ -10,20 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/ui/card'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/ui/form'
+import { FormButton } from '@/ui/form'
 import { Input } from '@/ui/input'
+import { Label } from '@/ui/label'
 import { link } from '@/ui/link'
-import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { startTransition } from 'react'
-import { useForm } from 'react-hook-form'
+import { useId } from 'react'
+import { useFormState } from 'react-dom'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -32,25 +25,11 @@ const formSchema = z.object({
 })
 
 export default function Page() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
-    progressive: true,
+  const [formState, action] = useFormState(signInWithCredentials, {
+    values: {},
   })
-
-  function onSubmit(e: z.infer<typeof formSchema>) {
-    // Temporary solution until https://github.com/react-hook-form/react-hook-form/pull/11061 gets merged.
-    const formData = new FormData()
-    formData.append('email', e.email)
-    formData.append('password', e.password)
-
-    startTransition(() => {
-      signInWithCredentials(formData)
-    })
-  }
+  const emailId = useId()
+  const passwordId = useId()
 
   return (
     <Card>
@@ -85,43 +64,15 @@ export default function Page() {
             </span>
           </div>
         </div>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-8">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              formAction={signInWithCredentials}
-              className="w-full cursor-default"
-              type="submit"
-            >
-              Sign In
-            </Button>
-          </form>
-        </Form>
+        <form action={action} className="grid gap-8">
+          <Label htmlFor={emailId}>Email</Label>
+          <Input type="email" name="email" id={emailId} />
+          <Label htmlFor={passwordId}>Password</Label>
+          <Input type="password" name="password" id={passwordId} />
+          <FormButton className="w-full cursor-default" type="submit">
+            Sign In
+          </FormButton>
+        </form>
       </CardContent>
       <CardFooter className="justify-center">
         <p>

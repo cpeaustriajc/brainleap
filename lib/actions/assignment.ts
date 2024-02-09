@@ -2,6 +2,7 @@
 
 import { createClient } from '@/lib/supabase/action'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { assignmentSchema } from '../validations/assignment'
 
@@ -43,7 +44,7 @@ export async function createAssignment(
   } = await supabase.auth.getUser()
 
   if (!user) {
-    throw new Error('User not found')
+    redirect('/auth/signin')
   }
 
   const { data: profile, error: profileError } = await supabase
@@ -54,7 +55,7 @@ export async function createAssignment(
     .single()
 
   if (profileError) {
-    throw new Error(profileError.message)
+    throw profileError
   }
 
   const results = assignmentSchema.safeParse({

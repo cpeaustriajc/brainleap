@@ -1,9 +1,17 @@
 import { createClient } from '@/lib/supabase/server'
 import '@/styles/styles.css'
-import { Tab, TabItem, TabList, Tabs } from '@/ui/tabs'
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@/ui/navigation-menu'
+import * as Ariakit from '@ariakit/react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import { DashboardNavigationMenu } from './components/navigation-menu'
 
 export const metadata = {
   title: 'Brainleap - Dashboard',
@@ -55,23 +63,15 @@ export default async function DashboardRootLayout({
   return (
     <html dir="ltr" lang="en">
       <body className="grid grid-cols-[minmax(auto,240px),1fr] grid-rows-[auto,auto,1fr] bg-background h-dvh">
-        <header className="flex justify-between items-center px-4 py-2 col-span-2">
+        <header className="flex items-center px-4 py-2 col-span-2 gap-2">
           <h1 className="pl-2 text-xl">
             <Link href="/">Brainleap 🧠</Link>
           </h1>
+          <DashboardNavigationMenu />
         </header>
-        <Tabs>
-          <TabList
-            aria-orientation="vertical"
-            className="flex flex-col h-full w-full"
-          >
-            <Tab className="w-full" href="/dashboard">
-              Dashboard
-            </Tab>
-            <Tab className="w-full" href="/profile">Profile</Tab>
-          </TabList>
-        </Tabs>
-        {children}
+        <div className="mx-4 px-4 pt-2 rounded-lg col-span-full row-span-2 border bg-background text-foreground">
+          {children}
+        </div>
       </body>
     </html>
   )

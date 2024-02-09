@@ -39,7 +39,7 @@ export default async function Page() {
   }
 
   return (
-    <section className="col-start-2 row-start-2">
+    <section className="col-start-1 row-start-2">
       <ul className="p-4">
         {courses.map(course => (
           <Course key={course.course_id} course={course} />

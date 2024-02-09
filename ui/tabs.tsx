@@ -21,14 +21,15 @@ export function Tabs(props: AriaKit.TabProviderProps) {
 }
 
 export const TabList = React.forwardRef<HTMLDivElement, AriaKit.TabListProps>(
-  ({className, ...props}, ref) => (
+  ({ className, ...props }, ref) => (
     <AriaKit.TabList
       ref={ref}
       className={cx(
         'inline-flex h-10 justify-center items-center p-1 bg-muted rounded-sm w-full',
-        className
+        className,
       )}
-      {...props} />
+      {...props}
+    />
   ),
 )
 TabList.displayName = 'TabList'

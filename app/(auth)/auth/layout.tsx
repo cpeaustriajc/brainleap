@@ -10,7 +10,7 @@ export default function AuthTabsLayout({ tabs }: { tabs: React.ReactNode }) {
     <div className="h-dvh grid place-items-center">
       <div className="flex flex-col gap-2">
         <Tabs>
-          <TabList className='grid grid-cols-2'>
+          <TabList className="grid grid-cols-2">
             <Tab href="/auth/signin">Sign In</Tab>
             <Tab href="/auth/signup">Sign Up</Tab>
           </TabList>

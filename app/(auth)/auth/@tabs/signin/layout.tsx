@@ -8,9 +8,5 @@ export default function Layout({
   children,
   dialog,
 }: { children: React.ReactNode; dialog: React.ReactNode }) {
-  return (
-    <React.Fragment>
-      {children}
-    </React.Fragment>
-  )
+  return <React.Fragment>{children}</React.Fragment>
 }

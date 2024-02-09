@@ -17,6 +17,8 @@
 		"@ariakit/react": "^0.4.1",
 		"@hookform/resolvers": "^3",
 		"@radix-ui/react-label": "^2",
+		"@radix-ui/react-navigation-menu": "^1.1.4",
+		"@radix-ui/react-separator": "^1.0.3",
 		"@radix-ui/react-slot": "^1",
 		"@supabase/ssr": "^0.1.0",
 		"@supabase/supabase-js": "^2",

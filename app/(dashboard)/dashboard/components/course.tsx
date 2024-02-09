@@ -1,5 +1,6 @@
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
+import { Card, CardContent, CardFooter, CardHeader } from '@/ui/card'
 import { link } from '@/ui/link'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -63,8 +64,8 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
   const message = `You currently have ${hasPendingAssignments ? `pending classworks to ${profile.data.role === 'instructor' ? 'grade' : 'complete'}` : 'no pending classworks'}`;
 
   return (
-    <li className="border border-stone-600/20 rounded-md dark:bg-stone-800 bg-stone-100 shadow-xl shadow-stone-700 grid gap-y-4 max-w-96 p-4">
-      <header className="grid grid-rows-2 grid-cols-2 place-content-center">
+    <Card className="grid gap-y-2 max-w-96">
+      <CardHeader className="grid grid-rows-2 grid-cols-2 place-content-center">
         <strong className="col-start-1">{course.course_name}</strong>
         <p className="col-start-1 row-start-2">{course.course_description}</p>
         <figure className=" row-span-2 justify-self-end">
@@ -77,15 +78,15 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
             alt={instructor.data.full_name}
           />
         </figure>
-      </header>
-      <article>
+      </CardHeader>
+      <CardContent>
         <p>{message}</p>
-      </article>
-      <footer className="place-self-center">
+      </CardContent>
+      <CardFooter className="place-self-center">
         <Link className={link} href={`/course/${course.course_id}`}>
           View More
         </Link>
-      </footer>
-    </li>
+      </CardFooter>
+    </Card>
   )
 }

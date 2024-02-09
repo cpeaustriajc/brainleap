@@ -1,4 +1,4 @@
-import { CheckCircleIcon, CheckIcon } from 'lucide-react'
+import { CheckCircleIcon } from 'lucide-react'
 import React from 'react'
 
 export default function Page() {

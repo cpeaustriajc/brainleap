@@ -1,9 +1,9 @@
 import { updateName } from '@/lib/actions/profile'
 import { createClient } from '@/lib/supabase/server'
-import { Button, button } from '@/ui/button'
+import { Button } from '@/ui/button'
 import { form } from '@/ui/form'
-import { Input, input } from '@/ui/input'
-import { Label, label } from '@/ui/label'
+import { Input } from '@/ui/input'
+import { Label } from '@/ui/label'
 import { Session } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 

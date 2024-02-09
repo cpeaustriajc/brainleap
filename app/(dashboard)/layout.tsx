@@ -60,8 +60,8 @@ export default async function DashboardRootLayout({
             <Link href="/">Brainleap 🧠</Link>
           </h1>
         </header>
-        <Tabs className="col-start-1 px-2 row-span-3 bg-stone-100 dark:bg-stone-800">
-          <TabList orientation="vertical">
+        <Tabs>
+          <TabList>
             <TabItem>
               <Tab href="/dashboard">Dashboard</Tab>
             </TabItem>

@@ -14,6 +14,7 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@ariakit/react": "^0.4.1",
 		"@google/generative-ai": "^0.2.0",
 		"@hookform/resolvers": "^3",
 		"@radix-ui/react-label": "^2",

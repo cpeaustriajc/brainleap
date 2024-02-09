@@ -20,7 +20,7 @@ export default async function Announcements({
     .from('profiles')
     .select('*')
     .limit(1)
-    .eq('profile_id', user.id)
+    .eq('id', user.id)
     .single()
 
   if (!profile) {

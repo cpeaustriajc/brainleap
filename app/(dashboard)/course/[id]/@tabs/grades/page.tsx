@@ -10,7 +10,7 @@ export default async function Grades() {
     .from('profiles')
     .select()
     .in(
-      'profile_id',
+      'id',
       enrollments.map(enrollment => enrollment.user_id),
     )
     .eq('role', 'student')
@@ -26,7 +26,7 @@ export default async function Grades() {
   // 	)
   // 	.in(
   // 		'student_id',
-  // 		students.map((person) => person.profile_id),
+  // 		students.map((person) => person.id),
   // 	)
 
   // if (outputsError) throw outputsError

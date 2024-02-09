@@ -7,7 +7,7 @@ export default async function People() {
   // 	.from('profiles')
   // 	.select('*')
   // 	.in(
-  // 		'profile_id',
+  // 		'id',
   // 		enrolledPeople.map((enrolledPerson) => enrolledPerson.user_id),
   // 	)
   // 	.eq('role', 'student')
@@ -20,7 +20,7 @@ export default async function People() {
   // 	.from('profiles')
   // 	.select('*')
   // 	.in(
-  // 		'profile_id',
+  // 		'id',
   // 		enrolledPeople.map((enrolledPerson) => enrolledPerson.user_id),
   // 	)
   // 	.eq('role', 'instructor')

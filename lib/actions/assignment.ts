@@ -49,8 +49,8 @@ export async function createAssignment(
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('profile_id')
-    .eq('profile_id', user.id)
+    .select('id')
+    .eq('id', user.id)
     .limit(1)
     .single()
 
@@ -81,7 +81,7 @@ export async function createAssignment(
         title: results.data.title,
         due_date: dueDate.toLocaleDateString(),
         course_id: course_id,
-        instructor_id: profile.profile_id,
+        instructor_id: profile.id,
       })
 
     if (assignmentError) {
@@ -99,7 +99,7 @@ export async function createAssignment(
         due_date: dueDate.toLocaleDateString(),
         link: results.data.link,
         course_id: course_id,
-        instructor_id: profile.profile_id,
+        instructor_id: profile.id,
       })
 
     if (assignmentError) {
@@ -133,7 +133,7 @@ export async function createAssignment(
         attachment: assignmentFiles.path,
         link: results.data.link,
         course_id: course_id,
-        instructor_id: profile.profile_id,
+        instructor_id: profile.id,
       })
 
     if (assignmentError) {

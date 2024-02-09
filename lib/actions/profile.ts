@@ -38,7 +38,7 @@ export async function uploadAvatar(formData: FormData) {
   await supabase
     .from('profiles')
     .update({ avatar_url: fileUrl })
-    .eq('profile_id', user.id)
+    .eq('id', user.id)
 
   revalidatePath('/profile')
 }
@@ -73,7 +73,7 @@ export async function updateUsername(formData: FormData) {
       username: res.data.username,
       updated_at: new Date().toISOString(),
     })
-    .eq('profile_id', session.user.id)
+    .eq('id', session.user.id)
 
   if (error) {
     throw error
@@ -108,7 +108,7 @@ export async function updateName(formData: FormData) {
       full_name: res.data.name,
       updated_at: new Date().toISOString(),
     })
-    .eq('profile_id', session.user.id)
+    .eq('id', session.user.id)
 
   if (error) {
     throw error
@@ -136,7 +136,7 @@ export async function updateUniversity(formData: FormData) {
       university: university,
       updated_at: new Date().toISOString(),
     })
-    .eq('profile_id', session.user.id)
+    .eq('id', session.user.id)
 
   if (error) {
     throw error
@@ -172,7 +172,7 @@ export async function updateSection(formData: FormData) {
       section: section,
       updated_at: new Date().toISOString(),
     })
-    .eq('profile_id', session.user.id)
+    .eq('id', session.user.id)
 
   if (error) {
     throw error

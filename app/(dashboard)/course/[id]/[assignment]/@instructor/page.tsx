@@ -22,7 +22,7 @@ export default async function TeacherView({
     .from('profiles')
     .select()
     .in(
-      'profile_id',
+      'id',
       enrollments.map(enrollment => enrollment.user_id),
     )
     .eq('role', 'student')
@@ -43,7 +43,7 @@ export default async function TeacherView({
     .eq('assignment_id', assignment.assignment_id)
     .in(
       'student_id',
-      students.map(student => student.profile_id),
+      students.map(student => student.id),
     )
 
   type OutputWithStudents = QueryData<typeof outputWithStudentsQuery>

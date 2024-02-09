@@ -50,8 +50,8 @@ export const createOutput = async (
 
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('username, profile_id')
-    .eq('profile_id', user.id)
+    .select('username, id')
+    .eq('id', user.id)
     .single()
 
   if (profileError) {
@@ -75,7 +75,7 @@ export const createOutput = async (
   const { error } = await supabase.from('outputs').insert({
     course_id: courseId,
     assignment_id: assignmentId,
-    student_id: profile.profile_id,
+    student_id: profile.id,
     attachment: file.path,
     grade: 0,
     submitted_at: new Date().toISOString(),

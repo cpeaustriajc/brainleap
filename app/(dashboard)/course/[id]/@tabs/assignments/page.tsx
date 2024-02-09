@@ -21,7 +21,7 @@ export default async function Assignments({
     .from('profiles')
     .select('*')
     .limit(1)
-    .eq('profile_id', user.id)
+    .eq('id', user.id)
     .single()
 
   if (!profile) {

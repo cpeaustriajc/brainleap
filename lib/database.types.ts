@@ -6,7 +6,32 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type Database = {
+export interface Database {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       announcements: {
@@ -42,19 +67,19 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'announcements_course_id_fkey'
-            columns: ['course_id']
+            foreignKeyName: "announcements_course_id_fkey"
+            columns: ["course_id"]
             isOneToOne: false
-            referencedRelation: 'courses'
-            referencedColumns: ['course_id']
+            referencedRelation: "courses"
+            referencedColumns: ["course_id"]
           },
           {
-            foreignKeyName: 'profile_id_fk'
-            columns: ['profile_id']
+            foreignKeyName: "profile_id_fk"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['profile_id']
-          },
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
         ]
       }
       assignments: {
@@ -90,19 +115,19 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'assignments_instructor_id_fkey'
-            columns: ['instructor_id']
+            foreignKeyName: "assignments_instructor_id_fkey"
+            columns: ["instructor_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['profile_id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'course_id_fk'
-            columns: ['course_id']
+            foreignKeyName: "course_id_fk"
+            columns: ["course_id"]
             isOneToOne: false
-            referencedRelation: 'courses'
-            referencedColumns: ['course_id']
-          },
+            referencedRelation: "courses"
+            referencedColumns: ["course_id"]
+          }
         ]
       }
       courses: {
@@ -135,12 +160,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'fk_instructor_id'
-            columns: ['instructor_id']
+            foreignKeyName: "fk_instructor_id"
+            columns: ["instructor_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['profile_id']
-          },
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
         ]
       }
       enrollments: {
@@ -161,12 +186,12 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'enrollments_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "enrollments_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['profile_id']
-          },
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
         ]
       }
       outputs: {
@@ -199,26 +224,26 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'outputs_assignment_id_fkey'
-            columns: ['assignment_id']
+            foreignKeyName: "outputs_assignment_id_fkey"
+            columns: ["assignment_id"]
             isOneToOne: false
-            referencedRelation: 'assignments'
-            referencedColumns: ['assignment_id']
+            referencedRelation: "assignments"
+            referencedColumns: ["assignment_id"]
           },
           {
-            foreignKeyName: 'outputs_course_id_fkey'
-            columns: ['course_id']
+            foreignKeyName: "outputs_course_id_fkey"
+            columns: ["course_id"]
             isOneToOne: false
-            referencedRelation: 'courses'
-            referencedColumns: ['course_id']
+            referencedRelation: "courses"
+            referencedColumns: ["course_id"]
           },
           {
-            foreignKeyName: 'outputs_student_id_fkey'
-            columns: ['student_id']
+            foreignKeyName: "outputs_student_id_fkey"
+            columns: ["student_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['profile_id']
-          },
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
         ]
       }
       profiles: {
@@ -227,12 +252,8 @@ export type Database = {
           biography: string | null
           email: string
           full_name: string
-          position: string | null
-          profile_id: string
-          program: string | null
-          role: Database['public']['Enums']['role_type']
-          section: string | null
-          university: string | null
+          id: string
+          role: Database["public"]["Enums"]["role_type"]
           updated_at: string | null
           username: string
         }
@@ -241,12 +262,8 @@ export type Database = {
           biography?: string | null
           email: string
           full_name?: string
-          position?: string | null
-          profile_id: string
-          program?: string | null
-          role?: Database['public']['Enums']['role_type']
-          section?: string | null
-          university?: string | null
+          id: string
+          role?: Database["public"]["Enums"]["role_type"]
           updated_at?: string | null
           username?: string
         }
@@ -255,23 +272,19 @@ export type Database = {
           biography?: string | null
           email?: string
           full_name?: string
-          position?: string | null
-          profile_id?: string
-          program?: string | null
-          role?: Database['public']['Enums']['role_type']
-          section?: string | null
-          university?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["role_type"]
           updated_at?: string | null
           username?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'profiles_profile_id_fkey'
-            columns: ['profile_id']
+            foreignKeyName: "profiles_profile_id_fkey"
+            columns: ["id"]
             isOneToOne: true
-            referencedRelation: 'users'
-            referencedColumns: ['id']
-          },
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
         ]
       }
     }
@@ -282,8 +295,187 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      post_type: 'assignment' | 'announcement'
-      role_type: 'student' | 'instructor'
+      post_type: "assignment" | "announcement"
+      role_type: "student" | "instructor"
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
+  storage: {
+    Tables: {
+      buckets: {
+        Row: {
+          allowed_mime_types: string[] | null
+          avif_autodetection: boolean | null
+          created_at: string | null
+          file_size_limit: number | null
+          id: string
+          name: string
+          owner: string | null
+          owner_id: string | null
+          public: boolean | null
+          updated_at: string | null
+        }
+        Insert: {
+          allowed_mime_types?: string[] | null
+          avif_autodetection?: boolean | null
+          created_at?: string | null
+          file_size_limit?: number | null
+          id: string
+          name: string
+          owner?: string | null
+          owner_id?: string | null
+          public?: boolean | null
+          updated_at?: string | null
+        }
+        Update: {
+          allowed_mime_types?: string[] | null
+          avif_autodetection?: boolean | null
+          created_at?: string | null
+          file_size_limit?: number | null
+          id?: string
+          name?: string
+          owner?: string | null
+          owner_id?: string | null
+          public?: boolean | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      migrations: {
+        Row: {
+          executed_at: string | null
+          hash: string
+          id: number
+          name: string
+        }
+        Insert: {
+          executed_at?: string | null
+          hash: string
+          id: number
+          name: string
+        }
+        Update: {
+          executed_at?: string | null
+          hash?: string
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
+      objects: {
+        Row: {
+          bucket_id: string | null
+          created_at: string | null
+          id: string
+          last_accessed_at: string | null
+          metadata: Json | null
+          name: string | null
+          owner: string | null
+          owner_id: string | null
+          path_tokens: string[] | null
+          updated_at: string | null
+          version: string | null
+        }
+        Insert: {
+          bucket_id?: string | null
+          created_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          name?: string | null
+          owner?: string | null
+          owner_id?: string | null
+          path_tokens?: string[] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Update: {
+          bucket_id?: string | null
+          created_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          metadata?: Json | null
+          name?: string | null
+          owner?: string | null
+          owner_id?: string | null
+          path_tokens?: string[] | null
+          updated_at?: string | null
+          version?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "objects_bucketId_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      can_insert_object: {
+        Args: {
+          bucketid: string
+          name: string
+          owner: string
+          metadata: Json
+        }
+        Returns: undefined
+      }
+      extension: {
+        Args: {
+          name: string
+        }
+        Returns: string
+      }
+      filename: {
+        Args: {
+          name: string
+        }
+        Returns: string
+      }
+      foldername: {
+        Args: {
+          name: string
+        }
+        Returns: unknown
+      }
+      get_size_by_bucket: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          size: number
+          bucket_id: string
+        }[]
+      }
+      search: {
+        Args: {
+          prefix: string
+          bucketname: string
+          limits?: number
+          levels?: number
+          offsets?: number
+          search?: string
+          sortcolumn?: string
+          sortorder?: string
+        }
+        Returns: {
+          name: string
+          id: string
+          updated_at: string
+          created_at: string
+          last_accessed_at: string
+          metadata: Json
+        }[]
+      }
+    }
+    Enums: {
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -293,86 +485,81 @@ export type Database = {
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database['public']['Tables'] & Database['public']['Views'])
+    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
-    : never = never,
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database['public']['Tables'] &
-        Database['public']['Views'])
-    ? (Database['public']['Tables'] &
-        Database['public']['Views'])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
+  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
+      Database["public"]["Views"])
+  ? (Database["public"]["Tables"] &
+      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R
+    }
+    ? R
     : never
+  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database['public']['Tables']
+    | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-    : never = never,
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database['public']['Tables']
-    ? Database['public']['Tables'][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I
+    }
+    ? I
     : never
+  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database['public']['Tables']
+    | keyof Database["public"]["Tables"]
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends {
-    schema: keyof Database
-  }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
-    : never = never,
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database['public']['Tables']
-    ? Database['public']['Tables'][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
+  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U
+    }
+    ? U
     : never
+  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database['public']['Enums']
+    | keyof Database["public"]["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
-    : never = never,
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database['public']['Enums']
-    ? Database['public']['Enums'][PublicEnumNameOrOptions]
-    : never
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
+  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
+  : never
+

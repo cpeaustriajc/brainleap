@@ -22,14 +22,14 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
   const profile = await supabase
     .from('profiles')
     .select('role')
-    .eq('profile_id', res.data.session.user.id)
+    .eq('id', res.data.session.user.id)
     .limit(1)
     .single()
 
   const instructor = await supabase
     .from('profiles')
     .select('avatar_url, full_name')
-    .eq('profile_id', course.instructor_id)
+    .eq('id', course.instructor_id)
     .limit(1)
     .single()
 

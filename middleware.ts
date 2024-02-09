@@ -66,7 +66,7 @@ export async function middleware(request: NextRequest) {
   const { data: profile, error } = await supabase
     .from('profiles')
     .select('username')
-    .eq('profile_id', user.id)
+    .eq('id', user.id)
     .limit(1)
     .single()
 

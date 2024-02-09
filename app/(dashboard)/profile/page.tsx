@@ -38,7 +38,7 @@ export default async function ProfilePage() {
     .select(
       'avatar_url, full_name, username, biography, university, section, program',
     )
-    .eq('profile_id', user.id)
+    .eq('id', user.id)
     .single()
 
   if (profileError) {

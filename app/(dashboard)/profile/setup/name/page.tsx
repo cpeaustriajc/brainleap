@@ -1,9 +1,9 @@
 import { updateName } from '@/lib/actions/profile'
 import { createClient } from '@/lib/supabase/server'
-import { button } from '@/ui/button'
+import { Button, button } from '@/ui/button'
 import { form } from '@/ui/form'
-import { input } from '@/ui/input'
-import { label } from '@/ui/label'
+import { Input, input } from '@/ui/input'
+import { Label, label } from '@/ui/label'
 import { Session } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 
@@ -43,19 +43,16 @@ export default async function Page() {
   return (
     <div>
       <form className={form} action={updateName}>
-        <label className={label} htmlFor="name">
-          Name
-        </label>
-        <input
-          className={input}
+        <Label htmlFor="name">Name</Label>
+        <Input
           type="text"
           name="name"
           id="name"
           defaultValue={fullName}
         />
-        <button className={button} type="submit">
+        <Button type="submit">
           Submit Name
-        </button>
+        </Button>
       </form>
     </div>
   )

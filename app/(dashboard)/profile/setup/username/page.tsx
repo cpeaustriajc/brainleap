@@ -1,7 +1,7 @@
 import { updateUsername } from '@/lib/actions/profile'
 import { createClient } from '@/lib/supabase/server'
-import { button } from '@/ui/button'
-import { input } from '@/ui/input'
+import { Button } from '@/ui/button'
+import { Input } from '@/ui/input'
 import { Session } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 
@@ -49,7 +49,7 @@ export default async function SetupUsernamePage() {
       <p>Let&apos;s start with you username</p>
 
       <form action={updateUsername}>
-        <input
+        <Input
           type="text"
           name="username"
           id="username"
@@ -58,11 +58,8 @@ export default async function SetupUsernamePage() {
           defaultValue={username}
           minLength={6}
           maxLength={20}
-          className={input}
         />
-        <button type="submit" className={button}>
-          Submit
-        </button>
+        <Button type="submit">Submit</Button>
       </form>
     </>
   )

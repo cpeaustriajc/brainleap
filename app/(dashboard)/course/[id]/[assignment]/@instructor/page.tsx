@@ -11,7 +11,7 @@ export default async function TeacherView({
 }: {
   params: { assignment: string; id: string }
 }) {
-  const supabase = createServerClient(cookieStore)
+  const supabase = createServerClient()
   const enrollments = await getEnrollments()
 
   if (!enrollments) {

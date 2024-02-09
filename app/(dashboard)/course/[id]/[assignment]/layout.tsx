@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ student, instructor }: Props) {
-  const supabase = createServerClient(cookieStore)
+  const supabase = createServerClient()
 
   const {
     data: { user },

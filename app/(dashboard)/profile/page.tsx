@@ -6,10 +6,10 @@ import {
 } from '@/lib/actions/profile'
 import { cx } from '@/lib/cva.config'
 import { createClient } from '@/lib/supabase/server'
-import { button } from '@/ui/button'
+import { Button, button } from '@/ui/button'
 import { form } from '@/ui/form'
-import { input } from '@/ui/input'
-import { label } from '@/ui/label'
+import { Input, input } from '@/ui/input'
+import { Label, label } from '@/ui/label'
 import { textarea } from '@/ui/textarea'
 import { unstable_noStore as noStore } from 'next/cache'
 import Image from 'next/image'
@@ -53,46 +53,23 @@ export default async function Page() {
           blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(74 222 128)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20a6 6 0 0 0-12 0'/%3E%3Ccircle cx='12' cy='10' r='4'/%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E"
         />
         <form action="" className={cx(form, 'gap-2 col-start-2')}>
-          <label className={label} htmlFor="avatar">
-            Update Profile Picture
-          </label>
-          <input
-            className={input}
-            accept="image/*"
-            type="file"
-            name="avatar"
-            id="avatar"
-          />
-          <button className={button} type="submit">
-            Update
-          </button>
+          <Label htmlFor="avatar">Update Profile Picture</Label>
+          <Input accept="image/*" type="file" name="avatar" id="avatar" />
+          <Button type="submit">Update</Button>
         </form>
         <h2 className="col-span-full text-xl font-bold">Name</h2>
         <p>{profile.full_name}</p>
         <form action={updateName} className={cx(form, 'gap-2')}>
-          <label htmlFor="full_name" className={label}>
-            Update name
-          </label>
-          <input
-            type="text"
-            className={input}
-            name="full_name"
-            id="full_name"
-          />
-          <button className={button} type="submit">
-            Update
-          </button>
+          <Label htmlFor="full_name">Update name</Label>
+          <Input type="text" name="full_name" id="full_name" />
+          <Button type="submit">Update</Button>
         </form>
         <h2 className="col-span-full text-xl font-bold">Username</h2>
         <p>{profile.username}</p>
         <form action={updateUsername} className={cx(form, 'gap-2')}>
-          <label className={label} htmlFor="username">
-            Update Username
-          </label>
-          <input type="text" className={input} name="username" id="username" />
-          <button className={button} type="submit">
-            Update
-          </button>
+          <Label htmlFor="username">Update Username</Label>
+          <Input type="text" name="username" id="username" />
+          <Button type="submit">Update</Button>
         </form>
         <h2 className="col-span-full text-xl font-bold">About</h2>
         <p>
@@ -103,13 +80,9 @@ export default async function Page() {
           )}{' '}
         </p>
         <form action="" className={cx(form, 'gap-2')}>
-          <label className={label} htmlFor="biography">
-            Update About You
-          </label>
+          <Label htmlFor="biography">Update About You</Label>
           <textarea className={textarea} name="biography" id="biography" />
-          <button className={button} type="submit">
-            Update
-          </button>
+          <Button type="submit">Update</Button>
         </form>
         <h2 className="col-span-full text-xl font-bold">University</h2>
         <p>
@@ -122,18 +95,9 @@ export default async function Page() {
           )}
         </p>
         <form action={updateUniversity} className={cx(form, 'gap-2')}>
-          <label className={label} htmlFor="university">
-            Update Univesity
-          </label>
-          <input
-            type="text"
-            className={input}
-            name="university"
-            id="university"
-          />
-          <button className={button} type="submit">
-            Update
-          </button>
+          <Label htmlFor="university">Update Univesity</Label>
+          <Input type="text" name="university" id="university" />
+          <Button type="submit">Update</Button>
         </form>
         <h2 className="col-span-full text-xl font-bold">Section</h2>
         <p>
@@ -144,13 +108,11 @@ export default async function Page() {
           )}
         </p>
         <form action={updateSection} className={cx(form, 'gap-2')}>
-          <label className={label} htmlFor="section">
-            Update Section
-          </label>
-          <input type="text" className={input} name="section" id="section" />
-          <button className={button} type="submit">
+          <Label htmlFor="section">Update Section</Label>
+          <Input type="text" name="section" id="section" />
+          <Button type="submit">
             Update
-          </button>
+          </Button>
         </form>
       </section>
     </main>

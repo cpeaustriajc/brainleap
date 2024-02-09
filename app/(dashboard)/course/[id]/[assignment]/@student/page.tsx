@@ -6,7 +6,7 @@ export default async function Page({
 }: {
   params: { assignment: string; id: string }
 }) {
-  const supabase = createServerClient(cookieStore)
+  const supabase = createServerClient()
 
   const { data: assignmentResult, error: assignmentError } = await supabase
     .from('assignments')

@@ -1,6 +1,6 @@
 'use client'
 
-import { button } from '@/ui/button'
+import { Button } from '@/ui/button'
 import { AlertTriangleIcon } from 'lucide-react'
 import { useEffect } from 'react'
 
@@ -25,9 +25,9 @@ export default function SignInErrorPage({
           inconvenience.
         </p>
       </section>
-      <button type="button" className={button} onClick={() => reset()}>
+      <Button type="button" onClick={() => reset()}>
         Try Again
-      </button>
+      </Button>
     </article>
   )
 }

@@ -10,7 +10,7 @@ type Props = {
   size: number
 }
 
-export function ProfilePicture({ url, size }: Props) {
+export function Avatar({ url, size }: Props) {
   const [isPending, startTransition] = useTransition()
 
   return (

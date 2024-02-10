@@ -1,7 +1,7 @@
 import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/server'
 import { unstable_noStore } from 'next/cache'
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 import { Course } from './components/course'
 
 export default async function Page() {

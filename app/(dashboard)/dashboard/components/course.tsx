@@ -33,11 +33,6 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
     .limit(1)
     .single()
 
-  const assignments = await supabase
-    .from('assignments')
-    .select('*')
-    .eq('course_id', course.course_id)
-
   if (profile.error) {
     throw profile.error
   }
@@ -49,19 +44,6 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
   if (instructor.error) {
     throw instructor.error
   }
-
-  if (assignments.error) {
-    throw assignments.error
-  }
-
-  if (!assignments.data) {
-    notFound()
-  }
-
-  const hasPendingAssignments = assignments.data.length > 0
-
-  // biome-ignore format: It is much more readable when it is in a single line
-  const message = `You currently have ${hasPendingAssignments ? `pending classworks to ${profile.data.role === 'instructor' ? 'grade' : 'complete'}` : 'no pending classworks'}`;
 
   return (
     <Card className="grid gap-y-2 max-w-96">

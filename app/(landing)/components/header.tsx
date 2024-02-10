@@ -1,7 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
-import { link } from '@/ui/link'
 import Link from 'next/link'
 import React from 'react'
+
+const navigation = [
+  {
+    name: 'Features',
+    href: '#',
+  },
+  {
+    name: 'Blog',
+    href: '#',
+  },
+  {
+    name: 'Source Code',
+    href: '#',
+  },
+  {
+    name: 'About',
+    href: '#',
+  },
+]
 
 export async function Header() {
   const supabase = createClient()
@@ -10,40 +28,44 @@ export async function Header() {
   } = await supabase.auth.getSession()
 
   return (
-    <header className="flex justify-between items-center px-4 py-2">
-      <h1 className="text-xl">
-        <Link href="/">🧠</Link>
-      </h1>
-      <nav>
-        <ul className="flex items-center gap-4">
+    <header className="absolute inset-x-0 top-0 z-50">
+      <nav
+        className="flex items-center justify-between p-6 lg:px-8"
+        aria-label="Global"
+      >
+        <div className="flex lg:flex-1">
+          <h1 className="text-xl">
+            <Link href="/">🧠</Link>
+          </h1>
+        </div>
+        <div className="hidden lg:flex lg:gap-x-12">
+          {navigation.map(item => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className="text-sm font-semibold leading-6 text-gray-900"
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {session ? (
-            <React.Fragment>
-              <li>
-                <Link href="/dashboard" className={link}>
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/signout" className={link}>
-                  Sign Out
-                </Link>
-              </li>
-            </React.Fragment>
+            <Link
+              href="#"
+              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+            >
+              Dashboard
+            </Link>
           ) : (
-            <React.Fragment>
-              <li>
-                <Link href="/auth/signin" className={link}>
-                  Sign In
-                </Link>
-              </li>
-              <li>
-                <Link href="/auth/signup" className={link}>
-                  Sign Up
-                </Link>
-              </li>
-            </React.Fragment>
+            <Link
+              href="#"
+              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+            >
+              Get Started
+            </Link>
           )}
-        </ul>
+        </div>
       </nav>
     </header>
   )

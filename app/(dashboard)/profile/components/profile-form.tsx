@@ -20,12 +20,8 @@ export function ProfileForm({
 }: {
   profile: Pick<
     Tables<'profiles'>,
-    | 'avatar_url'
     | 'full_name'
-    | 'biography'
-    | 'university'
-    | 'section'
-    | 'program'
+    | 'about'
     | 'username'
   >
 }) {
@@ -34,7 +30,7 @@ export function ProfileForm({
     defaultValues: {
       username: profile.username,
       name: profile.full_name,
-      biography: profile.biography,
+      about: profile.about,
     },
   })
 
@@ -69,7 +65,7 @@ export function ProfileForm({
         />
 
         <FormField
-          name="biography"
+          name="about"
           control={form.control}
           render={() => (
             <FormItem>

@@ -1,5 +1,14 @@
 import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/server'
+import '@vidstack/react/player/styles/base.css'
+
+import { Player } from '@/ui/player'
+import { MediaPlayer, MediaProvider } from '@vidstack/react'
+import {
+  DefaultAudioLayout,
+  DefaultVideoLayout,
+  defaultLayoutIcons,
+} from '@vidstack/react/player/layouts/default'
 import { notFound, redirect } from 'next/navigation'
 
 export default async function CoursePage({
@@ -53,6 +62,9 @@ export default async function CoursePage({
         </div>
       )}
 
+      <div>
+        <Player />
+      </div>
       <div>
         <div>
           {announcements.length > 0 ? (

@@ -58,3 +58,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+:root {
+  --media-brand: 245 245 245;
+  --media-focus: 78 156 246;
+}

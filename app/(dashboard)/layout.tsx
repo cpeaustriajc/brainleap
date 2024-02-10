@@ -1,4 +1,6 @@
 import '@/styles/styles.css'
+import '@vidstack/react/player/styles/base.css'
+
 import Link from 'next/link'
 import React from 'react'
 import { DashboardNavigationMenu } from './components/navigation-menu'

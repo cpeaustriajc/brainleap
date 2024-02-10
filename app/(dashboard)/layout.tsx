@@ -1,16 +1,5 @@
-import { getUser } from '@/lib/queries/user'
-import { createClient } from '@/lib/supabase/server'
 import '@/styles/styles.css'
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@/ui/navigation-menu'
-import * as Ariakit from '@ariakit/react'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import React from 'react'
 import { DashboardNavigationMenu } from './components/navigation-menu'
 
@@ -29,30 +18,6 @@ export const viewport = {
 export default async function DashboardRootLayout({
   children,
 }: { children: React.ReactNode }) {
-  const supabase = createClient()
-
-  const user = await getUser()
-
-  const enrollee = await supabase
-    .from('enrollments')
-    .select('course_id')
-    .eq('user_id', user.id)
-
-  if (enrollee.error) {
-    throw enrollee.error
-  }
-
-  const courses = await supabase
-    .from('courses')
-    .select('course_id, course_name')
-    .in(
-      'course_id',
-      enrollee.data.map(course_id => course_id.course_id),
-    )
-
-  if (courses.error) {
-    throw courses.error
-  }
   return (
     <html dir="ltr" lang="en">
       <body className="grid grid-cols-[minmax(auto,240px),1fr] grid-rows-[auto,auto,1fr] bg-background h-dvh">

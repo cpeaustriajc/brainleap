@@ -1,4 +1,5 @@
 import '@/styles/styles.css'
+import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 import { Header } from './components/header'
 
@@ -18,7 +19,7 @@ export default function LandingPageLayout({
   children,
 }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" className={GeistSans.className}>
       <body className="bg-background">
         <Header />
         <main>{children}</main>

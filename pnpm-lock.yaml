@@ -44,6 +44,9 @@ dependencies:
   cva:
     specifier: 1.0.0-beta.1
     version: 1.0.0-beta.1(typescript@5.3.3)
+  geist:
+    specifier: ^1.2.2
+    version: 1.2.2(next@14.1.1-canary.46)
   human-id:
     specifier: ^4
     version: 4.1.1
@@ -2373,6 +2376,14 @@ packages:
   /functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /geist@1.2.2(next@14.1.1-canary.46):
+    resolution: {integrity: sha512-uRDrxhvdnPwWJmh+K5+/5LXSKwvJzaYCl9tDXgiBi4hj7hB4K7+n/WLcvJMFs5btvyn0r9OSwCd1s6CmqAsxEw==}
+    peerDependencies:
+      next: '>=13.2.0 <15'
+    dependencies:
+      next: 14.1.1-canary.46(react-dom@18.3.0-canary-03d6f7cf0-20240209)(react@18.3.0-canary-03d6f7cf0-20240209)
+    dev: false
 
   /get-intrinsic@1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}

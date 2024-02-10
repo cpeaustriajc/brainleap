@@ -1,4 +1,6 @@
 import '@/styles/styles.css'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 import { Header } from './components/header'
@@ -22,7 +24,11 @@ export default function LandingPageLayout({
     <html lang="en" dir="ltr" className={GeistSans.className}>
       <body className="bg-background">
         <Header />
-        <main>{children}</main>
+        <main>
+          {children}
+          <Analytics />
+          <SpeedInsights />
+        </main>
       </body>
     </html>
   )

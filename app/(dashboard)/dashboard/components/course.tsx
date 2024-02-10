@@ -29,7 +29,7 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
   const instructor = await supabase
     .from('profiles')
     .select('avatar_url, full_name')
-    .eq('id', course.instructor_id)
+    .eq('id', course.instructor)
     .limit(1)
     .single()
 
@@ -48,8 +48,8 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
   return (
     <Card className="grid gap-y-2 max-w-96">
       <CardHeader className="grid grid-rows-2 grid-cols-2 place-content-center">
-        <strong className="col-start-1">{course.course_name}</strong>
-        <p className="col-start-1 row-start-2">{course.course_description}</p>
+        <strong className="col-start-1">{course.name}</strong>
+        <p className="col-start-1 row-start-2">{course.description}</p>
         <figure className=" row-span-2 justify-self-end">
           <Image
             src={instructor.data.avatar_url}
@@ -61,11 +61,9 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
           />
         </figure>
       </CardHeader>
-      <CardContent>
-        <p>{message}</p>
-      </CardContent>
+      <CardContent></CardContent>
       <CardFooter className="place-self-center">
-        <Link className={link} href={`/course/${course.course_id}`}>
+        <Link className={link} href={`/course/${course.id}`}>
           View More
         </Link>
       </CardFooter>

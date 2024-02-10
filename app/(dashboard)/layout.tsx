@@ -1,3 +1,4 @@
+import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/server'
 import '@/styles/styles.css'
 import {
@@ -30,20 +31,12 @@ export default async function DashboardRootLayout({
 }: { children: React.ReactNode }) {
   const supabase = createClient()
 
-  const res = await supabase.auth.getUser()
-
-  if (res.error) {
-    throw res.error
-  }
-
-  if (!res.data.user) {
-    redirect('/auth/signin')
-  }
+  const user = await getUser()
 
   const enrollee = await supabase
     .from('enrollments')
     .select('course_id')
-    .eq('user_id', res.data.user.id)
+    .eq('user_id', user.id)
 
   if (enrollee.error) {
     throw enrollee.error

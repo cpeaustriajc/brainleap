@@ -1,3 +1,4 @@
+import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/server'
 import { unstable_noStore } from 'next/cache'
 import { notFound, redirect } from 'next/navigation'
@@ -8,20 +9,12 @@ export default async function Page() {
 
   const supabase = createClient()
 
-  const res = await supabase.auth.getUser()
-
-  if (res.error) {
-    throw res.error
-  }
-
-  if (!res.data.user) {
-    redirect('/auth/signin')
-  }
+  const user = await getUser()
 
   const enrollments = await supabase
     .from('enrollments')
     .select('course_id')
-    .eq('user_id', res.data.user.id)
+    .eq('user_id', user.id)
 
   if (!enrollments.data) {
     notFound()

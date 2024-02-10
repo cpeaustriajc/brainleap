@@ -1,5 +1,6 @@
 'use server'
 
+import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/action'
 import { fullNameSchema, usernameSchema } from '@/lib/validations/profile'
 import { revalidatePath } from 'next/cache'
@@ -7,18 +8,7 @@ import { redirect } from 'next/navigation'
 
 export async function uploadAvatar(formData: FormData) {
   const supabase = createClient()
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser()
-
-  if (userError) {
-    throw userError
-  }
-
-  if (!user) {
-    redirect('/auth/signin')
-  }
+  const user = await getUser()
 
   const file = formData.get('avatar') as File
 

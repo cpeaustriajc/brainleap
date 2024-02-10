@@ -1,3 +1,4 @@
+import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import { Attachments } from '../components/attachments'
@@ -8,13 +9,7 @@ export default async function Announcements({
 }: { params: { id: string } }) {
   const supabase = createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
-  if (!user) {
-    redirect('/auth/signin')
-  }
+  const user = await getUser()
 
   const { data: profile } = await supabase
     .from('profiles')

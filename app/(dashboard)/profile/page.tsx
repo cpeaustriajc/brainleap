@@ -9,16 +9,14 @@ export default async function ProfilePage() {
 
   const user = await getUser()
 
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile, error } = await supabase
     .from('profiles')
-    .select(
-      'avatar_url, full_name, username, biography, university, section, program',
-    )
+    .select('avatar_url, full_name, username, about')
     .eq('id', user.id)
     .single()
 
-  if (profileError) {
-    throw profileError
+  if (error) {
+    throw error
   }
 
   return (

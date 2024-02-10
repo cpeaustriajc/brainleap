@@ -1,86 +1,44 @@
 'use server'
 
+import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/action'
+import { User } from '@supabase/supabase-js'
 import humanId from 'human-id'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-import { z } from 'zod'
-import { courseSchema } from '../validations/course'
+import { Tables } from '../database.types'
 
-type FieldErrors = z.inferFlattenedErrors<typeof courseSchema>['fieldErrors']
-type FormState = {
-  errors: FieldErrors | undefined
-  message: string | undefined
+async function createEnrollment(
+  user: User,
+  course: Pick<Tables<'courses'>, 'id'>,
+) {
+  const supabase = createClient()
+  const { error } = await supabase.from('enrollments').insert({
+    user_id: user.id,
+    course_id: course.id,
+  })
+  if (error) throw error
 }
-export async function createCourse(
-  previousState: FormState,
-  formData: FormData,
-): Promise<FormState> {
+
+export async function createCourse(formData: FormData) {
   const supabase = createClient()
 
-  const values = courseSchema.parse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    section: formData.get('section'),
-    subject: formData.get('subject'),
-    room: formData.get('room'),
-  })
+  const user = await getUser()
 
-  const {
-    data: { session },
-    error: sessionError,
-  } = await supabase.auth.getSession()
-
-  if (sessionError) {
-    throw sessionError
-  }
-
-  if (!session) {
-    redirect('/auth/signin')
-  }
-
-  await supabase
-    .from('profiles')
-    .select('user_id, role')
-    .eq('user_id', session.user.id)
-    .single()
-
-  const { data: insertedCourse, error: insertCourseError } = await supabase
+  const { data: course, error } = await supabase
     .from('courses')
     .insert({
-      course_id: humanId({ separator: '-', capitalize: false }),
-      course_name: values.title,
-      course_description: values.description,
-      section: values.section,
-      subject: values.subject,
-      room: values.room,
+      id: humanId({ separator: '-', capitalize: false }),
+      instructor: user.id,
+      name: formData.get('name'),
+      description: formData.get('description'),
+      category: formData.get('category'),
     })
     .select()
     .single()
-  if (insertCourseError) throw insertCourseError
 
-  if (session) {
-    const { data: course, error: selectCourseError } = await supabase
-      .from('courses')
-      .select('*')
-      .eq('course_id', insertedCourse?.course_id)
-      .single()
+  if (error) throw error
 
-    if (selectCourseError) throw selectCourseError
+  createEnrollment(user, course)
 
-    const { error } = await supabase.from('enrollments').insert({
-      user_id: session.user.id,
-      course_id: course.course_id,
-    })
-
-    if (error) throw error
-  }
-
-  revalidatePath('/')
-  revalidatePath('@/modal/create/course')
-
-  return {
-    errors: undefined,
-    message: 'Course created successfully',
-  }
+  revalidatePath('/(dashboard)/dashboard', 'layout')
 }

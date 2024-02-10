@@ -27,7 +27,7 @@ export default async function Page() {
     .select('*')
     .in('course_id', course_id)
 
-  if (!courses) {
+  if (!courses || courses.length > 0) {
     return notFound()
   }
 

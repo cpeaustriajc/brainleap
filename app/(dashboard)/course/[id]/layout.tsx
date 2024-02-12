@@ -1,4 +1,4 @@
-import { createServerClient } from '@supabase/ssr'
+import '@vidstack/react/player/styles/base.css'
 import React from 'react'
 
 export default function CourseLayout({

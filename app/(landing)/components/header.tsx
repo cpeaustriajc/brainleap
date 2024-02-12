@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/server'
+import { getUser } from '@/lib/queries/user'
 import Link from 'next/link'
 import React from 'react'
 
-const navigation = [
+export const navigation = [
   {
     name: 'Features',
     href: '#',
@@ -22,10 +22,7 @@ const navigation = [
 ]
 
 export async function Header() {
-  const supabase = createClient()
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const user = await getUser()
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
@@ -50,17 +47,17 @@ export async function Header() {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {session ? (
+          {user ? (
             <Link
               href="#"
-              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 border border-gray-300"
             >
               Dashboard
             </Link>
           ) : (
             <Link
               href="#"
-              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 border border-gray-300"
             >
               Get Started
             </Link>

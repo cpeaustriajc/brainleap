@@ -47,6 +47,11 @@
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
   }
+
+  :root {
+    --media-brand: 245 245 245;
+    --media-focus: 78 156 246;
+  }
 }
 
 @layer base {
@@ -57,9 +62,23 @@
   body {
     @apply bg-background text-foreground;
   }
+
+
+  /* Scale up hit targets on high resolution mobile devices. */
+  @media (min-resolution: 200dpi) {
+    html {
+      font-size: 18px;
+    }
+
+    .text-sm {
+      /* ensure minimum font size of 16px */
+      font-size: 0.9rem;
+    }
+  }
+
+  body {
+    @apply bg-white dark:bg-zinc-900;
+    color-scheme: dark light;
+  }
 }
 
-:root {
-  --media-brand: 245 245 245;
-  --media-focus: 78 156 246;
-}

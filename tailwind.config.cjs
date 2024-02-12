@@ -74,6 +74,7 @@ module.exports = {
   },
   plugins: [
     require('tailwindcss-animate'),
+    require('tailwindcss-react-aria-components'),
     require('@vidstack/react/tailwind.cjs')({
       prefix: 'media',
     }),

@@ -9,6 +9,7 @@ import { Label } from '@/ui/label'
 import { unstable_noStore } from 'next/cache'
 import { notFound } from 'next/navigation'
 import { Course } from './components/course'
+import { TextField } from '@/ui/rac/text-field'
 
 export default async function Page() {
   unstable_noStore()
@@ -58,7 +59,6 @@ export default async function Page() {
   const enrollmentsData = await getEnrollments(user.id)
   const profileData = await getProfile(user.id)
 
-console.log(user)
   const [enrollments, profile] = await Promise.all([
     enrollmentsData,
     profileData,
@@ -73,7 +73,7 @@ console.log(user)
 
   return (
     <section className="col-start-1 row-start-2">
-      <div className="grid grid-cols-4 p-4">
+      <div className="grid grid-cols-4 gap-4 p-4">
         {courses.map(course => (
           <Course key={course.id} course={course} />
         ))}
@@ -82,18 +82,9 @@ console.log(user)
           <CardContent>
             {profile.role === 'instructor' && (
               <form className="flex flex-col gap-2" action={createCourse}>
-                <div>
-                  <Label htmlFor="name">Name</Label>
-                  <Input type="text" name="name" id="name" />
-                </div>
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Input type="text" name="description" id="description" />
-                </div>
-                <div>
-                  <Label htmlFor="category">Category</Label>
-                  <Input type="text" name="category" id="category" />
-                </div>
+                <TextField type="text" name="name" label="Name" />
+                <TextField type="text" name="description" label="Description" />
+                <TextField type="text" name="category" label="Category" />
                 <FormButton>Create Course</FormButton>
               </form>
             )}

@@ -1,6 +1,6 @@
 'use server'
 
-import { getUser } from '@/lib/queries/user'
+import { getSession, getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/action'
 import { fullNameSchema, usernameSchema } from '@/lib/validations/profile'
 import { revalidatePath } from 'next/cache'
@@ -43,9 +43,8 @@ export async function updateUsername(formData: FormData) {
   const res = usernameSchema.safeParse({
     username: formData.get('username'),
   })
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+
+  const session = await getSession()
 
   if (!session) {
     redirect('/auth/signin')
@@ -78,9 +77,7 @@ export async function updateName(formData: FormData) {
     full_name: formData.get('name'),
   })
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const session = await getSession()
 
   if (!session) {
     redirect('/auth/signin')
@@ -112,9 +109,7 @@ export async function updateUniversity(formData: FormData) {
 
   const university = formData.get('university') as string
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const session = await getSession()
 
   if (!session) {
     redirect('/auth/signin')
@@ -142,9 +137,7 @@ export async function updateSection(formData: FormData) {
   // })
   const section = formData.get('section') as string
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+  const session = await getSession()
 
   if (!session) {
     redirect('/auth/signin')
@@ -168,5 +161,39 @@ export async function updateSection(formData: FormData) {
     throw error
   }
 
+  revalidatePath('/profile')
+}
+
+export async function updateAbout(formData: FormData) {
+  const supabase = createClient()
+  const about = formData.get('about') as string
+
+  const session = await getSession()
+
+  if (!session) {
+    redirect('/auth/signin')
+  }
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      about: about,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', session.user.id)
+
+  if (error) {
+    throw error
+  }
+
+  revalidatePath('/profile')
+}
+
+export async function updateProfile(formData: FormData) {
+  await Promise.all([
+    updateName(formData),
+    updateUsername(formData),
+    updateAbout(formData),
+  ])
   revalidatePath('/profile')
 }

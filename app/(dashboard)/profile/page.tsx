@@ -1,6 +1,6 @@
 import { getUser } from '@/lib/queries/user'
 import { createClient } from '@/lib/supabase/server'
-import { Separator } from '@/ui/separator'
+import { Separator } from '@/ui/rac/separator'
 import React from 'react'
 import { ProfileForm } from './components/profile-form'
 

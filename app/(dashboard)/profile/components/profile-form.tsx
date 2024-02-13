@@ -1,84 +1,77 @@
 'use client'
 
-import { updateName } from '@/lib/actions/profile'
 import { Tables } from '@/lib/database.types'
-import {
-  Form,
-  FormButton,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/ui/form'
-import { Input } from '@/ui/input'
-import { Textarea } from '@/ui/textarea'
-import { useForm } from 'react-hook-form'
+import { FormButton } from '@/ui/form'
+import { TextField } from '@/ui/rac/text-field'
+import { Form } from '@/ui/rac/form'
+import { updateAvatar, updateProfile } from '@/lib/actions/profile'
+import { FileTrigger } from 'react-aria-components'
+import { Button } from '@/ui/rac/button'
+import Image from 'next/image'
+import React from 'react'
 
 export function ProfileForm({
   profile,
 }: {
   profile: Pick<
     Tables<'profiles'>,
-    | 'full_name'
-    | 'about'
-    | 'username'
+    'avatar_url' | 'full_name' | 'about' | 'username'
   >
 }) {
-  const form = useForm({
-    mode: 'onChange',
-    defaultValues: {
-      username: profile.username,
-      name: profile.full_name,
-      about: profile.about,
-    },
-  })
-
   return (
-    <Form {...form}>
-      <form className="space-y-8">
-        <FormField
+    <React.Fragment>
+      <div>
+        <div className="flex items-center gap-x-4 justify-between">
+          <div>
+            <h3 className="text-lg font-medium">Avatar</h3>
+            <p className="text-sm text-muted-foreground">Update your avatar</p>
+          </div>
+          <div className="flex items-center gap-x-4">
+            <FileTrigger
+              onSelect={e => {
+                if (e) {
+                  const file = Array.from(e)
+                  const formData = new FormData()
+                  formData.append('avatar', file[0])
+                  updateAvatar(formData)
+                }
+              }}
+            >
+              <Button>Upload Avatar</Button>
+            </FileTrigger>
+            <Image
+              src={profile.avatar_url}
+              width={96}
+              height={96}
+              className="rounded-full"
+              placeholder="blur"
+              blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(74 222 128)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20a6 6 0 0 0-12 0'/%3E%3Ccircle cx='12' cy='10' r='4'/%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E"
+              alt={profile.full_name}
+            />
+          </div>
+        </div>
+      </div>
+      <Form action={updateProfile}>
+        <TextField
           name="username"
-          control={form.control}
-          render={() => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input type="text" />
-              </FormControl>
-            </FormItem>
-          )}
+          label="Username"
+          type="text"
+          defaultValue={profile.username}
         />
-
-        <FormField
+        <TextField
           name="name"
-          control={form.control}
-          render={() => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input type="text" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Name"
+          type="text"
+          defaultValue={profile.full_name}
         />
-
-        <FormField
+        <TextField
           name="about"
-          control={form.control}
-          render={() => (
-            <FormItem>
-              <FormLabel>About You</FormLabel>
-              <FormControl>
-                <Textarea />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="About You"
+          type="text"
+          defaultValue={profile.about ?? ''}
         />
         <FormButton type="submit">Update</FormButton>
-      </form>
-    </Form>
+      </Form>
+    </React.Fragment>
   )
 }

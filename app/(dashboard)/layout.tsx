@@ -30,7 +30,7 @@ export default async function DashboardRootLayout({
           </h1>
           <DashboardNavigationMenu />
         </header>
-        <div className="mx-4 px-4 pt-2 rounded-lg col-span-full row-span-2 border bg-background text-foreground">
+        <div className="mx-4 px-4 pt-2 rounded-lg col-span-full row-span-2 bg-background text-foreground">
           {children}
         </div>
       </body>

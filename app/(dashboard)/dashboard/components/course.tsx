@@ -1,8 +1,7 @@
 import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardContent, CardFooter, CardHeader } from '@/ui/card'
-import { link } from '@/ui/link'
-import { QueryData, QueryResult, User } from '@supabase/supabase-js'
+import { QueryData } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -23,12 +22,13 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
   const { profiles: instructor }: CourseInstructorQuery = data
 
   return (
-    <Card className="max-w-96">
+    <Card className="flex flex-col justify-evenly max-w-96">
       <CardHeader className="flex flex-row items-center justify-between">
         <h2 className="text-2xl font-bold">{course.name}</h2>
         <figure>
           <Image
             src={instructor!.avatar_url}
+            className="rounded-full"
             width={48}
             height={48}
             placeholder="blur"
@@ -38,10 +38,17 @@ export async function Course({ course }: { course: Tables<'courses'> }) {
         </figure>
       </CardHeader>
       <CardContent>
-        <p className="col-start-1 row-start-2">{course.description}</p>
+        <p className="col-start-1 row-start-2 text-gray-500">
+          {course.description}
+        </p>
       </CardContent>
-      <CardFooter className='justify-center'>
-        <Link className="underline text-center rounded-lg hover:bg-gray-100 px-4 py-2 h-9 transition-colors underline-offset-2" href={`/course/${course.id}`}>Visit Course</Link>
+      <CardFooter className="justify-center">
+        <Link
+          className="underline text-center rounded-lg hover:bg-gray-100 text-gray-500  px-4 py-2 h-9 transition-colors underline-offset-2"
+          href={`/course/${course.id}`}
+        >
+          Visit Course
+        </Link>
       </CardFooter>
     </Card>
   )

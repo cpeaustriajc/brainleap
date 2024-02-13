@@ -2,70 +2,46 @@ import { Tables } from '@/lib/database.types'
 import { createClient } from '@/lib/supabase/server'
 import { Card, CardContent, CardFooter, CardHeader } from '@/ui/card'
 import { link } from '@/ui/link'
+import { QueryData, QueryResult, User } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
-import { notFound, redirect } from 'next/navigation'
 
 export async function Course({ course }: { course: Tables<'courses'> }) {
   const supabase = createClient()
 
-  const res = await supabase.auth.getSession()
-
-  if (res.error) {
-    throw res.error
-  }
-
-  if (!res.data.session) {
-    redirect('/auth/signin')
-  }
-
-  const profile = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', res.data.session.user.id)
+  const courseInstructorQuery = supabase
+    .from('courses')
+    .select(`profiles ( full_name, avatar_url )`)
     .limit(1)
     .single()
+  type CourseInstructorQuery = QueryData<typeof courseInstructorQuery>
+  const { data, error } = await courseInstructorQuery
 
-  const instructor = await supabase
-    .from('profiles')
-    .select('avatar_url, full_name')
-    .eq('id', course.instructor)
-    .limit(1)
-    .single()
-
-  if (profile.error) {
-    throw profile.error
+  if (error) {
+    throw error
   }
-
-  if (!profile.data) {
-    redirect('/auth/signin')
-  }
-
-  if (instructor.error) {
-    throw instructor.error
-  }
+  const { profiles: instructor }: CourseInstructorQuery = data
 
   return (
-    <Card className="grid gap-y-2 max-w-96">
-      <CardHeader className="grid grid-rows-2 grid-cols-2 place-content-center">
-        <strong className="col-start-1">{course.name}</strong>
-        <p className="col-start-1 row-start-2">{course.description}</p>
-        <figure className=" row-span-2 justify-self-end">
+    <Card className="max-w-96">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <h2 className="text-2xl font-bold">{course.name}</h2>
+        <figure>
           <Image
-            src={instructor.data.avatar_url}
+            src={instructor!.avatar_url}
             width={48}
             height={48}
             placeholder="blur"
             blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='rgb(74 222 128)' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 20a6 6 0 0 0-12 0'/%3E%3Ccircle cx='12' cy='10' r='4'/%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3C/svg%3E"
-            alt={instructor.data.full_name}
+            alt={instructor!.full_name}
           />
         </figure>
       </CardHeader>
-      <CardContent></CardContent>
-      <CardFooter className="place-self-center">
-        <Link className={link} href={`/course/${course.id}`}>
-          View More
-        </Link>
+      <CardContent>
+        <p className="col-start-1 row-start-2">{course.description}</p>
+      </CardContent>
+      <CardFooter className='justify-center'>
+        <Link className="underline text-center rounded-lg hover:bg-gray-100 px-4 py-2 h-9 transition-colors underline-offset-2" href={`/course/${course.id}`}>Visit Course</Link>
       </CardFooter>
     </Card>
   )

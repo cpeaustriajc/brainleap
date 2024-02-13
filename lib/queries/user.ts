@@ -18,3 +18,18 @@ export const getUser = async () => {
 
   return user
 }
+
+export const getSession = async () => {
+  const supabase = createClient()
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession()
+
+  if (error) {
+    throw error
+  }
+
+
+  return session
+}

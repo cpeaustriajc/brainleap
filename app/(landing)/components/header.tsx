@@ -1,4 +1,4 @@
-import { getUser } from '@/lib/queries/user'
+import { getSession, getUser } from '@/lib/queries/user'
 import Link from 'next/link'
 import React from 'react'
 
@@ -22,7 +22,7 @@ export const navigation = [
 ]
 
 export async function Header() {
-  const user = await getUser()
+  const session = await getSession()
 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
@@ -47,7 +47,7 @@ export async function Header() {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {user ? (
+          {session ? (
             <Link
               href="#"
               className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 border border-gray-300"
